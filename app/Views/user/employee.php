@@ -1,0 +1,121 @@
+	<!--Sub Navbar-->
+	<div class = "sub-navbar">
+		<p><i class="glyphicon glyphicon-user"></i> 회원관리::매장</p>
+	</div>
+	<!--Site Setting-->
+	<div class="user-panel">	
+		<?php if($nAdminLevel >= LEVEL_ADMIN) {  ?>
+		<div style="min-height:30px;">
+			<a href="<?php echo base_url().'user/employee_edit/0';?>" class="user-panel-add-a" >매장 새로 등록</a>
+		</div>	
+		<?php } ?>	
+		<Table class="user-table" id="user-employee-table-id">
+			<thead>
+				<tr>
+					<th rowspan='2'>번호</th>
+					<th rowspan='2'>아이디</th>
+					<th rowspan='2'>매장명</th>
+					<th rowspan='2'>현재금액</th>
+					<th rowspan='2'>포인트</th>
+					<th rowspan='2'>카지노금</th>
+					<th colspan='4'>배당율</th>
+					<th rowspan='2'>승인</th>
+					<th rowspan='2'>게임별설정</th>
+				</tr>
+				<tr>
+					<th>파워볼</th>
+					<th>파워사</th>
+					<th>키노사</th>
+					<th>에볼</th>					
+				</tr>
+			</thead>
+			<tbody>	
+			<?php $i=1; foreach ($arrEmployee as $objMember):?>
+			<?php if(is_null($objMember->mb_color)) {  ?>
+			<tr>
+			<?php } else {?>
+			<tr bgcolor="<?=$objMember->mb_color?>">
+			<?php } ?>
+				<td><?=$i++?></td>
+				<td><?=$objMember->mb_uid?></td>
+				<td><?=$objMember->mb_nickname?></td>
+				<td><?=number_format($objMember->mb_money)?>원</td>
+				<td><?=number_format($objMember->mb_point)?></td>
+				<td><?=number_format($objMember->mb_live_money)?>원</td>
+				<td>
+					 <?=$objMember->mb_game_pb_ratio?> % / <?=$objMember->mb_game_pb2_ratio?> % 
+				</td>
+				<td>
+					<?=$objMember->mb_game_ps_ratio?> %
+				</td>
+				<td>
+					<?=$objMember->mb_game_ks_ratio?> %
+				</td>
+				<td>
+					<?=$objMember->mb_game_ev_ratio?> %
+				</td>
+				<td>
+					<?php if($objMember->mb_state_active == 1) {  ?>
+					<button name="<?=$objMember->mb_fid?>" class="button-active">승인</button>
+					<?php } else if($objMember->mb_state_active == 2) {  ?>
+					<button name="<?=$objMember->mb_fid?>" >대기</button>
+					<?php } else {?>
+					<button name="<?=$objMember->mb_fid?>" >차단</button>
+					<?php } ?>
+					<a href="<?php echo base_url().'user/employee_edit/'.$objMember->mb_fid;?>" >수정</a>
+					<?php if($nAdminLevel >= LEVEL_ADMIN) {  ?>
+					<a href="/board/message_edit/0/<?=$objMember->mb_fid?>">쪽지</a>
+					<button name="<?=$objMember->mb_fid?>">삭제</button>
+					<?php } ?>
+				</td>
+				<td> 
+					<?php if($objMember->mb_game_pb == 1) {  ?>
+					<button name="<?=$objMember->mb_fid?>"  class="button-active">파워볼</button>
+					<?php } else {?>
+					<button name="<?=$objMember->mb_fid?>" >파워볼</button>
+					<?php } ?>
+
+					<?php if($objMember->mb_game_ps == 1) {  ?>
+					<button name="<?=$objMember->mb_fid?>"  class="button-active">파워사다리</button>
+					<?php } else {?>
+					<button name="<?=$objMember->mb_fid?>" >파워사다리</button>
+					<?php } ?>
+
+					<?php if($objMember->mb_game_ks == 1) {  ?>
+					<button name="<?=$objMember->mb_fid?>"  class="button-active">키노사다리</button>
+					<?php } else {?>
+					<button name="<?=$objMember->mb_fid?>" >키노사다리</button>
+					<?php } ?>
+
+					<?php if($objMember->mb_game_bb == 1) {  ?>
+					<button name="<?=$objMember->mb_fid?>" class="button-active">보글볼</button>
+					<?php } else {?>
+					<button name="<?=$objMember->mb_fid?>">보글볼</button>
+					<?php } ?>
+
+					<?php if($objMember->mb_game_bs == 1) {  ?>
+					<button name="<?=$objMember->mb_fid?>" class="button-active">보글사다리</button>
+					<?php } else {?>
+					<button name="<?=$objMember->mb_fid?>">보글사다리</button>
+					<?php } ?>
+
+					<?php if($objMember->mb_game_ev == 1) {  ?>
+					<button name="<?=$objMember->mb_fid?>" class="button-active">카지노</button>
+					<?php } else {?>
+					<button name="<?=$objMember->mb_fid?>">카지노</button>
+					<?php } ?>
+
+				</td>
+			</tr>
+
+			<?php endforeach;?>
+			</tbody>
+		</Table>
+	</div>
+
+
+<!--main_navbar.php-main-container-->
+</div>
+
+
+<script src="<?php echo base_url('assets/js/employee-script.js?v=1');?>"></script>

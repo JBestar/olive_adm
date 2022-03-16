@@ -1,0 +1,170 @@
+<?php
+namespace App\Models;
+use CodeIgniter\Model;
+
+class Exchange_model extends Model {
+	
+	protected $table = 'member_exchange';
+    protected $allowedFileds = [
+        'exchange_emp_fid',
+        'exchange_mb_uid', 
+        'exchange_mb_phone', 
+        'exchange_money', 
+        'exchange_time_require', 
+        'exchange_action_state', 
+        'exchange_action_uid', 
+        'exchange_time_process', 
+        'exchange_bank_name', 
+        'exchange_bank_account', 
+        'exchange_bank_serial', 
+        'exchange_money_before', 
+        'exchange_money_after', 
+        'exchange_state_delete', 
+        'exchange_client_delete', 
+        'exchange_alarm_state',
+    ];
+    protected $primaryKey = 'exchange_fid';
+
+	private $mMemberTable = 'member';
+
+    function gets(){
+    	$strSql = "SELECT ".$this->table.".*, member.mb_nickname, member.mb_money FROM ".$this->table;
+    	$strSql .= " JOIN member ON ".$this->table.".exchange_mb_uid = member.mb_uid ";
+    	$strSql .= " WHERE exchange_state_delete = '0' ";
+    	$strSql .= " ORDER BY exchange_fid DESC ";
+        $query = $this -> db -> query($strSql);
+        $result = $query -> getResult();
+        
+        return $result;  
+    }
+
+    function get($strExchangeFid){
+        return $this->asObject()->where('exchange_fid', $strExchangeFid)->first();
+    }
+
+	function deleteState($strExchangeFid, $bDelete){
+
+		$this->builder()->set('exchange_state_delete', $bDelete?1:0);
+		$this->builder()->where('exchange_fid', $strExchangeFid);
+    	return $this->builder()->update();
+    }
+
+    function permit($objExchange){
+
+		$this->builder()->set('exchange_action_state', $objExchange->exchange_action_state);
+		$this->builder()->set('exchange_action_uid', $objExchange->exchange_action_uid);
+		$this->builder()->set('exchange_time_process', 'NOW()', false);
+		$this->builder()->set('exchange_money_after', $objExchange->exchange_money_after);
+
+		$this->builder()->where('exchange_fid', $objExchange->exchange_fid);
+    	return $this->builder()->update();
+    }
+
+    function getWaitCnt(){
+        $strSql = "SELECT COUNT(*)  AS exchange_wait_cnt FROM ".$this->table;
+        $strSql .= " JOIN member ON ".$this->table.".exchange_mb_uid = member.mb_uid ";
+        $strSql .= " WHERE exchange_action_state = '1'  AND exchange_state_delete = '0' ";
+        
+        $objResult = $this -> db -> query($strSql)->getRow();
+        if(is_null($objResult->exchange_wait_cnt)) return 0;
+        else return  $objResult->exchange_wait_cnt;
+
+    }
+
+    //금일 환전금액
+    function calcAdminExchange($arrReqData){
+        
+        $strSQL = "SELECT SUM(exchange_money) AS exchange_sum FROM ".$this->table;
+        $strSQL.=" WHERE exchange_action_state = '2' ";
+        if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 )
+            $strSQL.=" AND exchange_time_require >= '".$arrReqData['start']." 0:0:0' AND exchange_time_require <= '".$arrReqData['end']." 23:59:59' " ;
+        
+        $objResult = $this -> db -> query($strSQL)->getRow();
+        if(is_null($objResult->exchange_sum)) return 0;
+        else return  $objResult->exchange_sum;        
+    }    
+
+    //환전금액 (하부포함)
+    function calcExchangeMoney($objEmp, $arrReqData){
+
+        $strTbColum = " mb_fid, mb_uid, mb_level, mb_emp_fid ";
+        $strTbRColum = " r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid ";
+
+        $strSQL = "WITH RECURSIVE tbmember (".$strTbColum.") AS";
+        $strSQL .= " ( SELECT ".$strTbColum." FROM ".$this->mMemberTable." WHERE mb_emp_fid = '".$objEmp->mb_fid."'";
+        $strSQL .= " UNION ALL SELECT ".$strTbRColum." FROM ".$this->mMemberTable." r ";
+        $strSQL .= " INNER JOIN tbmember ON r.mb_emp_fid = tbmember.mb_fid )";
+
+        $strSQL .= " SELECT SUM(exchange_money) AS exchange_money";
+        $strSQL .="  FROM (SELECT  *  FROM tbmember UNION SELECT ".$strTbColum." FROM ".$this->mMemberTable." where mb_fid='".$objEmp->mb_fid."'";        
+        $strSQL .=" ) AS mb_table ";
+
+        $strSQL .= " JOIN (SELECT SUM(exchange_money) AS exchange_money, exchange_mb_uid FROM ".$this->table;
+        $strSQL.=" WHERE exchange_action_state = '2' ";
+        if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 )
+            $strSQL.=" AND exchange_time_require >= '".$arrReqData['start']." 0:0:0' AND exchange_time_require <= '".$arrReqData['end']." 23:59:59' " ;
+        $strSQL .= " GROUP BY exchange_mb_uid";
+        $strSQL .= " )AS exchange_table ON exchange_table.exchange_mb_uid = mb_table.mb_uid ";      
+
+         $objResult = $this -> db -> query($strSQL)->getRow();
+
+         $nTotalExchange = 0;
+         if(!is_null($objResult->exchange_money)) $nTotalExchange += $objResult->exchange_money;
+         
+         return $nTotalExchange;
+         /*
+         //Own Exchange
+         $strSQL = "SELECT SUM(exchange_money) AS exchange_money FROM member_exchange WHERE exchange_mb_uid = '".$objEmp->mb_uid."'";
+         if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 )
+            $strSQL.=" AND exchange_time_require >= '".$arrReqData['start']." 0:0:0' AND exchange_time_require <= '".$arrReqData['end']." 23:59:59' " ;
+        
+         $objResult = $this -> db -> query($strSql)->getRow();
+         if(!is_null($objResult->exchange_money)) $nTotalExchange += $objResult->exchange_money;
+        */
+         
+    }
+
+
+    function search($arrReqData)
+    {
+        $strSql = "SELECT ".$this->table.".*, member.mb_nickname, member.mb_money FROM ".$this->table;
+        $strSql .= " JOIN member ON ".$this->table.".exchange_mb_uid = member.mb_uid ";
+        $strSql .= " WHERE exchange_state_delete = '0' ";
+        if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
+            $strSql.=" AND exchange_time_require >= '".$arrReqData['start']." 0:0:0' AND exchange_time_require <= '".$arrReqData['end']." 23:59:59'" ; 
+        }
+        if(strlen($arrReqData['mb_uid']) > 0){
+            $strSql.=" AND exchange_mb_uid = '".$arrReqData['mb_uid']."' ";
+        }
+        $nStartRow = ($arrReqData['page']-1) * $arrReqData['count'] ;
+
+        $strSql.=" ORDER BY exchange_fid DESC LIMIT ".$nStartRow.", ".$arrReqData['count'];
+
+        $query = $this -> db -> query($strSql);
+        $result = $query -> getResult();
+        
+        return $result; 
+
+    }
+
+
+    function searchCount($arrReqData)
+    {
+        $strSql = "SELECT count(*) as count FROM ".$this->table;
+        $strSql .= " WHERE exchange_state_delete = '0' ";
+        if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
+            $strSql.=" AND exchange_time_require >= '".$arrReqData['start']." 0:0:0' AND exchange_time_require <= '".$arrReqData['end']." 23:59:59'" ; 
+        }
+        if(strlen($arrReqData['mb_uid']) > 0){
+            $strSql.=" AND exchange_mb_uid = '".$arrReqData['mb_uid']."' ";
+        }
+        $query = $this -> db -> query($strSql);
+        $result = $query -> getRow();
+        
+        return $result; 
+
+    }
+
+
+
+}
