@@ -1,3 +1,5 @@
+<?= $this->extend('header') ?>
+<?= $this->section('content') ?>
 	<!--Sub Navbar
 	<i class="glyphicon glyphicon-resize-horizontal"></i>
 	-->
@@ -73,3 +75,4 @@
 
 <script src="<?php echo base_url('assets/js/page.js');?>"></script>
 <script src="<?php echo base_url('assets/js/transfer-script.js');?>"></script>
+<?= $this->endSection() ?>

@@ -1,11 +1,13 @@
-  	<!--Sub Navbar-->
+<?= $this->extend('header') ?>
+<?= $this->section('content') ?>
+<!--Sub Navbar-->
 	<div class = "sub-navbar">
 	<?php if(is_null($objMember)) {  ?>
 		<p><i class="glyphicon glyphicon-user"></i> 회원관리::총판 등록</p>
 	<?php } else {?>
 		<p><i class="glyphicon glyphicon-user"></i> 회원관리::총판 수정</p>
 	<?php } ?>		
-	<p id="subnavbar-emplevel-p-id" hidden><?=$nAdminLevel?></p>
+	<p id="subnavbar-emplevel-p-id" hidden><?=$mb_level?></p>
 	<?php if(is_null($objMember)) {  ?>
 		<p id="subnavbar-fid-p-id" hidden>0</p>
 	<?php } else {?>
@@ -17,7 +19,7 @@
 		<!---->
 		<div class="useredit-text-div">
 			<p>분류:</p> 
-			<?php if($nAdminLevel > LEVEL_COMPANY) {  ?>
+			<?php if($mb_level > LEVEL_COMPANY) {  ?>
 			<select type = "text" id="useredit-sort-select-id">
 			<?php } else { ?>
 			<select type = "text" id="useredit-sort-select-id" disabled>
@@ -47,7 +49,7 @@
 			<?php if(is_null($objMember)) {  ?>	
 			<input type = "text" id="useredit-nickname-input-id">
 			<?php } else {?>
-				<?php if($nAdminLevel > LEVEL_COMPANY) {  ?>
+				<?php if($mb_level > LEVEL_COMPANY) {  ?>
 				<input type = "text" id="useredit-nickname-input-id" value="<?=$objMember->mb_nickname?>" disabled>
 				<?php } else {?>
 				<input type = "text" id="useredit-nickname-input-id" value="<?=$objMember->mb_nickname?>" disabled>
@@ -57,7 +59,7 @@
 		</div>
 
 		<!---->
-		<?php if($nAdminLevel > LEVEL_COMPANY) {  ?>
+		<?php if($mb_level > LEVEL_COMPANY) {  ?>
 		<div class="useredit-text-div">
 			<p>비밀번호:</p> 
 			<?php if(is_null($objMember)) {  ?>	
@@ -259,7 +261,7 @@
 
 		</div>
 		
-		<?php if($nAdminLevel > LEVEL_COMPANY) {  ?>
+		<?php if($mb_level > LEVEL_COMPANY) {  ?>
 		<p class="useredit-seperate-div">
 		</p>
 		<!---->
@@ -319,3 +321,4 @@
 
 
 <script src="<?php echo base_url('assets/js/agency_edit-script.js?v=1');?>"></script>
+<?= $this->endSection() ?>

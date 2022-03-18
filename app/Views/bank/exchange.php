@@ -1,3 +1,5 @@
+<?= $this->extend('header') ?>
+<?= $this->section('content') ?>
 	<!--Sub Navbar-->
 	<div class = "sub-navbar">
 		<p><i class="glyphicon glyphicon-ok-sign"></i> 충환전관리::머니거래내역</p>
@@ -86,3 +88,4 @@
 
 <script src="<?php echo base_url('assets/js/page.js');?>"></script>
 <script src="<?php echo base_url('assets/js/exchange-script.js?v=1');?>"></script>
+<?= $this->endSection() ?>

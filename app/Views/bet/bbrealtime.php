@@ -1,3 +1,5 @@
+<?= $this->extend('header') ?>
+<?= $this->section('content') ?>
 	<!--Sub Navbar-->
 	<div class = "sub-navbar">
 		<p><i class="glyphicon glyphicon-dashboard"></i> 실시간배팅</p>
@@ -31,3 +33,4 @@
 
 
 <script src="<?php echo base_url('assets/js/bbrealtime-script.js');?>"></script>
+<?= $this->endSection() ?>

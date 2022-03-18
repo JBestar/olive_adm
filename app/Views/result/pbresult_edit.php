@@ -1,3 +1,5 @@
+<?= $this->extend('header') ?>
+<?= $this->section('content') ?>
 <!--Sub Navbar-->
 	<div class = "sub-navbar">
 	<?php if(is_null($objRound)) {  ?>
@@ -199,5 +201,4 @@
 
 
 <script src="<?php echo base_url('assets/js/pbresult_edit-script.js');?>"></script>
-
-
+<?= $this->endSection() ?>

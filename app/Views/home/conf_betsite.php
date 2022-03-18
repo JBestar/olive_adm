@@ -1,4 +1,7 @@
-  	<!--Sub Navbar-->
+<?= $this->extend('header') ?>
+<?= $this->section('content') ?>
+	  <!--Sub Navbar-->
+	  
 	<div class = "sub-navbar">
 		<p><i class="glyphicon glyphicon-user"></i> 기본설정::보험설정</p>
 		<a href="<?php echo base_url().'home/conf_site';?>" class="sub-navbar-a" >본사설정</a>
@@ -40,11 +43,10 @@
 			<button class="confsite-ok-button" id="confsite-ok-btn-id">저장</button>
 		</div>
 	</div>
-
-
-
 <!--main_navbar.php-->
 </div>
 
 
 <script src="<?php echo base_url('assets/js/conf-betsite-script.js');?>"></script>
+
+<?= $this->endSection() ?>

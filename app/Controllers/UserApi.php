@@ -11,7 +11,6 @@ use App\Models\KsBet_model;
 use App\Models\Notice_Model;
 use App\Models\PbBet_model;
 use App\Models\PsBet_model;
-use stdClass;
 
 class UserApi extends BaseController{
     public function index()

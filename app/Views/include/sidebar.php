@@ -1,3 +1,5 @@
+<!--?= $this->extend('header') ?-->
+<!--?= $this->section('SideBar')?-->
 <div class="main-sidebar" id = "main-sidebar-id">
   
   <button class="main-dropdown-btn <?=$confdropdownbtn?>"><i class="glyphicon glyphicon-home"></i>  기본설정
@@ -74,4 +76,5 @@
   <?php } ?>
   <a href="<?php echo base_url().'pages/logout';?>"><i class="glyphicon glyphicon-log-out"></i>  로그아웃</a>
 </div>
-
+<!--?= $this->renderSection('MainNavBar') ?-->
+<!--?= $this->endSection() ?-->

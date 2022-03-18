@@ -63,9 +63,9 @@ class Member_Model extends Model {
         if (!array_key_exists("password_newok", $arrPwd)) return 0;
         
         if(strlen($arrPwd['password_new']) < 1) return 0;
+        //이전 패스워드가 같은가 검사 
         if(strcmp($arrPwd['password_new'], $arrPwd['password_newok']) != 0) return 0;
 
-        //이전 패스워드가 같은가 검사 
         $objUser = $this->login($strUserId, $arrPwd['password']);
         if($objUser == null) return 2;
 
@@ -83,16 +83,11 @@ class Member_Model extends Model {
         ->update();
     }
     function login($strUserId, $strPwd){
-
-        $arrLoginData ['mb_uid'] = $strUserId;
-        $arrLoginData['mb_pwd'] = $strPwd;
-        //$arrLoginData['mb_state_active'] = 1;
-        //$arrLoginData['mb_state_delete'] = 0;
-
-        return $this->asObject()->where([
+        return $this->builder()
+            ->where([
             'mb_uid' => $strUserId, 
-            'mb_pwd' => $strPwd
-        ])->first();
+            'mb_pwd' => $strPwd])
+            ->get()->getRow();
     }
     
 
@@ -101,9 +96,8 @@ class Member_Model extends Model {
         return $this->delete($arrDeleteData['mb_fid']);
     }
 
-    public function moneyProc(&$objUser, $dtMoney, $dtPoint, $nCharge, $nExchange){
-       
-        
+    public function moneyProc(&$objUser, $dtMoney, $dtPoint, $nCharge, $nExchange)
+    {
 
         $strSql1 = "UPDATE ".$this->table." SET ";
         if($dtMoney >= 0)
@@ -168,54 +162,25 @@ class Member_Model extends Model {
         
         return $this->builder()->update();        
     }
-
-    //직원별 보유금
-    function calcEmpMoney($objEmp){
-        $arrTotalMoney = array(0, 0);
-        if($objEmp->mb_level >= LEVEL_EMPLOYEE){
-
-
-            $strTbColum = " mb_fid, mb_uid, mb_level, mb_emp_fid, mb_money, mb_live_money ";
-            $strTbRColum = " r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid , r.mb_money, r.mb_live_money ";
-
-            $strSQL = "WITH RECURSIVE tbmember (".$strTbColum.") AS";
-            $strSQL .= " ( SELECT ".$strTbColum." FROM ".$this->table." WHERE mb_emp_fid = '".$objEmp->mb_fid."'";
-            $strSQL .= " UNION ALL SELECT ".$strTbRColum." FROM ".$this->table." r ";
-            $strSQL .= " INNER JOIN tbmember ON r.mb_emp_fid = tbmember.mb_fid )";
-
-            $strSQL .= " SELECT SUM(mb_money) AS mb_money, SUM(mb_live_money) AS mb_live_money FROM tbmember where ";
-            $strSQL .= " mb_level >= '".LEVEL_EMPLOYEE."' ";
-
-            $objResult = $this -> db -> query($strSQL)->getRow();
-            if(!is_null($objResult->mb_money)) {
-                $arrTotalMoney[0] += $objResult->mb_money;                
-            }
-            $arrTotalMoney[0] += $objEmp->mb_money;
-
-            if(!is_null($objResult->mb_money)) {
-                $arrTotalMoney[1] += $objResult->mb_live_money;                
-            }
-            $arrTotalMoney[1] += $objEmp->mb_live_money;
-        }
-
-        
-        return $arrTotalMoney;
-
-    }
-    //유저 보유금
-    function calcUserMoney($strEmpFid){
+    function calcMemberMoney($strMemFid, $upSum){
         $arrTotalMoney = array(0, 0);
 
         $strTbColum = " mb_fid, mb_uid, mb_level, mb_emp_fid, mb_money, mb_live_money ";
         $strTbRColum = " r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid , r.mb_money, r.mb_live_money ";
 
         $strSQL = "WITH RECURSIVE tbmember (".$strTbColum.") AS";
-        $strSQL .= " ( SELECT ".$strTbColum." FROM ".$this->table." WHERE mb_emp_fid = '".$strEmpFid."'";
+        $strSQL .= " ( SELECT ".$strTbColum." FROM ".$this->table." WHERE mb_emp_fid = '".$strMemFid."'";
         $strSQL .= " UNION ALL SELECT ".$strTbRColum." FROM ".$this->table." r ";
         $strSQL .= " INNER JOIN tbmember ON r.mb_emp_fid = tbmember.mb_fid )";
 
         $strSQL .= " SELECT SUM(mb_money) AS mb_money, SUM(mb_live_money) AS mb_live_money FROM tbmember where ";
-        $strSQL .= " mb_level < '".LEVEL_EMPLOYEE."' ";
+        if ($upSum)
+        {
+            $strSQL .= " mb_level >= '".LEVEL_EMPLOYEE."' ";
+        }
+        else {
+            $strSQL .= " mb_level < '".LEVEL_EMPLOYEE."' ";
+        }
 
         $objResult = $this -> db -> query($strSQL)->getRow();
         
@@ -227,6 +192,23 @@ class Member_Model extends Model {
         }
         return $arrTotalMoney; 
     }
+    //유저 보유금
+    function calcUserMoney($strEmpFid){
+        return $this->calcMemberMoney($strEmpFid, false);
+    }
+    //직원별 보유금
+    function calcEmpMoney($objEmp){
+        $arrTotalMoney = array(0, 0);
+        if($objEmp->mb_level >= LEVEL_EMPLOYEE){
+            
+            $arrResult = $this->calcMemberMoney($objEmp->mb_fid, true);
+            $arrTotalMoney[0] = $arrResult[0] + $objEmp->mb_money;
+            $arrTotalMoney[1] = $arrResult[1] + $objEmp->mb_live_money;
+        }
+        return $arrTotalMoney;
+
+    }
+    
     //배팅금액 (하부포함)
     function calcBetMoneys($objEmp, $arrReqData){
 
@@ -405,6 +387,8 @@ class Member_Model extends Model {
             $query = $this->asObject()->where('mb_level <', $strLevel);
         else 
             $query = $this->asObject()->where('mb_level', $strLevel);
+        if ($query == null)
+            return array();
         return $query->findAll();
     }
     public function getMemberByFid($strFid){

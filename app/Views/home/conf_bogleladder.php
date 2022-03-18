@@ -1,4 +1,6 @@
-  	<!--Sub Navbar-->
+<?= $this->extend('header') ?>
+<?= $this->section('content') ?>
+<!--Sub Navbar-->
 	<div class = "sub-navbar">
 		<p><i class="glyphicon glyphicon-play-circle"></i> 기본설정::배팅설정</p>
 		<a href="<?php echo base_url().'home/conf_powerball';?>" class="sub-navbar-a" >파워볼</a>
@@ -72,3 +74,4 @@
 </div>
 
 <script src="<?php echo base_url('assets/js/confbs-script.js');?>"></script>
+<?= $this->endSection() ?>

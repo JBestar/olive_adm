@@ -1,3 +1,5 @@
+<?= $this->extend('header') ?>
+<?= $this->section('content') ?>
 	<!--Sub Navbar-->
 	<div class = "sub-navbar">
 		<p><i class="glyphicon glyphicon-info-sign"></i> 게시판::공지사항</p>
@@ -55,3 +57,4 @@
 
 
 <script src="<?php echo base_url('assets/js/notice-script.js');?>"></script>
+<?= $this->endSection() ?>

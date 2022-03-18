@@ -1,4 +1,6 @@
-  	<!--Sub Navbar-->
+<?= $this->extend('header') ?>
+<?= $this->section('content') ?>
+<!--Sub Navbar-->
 	<div class = "sub-navbar">
 		<p><i class="glyphicon glyphicon-cog"></i> 기본설정::점검설정</p>
 		<a href="<?php echo base_url().'home/conf_site';?>" class="sub-navbar-a" >본사설정</a>
@@ -47,3 +49,4 @@
 
 
 <script src="<?php echo base_url('assets/js/confmaintain-script.js');?>"></script>
+<?= $this->endSection() ?>

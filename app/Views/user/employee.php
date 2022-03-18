@@ -1,10 +1,12 @@
+<?= $this->extend('header') ?>
+<?= $this->section('content') ?>
 	<!--Sub Navbar-->
 	<div class = "sub-navbar">
 		<p><i class="glyphicon glyphicon-user"></i> 회원관리::매장</p>
 	</div>
 	<!--Site Setting-->
 	<div class="user-panel">	
-		<?php if($nAdminLevel >= LEVEL_ADMIN) {  ?>
+		<?php if($mb_level >= LEVEL_ADMIN) {  ?>
 		<div style="min-height:30px;">
 			<a href="<?php echo base_url().'user/employee_edit/0';?>" class="user-panel-add-a" >매장 새로 등록</a>
 		</div>	
@@ -63,7 +65,7 @@
 					<button name="<?=$objMember->mb_fid?>" >차단</button>
 					<?php } ?>
 					<a href="<?php echo base_url().'user/employee_edit/'.$objMember->mb_fid;?>" >수정</a>
-					<?php if($nAdminLevel >= LEVEL_ADMIN) {  ?>
+					<?php if($mb_level >= LEVEL_ADMIN) {  ?>
 					<a href="/board/message_edit/0/<?=$objMember->mb_fid?>">쪽지</a>
 					<button name="<?=$objMember->mb_fid?>">삭제</button>
 					<?php } ?>
@@ -119,3 +121,4 @@
 
 
 <script src="<?php echo base_url('assets/js/employee-script.js?v=1');?>"></script>
+<?= $this->endSection() ?>

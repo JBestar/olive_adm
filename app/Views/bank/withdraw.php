@@ -1,3 +1,5 @@
+<?= $this->extend('header') ?>
+<?= $this->section('content') ?>
 	<!--Sub Navbar-->
 	<div class = "sub-navbar">
 		<p><i class="glyphicon glyphicon-minus-sign"></i> 충환전관리::환전</p>
@@ -63,3 +65,4 @@
 
 <script src="<?php echo base_url('assets/js/page.js');?>"></script>
 <script src="<?php echo base_url('assets/js/withdraw-script.js');?>"></script>
+<?= $this->endSection() ?>

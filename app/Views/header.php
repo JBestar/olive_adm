@@ -22,9 +22,13 @@
 
 </head>
 <body>
-
+<?php $this->renderSection('SideBar') ?>
 <div class="main-navbar-dropdown-container" id="main-navbar-dropdown-container-id" style="display: none;">
   <div class="main-navbar-dropdown-div"> 
   <button id="main-navbar-dropdown-logout-id"><span class="glyphicon glyphicon-log-out"></span>&nbsp&nbsp로그아웃</button>
   </div>
 </div>
+<?= $this->include('include/sidebar')?>
+<?= $this->include('include/main_navbar')?>
+<?php $this->renderSection('content') ?>
+<?= $this->include('footer')?>

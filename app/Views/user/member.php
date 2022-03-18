@@ -1,3 +1,5 @@
+<?= $this->extend('header') ?>
+<?= $this->section('content') ?>
 	<!--Sub Navbar-->
 	<div class = "sub-navbar">
 		<p><i class="glyphicon glyphicon-user"></i> 회원관리::회원</p>
@@ -5,7 +7,7 @@
 	<!--Site Setting-->
 	<div class="user-panel">	
 		<div>
-			<?php if($nAdminLevel >= LEVEL_ADMIN) {  ?>
+			<?php if($mb_level >= LEVEL_ADMIN) {  ?>
 			<a href="<?php echo base_url().'user/member_edit/0';?>" class="user-panel-add-a" >회원 등록</a>
 			<?php } ?>
 			<label>아이디</label>
@@ -78,3 +80,4 @@
 
 <script src="<?php echo base_url('assets/js/page.js');?>"></script>
 <script src="<?php echo base_url('assets/js/member-script.js?v=1');?>"></script>
+<?= $this->endSection() ?>

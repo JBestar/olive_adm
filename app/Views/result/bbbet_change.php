@@ -1,3 +1,5 @@
+<?= $this->extend('header') ?>
+<?= $this->section('content') ?>
 	<!--Sub Navbar-->
 	<div class = "sub-navbar">
 		<p><i class="glyphicon glyphicon-tag"></i> 적중특례</p>
@@ -58,3 +60,4 @@
 
 
 <script src="<?php echo base_url('assets/js/bbbet_change-script.js');?>"></script>
+<?= $this->endSection() ?>

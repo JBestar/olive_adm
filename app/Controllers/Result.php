@@ -9,7 +9,7 @@ use App\Models\KsRound_model;
 use App\Models\PbRound_model;
 use App\Models\PsRound_model;
 
-class Result extends BaseController {
+class Result extends StdController {
 
 	/**
 
@@ -20,523 +20,144 @@ class Result extends BaseController {
 		$this->response->redirect( base_url().'result/pbresult', 'refresh');
 		
 	}
-
+	private function result_edit_page($betModel, $roundFid, $url, $activePage, $userLevel){
+		$objRound = null;
+		$memberModel  = new Member_Model();
+		$strUid = $this->session->username;
+		$objUser = $memberModel->getInfo($strUid);
+		if($objUser->mb_level >= $userLevel)
+		{
+			$objRound = null;
+			if($roundFid > 0){
+				$objRound = $betModel->get($roundFid);
+				if(is_null($objRound)){
+					$this->response->redirect( base_url().'pages/nopermit', 'refresh');		
+				}									
+			} else if($roundFid == 0){
+				$objRound = null;					
+			} else $this->response->redirect( base_url().'pages/nopermit', 'refresh');	
+			$this->load_view_page($url, $activePage, LEVEL_ADMIN, [
+				'objRound' => $objRound
+			]);	
+		}	
+	}
+	private function result_change_page($url, $date, $roundNo){
+		$this->load_view_page($url, 'gameedit', LEVEL_ADMIN, [
+			'strDate' => $date, 
+			'strRoundNo' => $roundNo
+		]);	
+	}
 	public function pbresult()
 	{		
-		if(is_login())
-		{			
-			$arrSidebar = getSidebarLinkArray();
-			$arrSidebar['gameresult'] = " sidebar-a-active";
-
-			$memberModel  = new Member_Model();
-			$confsiteModel = new ConfSite_Model();
-			$strUid = $this->session->username;
-			$objUser = $memberModel->getInfo($strUid);
-			$arrSidebar['mb_level'] = $objUser->mb_level;
-
-			$strSiteName = $confsiteModel->getSiteName();
-
-			echo view('header', array("site_name"=>$strSiteName));		
-			echo view('include/sidebar', $arrSidebar);
-			echo view('include/main_navbar', array("mb_level"=>$objUser->mb_level));
-			echo view('result/pbresult');
-			echo view('footer');
-			
-		}
-		else {
-			$this->response->redirect( base_url().'pages/login', 'refresh');
-		}			
+		$this->load_view_page('result/pbresult', 'gameresult');			
 	}
 
 	public function pbresult_edit($strRoundFid)
-	{		
-		if(is_login())
-		{			
-			$arrSidebar = getSidebarLinkArray();
-			$arrSidebar['gameresult'] = " sidebar-a-active";
-
-			$memberModel  = new Member_Model();
-			$confsiteModel = new ConfSite_Model();
-			$pbroundModel = new PbRound_model();
-
-			$strUid = $this->session->username;
-			$objUser = $memberModel->getInfo($strUid);
-			$arrSidebar['mb_level'] = $objUser->mb_level;
-
-			if($objUser->mb_level >= LEVEL_ADMIN){
-			
-				$objRound = null;
-
-				if($strRoundFid > 0){
-					$objRound = $pbroundModel->get($strRoundFid);
-					if(is_null($objRound)){
-						$this->response->redirect( base_url().'pages/nopermit', 'refresh');		
-					}									
-				} else if($strRoundFid == 0){
-					$objRound = null;					
-				} else $this->response->redirect( base_url().'pages/nopermit', 'refresh');		
-									
-				$strSiteName = $confsiteModel->getSiteName();
-
-				echo view('header', array("site_name"=>$strSiteName));		
-				echo view('include/sidebar', $arrSidebar);
-				echo view('include/main_navbar', array("mb_level"=>$objUser->mb_level));
-				echo view('result/pbresult_edit', array("objRound"=>$objRound));
-				echo view('footer');
-				
-			} else $this->response->redirect( base_url().'pages/nopermit', 'refresh');
-			
-		}
-		else {
-			$this->response->redirect( base_url().'pages/login', 'refresh');
-		}			
+	{
+		$pbroundModel = new PbRound_model();
+		$this->result_edit_page(
+			$pbroundModel, 
+			$strRoundFid, 
+			'result/pbresult_edit', 
+			'gameresult',
+			LEVEL_ADMIN);
+		return;	
 	}
 
 
 	public function psresult()
-	{		
-		if(is_login())
-		{			
-			$arrSidebar = getSidebarLinkArray();
-			$arrSidebar['gameresult'] = " sidebar-a-active";
-
-			$memberModel  = new Member_Model();
-			$confsiteModel = new ConfSite_Model();
-			$strUid = $this->session->username;
-			$objUser = $memberModel->getInfo($strUid);
-			$arrSidebar['mb_level'] = $objUser->mb_level;
-
-			$strSiteName = $confsiteModel->getSiteName();
-
-			echo view('header', array("site_name"=>$strSiteName));		
-			echo view('include/sidebar', $arrSidebar);
-			echo view('include/main_navbar', array("mb_level"=>$objUser->mb_level));
-			echo view('result/psresult');
-			echo view('footer');
-			
-		}
-		else {
-			$this->response->redirect( base_url().'pages/login', 'refresh');
-		}			
+	{
+		$this->load_view_page('result/psresult', 'gameresult');		
 	}
 
 	public function psresult_edit($strRoundFid)
-	{		
-		if(is_login())
-		{			
-			$arrSidebar = getSidebarLinkArray();
-			$arrSidebar['gameresult'] = " sidebar-a-active";
-
-			$memberModel  = new Member_Model();
-			$confsiteModel = new ConfSite_Model();
-
-			$psroundModel = new PsRound_model();;
-
-			$strUid = $this->session->username;
-			$objUser = $memberModel->getInfo($strUid);
-			$arrSidebar['mb_level'] = $objUser->mb_level;
-
-			if($objUser->mb_level >= LEVEL_ADMIN){
-			
-				$objRound = null;									
-				if($strRoundFid > 0){
-					$objRound = $psroundModel->get($strRoundFid);
-					if(is_null($objRound)){
-						$this->response->redirect( base_url().'pages/nopermit', 'refresh');		
-					}									
-				} else if($strRoundFid == 0){
-					$objRound = null;					
-				} else $this->response->redirect( base_url().'pages/nopermit', 'refresh');		
-				$strSiteName = $confsiteModel->getSiteName();
-
-				echo view('header', array("site_name"=>$strSiteName));		
-				echo view('include/sidebar', $arrSidebar);
-				echo view('include/main_navbar', array("mb_level"=>$objUser->mb_level));
-				echo view('result/psresult_edit', array("objRound"=>$objRound));
-				echo view('footer');
-				
-			} else $this->response->redirect( base_url().'pages/nopermit', 'refresh');
-			
-		}
-		else {
-			$this->response->redirect( base_url().'pages/login', 'refresh');
-		}			
+	{
+		$psroundModel = new PsRound_model();
+		$this->result_edit_page(
+			$psroundModel, 
+			$strRoundFid, 
+			'result/psresult_edit', 
+			'gameresult', 
+			LEVEL_ADMIN);	
 	}
 
 
 
 	public function ksresult()
-	{		
-		if(is_login())
-		{			
-			$arrSidebar = getSidebarLinkArray();
-			$arrSidebar['gameresult'] = " sidebar-a-active";
-
-			$memberModel  = new Member_Model();
-			$confsiteModel = new ConfSite_Model();
-			$strUid = $this->session->username;
-			$objUser = $memberModel->getInfo($strUid);
-			$arrSidebar['mb_level'] = $objUser->mb_level;
-
-			$strSiteName = $confsiteModel->getSiteName();
-
-			echo view('header', array("site_name"=>$strSiteName));		
-			echo view('include/sidebar', $arrSidebar);
-			echo view('include/main_navbar', array("mb_level"=>$objUser->mb_level));
-			echo view('result/ksresult');
-			echo view('footer');
-			
-		}
-		else {
-			$this->response->redirect( base_url().'pages/login', 'refresh');
-		}			
+	{
+		$this->load_view_page('result/ksresult', 'gameresult');			
 	}
 
 
 	public function ksresult_edit($strRoundFid)
 	{		
-		if(is_login())
-		{			
-			$arrSidebar = getSidebarLinkArray();
-			$arrSidebar['gameresult'] = " sidebar-a-active";
-
-			$memberModel  = new Member_Model();
-			$confsiteModel = new ConfSite_Model();
-			$ksroundModel = new KsRound_model();
-
-			$strUid = $this->session->username;
-			$objUser = $memberModel->getInfo($strUid);
-			$arrSidebar['mb_level'] = $objUser->mb_level;
-
-			if($objUser->mb_level >= LEVEL_ADMIN){
-			
-				$objRound = null;									
-				if($strRoundFid > 0){
-					$objRound = $ksroundModel->get($strRoundFid);
-					if(is_null($objRound)){
-						$this->response->redirect( base_url().'pages/nopermit', 'refresh');		
-					}									
-				} else if($strRoundFid == 0){
-					$objRound = null;					
-				} else $this->response->redirect( base_url().'pages/nopermit', 'refresh');		
-						
-				$strSiteName = $confsiteModel->getSiteName();
-
-				echo view('header', array("site_name"=>$strSiteName));		
-				echo view('include/sidebar', $arrSidebar);
-				echo view('include/main_navbar', array("mb_level"=>$objUser->mb_level));
-				echo view('result/ksresult_edit', array("objRound"=>$objRound));
-				echo view('footer');
-				
-			} else $this->response->redirect( base_url().'pages/nopermit', 'refresh');
-			
-		}
-		else {
-			$this->response->redirect( base_url().'pages/login', 'refresh');
-		}			
+		$ksroundModel = new KsRound_model();
+		$this->result_edit_page(
+			$ksroundModel, 
+			$strRoundFid, 
+			'result/ksresult_edit', 
+			'gameresult', 
+			LEVEL_ADMIN);		
 	}
 
 
 	public function bbresult()
-	{		
-		if(is_login())
-		{			
-			$arrSidebar = getSidebarLinkArray();
-			$arrSidebar['gameresult'] = " sidebar-a-active";
-
-			$memberModel  = new Member_Model();
-			$confsiteModel = new ConfSite_Model();
-			$strUid = $this->session->username;
-			$objUser = $memberModel->getInfo($strUid);
-			$arrSidebar['mb_level'] = $objUser->mb_level;
-
-			$strSiteName = $confsiteModel->getSiteName();
-
-			echo view('header', array("site_name"=>$strSiteName));		
-			echo view('include/sidebar', $arrSidebar);
-			echo view('include/main_navbar', array("mb_level"=>$objUser->mb_level));
-			echo view('result/bbresult');
-			echo view('footer');
-			
-		}
-		else {
-			$this->response->redirect( base_url().'pages/login', 'refresh');
-		}			
+	{
+		$this->load_view_page('result/bbresult', 'gameresult');			
 	}
 
 	public function bbresult_edit($strRoundFid)
-	{		
-		if(is_login())
-		{			
-			$arrSidebar = getSidebarLinkArray();
-			$arrSidebar['gameresult'] = " sidebar-a-active";
-
-			$memberModel  = new Member_Model();
-			$confsiteModel = new ConfSite_Model();
-			$bbroundModel = new BbRound_model();
-
-			$strUid = $this->session->username;
-			$objUser = $memberModel->getInfo($strUid);
-			$arrSidebar['mb_level'] = $objUser->mb_level;
-
-			if($objUser->mb_level >= LEVEL_ADMIN){
-			
-				$objRound = null;
-
-				if($strRoundFid > 0){
-					$objRound = $bbroundModel->get($strRoundFid);
-					if(is_null($objRound)){
-						$this->response->redirect( base_url().'pages/nopermit', 'refresh');		
-					}									
-				} else if($strRoundFid == 0){
-					$objRound = null;					
-				} else $this->response->redirect( base_url().'pages/nopermit', 'refresh');		
-									
-				$strSiteName = $confsiteModel->getSiteName();
-
-				echo view('header', array("site_name"=>$strSiteName));		
-				echo view('include/sidebar', $arrSidebar);
-				echo view('include/main_navbar', array("mb_level"=>$objUser->mb_level));
-				echo view('result/bbresult_edit', array("objRound"=>$objRound));
-				echo view('footer');
-				
-			} else $this->response->redirect( base_url().'pages/nopermit', 'refresh');
-			
-		}
-		else {
-			$this->response->redirect( base_url().'pages/login', 'refresh');
-		}			
+	{
+		$bbroundModel = new BbRound_model();
+		$this->result_edit_page(
+			$bbroundModel, 
+			$strRoundFid, 
+			'result/bbresult_edit', 
+			'gameresult', 
+			LEVEL_ADMIN);		
 	}
 
 
 	public function bsresult()
-	{		
-		if(is_login())
-		{			
-			$arrSidebar = getSidebarLinkArray();
-			$arrSidebar['gameresult'] = " sidebar-a-active";
-
-			$memberModel  = new Member_Model();
-			$confsiteModel = new ConfSite_Model();
-			$strUid = $this->session->username;
-			$objUser = $memberModel->getInfo($strUid);
-			$arrSidebar['mb_level'] = $objUser->mb_level;
-
-			$strSiteName = $confsiteModel->getSiteName();
-
-			echo view('header', array("site_name"=>$strSiteName));		
-			echo view('include/sidebar', $arrSidebar);
-			echo view('include/main_navbar', array("mb_level"=>$objUser->mb_level));
-			echo view('result/bsresult');
-			echo view('footer');
-			
-		}
-		else {
-			$this->response->redirect( base_url().'pages/login', 'refresh');
-		}			
+	{
+		$this->load_view_page('result/bsresult', 'gameresult');
 	}
 
 	public function bsresult_edit($strRoundFid)
-	{		
-		if(is_login())
-		{			
-			$arrSidebar = getSidebarLinkArray();
-			$arrSidebar['gameresult'] = " sidebar-a-active";
-
-			$memberModel  = new Member_Model();
-			$confsiteModel = new ConfSite_Model();
-			$bsroundModel = new BsRound_model();
-
-			$strUid = $this->session->username;
-			$objUser = $memberModel->getInfo($strUid);
-			$arrSidebar['mb_level'] = $objUser->mb_level;
-
-			if($objUser->mb_level >= LEVEL_ADMIN){
-			
-				$objRound = null;									
-				if($strRoundFid > 0){
-					$objRound = $bsroundModel->get($strRoundFid);
-					if(is_null($objRound)){
-						$this->response->redirect( base_url().'pages/nopermit', 'refresh');		
-					}									
-				} else if($strRoundFid == 0){
-					$objRound = null;					
-				} else $this->response->redirect( base_url().'pages/nopermit', 'refresh');		
-				$strSiteName = $confsiteModel->getSiteName();
-
-				echo view('header', array("site_name"=>$strSiteName));		
-				echo view('include/sidebar', $arrSidebar);
-				echo view('include/main_navbar', array("mb_level"=>$objUser->mb_level));
-				echo view('result/bsresult_edit', array("objRound"=>$objRound));
-				echo view('footer');
-				
-			} else $this->response->redirect( base_url().'pages/nopermit', 'refresh');
-			
-		}
-		else {
-			$this->response->redirect( base_url().'pages/login', 'refresh');
-		}			
+	{
+		$bsroundModel = new BsRound_model();
+		$this->result_edit_page(
+			$bsroundModel, 
+			$strRoundFid, 
+			'result/bsresult_edit', 
+			'gameresult', 
+			LEVEL_ADMIN);	
 	}
 
 
 	public function pbbetchange($strDate, $strRoundNo)
-	{		
-		if(is_login())
-		{			
-			$arrSidebar = getSidebarLinkArray();
-			$arrSidebar['gameedit'] = " sidebar-a-active";
-
-			$memberModel  = new Member_Model();
-			$confsiteModel = new ConfSite_Model();
-			
-			$strUid = $this->session->username;
-			$objUser = $memberModel->getInfo($strUid);
-			$arrSidebar['mb_level'] = $objUser->mb_level;
-
-			if($objUser->mb_level >= LEVEL_ADMIN){
-			
-				$strSiteName = $confsiteModel->getSiteName();
-
-				echo view('header', array("site_name"=>$strSiteName));		
-				echo view('include/sidebar', $arrSidebar);
-				echo view('include/main_navbar', array("mb_level"=>$objUser->mb_level));
-				echo view('result/pbbet_change', array("strDate"=>$strDate, "strRoundNo"=>$strRoundNo));
-				echo view('footer');
-				
-			} else $this->response->redirect( base_url().'pages/nopermit', 'refresh');
-			
-		}
-		else {
-			$this->response->redirect( base_url().'pages/login', 'refresh');
-		}			
+	{
+		$this->result_change_page('result/pbbet_change', $strDate, $strRoundNo);				
 	}
 
 	public function psbetchange($strDate, $strRoundNo)
-	{		
-		if(is_login())
-		{			
-			$arrSidebar = getSidebarLinkArray();
-			$arrSidebar['gameedit'] = " sidebar-a-active";
-
-			$memberModel  = new Member_Model();
-			$confsiteModel = new ConfSite_Model();
-			
-			$strUid = $this->session->username;
-			$objUser = $memberModel->getInfo($strUid);
-			$arrSidebar['mb_level'] = $objUser->mb_level;
-			
-			if($objUser->mb_level >= LEVEL_ADMIN){
-			
-				$strSiteName = $confsiteModel->getSiteName();
-
-				echo view('header', array("site_name"=>$strSiteName));		
-				echo view('include/sidebar', $arrSidebar);
-				echo view('include/main_navbar', array("mb_level"=>$objUser->mb_level));
-				echo view('result/psbet_change', array("strDate"=>$strDate, "strRoundNo"=>$strRoundNo));
-				echo view('footer');
-				
-			} else $this->response->redirect( base_url().'pages/nopermit', 'refresh');
-			
-		}
-		else {
-			$this->response->redirect( base_url().'pages/login', 'refresh');
-		}			
+	{
+		$this->result_change_page('result/psbet_change', $strDate, $strRoundNo);		
 	}
 
 
 	public function ksbetchange($strDate, $strRoundNo)
 	{		
-		if(is_login())
-		{			
-			$arrSidebar = getSidebarLinkArray();
-			$arrSidebar['gameedit'] = " sidebar-a-active";
-
-			$memberModel  = new Member_Model();
-			$confsiteModel = new ConfSite_Model();
-			
-			$strUid = $this->session->username;
-			$objUser = $memberModel->getInfo($strUid);
-			$arrSidebar['mb_level'] = $objUser->mb_level;
-			
-			if($objUser->mb_level >= LEVEL_ADMIN){
-			
-				$strSiteName = $confsiteModel->getSiteName();
-
-				echo view('header', array("site_name"=>$strSiteName));		
-				echo view('include/sidebar', $arrSidebar);
-				echo view('include/main_navbar', array("mb_level"=>$objUser->mb_level));
-				echo view('result/ksbet_change', array("strDate"=>$strDate, "strRoundNo"=>$strRoundNo));
-				echo view('footer');
-				
-			} else $this->response->redirect( base_url().'pages/nopermit', 'refresh');
-			
-		}
-		else {
-			$this->response->redirect( base_url().'pages/login', 'refresh');
-		}			
+		$this->result_change_page('result/ksbet_change', $strDate, $strRoundNo);		
 	}
 
 	public function bbbetchange($strDate, $strRoundNo)
-	{		
-		if(is_login())
-		{			
-			$arrSidebar = getSidebarLinkArray();
-			$arrSidebar['gameedit'] = " sidebar-a-active";
-
-			$memberModel  = new Member_Model();
-			$confsiteModel = new ConfSite_Model();
-			
-			$strUid = $this->session->username;
-			$objUser = $memberModel->getInfo($strUid);
-			$arrSidebar['mb_level'] = $objUser->mb_level;
-
-			if($objUser->mb_level >= LEVEL_ADMIN){
-			
-				$strSiteName = $confsiteModel->getSiteName();
-
-				echo view('header', array("site_name"=>$strSiteName));		
-				echo view('include/sidebar', $arrSidebar);
-				echo view('include/main_navbar', array("mb_level"=>$objUser->mb_level));
-				echo view('result/bbbet_change', array("strDate"=>$strDate, "strRoundNo"=>$strRoundNo));
-				echo view('footer');
-				
-			} else $this->response->redirect( base_url().'pages/nopermit', 'refresh');
-			
-		}
-		else {
-			$this->response->redirect( base_url().'pages/login', 'refresh');
-		}			
+	{
+		$this->result_change_page('result/bbbet_change', $strDate, $strRoundNo);		
 	}
 
 	public function bsbetchange($strDate, $strRoundNo)
-	{		
-		if(is_login())
-		{			
-			$arrSidebar = getSidebarLinkArray();
-			$arrSidebar['gameedit'] = " sidebar-a-active";
-
-			$memberModel  = new Member_Model();
-			$confsiteModel = new ConfSite_Model();
-			
-			$strUid = $this->session->username;
-			$objUser = $memberModel->getInfo($strUid);
-			$arrSidebar['mb_level'] = $objUser->mb_level;
-			
-			if($objUser->mb_level >= LEVEL_ADMIN){
-			
-				$strSiteName = $confsiteModel->getSiteName();
-
-				echo view('header', array("site_name"=>$strSiteName));		
-				echo view('include/sidebar', $arrSidebar);
-				echo view('include/main_navbar', array("mb_level"=>$objUser->mb_level));
-				echo view('result/bsbet_change', array("strDate"=>$strDate, "strRoundNo"=>$strRoundNo));
-				echo view('footer');
-				
-			} else $this->response->redirect( base_url().'pages/nopermit', 'refresh');
-			
-		}
-		else {
-			$this->response->redirect( base_url().'pages/login', 'refresh');
-		}			
+	{
+		$this->result_change_page('result/bsbet_change', $strDate, $strRoundNo);			
 	}
 }

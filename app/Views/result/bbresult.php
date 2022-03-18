@@ -1,3 +1,5 @@
+<?= $this->extend('header') ?>
+<?= $this->section('content') ?>
 	<!--Sub Navbar-->
 	<div class = "sub-navbar">
 		<p><i class="glyphicon glyphicon-book"></i> 게임결과</p>
@@ -64,3 +66,4 @@
 
 <script src="<?php echo base_url('assets/js/page.js');?>"></script>
 <script src="<?php echo base_url('assets/js/bbresult-script.js');?>"></script>
+<?= $this->endSection() ?>

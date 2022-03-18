@@ -1,3 +1,5 @@
+<?= $this->extend('header') ?>
+<?= $this->section('content') ?>
 	<!--Sub Navbar-->
 	<div class = "sub-navbar">
 		<p><i class="glyphicon glyphicon-info-sign"></i> 게시판::이벤트</p>
@@ -44,3 +46,4 @@
 
 
 <script src="<?php echo base_url('assets/js/event-script.js');?>"></script>
+<?= $this->endSection() ?>

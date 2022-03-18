@@ -1,3 +1,5 @@
+<?= $this->extend('header') ?>
+<?= $this->section('content') ?>
 	<!--Sub Navbar-->
 	<div class = "sub-navbar">
 		<p><i class="glyphicon glyphicon-tag"></i> 정산</p>
@@ -55,3 +57,4 @@
 
 
 <script src="<?php echo base_url('assets/js/pscalculate-script.js');?>"></script>
+<?= $this->endSection() ?>

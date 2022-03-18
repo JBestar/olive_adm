@@ -1,4 +1,6 @@
-  	<!--Sub Navbar-->
+<?= $this->extend('header') ?>
+<?= $this->section('content') ?>
+<!--Sub Navbar-->
 	<div class = "sub-navbar">
 	<?php if(is_null($objMember)) {  ?>
 		<p ><i class="glyphicon glyphicon-user"></i> 회원관리::부본사 등록</p>
@@ -304,3 +306,4 @@
 
 
 <script src="<?php echo base_url('assets/js/company_edit-script.js?v=1');?>"></script>
+<?= $this->endSection() ?>

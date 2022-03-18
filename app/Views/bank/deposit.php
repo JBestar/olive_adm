@@ -1,4 +1,6 @@
-	<!--Sub Navbar-->
+<?= $this->extend('header') ?>
+<?= $this->section('content') ?>
+<!--Sub Navbar-->
 	<div class = "sub-navbar">
 		<p><i class="glyphicon glyphicon-plus-sign"></i> 충환전관리::충전</p>
 	</div>
@@ -64,3 +66,4 @@
 
 <script src="<?php echo base_url('assets/js/page.js');?>"></script>
 <script src="<?php echo base_url('assets/js/deposit-script.js');?>"></script>
+<?= $this->endSection() ?>

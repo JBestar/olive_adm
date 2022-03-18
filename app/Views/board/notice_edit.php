@@ -1,4 +1,5 @@
-
+<?= $this->extend('header') ?>
+<?= $this->section('content') ?>
   	<!--Sub Navbar-->
 	<div class = "sub-navbar">
 		<?php if(is_null($objNotice)) {  ?>
@@ -49,3 +50,4 @@
 
 
 <script src="<?php echo base_url('assets/js/notice_edit-script.js');?>"></script>
+<?= $this->endSection() ?>
