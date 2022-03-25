@@ -125,7 +125,7 @@ class KsApi extends BaseController {
 			$ksbetModel = new KsBet_model();
 			$memberModel  = new Member_Model();
 			
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objAdmin = $memberModel->getInfo($strUid);			
 			$arrBetResults = $ksbetModel->search($objAdmin, $arrGetData);
 			$arrBetAccount = null;
@@ -160,7 +160,7 @@ class KsApi extends BaseController {
 			$ksbetModel = new KsBet_model();
 			$memberModel  = new Member_Model();
 			
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objAdmin = $memberModel->getInfo($strUid);			
 			$objCount = $ksbetModel->searchCount($objAdmin, $arrGetData);
 			
@@ -187,7 +187,7 @@ class KsApi extends BaseController {
 			//model
 			$memberModel  = new Member_Model();
 			$ksroundModel = new KsRound_model();
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objUser = $memberModel->getInfo($strUid);
 			$iResult = 0;
 			if($objUser->mb_level >=  LEVEL_ADMIN){
@@ -225,7 +225,7 @@ class KsApi extends BaseController {
 			//model
 			$memberModel  = new Member_Model();
 			$ksroundModel = new KsRound_model();
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objUser = $memberModel->getInfo($strUid);
 			$bResult = false;
 			if($objUser->mb_level >=  LEVEL_ADMIN)
@@ -255,7 +255,7 @@ class KsApi extends BaseController {
 			$ksbetModel = new KsBet_model();
 			$moneyhistoryModel = new MoneyHistory_model();
 			
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objUser = $memberModel->getInfo($strUid);
 			$bResult = false;
 			if($objUser->mb_level >=  LEVEL_ADMIN){
@@ -308,7 +308,7 @@ class KsApi extends BaseController {
 			$ksbetModel = new KsBet_model();
 			$moneyhistoryModel = new MoneyHistory_model();
 
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objUser = $memberModel->getInfo($strUid);
 			$bResult = false;
 			if($objUser->mb_level >=  LEVEL_ADMIN){

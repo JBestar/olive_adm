@@ -26,7 +26,7 @@ class Result extends StdController {
 		}
 		$objRound = null;
 		$memberModel  = new Member_Model();
-		$strUid = $this->session->username;
+		$strUid = $this->session->user_id;
 		$objUser = $memberModel->getInfo($strUid);
 		if($objUser->mb_level >= $userLevel)
 		{

@@ -39,7 +39,7 @@ class Charge_Model extends Model
     }
 
     function get($strChargeFid){
-        return $this->where('charge_fid', $strChargeFid)->first();
+        return $this->asObject()->where('charge_fid', $strChargeFid)->first();
     }
 
 	function deleteState($strChargeFid, $bDelete){

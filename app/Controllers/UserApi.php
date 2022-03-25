@@ -35,7 +35,7 @@ class UserApi extends BaseController{
 		{
 			$bPermit = false;
 			$memberModel = new Member_Model();
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objUser = $memberModel->getInfo($strUid);
 			
 			//현재 가입한 유저가 요청한 유저보다 레벨이 높은 경우에 변경이 가능하다.
@@ -94,7 +94,7 @@ class UserApi extends BaseController{
 		{
 			$bPermit = false;
 			$memberModel = new Member_Model();
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objAdmin = $memberModel->getInfo($strUid);
 			$objReqUser = $memberModel->getInfoByFid($arrData['mb_fid']);
 			
@@ -160,7 +160,7 @@ class UserApi extends BaseController{
 		{
 			$bPermit = false;
 			$memberModel = new Member_Model();
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objUser = $memberModel->getInfo($strUid);
 			$objReqUser = $memberModel->getInfoByFid($arrData['mb_fid']);
 			
@@ -193,7 +193,7 @@ class UserApi extends BaseController{
 		{
 			$bPermit = false;
 			$memberModel = new Member_Model();
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objUser = $memberModel->getInfo($strUid);
 			$objReqUser = $memberModel->getInfoByFid($arrData['mb_fid']);
 			
@@ -226,7 +226,7 @@ class UserApi extends BaseController{
 		{
 			$memberModel = new Member_Model();
 
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objUser = $memberModel->getInfo($strUid);
 			$objReqUser = $memberModel->getMemberByFid($arrData['mb_fid']);
 			
@@ -270,7 +270,7 @@ class UserApi extends BaseController{
 		if(is_login())
 		{
 			
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			//model
 			$memberModel = new Member_Model();
 
@@ -298,7 +298,7 @@ class UserApi extends BaseController{
 		if(is_login())
 		{
 			
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			//model
 			$memberModel = new Member_Model();
 			$chargeModel = new Charge_Model();
@@ -348,7 +348,7 @@ class UserApi extends BaseController{
 		if(is_login())
 		{
 			
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			//model
 			$memberModel = new Member_Model();
             $confgameModel = new ConfGame_model();
@@ -408,7 +408,7 @@ class UserApi extends BaseController{
 			//model
 			$memberModel = new Member_Model();
 
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objUser = $memberModel->getInfo($strUid);
 			
 			$objResult = new \StdClass;
@@ -448,7 +448,7 @@ class UserApi extends BaseController{
 			//model
 			$memberModel = new Member_Model();
 
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objUser = $memberModel->getInfo($strUid);
 			
 			$objResult = new \StdClass;
@@ -479,7 +479,7 @@ class UserApi extends BaseController{
 			//model
 			$memberModel = new Member_Model();
 
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objUser = $memberModel->getInfo($strUid);
 			
 			$objResult = new \StdClass;

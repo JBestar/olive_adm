@@ -51,7 +51,7 @@ class Board extends StdController {
 
 			$memberModel  = new Member_Model();
 			$confsiteModel = new ConfSite_Model();
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objUser = $memberModel->getInfo($strUid);
 			$arrSidebar['mb_level'] = $objUser->mb_level;
 
@@ -87,7 +87,7 @@ class Board extends StdController {
 
 			$memberModel  = new Member_Model();
 			$confsiteModel = new ConfSite_Model();
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objUser = $memberModel->getInfo($strUid);
 			$arrSidebar['mb_level'] = $objUser->mb_level;
 

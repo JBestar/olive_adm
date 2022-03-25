@@ -15,7 +15,7 @@ class User extends StdController
 		}
 		
 		$memberModel = new Member_Model();
-		$strUid = $this->session->username;
+		$strUid = $this->session->user_id;
 		$objAdmin = $memberModel->getInfo($strUid);
 		$objMember = null;
 		if($memberFid > 0)
@@ -77,7 +77,7 @@ class User extends StdController
 			return $this->response->redirect( base_url().'pages/login', 'refresh');
 		}
 		$memberModel = new Member_Model();
-		$strUid = $this->session->username;
+		$strUid = $this->session->user_id;
 		$objAdmin = $memberModel->getInfo($strUid);
 		$arrAgency = $memberModel->getMemberByEmpFid($objAdmin->mb_fid, LEVEL_AGENCY, $objAdmin->mb_level);
 		if (is_null($arrAgency))
@@ -106,7 +106,7 @@ class User extends StdController
 			return $this->response->redirect( base_url().'pages/login', 'refresh');
 		}
 		$memberModel = new Member_Model();
-		$strUid = $this->session->username;
+		$strUid = $this->session->user_id;
 		$objAdmin = $memberModel->getInfo($strUid);
 		$arrEmployee = $memberModel->getMemberByEmpFid($objAdmin->mb_fid, LEVEL_EMPLOYEE, $objAdmin->mb_level);
 		if(is_null($arrEmployee))
@@ -140,7 +140,7 @@ class User extends StdController
 			return $this->response->redirect( base_url().'pages/login', 'refresh');
 		}
 		$memberModel = new Member_Model();
-		$strUid = $this->session->username;
+		$strUid = $this->session->user_id;
 		$objAdmin = $memberModel->getInfo($strUid);
 		$arrEmpName = $memberModel->getEmployeeNames($objAdmin, LEVEL_EMPLOYEE);
 		if (is_null($arrEmpName))

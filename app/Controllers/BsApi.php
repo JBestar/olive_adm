@@ -123,7 +123,7 @@ class BsApi extends BaseController {
 			$bsbetModel = new BsBet_model();
 			$memberModel  = new Member_Model();
 			
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objAdmin = $memberModel->getInfo($strUid);
 			$arrBetResults = $bsbetModel->search($objAdmin, $arrGetData);
 			$arrBetAccount = null;
@@ -158,7 +158,7 @@ class BsApi extends BaseController {
 			$bsbetModel = new BsBet_model();
 			$memberModel  = new Member_Model();
 			
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objAdmin = $memberModel->getInfo($strUid);
 			$objCount = $bsbetModel->searchCount($objAdmin, $arrGetData);
 			
@@ -185,7 +185,7 @@ class BsApi extends BaseController {
 			//model
 			$memberModel  = new Member_Model();
 			$bsroundModel = new BsRound_model();
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objUser = $memberModel->getInfo($strUid);
 			$iResult = 0;
 			if($objUser->mb_level >=  LEVEL_ADMIN){
@@ -224,7 +224,7 @@ class BsApi extends BaseController {
 			//model
 			$memberModel  = new Member_Model();
 			$bsroundModel = new BsRound_model();
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objUser = $memberModel->getInfo($strUid);
 			$bResult = false;
 			if($objUser->mb_level >=  LEVEL_ADMIN)
@@ -255,7 +255,7 @@ class BsApi extends BaseController {
 			$bsbetModel = new BsBet_model();
 			$moneyhistoryModel = new MoneyHistory_model();
 			
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objUser = $memberModel->getInfo($strUid);
 			$bResult = false;
 			if($objUser->mb_level >=  LEVEL_ADMIN){
@@ -308,7 +308,7 @@ class BsApi extends BaseController {
 			$bsbetModel = new BsBet_model();
 			$moneyhistoryModel = new MoneyHistory_model();
 
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objUser = $memberModel->getInfo($strUid);
 			$bResult = false;
 			if($objUser->mb_level >=  LEVEL_ADMIN){

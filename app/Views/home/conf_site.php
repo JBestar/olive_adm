@@ -4,7 +4,7 @@
 <div class="sub-navbar">
 	<p><i class="glyphicon glyphicon-cog"></i> 기본설정::본사설정</p>
 	<a href="<?php echo base_url().'home/conf_site';?>" class="sub-navbar-a active">본사설정</a>
-	<a href="<?php echo base_url().'home/conf_betsite';?>" class="sub-navbar-a">보험설정</a>
+	<!-- <a href="<?php echo base_url().'home/conf_betsite';?>" class="sub-navbar-a">보험설정</a> -->
 	<a href="<?php echo base_url().'home/conf_maintain';?>" class="sub-navbar-a">점검설정</a>
 	<?php if($mb_level > LEVEL_ADMIN) {  ?>
 	<button class="sub-navbar-but" style="display: none;" onclick="cleanDb(1);">디비초기화</button>

@@ -82,7 +82,7 @@ class BbApi extends BaseController {
 			$bbbetModel = new BbBet_model();
 			$memberModel  = new Member_Model();
 			
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objAdmin = $memberModel->getInfo($strUid);
 			$arrBetResults = $bbbetModel->search($objAdmin, $arrGetData);
 			$arrBetAccount = null;
@@ -116,7 +116,7 @@ class BbApi extends BaseController {
 			$bbbetModel = new BbBet_model();
 			$memberModel  = new Member_Model();
 			
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objAdmin = $memberModel->getInfo($strUid);
 
 			$objCount = $bbbetModel->searchCount($objAdmin, $arrGetData);
@@ -184,7 +184,7 @@ class BbApi extends BaseController {
 			//model
 			$memberModel  = new Member_Model();
 			$bbroundModel = new BbRound_model();
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objUser = $memberModel->getInfo($strUid);
 			$iResult = 0;
 			if($objUser->mb_level >=  LEVEL_ADMIN){
@@ -223,7 +223,7 @@ class BbApi extends BaseController {
 			//model
 			$memberModel  = new Member_Model();
 			$bbroundModel = new BbRound_model();
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objUser = $memberModel->getInfo($strUid);
 			$bResult = false;
 			if($objUser->mb_level >=  LEVEL_ADMIN)
@@ -251,7 +251,7 @@ class BbApi extends BaseController {
 			$bbbetModel = new BbBet_model();
 			$moneyhistoryModel = new MoneyHistory_model();
 
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objUser = $memberModel->getInfo($strUid);
 			$bResult = false;
 			if($objUser->mb_level >=  LEVEL_ADMIN){
@@ -304,7 +304,7 @@ class BbApi extends BaseController {
 			$bbbetModel = new BbBet_model();
 			$moneyhistoryModel = new MoneyHistory_model();
 
-			$strUid = $this->session->username;
+			$strUid = $this->session->user_id;
 			$objUser = $memberModel->getInfo($strUid);
 			$bResult = false;
 			if($objUser->mb_level >=  LEVEL_ADMIN){

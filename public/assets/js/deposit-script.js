@@ -206,7 +206,7 @@ function requestProcDeposit(jsData) {
     }
 
     var jsonData = JSON.stringify(jsData);
-
+    console.log(jsonData);
     $.ajax({
         type: "POST",
         data: { json_: jsonData },
@@ -224,7 +224,7 @@ function requestProcDeposit(jsData) {
             }
         },
         error: function(request, status, error) {
-            //console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
         }
 
     });

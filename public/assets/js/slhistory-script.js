@@ -139,14 +139,14 @@ function requestBetHistory() {
         type: 'post',
         dataType: "json",
         success: function(jResult) {
-            // console.log(jResult);
+            console.log(jResult);
             if (jResult.status == "success") {
                 ShowBetHistory(jResult.data);
                 ShowBetAccount(jResult.account);
             }
         },
         error: function(request, status, error) {
-            // console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
         }
 
     });

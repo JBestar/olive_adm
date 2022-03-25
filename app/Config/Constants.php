@@ -103,9 +103,6 @@ defined('RESULT_EXIST_NAME')   || define('RESULT_EXIST_NAME', 6);
 defined('RESULT_WAIT')         || define('RESULT_WAIT', 7);
 defined('RESULT_EMP_ERROR')    || define('RESULT_EMP_ERROR', 8);
 
-//game type
-defined('GAME_POWERBALL')      || define('GAME_POWERBALL', 1);
-
 
 defined('TM_OFFSET')    	   || define('TM_OFFSET', 20);
 
@@ -113,6 +110,7 @@ defined('TM_OFFSET')    	   || define('TM_OFFSET', 20);
 defined('CONF_SITENAME')       || define('CONF_SITENAME', 1);
 defined('CONF_MAINTAIN')       || define('CONF_MAINTAIN', 10);
 
+//game type
 defined('GAME_POWER_BALL')     || define('GAME_POWER_BALL', 1);
 defined('GAME_POWER_LADDER')   || define('GAME_POWER_LADDER', 2);
 defined('GAME_KENO_LADDER')    || define('GAME_KENO_LADDER', 3);
