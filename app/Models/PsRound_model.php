@@ -37,7 +37,7 @@ class PsRound_model extends Model {
         return $this->asObject()->where([
             'round_num'=>$nRoundNo, 
             'round_date'=>$strDate,
-        ])->findAll();
+        ])->first();
     }
 
     public function register($arrReqData){

@@ -13,8 +13,6 @@ function ShowBetHistory(jsonBetData) {
     var elemBetDataTb = document.getElementById("pbbetchange-table-id");
     var strBuf = "";
 
-    var nCurBetCnt = 0;
-    var nCurBetMoney = 0;
     var strBetMode = "";
     var strBetTarget = "";
     var strResultTarget = "";
@@ -311,20 +309,20 @@ function requestBetHistory() {
 
 function requestBetIgnore(jsData) {
     var jsonData = JSON.stringify(jsData);
-
+    console.log(jsonData);
     $.ajax({
         url: '/pbapi/betignore',
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",
         success: function(jResult) {
-            //console.log(jResult);
+            // console.log(jResult);
             if (jResult.status == "success") {
                 requestBetHistory();
             }
         },
         error: function(request, status, error) {
-            //console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
         }
 
     });
@@ -341,13 +339,13 @@ function requestBetProcess(jsData) {
         type: 'post',
         dataType: "json",
         success: function(jResult) {
-            //console.log(jResult);
+            console.log(jResult);
             if (jResult.status == "success") {
                 requestBetHistory();
             }
         },
         error: function(request, status, error) {
-            //console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
         }
 
     });

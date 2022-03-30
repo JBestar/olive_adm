@@ -37,7 +37,7 @@ class BsRound_model extends Model {
         if(strlen($strDate) < 1 || $nRoundNo < 1)
             return null;
         
-        return $this->asObject()->where(array('round_num'=>$nRoundNo, 'round_date'=>$strDate))->findAll();
+        return $this->asObject()->where(array('round_num'=>$nRoundNo, 'round_date'=>$strDate))->first();
     }
 
     public function register($arrReqData){

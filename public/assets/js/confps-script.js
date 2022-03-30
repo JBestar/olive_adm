@@ -1,4 +1,3 @@
-var mGameId = 2;
 $(document).ready(function() {
     requestConfPowerball();
     addBtnEvent();
@@ -7,24 +6,29 @@ $(document).ready(function() {
 function showConfPowerball(objConfig) {
 
     if (objConfig.game_bet_permit == 1)
-        document.getElementById("confpb-bet-check-id").checked = true;
+        $("#confpb-bet-check-id").prop('checked', true);
+    else $("#confpb-bet-check-id").prop('checked', false);
 
-    document.getElementById("confpb-endsec-input-id").value = objConfig.game_time_countdown;
-    document.getElementById("confpb-delaysec-input-id").value = objConfig.game_time_delay;
-    document.getElementById("confpb-minmoney-input-id").value = objConfig.game_min_bet_money;
-    document.getElementById("confpb-maxmoney-input-id").value = objConfig.game_max_bet_money;
-    document.getElementById("confpb-percent-input-id").value = objConfig.game_percent_1;
-    document.getElementById("confpb-ratio1-input-id").value = objConfig.game_ratio_1;
-    document.getElementById("confpb-ratio2-input-id").value = objConfig.game_ratio_2;
-    document.getElementById("confpb-ratio3-input-id").value = objConfig.game_ratio_3;
+    $("#confpb-endsec-input-id").val(objConfig.game_time_countdown);
+    $("#confpb-delaysec-input-id").val(objConfig.game_time_delay);
+    $("#confpb-minmoney-input-id").val(objConfig.game_min_bet_money);
+    $("#confpb-maxmoney-input-id").val(objConfig.game_max_bet_money);
+    $("#confpb-winmoney-input-id").val(objConfig.game_max_win_money);
+    $("#confpb-ratio1-input-id").val(objConfig.game_ratio_1);
+    $("#confpb-ratio2-input-id").val(objConfig.game_ratio_2);
+    $("#confpb-ratio3-input-id").val(objConfig.game_ratio_3);
+    $("#confpb-ratio4-input-id").val(objConfig.game_ratio_4);
+    $("#confpb-ratio5-input-id").val(objConfig.game_ratio_5);
+    $("#confpb-ratio6-input-id").val(objConfig.game_ratio_6);
+    $("#confpb-ratio7-input-id").val(objConfig.game_ratio_7);
 
 
 }
 
 function requestConfPowerball() {
 
-
-    var jsonData = { "game_index": mGameId };
+    let gameId = $(".confsite-game-panel").attr('id');
+    var jsonData = { "game_index": gameId };
     jsonData = JSON.stringify(jsonData);
 
     $.ajax({
@@ -51,16 +55,21 @@ function requestConfPowerball() {
 function readConfigToObject() {
 
     var jsonData = new Object();
-    jsonData.game_index = mGameId;
-    jsonData.game_bet_permit = document.getElementById("confpb-bet-check-id").checked ? 1 : 0;
-    jsonData.game_time_countdown = document.getElementById("confpb-endsec-input-id").value;
-    jsonData.game_time_delay = document.getElementById("confpb-delaysec-input-id").value;
-    jsonData.game_min_bet_money = document.getElementById("confpb-minmoney-input-id").value;
-    jsonData.game_max_bet_money = document.getElementById("confpb-maxmoney-input-id").value;
-    jsonData.game_percent_1 = document.getElementById("confpb-percent-input-id").value;
-    jsonData.game_ratio_1 = document.getElementById("confpb-ratio1-input-id").value;
-    jsonData.game_ratio_2 = document.getElementById("confpb-ratio2-input-id").value;
-    jsonData.game_ratio_3 = document.getElementById("confpb-ratio3-input-id").value;
+    jsonData.game_index = $(".confsite-game-panel").attr('id');;
+    jsonData.game_bet_permit = $("#confpb-bet-check-id").prop('checked') ? 1 : 0;
+    jsonData.game_time_countdown = $("#confpb-endsec-input-id").val();
+    jsonData.game_time_delay = $("#confpb-delaysec-input-id").val();
+    jsonData.game_min_bet_money = $("#confpb-minmoney-input-id").val();
+    jsonData.game_max_bet_money = $("#confpb-maxmoney-input-id").val();
+    jsonData.game_max_win_money = $("#confpb-winmoney-input-id").val();
+    jsonData.game_percent_1 = 0;
+    jsonData.game_ratio_1 = $("#confpb-ratio1-input-id").val();
+    jsonData.game_ratio_2 = $("#confpb-ratio2-input-id").val();
+    jsonData.game_ratio_3 = $("#confpb-ratio3-input-id").val();
+    jsonData.game_ratio_4 = $("#confpb-ratio4-input-id").val();
+    jsonData.game_ratio_5 = $("#confpb-ratio5-input-id").val();
+    jsonData.game_ratio_6 = $("#confpb-ratio6-input-id").val();
+    jsonData.game_ratio_7 = $("#confpb-ratio7-input-id").val();
 
     return jsonData;
 
@@ -68,8 +77,7 @@ function readConfigToObject() {
 
 function addBtnEvent() {
 
-    var elemOkBtn = document.getElementById("confsite-ok-btn-id");
-    elemOkBtn.addEventListener("click", function() {
+    $('#confsite-ok-btn-id').on('click', function() {
 
         if (!confirm("저장하시겠습니까?"))
             return;
@@ -101,8 +109,7 @@ function addBtnEvent() {
     });
 
 
-    var elemCancelBtn = document.getElementById("confsite-cancel-btn-id");
-    elemCancelBtn.addEventListener("click", function() {
+    $('#confsite-cancel-btn-id').on('click', function() {
         location.reload();
     });
 

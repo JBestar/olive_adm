@@ -391,7 +391,7 @@ public function depositproc(){
 										//charge Table 
 										$objCharge->charge_action_state = 3;
 										$objCharge->charge_action_uid = $strUid;
-										$objCharge->charge_money_after = $objUser->mb_money;
+										$objCharge->charge_money_after = $objUser->mb_money + $dtMoney;
 										$bResult = $chargeModel->permit($objCharge);
 									}
 								}
@@ -408,7 +408,7 @@ public function depositproc(){
 									//charge Table 
 									$objCharge->charge_action_state = 2;
 									$objCharge->charge_action_uid = $strUid;
-									$objCharge->charge_money_after = $objUser->mb_money;
+									$objCharge->charge_money_after = $objUser->mb_money + $dtMoney;
 									$bResult = $chargeModel->permit($objCharge);
 								}
 							}
@@ -417,6 +417,7 @@ public function depositproc(){
 								//charge Table 
 								$objCharge->charge_action_state = 3;
 								$objCharge->charge_action_uid = $strUid;
+								$objCharge->charge_money_after = $objUser->mb_money;
 								$bResult = $chargeModel->permit($objCharge);	
 							}		
 						}
@@ -425,6 +426,7 @@ public function depositproc(){
 								//charge Table 
 								$objCharge->charge_action_state = 4;
 								$objCharge->charge_action_uid = $strUid;
+								$objCharge->charge_money_after = $objUser->mb_money;
 								$bResult = $chargeModel->permit($objCharge);	
 							}		
 						}
@@ -512,7 +514,7 @@ public function withdrawlist(){
 									//exchange Table 
 									$objExchange->exchange_action_state = 3;
 									$objExchange->exchange_action_uid = $strUid;
-									$objExchange->exchange_money_after = $objUser->mb_money;
+									$objExchange->exchange_money_after = $objUser->mb_money + $dtMoney;
 									$bResult = $exchangeModel->permit($objExchange);
 								}
 							}
@@ -531,7 +533,7 @@ public function withdrawlist(){
 										//exchange Table 
 										$objExchange->exchange_action_state = 2;
 										$objExchange->exchange_action_uid = $strUid;
-										$objExchange->exchange_money_after = $objUser->mb_money;
+										$objExchange->exchange_money_after = $objUser->mb_money + $dtMoney;
 										$bResult = $exchangeModel->permit($objExchange);
 									}
 								}
@@ -541,6 +543,7 @@ public function withdrawlist(){
 								//charge Table 
 								$objExchange->exchange_action_state = 3;
 								$objExchange->exchange_action_uid = $strUid;
+								$objExchange->exchange_money_after = $objUser->mb_money;
 								$bResult = $exchangeModel->permit($objExchange);
 							}			
 						} else if($arrReqData['process'] == 3){					//임시대기
@@ -548,6 +551,7 @@ public function withdrawlist(){
 								//charge Table 
 								$objExchange->exchange_action_state = 4;
 								$objExchange->exchange_action_uid = $strUid;
+								$objExchange->exchange_money_after = $objUser->mb_money;
 								$bResult = $exchangeModel->permit($objExchange);
 							}			
 						} 
@@ -974,11 +978,11 @@ public function withdrawlist(){
 		            $arrEmpMoney = $memberModel->calcEmpMoney($objEmp);
 		            $arrUserMoney = $memberModel->calcUserMoney($objEmp->mb_fid);
 					switch($arrReqData['type']){
-						case GAME_CASINO:
+						case GAME_CASINO_EVOL:
 							$objCalc['mb_emp_money'] =  $arrEmpMoney[1];                        //관리자보유금;
 		            		$objCalc['mb_user_money'] = $arrUserMoney[1];						//유저보유금;
 							break;
-						case GAME_SLOT:
+						case GAME_SLOT_1:
 							$objCalc['mb_emp_money'] =  $arrEmpMoney[2];                        //관리자보유금;
 		            		$objCalc['mb_user_money'] = $arrUserMoney[2];						//유저보유금;
 							break;

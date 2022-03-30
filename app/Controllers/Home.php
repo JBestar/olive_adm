@@ -29,28 +29,85 @@ class Home extends StdController
 		$this->load_view_page('home/conf_maintain', 'conf_site', LEVEL_ADMIN, ['arrConfig' => $arrConfig]);
 	}
 
-
-	public function conf_betsite(){
-		$this->load_view_page('home/conf_betsite', 'conf_site', LEVEL_ADMIN, ['conf_site' => " sidebar-a-active"]);	
-	}
-	
+	//보험설정
+	// public function conf_betsite(){
+	// 	$this->load_view_page('home/conf_betsite', 'conf_site', LEVEL_ADMIN, ['conf_site' => " sidebar-a-active"]);	
+	// }
 
 	public function conf_powerball(){
-		$this->load_view_page('home/conf_powerball', 'conf_game', LEVEL_ADMIN);		
+		$param = [
+			'game_name' => "파워볼",
+			'game_id' => GAME_POWER_BALL,
+			'active_pb' => 'active',
+			'active_bb' => ''
+		];
+		$this->load_view_page('home/conf_powerball', 'conf_game', LEVEL_ADMIN, $param);		
 	}
 
 	public function conf_powerladder(){
-		$this->load_view_page('home/conf_powerladder', 'conf_game', LEVEL_ADMIN);
+		$param = [
+			'game_name' => "파워사다리",
+			'game_id' => GAME_POWER_LADDER,
+			'active_ps' => 'active',
+			'active_bs' => ''
+		];
+		$this->load_view_page('home/conf_powerladder', 'conf_game', LEVEL_ADMIN, $param);
 	}
 
 
 	public function conf_bogleball(){
-		$this->load_view_page('home/conf_bogleball', 'conf_game', LEVEL_ADMIN);
+		$param = [
+			'game_name' => "보글파워볼",
+			'game_id' => GAME_BOGLE_BALL,
+			'active_pb' => '',
+			'active_bb' => 'active'
+		];
+		$this->load_view_page('home/conf_powerball', 'conf_game', LEVEL_ADMIN, $param);
 	}
 
 	
 	public function conf_bogleladder(){
-		$this->load_view_page('home/conf_bogleladder', 'conf_game', LEVEL_ADMIN);	
+		$param = [
+			'game_name' => "보글사다리",
+			'game_id' => GAME_BOGLE_LADDER,
+			'active_ps' => '',
+			'active_bs' => 'active'
+		];
+		$this->load_view_page('home/conf_powerladder', 'conf_game', LEVEL_ADMIN, $param);	
+	}
+
+	
+	public function conf_evol(){
+		$param = [
+			'game_name' => "에볼루션",
+			'game_id' => GAME_CASINO_EVOL,
+			'active_ev' => 'active',
+			'active_sl1' => '',
+			'active_sl2' => ''
+		];
+		$this->load_view_page('home/conf_casino', 'conf_game', LEVEL_ADMIN, $param);	
+	}
+
+	public function conf_slot_1(){
+		$param = [
+			'game_name' => "슬롯",
+			'game_id' => GAME_SLOT_1,
+			'active_ev' => '',
+			'active_sl1' => 'active',
+			'active_sl2' => ''
+		];
+		$this->load_view_page('home/conf_casino', 'conf_game', LEVEL_ADMIN, $param);	
+	}
+
+	public function conf_slot_2(){
+		$param = [
+			'game_name' => "네츄럴슬롯",
+			'game_id' => GAME_SLOT_2,
+			'active_ev' => '',
+			'active_sl1' => '',
+			'active_sl2' => 'active'
+		];
+		$this->load_view_page('home/conf_casino', 'conf_game', LEVEL_ADMIN, $param);	
 	}
 
 	public function conf_sound(){

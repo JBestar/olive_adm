@@ -47,6 +47,6 @@
 </div>
 
 
-<script src="<?php echo base_url('assets/js/conf-betsite-script.js');?>"></script>
+<script src="<?php echo base_url('assets/js/conf_betsite-script.js');?>"></script>
 
 <?= $this->endSection() ?>

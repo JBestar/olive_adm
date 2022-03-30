@@ -2,65 +2,81 @@
 <?= $this->section('content') ?>
 	  <!--Sub Navbar-->
 	<div class = "sub-navbar">
-		<p><i class="glyphicon glyphicon-play-circle"></i> 기본설정::배팅설정</p>
+		<p><i class="glyphicon glyphicon-play-circle"></i> 기본설정::게임설정</p>
 		<a href="<?php echo base_url().'home/conf_powerball';?>" class="sub-navbar-a" >파워볼</a>
-		<a href="<?php echo base_url().'home/conf_powerladder';?>" class="sub-navbar-a active" >파워사다리</a>
+		<a href="<?php echo base_url().'home/conf_powerladder';?>" class="sub-navbar-a <?=$active_ps?>" >파워사다리</a>
 		<a href="<?php echo base_url().'home/conf_bogleball';?>" class="sub-navbar-a" >보글파워볼</a>
-		<a href="<?php echo base_url().'home/conf_bogleladder';?>" class="sub-navbar-a" >보글사다리</a>
+		<a href="<?php echo base_url().'home/conf_bogleladder';?>" class="sub-navbar-a <?=$active_bs?>" >보글사다리</a>
+		<a href="<?php echo base_url().'home/conf_evol';?>" class="sub-navbar-a">에볼루션</a>
+  		<a href="<?php echo base_url().'home/conf_slot_1';?>" class="sub-navbar-a">슬롯</a>
+  		<a href="<?php echo base_url().'home/conf_slot_2';?>" class="sub-navbar-a">네츄럴슬롯</a>
 	</div>
 	<!--Site Setting-->
-	<div class="confsite-game-panel">
+	<div class="confsite-game-panel" id="<?=$game_id?>">
 		<!---->
-		<h4><i class="glyphicon glyphicon-hand-right"></i> 파워사다리 게임관련 설정</h4>	
+		<h4><i class="glyphicon glyphicon-hand-right"></i> <?=$game_name?> 게임관련 설정</h4>	
 		
 		<div class="confsite-game-text-div">
-			<p>유저 배팅차단:</p> 
+			<p>유저 배팅승인:</p> 
 			<input type="checkbox" id="confpb-bet-check-id"><label> 유저배팅승인</label>
 		</div>
-		<!--
 		<div class="confsite-game-text-div">
-			<p>유저 자동배팅차단:</p> 
-			<input type="checkbox" id="confpb-autobet-check-id"><label> 유저자동배팅승인</label>
-		</div>
-		-->
-		<div class="confsite-game-text-div">
-			<p>베팅마감시간:</p> 
+			<p>배팅 마감시간:</p> 
 			<input type = "text" class="conf-seconds-input" id="confpb-endsec-input-id"><label> 초</label>
 		</div>
 		<div class="confsite-game-text-div">
-			<p>게임지연시간:</p> 
-			<input type = "text" class="conf-seconds-input"  id="confpb-delaysec-input-id"><label> 초</label>
-		</div>
-		<div class="confsite-game-text-div">
-			<p>최소베팅금액:</p> 
+			<p>배팅 최소금액:</p> 
 			<input type = "text" class="conf-text-input"  id="confpb-minmoney-input-id"><label> 원</label>
 		</div>
 		<div class="confsite-game-text-div">
-			<p>최대베팅금액:</p> 
+			<p>배팅 최대금액:</p> 
 			<input type = "text" class="conf-text-input"  id="confpb-maxmoney-input-id"><label> 원</label>
 		</div>
 		<div class="confsite-game-text-div">
-			<p>누르기율:</p> 
-			<input type = "text" class="conf-text-input"  id="confpb-percent-input-id"><label> %</label>
-		</div>
+  			<p>적중 최대금액:</p>
+  			<input type="text" class="conf-text-input" id="confpb-winmoney-input-id"><label> 원</label>
+  		</div>
+		  <div class="confsite-game-text-div">
+  			<p style="font-size: 16px; font-weight: bold;"><?=$game_name?> 단폴</p>
+
+  		</div>
 		<div class="confsite-game-text-div">
-			<p>파워사다리 좌 :: 우 배당율</p> 
+			<p> 좌 :: 우 배당율</p> 
 			<input type = "text" class="conf-text-input" id="confpb-ratio1-input-id">
 		</div>
 		<div class="confsite-game-text-div">
-			<p>파워사디리 3줄 :: 4줄 배당율</p> 
+			<p> 3줄 :: 4줄 배당율</p> 
 			<input type = "text" class="conf-text-input" id="confpb-ratio2-input-id">
 		</div>
 		<div class="confsite-game-text-div">
-			<p>파워사다리 홀 :: 짝 배당율</p> 
+			<p> 홀 :: 짝 배당율</p> 
 			<input type = "text" class="conf-text-input"  id="confpb-ratio3-input-id">
 		</div>
-		<!--
-		<div class="confsite-game-check-div">			 
-			<input type="checkbox" id="confpb-event-check-id"><label> 이벤트적용</label><br>
-			<input type="checkbox" id="confpb-multibet-check-id"><label> 양방배팅가능</label>
-		</div>
-		-->
+
+		<div class="confsite-game-text-div">
+  			<p style="font-size: 16px; font-weight: bold;"><?=$game_name?> 조합</p>
+
+  		</div>
+		  <div class="confsite-game-text-div">
+  			<div>
+  				<p> 좌3 배당율</p>
+  				<input type="text" class="conf-text-input" id="confpb-ratio4-input-id">
+  			</div>
+  			<div>
+  				<p> 좌4 배당율</p>
+  				<input type="text" class="conf-text-input" id="confpb-ratio5-input-id">
+  			</div>
+  		</div>
+  		<div class="confsite-game-text-div">
+  			<div>
+  				<p> 우3 배당율</p>
+  				<input type="text" class="conf-text-input" id="confpb-ratio6-input-id">
+  			</div>
+  			<div>
+  				<p> 우4 배당율</p>
+  				<input type="text" class="conf-text-input" id="confpb-ratio7-input-id">
+  			</div>
+  		</div>
 		<div class = "confsite-button-group" style="margin-top:50px;">
 			<button class="confsite-cancel-button" id="confsite-cancel-btn-id">취소</button>
 			<button class="confsite-ok-button"  id="confsite-ok-btn-id">저장</button>

@@ -51,7 +51,7 @@ class PbBet_model extends Model {
 
 
     function getByFid($nBetFid){        
-        return $this->asObject()->where(array('bet_fid'=>$nBetFid))->findAll();
+        return $this->asObject()->where(array('bet_fid'=>$nBetFid))->first();
     }
 
     function getByUserId($strUserId, $nCount)
@@ -491,7 +491,7 @@ class PbBet_model extends Model {
     {
         if(is_null($objRoundInfo)) return false;
         if(is_null($objBetInfo)) return false;
-	   if($objRoundInfo->round_state == 0) return false;
+	    if($objRoundInfo->round_state == 0) return false;
 
         $nWinMoney = 0;
         $isWin = false;

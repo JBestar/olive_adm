@@ -407,13 +407,13 @@ class Member_Model extends Model
             $strSQL .= ' bet_powerladder ';
         } elseif (GAME_KENO_LADDER == $arrReqData['type']) {
             $strSQL .= ' bet_kenoladder ';
-        } elseif (GAME_CASINO == $arrReqData['type']) {
+        } elseif (GAME_CASINO_EVOL == $arrReqData['type']) {
             $strSQL .= ' bet_casino ';
         } elseif (GAME_BOGLE_BALL == $arrReqData['type']) {
             $strSQL .= ' bet_bogleball ';
         } elseif (GAME_BOGLE_LADDER == $arrReqData['type']) {
             $strSQL .= ' bet_bogleladder ';
-        } elseif (GAME_SLOT == $arrReqData['type']) {
+        } elseif (GAME_SLOT_1 == $arrReqData['type']) {
             $strSQL .= ' bet_slot ';
         } else {
             return null;

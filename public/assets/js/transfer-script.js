@@ -27,21 +27,32 @@ function showMoneyHistory(arrData) {
         strBuf += "</td><td>";
         strBuf += parseInt(arrData[nRow].mb_slot_money).toLocaleString();
         strBuf += "</td><td>";
-        
-        switch(arrData[nRow].money_change_type){
+
+        switch (arrData[nRow].money_change_type) {
             case '1':
-                strBuf += "<span style=\"color:green;\">사이트=>카지노</span>";break;
+                strBuf += "<span style=\"color:green;\">사이트 => 카지노</span>";
+                break;
             case '2':
-                strBuf += "<span style=\"color:blue;\">카지노=>사이트</span>";break;    
+                strBuf += "<span style=\"color:blue;\">카지노 => 사이트</span>";
+                break;
             case '3':
-                strBuf += "<span style=\"color:green;\">사이트=>슬롯</span>";break;
+                strBuf += "<span style=\"color:green;\">사이트 => 슬롯</span>";
+                break;
             case '4':
-                strBuf += "<span style=\"color:blue;\">슬롯=>사이트</span>";break;
+                strBuf += "<span style=\"color:blue;\">슬롯 => 사이트</span>";
+                break;
+            case '5':
+                strBuf += "<span style=\"color:blue;\">사이트 => 네츄럴슬롯</span>";
+                break;
+            case '6':
+                strBuf += "<span style=\"color:blue;\">네츄럴슬롯 => 사이트</span>";
+                break;
             default:
-                strBuf += parseInt(arrData[nRow].money_change_type).toLocaleString();break;
+                strBuf += parseInt(arrData[nRow].money_change_type).toLocaleString();
+                break;
         }
         strBuf += "</td><td>";
-        strBuf += parseInt(arrData[nRow].money_amount).toLocaleString();
+        strBuf += Math.abs(parseInt(arrData[nRow].money_amount)).toLocaleString();
         strBuf += "</td><td>";
         strBuf += parseInt(arrData[nRow].money_site_before).toLocaleString();
         strBuf += "</td><td>";

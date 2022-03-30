@@ -56,15 +56,11 @@ class ConfGame_model extends Model {
         if($arrData == null) return false;
         if (!array_key_exists("game_index", $arrData)) return false;
         if (!array_key_exists("game_bet_permit", $arrData)) return false;
-        if (!array_key_exists("game_time_countdown", $arrData)) return false;
-        if (!array_key_exists("game_ratio_1", $arrData)) return false;
-        if (!array_key_exists("game_ratio_2", $arrData)) return false;
-        if (!array_key_exists("game_ratio_3", $arrData)) return false;
-        
-        if($arrData['game_ratio_1'] < 1) return false;
-        if($arrData['game_ratio_2'] < 1) return false;
-        if($arrData['game_ratio_3'] < 1) return false;
-        
+        // if (!array_key_exists("game_time_countdown", $arrData)) return false;
+        // if (!array_key_exists("game_ratio_1", $arrData)) return false;
+        // if (!array_key_exists("game_ratio_2", $arrData)) return false;
+        // if (!array_key_exists("game_ratio_3", $arrData)) return false;
+                
         $arrBatch = array();
         $arrBatch[0] = $arrData;
         return  $this->builder()->updateBatch($arrBatch, 'game_index');

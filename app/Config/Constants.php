@@ -126,10 +126,12 @@ defined('CONF_MAINTAIN')       || define('CONF_MAINTAIN', 10);
 defined('GAME_POWER_BALL')     || define('GAME_POWER_BALL', 1);
 defined('GAME_POWER_LADDER')   || define('GAME_POWER_LADDER', 2);
 defined('GAME_KENO_LADDER')    || define('GAME_KENO_LADDER', 3);
-defined('GAME_CASINO')         || define('GAME_CASINO', 4);
+defined('GAME_CASINO_EVOL')    || define('GAME_CASINO_EVOL', 4);
 defined('GAME_BOGLE_BALL')     || define('GAME_BOGLE_BALL', 5);
 defined('GAME_BOGLE_LADDER')   || define('GAME_BOGLE_LADDER', 6);
-defined('GAME_SLOT')           || define('GAME_SLOT', 7);
+defined('GAME_SLOT_1')         || define('GAME_SLOT_1', 7);
+defined('GAME_SLOT_2')         || define('GAME_SLOT_2', 8);
+
 
 defined('ROUND_5MIN')    || define('ROUND_5MIN', 5);
 defined('ROUND_3MIN')    || define('ROUND_3MIN', 3);

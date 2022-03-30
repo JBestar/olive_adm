@@ -8,7 +8,7 @@
   <div class="main-dropdown-container" <?=$confdropdown?> >
     <?php if($mb_level >= LEVEL_ADMIN) {  ?>
     <a href="<?php echo base_url().'home/conf_site';?>" class="<?=$conf_site?>"><i class="glyphicon glyphicon-cog"></i>  본사설정</a>
-    <a href="<?php echo base_url().'home/conf_powerball';?>" class="<?=$conf_game?>"><i class="glyphicon glyphicon-play-circle"></i>  배팅설정</a>
+    <a href="<?php echo base_url().'home/conf_powerball';?>" class="<?=$conf_game?>"><i class="glyphicon glyphicon-play-circle"></i>  게임설정</a>
     <a href="<?php echo base_url().'home/conf_sound';?>" class="<?=$conf_other?>"><i class="glyphicon glyphicon-wrench"></i>  기타설정</a>
     <?php } ?>
     <a href="<?php echo base_url().'home/conf_password';?>" class="<?=$conf_password?>"><i class="glyphicon glyphicon-lock"></i> 비밀번호 변경</a>

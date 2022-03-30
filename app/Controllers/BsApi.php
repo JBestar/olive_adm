@@ -274,7 +274,7 @@ class BsApi extends BaseController {
 							$dtPoint = 0 - $objBet->point_amount;
 							$bResult = $memberModel->moneyProc($objBetUser, $dtMoney, $dtPoint, 0, 0);
 							if($bResult)
-				            	$moneyhistoryModel->registerAccountBet($objBetUser, $objBet, $dtMoney, 9);
+				            	$moneyhistoryModel->registerAccountBet($objBetUser, $objBet, $dtMoney, MONEYCHANGE_WIN_BS);
 
 						} 	
 					}
@@ -328,7 +328,7 @@ class BsApi extends BaseController {
 					            //$objBetUser->mb_money_earn += ($objBet->bet_win_money - $objBet->bet_money) ;
 					            $bResult = $memberModel->moneyProc($objBetUser, $dtMoney, 0, 0, 0);
 					            if($bResult){
-					            	$moneyhistoryModel->registerAccountBet($objBetUser, $objBet, $dtMoney, 9);
+					            	$moneyhistoryModel->registerAccountBet($objBetUser, $objBet, $dtMoney, MONEYCHANGE_WIN_BS);
 					            }
 							}
 						} 	
@@ -349,7 +349,7 @@ class BsApi extends BaseController {
 							$bResult = $memberModel->moneyProc($objBetUser, $dtMoney, $dtPont, 0, 0);
 							if($bResult){
 
-					            $moneyhistoryModel->registerAccountBet($objBetUser, $objBet, $dtMoney, 9);
+					            $moneyhistoryModel->registerAccountBet($objBetUser, $objBet, $dtMoney, MONEYCHANGE_WIN_BS);
 							}
 						} 	
 					}
