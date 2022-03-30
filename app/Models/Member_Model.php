@@ -77,7 +77,7 @@ class Member_Model extends Model
         'mb_nickname' => 'required|min_length[3]|max_length[20]|is_unique[member.mb_nickname, mb_fid, {mb_fid}]',
         'mb_pwd' => 'required',
         'mb_level' => 'required',
-        'mb_phone' => 'required|numeric', 
+        'mb_phone' => 'required|numeric',
         'mb_bank_pwd' => 'required',
         'mb_bank_name' => 'required',
     ];
@@ -972,7 +972,7 @@ class Member_Model extends Model
     {
         $strSql = 'SELECT count(*) as count FROM '.$this->table;
 
-        if (0 == $arrReqData['mb_level']) {
+        if (LEVEL_MIN > $arrReqData['mb_level']) {
             $strSql .= " WHERE mb_level < '".LEVEL_EMPLOYEE."' ";
         } else {
             $strSql .= " WHERE mb_level = '".$arrReqData['mb_level']."' ";
@@ -993,32 +993,21 @@ class Member_Model extends Model
 
     public function searchCountByEmpFid($nAdminFid, $nAdminLev, $arrReqData)
     {
-        if ($nAdminLev > LEVEL_COMPANY) {
-            return $this->searchCountByLevel($arrReqData);
-        } else {
-            $strTbColum = ' mb_fid, mb_uid, mb_level, mb_emp_fid ';
-            $strTbRColum = ' r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid ';
-
-            $strSQL = 'WITH RECURSIVE tbmember ('.$strTbColum.') AS';
-            $strSQL .= ' ( SELECT '.$strTbColum.' FROM '.$this->table." WHERE mb_emp_fid = '".$nAdminFid."'";
-            $strSQL .= ' UNION ALL SELECT '.$strTbRColum.' FROM '.$this->table.' r ';
-            $strSQL .= ' INNER JOIN tbmember ON r.mb_emp_fid = tbmember.mb_fid )';
-            $strSQL .= ' SELECT COUNT(*) as count FROM tbmember where ';
-            if (LEVEL_MIN > $arrReqData['mb_level']) {
-                $strSQL .= " mb_level < '".LEVEL_EMPLOYEE."' ";
-            } else {
-                $strSQL .= " mb_level = '".$arrReqData['mb_level']."' ";
-            }
-
-            if ($arrReqData['mb_emp_fid'] > 0) {
-                $strSQL .= " AND mb_emp_fid = '".$arrReqData['mb_emp_fid']."' ";
-            }
-            if (strlen($arrReqData['mb_uid']) > 0) {
-                $strSQL .= " AND mb_uid = '".$arrReqData['mb_uid']."' ";
-            }
-
-            return $this->db->query($strSQL)->getRow();
+        $sqlBuilder = $this->builder()->selectCount('*', 'count');
+        if ($nAdminLev == LEVEL_ADMIN){
+            if ($nAdminFid != 0)
+                $sqlBuilder->where('mb_emp_fid', $nAdminFid);
         }
+        else{
+            $sqlBuilder->where('mb_emp_fid', $nAdminFid);
+        }
+        if (0 != $arrReqData['mb_grade']){
+            $sqlBuilder->where('mb_grade', $arrReqData['mb_grade']);
+        }
+        if (strlen($arrReqData['mb_uid']) > 0){
+            $sqlBuilder->where('mb_uid', $arrReqData['mb_uid']);
+        }
+        return $sqlBuilder->get()->getRow();
     }
 
     public function getEmpUserCnt($objMember)
@@ -1121,7 +1110,7 @@ class Member_Model extends Model
         $strSql = 'SELECT mb_fid, mb_uid, mb_level, mb_emp_fid, mb_emp_permit, mb_nickname, mb_time_join, mb_time_last, mb_ip_join, mb_ip_last, mb_money, mb_point, mb_money_charge, mb_money_exchange, ';
         $strSql .= 'mb_color, mb_state_active, mb_game_pb, mb_game_ps, mb_game_bb, mb_game_bs, mb_game_cs, mb_game_sl, mb_live_money, mb_slot_money FROM '.$this->table;
         if (0 == $arrReqData['mb_level']) {
-            $strSql .= " WHERE mb_level < '7' ";
+            $strSql .= " WHERE mb_level < '".LEVEL_EMPLOYEE."' ";
         } else {
             $strSql .= " WHERE mb_level = '".$arrReqData['mb_level']."' ";
         }
@@ -1143,41 +1132,19 @@ class Member_Model extends Model
 
     public function searchMemberByEmpFid($nAdminFid, $nAdminLev, $arrReqData)
     {
-        if ($nAdminLev > LEVEL_COMPANY) {
-            return $this->searchMemberByLevel($arrReqData);
-        } else {
-            $strTbColum = ' mb_fid, mb_uid, mb_level, mb_emp_fid, mb_emp_permit, mb_nickname, mb_email, mb_phone, mb_time_join, mb_time_last, mb_ip_join, mb_ip_last,  mb_money, mb_point, ';
-            $strTbColum .= ' mb_money_charge, mb_money_exchange, mb_color, mb_state_active, mb_state_bet, mb_state_alarm, ';
-            $strTbColum .= ' mb_game_pb, mb_game_ps, mb_game_bb, mb_game_bs, mb_game_cs, mb_game_sl, mb_game_pb_ratio, mb_game_pb2_ratio, mb_game_ps_ratio, ';
-            $strTbColum .= ' mb_game_bb_ratio, mb_game_bb2_ratio, mb_game_bs_ratio, mb_game_cs_ratio, mb_game_sl_ratio, mb_live_money, mb_slot_money ';
-
-            $strTbRColum = ' r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid, r.mb_emp_permit, r.mb_nickname, r.mb_email, r.mb_phone, r.mb_time_join, r.mb_time_last, r.mb_ip_join, r.mb_ip_last, r.mb_money, r.mb_point, ';
-            $strTbRColum .= ' r.mb_money_charge, r.mb_money_exchange, r.mb_color, r.mb_state_active, r.mb_state_bet, r.mb_state_alarm, ';
-            $strTbRColum .= ' r.mb_game_pb, r.mb_game_ps, r.mb_game_bb, r.mb_game_bs, r.mb_game_cs, r.mb_game_sl, r.mb_game_pb_ratio, r.mb_game_pb2_ratio, r.mb_game_ps_ratio, ';
-            $strTbRColum .= ' r.mb_game_bb_ratio, r.mb_game_bb2_ratio, r.mb_game_bs_ratio, r.mb_game_cs_ratio, r.mb_game_sl_ratio, r.mb_live_money, r.mb_slot_money ';
-
-            $strSQL = 'WITH RECURSIVE tbmember ('.$strTbColum.') AS';
-            $strSQL .= ' ( SELECT '.$strTbColum.' FROM '.$this->table." WHERE mb_emp_fid = '".$nAdminFid."'";
-            $strSQL .= ' UNION ALL SELECT '.$strTbRColum.' FROM '.$this->table.' r ';
-            $strSQL .= ' INNER JOIN tbmember ON r.mb_emp_fid = tbmember.mb_fid )';
-            $strSQL .= ' SELECT * FROM tbmember where ';
-            if (0 == $arrReqData['mb_level']) {
-                $strSQL .= " mb_level < '".LEVEL_EMPLOYEE."' ";
-            } else {
-                $strSQL .= " mb_level = '".$arrReqData['mb_level']."' ";
-            }
-
-            if ($arrReqData['mb_emp_fid'] > 0) {
-                $strSQL .= " AND mb_emp_fid = '".$arrReqData['mb_emp_fid']."' ";
-            }
-            if (strlen($arrReqData['mb_uid']) > 0) {
-                $strSQL .= " AND mb_uid = '".$arrReqData['mb_uid']."' ";
-            }
-
-            $nStartRow = ($arrReqData['page'] - 1) * $arrReqData['count'];
-            $strSQL .= ' ORDER BY mb_time_join DESC LIMIT '.$nStartRow.', '.$arrReqData['count'];
-
-            return $this->db->query($strSQL)->getResult();
+        $queryBuilder = $this->builder();
+        if ($nAdminFid != 0){
+            $queryBuilder = $queryBuilder->where('mb_emp_fid', $nAdminFid);
         }
+        if (strlen($arrReqData['mb_uid']) > 0) {
+            $queryBuilder = $queryBuilder->where('mb_uid', $arrReqData['mb_uid']);
+        }
+        if (0 != $arrReqData['mb_grade']){
+            $queryBuilder = $queryBuilder->where('mb_grade', $arrReqData['mb_grade']);
+        }
+        $nStartRow = ($arrReqData['page'] - 1) * $arrReqData['count'];
+        $queryBuilder->orderBy('mb_time_join', 'DESC')
+        ->limit($arrReqData['count'], $nStartRow);
+        return $queryBuilder->get()->getResult();
     }
 }

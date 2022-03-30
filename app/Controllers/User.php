@@ -39,7 +39,7 @@ class User extends StdController
 	{
 		if(is_login())
 		{
-			$this->response->redirect(base_url().'user/member', 'refresh');
+			$this->response->redirect(base_url().'user/member/0', 'refresh');
 		}
 		else {
 			$this->response->redirect( base_url().'pages/login', 'refresh');
@@ -135,21 +135,32 @@ class User extends StdController
 	}
 
 
-	public function member(){
+	// public function member(){
+	// 	if (is_login() === false){
+	// 		return $this->response->redirect( base_url().'pages/login', 'refresh');
+	// 	}
+	// 	$this->load_view_page(
+	// 		'user/member', 
+	// 		'user_member', 
+	// 		LEVEL_EMPLOYEE, 
+	// 		['emp_uid' => ""]);
+	// }
+
+	function member($strEmpFid){
 		if (is_login() === false){
-			return $this->response->redirect( base_url().'pages/login', 'refresh');
+			return $this->response->redirect(base_url().'pages/login', 'refresh');
 		}
 		$memberModel = new Member_Model();
-		$strUid = $this->session->user_id;
-		$objAdmin = $memberModel->getInfo($strUid);
-		$arrEmpName = $memberModel->getEmployeeNames($objAdmin, LEVEL_EMPLOYEE);
-		if (is_null($arrEmpName))
-			$arrEmpName = [];
+		$objEmp = $memberModel->find($strEmpFid);
+		$strEmpUid = "";
+		if ($objEmp != null){
+			$strEmpUid = $objEmp['mb_uid'];
+		}
 		$this->load_view_page(
 			'user/member', 
 			'user_member', 
 			LEVEL_EMPLOYEE, 
-			['arrEmpName' => $arrEmpName]);
+			['emp_uid' => $strEmpUid]);
 	}
 
 	public function member_edit($strMemberFid){

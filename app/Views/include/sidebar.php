@@ -25,7 +25,7 @@
     <?php }  if($mb_level >= LEVEL_AGENCY) {  ?>
     <a href="<?php echo base_url().'user/employee';?>" class="<?=$user_employee?>"><i class="glyphicon glyphicon-cd"></i>  매장</a>
     <?php }  if($mb_level >= LEVEL_EMPLOYEE) {  ?>
-    <a href="<?php echo base_url().'user/member';?>" class="<?=$user_member?>"><i class="glyphicon glyphicon-cd"></i> 회원</a>
+    <a href="<?php echo base_url().'user/member/0';?>" class="<?=$user_member?>"><i class="glyphicon glyphicon-cd"></i> 회원</a>
     <?php } ?>
   </div>
   

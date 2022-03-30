@@ -23,11 +23,15 @@ function showMember(arrMember, nAdminLevel) {
         strBuf += "</td> <td>";
         strBuf += arrMember[nRow].mb_empname;
         strBuf += "</td> <td>";
+        strBuf += "<a href=\"/user/member/";
+        strBuf += arrMember[nRow].mb_fid;
+        strBuf += "\" class=\"class1\">"
         strBuf += arrMember[nRow].mb_uid;
+        strBuf += "</a>";
         strBuf += "</td> <td>";
         strBuf += arrMember[nRow].mb_nickname;
         strBuf += "</td> <td>";
-        strBuf += parseInt(arrMember[nRow].mb_level).toLocaleString() + "레벨";
+        strBuf += parseInt(arrMember[nRow].mb_grade).toLocaleString() + "레벨";
         strBuf += "</td> <td>";
         strBuf += parseInt(arrMember[nRow].mb_money_charge).toLocaleString() + "원";
         strBuf += "</td> <td>";
@@ -115,12 +119,6 @@ function addEventListner() {
 
         requestTotalPage();
     });
-
-    var selectEmployee = document.getElementById("userpanel-employee-select-id");
-    selectEmployee.addEventListener("change", function() {
-        requestTotalPage();
-    });
-
 }
 
 
@@ -128,10 +126,13 @@ function addEventListner() {
 function requestMember() {
 
     var nPage = getActivePage();
-    var userLevel = document.getElementById("userpanel-level-select-id").value;
-    var strEmpFid = document.getElementById("userpanel-employee-select-id").value;
+    var userGrad = document.getElementById("userpanel-level-select-id").value;
     var strMbUid = document.getElementById("userpanel-userid-input-id").value;
-    var jsonData = { "count": CountPerPage, "page": nPage, "mb_level": userLevel, "mb_emp_fid": strEmpFid, "mb_uid": strMbUid };
+    var empIdEle = document.getElementById("userpanel-empid-input-id");
+    var strEmpUid = "";
+    if (typeof (empIdEle) != undefined && empIdEle != null)
+        strEmpUid = empIdEle.value;
+    var jsonData = { "count": CountPerPage, "page": nPage, "mb_grade": userGrad, "mb_uid": strMbUid, "mb_emp_uid":strEmpUid };
 
 
     jsonData = JSON.stringify(jsonData);
@@ -163,10 +164,13 @@ function requestMember() {
 function requestTotalPage() {
 
     CountPerPage = document.getElementById("userpanel-number-select-id").value;
-    var userLevel = document.getElementById("userpanel-level-select-id").value;
-    var strEmpFid = document.getElementById("userpanel-employee-select-id").value;
+    var userGrad = document.getElementById("userpanel-level-select-id").value;
     var strMbUid = document.getElementById("userpanel-userid-input-id").value;
-    var jsonData = { "count": CountPerPage, "mb_level": userLevel, "mb_emp_fid": strEmpFid, "mb_uid": strMbUid };
+    var empIdEle = document.getElementById("userpanel-empid-input-id");
+    var strEmpUid = "";
+    if (typeof (empIdEle) != undefined && empIdEle != null)
+        strEmpUid = empIdEle.value;
+    var jsonData = { "count": CountPerPage, "mb_grade": userGrad, "mb_uid": strMbUid, "mb_emp_uid":strEmpUid};
 
     jsonData = JSON.stringify(jsonData);
 

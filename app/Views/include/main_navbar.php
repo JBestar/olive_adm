@@ -35,7 +35,7 @@
 				<td>슬롯<span id="main-navbar-emp_slrate-id">0 %</span></td>
 				<?php } else { ?>
 
-				<td>가입신청&nbsp;<a href="/user/member" id="main-navbar-user_wait-id">0 명</span></td>
+				<td>가입신청&nbsp;<a href="/user/member/0" id="main-navbar-user_wait-id">0 명</span></td>
 				<td>환전&nbsp;<a href="/bank/withdraw" id="main-navbar-exchange_wait-id">0 대기</span></td>
 
 				<?php } ?>

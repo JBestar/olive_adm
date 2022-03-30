@@ -209,7 +209,7 @@ function showEmpInfo(objEmpInfo, arrSoundInfo) {
     else if (objEmpInfo.waitemployee > 0)
         $("#main-navbar-user_wait-id").attr("href", "/user/employee");
     else
-        $("#main-navbar-user_wait-id").attr("href", "/user/member");
+        $("#main-navbar-user_wait-id").attr("href", "/user/member/0");
 
     strBuf = objEmpInfo.waitcharge + " 대기";
     $("#main-navbar-charge_wait-id").text(strBuf);

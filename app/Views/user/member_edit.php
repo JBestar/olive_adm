@@ -5,7 +5,7 @@
 <?= $this->endSection() ?>
 <?= $this->section('user-edit-form-section0') ?>
 	<div class="useredit-text-div">
-		<p>분류:</p> 
+		<p>추천인:</p> 
 		<?php if($mb_level > LEVEL_COMPANY) {  ?>
 		<select type = "text" id="useredit-sort-select-id">
 		<?php } else { ?>
