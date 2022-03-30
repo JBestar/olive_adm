@@ -1,5 +1,19 @@
 <?= $this->extend('header') ?>
 <?= $this->section('content') ?>
+	<style>
+		.user-table a.class1 {
+			color: blue;
+			border: none;
+			background-color: transparent;
+			box-shadow: none;
+			font-weight: lighter;
+		}
+
+		.user-table a.class1:hover {
+			text-decoration: underline;
+			color: blue;
+		}
+	</style>
 	<!--Sub Navbar-->
 	<div class = "sub-navbar">
 		<p><i class="glyphicon glyphicon-user"></i> 회원관리::회원</p>
@@ -12,13 +26,11 @@
 			<?php } ?>
 			<label>아이디</label>
             <input type="text" class="pbresult-text-input" id="userpanel-userid-input-id" >
-
-			<select class="pbresult-game-select" id="userpanel-employee-select-id" style="width: 200px;">
-				<option value="0">::분류::</option>
-				<?php foreach ($arrEmpName as $objEmpName):?>				
-				<option value="<?=$objEmpName->mb_fid?>"><?=$objEmpName->mb_name?></option>				
-				<?php endforeach;?>
-			</select>
+			<?php if ($mb_level >= LEVEL_ADMIN) {?>	
+			<label>추천인</label>
+            <input type="text" class="pbresult-text-input" id="userpanel-empid-input-id" value= "<?=$emp_uid ?>">
+			<?php } ?>
+			
 			<select name="pbresult-level" class="pbresult-number-select" id="userpanel-level-select-id">
 				<option value="0">::레벨::</option>
 				<option value="1"> 1레벨 </option>
@@ -40,7 +52,7 @@
 			<thead>
 				<tr>
 					<th>번호</th>
-					<th>매장명</th>
+					<th>추천인</th>
 					<th>아이디</th>
 					<th>닉네임</th>
 					<th>레벨</th>

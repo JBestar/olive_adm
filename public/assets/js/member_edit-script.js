@@ -105,7 +105,7 @@ function addBtnEvent() {
                 success: function(jResult) {
                     //console.log(jResult);
                     if (jResult.status == "success") {
-                        window.location.replace('/user/member');
+                        window.location.replace('/user/member/0');
                     } else if (jResult.status == "logout") {
                         window.location.replace('/');
                     } else if (jResult.status == "fail") {
@@ -150,7 +150,7 @@ function addBtnEvent() {
                 success: function(jResult) {
                     //console.log(jResult);
                     if (jResult.status == "success") {
-                        window.location.replace('/user/member');
+                        window.location.replace('/user/member/0');
                     } else if (jResult.status == "logout") {
                         window.location.replace('/');
                     } else if (jResult.status == "val_error") {
@@ -194,7 +194,7 @@ function addBtnEvent() {
 
     var elemCancelBtn = document.getElementById("useredit-cancel-btn-id");
     elemCancelBtn.addEventListener("click", function() {
-        window.location.replace('/user/member');
+        window.location.replace('/user/member/0');
     });
 
 }

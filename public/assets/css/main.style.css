@@ -924,6 +924,12 @@ Style - powerball
     background-color: #eee;
 }
 
+.user-table .button-active {
+    color: var(--span-font-color);
+    /*#5668f6*/
+}
+
+
 .user-table a {
     background-color: var(--main-bg-color);
     padding: 7px 10px;
@@ -940,10 +946,6 @@ Style - powerball
     background-color: #eee;
 }
 
-.user-table .button-active {
-    color: var(--span-font-color);
-    /*#5668f6*/
-}
 
 
 /******************************
