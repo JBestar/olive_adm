@@ -2,20 +2,20 @@
 <?= $this->section('content') ?>
 	<!--Sub Navbar-->
 	<div class = "sub-navbar">
-		<p><i class="glyphicon glyphicon-info-sign"></i> 게시판::쪽지관리</p>
+		<p><i class="glyphicon glyphicon-info-sign"></i> 게시판::쪽지 문의 관리</p>
 	</div>
 
 	<div class="user-panel">
 		<div class="pbresult-list-div">
-			<a href="<?php echo base_url().'board/message_edit/0/0';?>" class="user-panel-add-a" >쪽지 등록</a>
+			<a href="<?php echo base_url().'board/message_edit/0/0';?>" class="user-panel-add-a" >쪽지 작성</a>
 
 			<label>아이디</label>
 			<input type="text" class="pbresult-text-input" id="message-userid-input-id" >
 
             <select class="pbresult-game-select" id="message-type-select-id">
 				<option value="0">::분류::</option>
-				<option value="1">수신 쪽지</option>
-				<option value="2">발송 쪽지</option>
+				<option value="1">고객문의</option>
+				<option value="2">쪽지</option>
 			</select>
             <select name="pbresult-number" class="pbresult-number-select" id="message-number-select-id">
 				<option value="10">10개</option>

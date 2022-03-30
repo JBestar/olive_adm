@@ -19,9 +19,9 @@ function showNotice(arrNotice) {
         strBuf += arrNotice[nRow].notice_fid;
         strBuf += "</td> <td>";
         if (arrNotice[nRow].notice_type == 0)
-            strBuf += "발송 쪽지";
+            strBuf += "쪽지";
         else if (arrNotice[nRow].notice_type == 3)
-            strBuf += "수신 쪽지";
+            strBuf += "고객문의";
         strBuf += "</td> <td>";
         if (arrNotice[nRow].notice_type == 0) {
             if (arrNotice[nRow].notice_state_active == 1)
