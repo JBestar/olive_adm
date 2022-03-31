@@ -84,14 +84,26 @@ class BbApi extends BaseController {
 			
 			$strUid = $this->session->user_id;
 			$objAdmin = $memberModel->getInfo($strUid);
-			$arrBetResults = $bbbetModel->search($objAdmin, $arrGetData);
+			
+			$bPoint = false;
 			$arrBetAccount = null;
 			if($objAdmin->mb_level >= LEVEL_ADMIN){
-				$arrBetAccount = $bbbetModel->getBetAccount($arrGetData);
+				if(strlen(trim($arrGetData['emp'])) > 0){
+					$objAdmin = $memberModel->getInfo(trim($arrGetData['emp']));
+					$bPoint = true;
+				}
+				else 	
+					$arrBetAccount = $bbbetModel->getBetAccount($arrGetData);
+			} else {
+				$bPoint = true;
 			}
+
+			$arrBetResults = $bbbetModel->search($objAdmin, $arrGetData);
+			
 			$objResult = new \StdClass;
 			$objResult->data = $arrBetResults;
 			$objResult->account = $arrBetAccount;
+			$objResult->point = $bPoint?1:0;
 			$objResult->status = "success";
 		
 			echo json_encode($objResult);
@@ -118,7 +130,9 @@ class BbApi extends BaseController {
 			
 			$strUid = $this->session->user_id;
 			$objAdmin = $memberModel->getInfo($strUid);
-
+			if($objAdmin->mb_level >= LEVEL_ADMIN && strlen(trim($arrGetData['emp'])) > 0){
+				$objAdmin = $memberModel->getInfo(trim($arrGetData['emp']));
+			}
 			$objCount = $bbbetModel->searchCount($objAdmin, $arrGetData);
 			
 			$arrResult['data'] = $objCount;

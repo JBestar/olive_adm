@@ -15,12 +15,13 @@ function ShowBetRealtime(jRealBet) {
     var iTemp = 0;
 
     var i = 0;
-    for (i = 0; i < 6; i++) {
+    for (i = 0; i < 10; i++) {
         strBuf += "<tr><td>";
 
-        if (i % 2 == 0) {
-
-            strBuf += (i / 2 + 1);
+        if (i % 2 == 0 || i > 5) {
+            if (i < 6)
+                strBuf += (i / 2 + 1);
+            else strBuf += (i - 2);
             strBuf += "</td><td>";
             strBuf += jRealBet.betend;
             strBuf += "</td><td>";
@@ -35,6 +36,18 @@ function ShowBetRealtime(jRealBet) {
                     break;
                 case 4:
                     strBuf += "홀짝배팅";
+                    break;
+                case 6:
+                    strBuf += "좌3배팅";
+                    break;
+                case 7:
+                    strBuf += "좌4배팅";
+                    break;
+                case 8:
+                    strBuf += "우3배팅";
+                    break;
+                case 9:
+                    strBuf += "우4배팅";
                     break;
                 default:
                     break;
@@ -63,6 +76,23 @@ function ShowBetRealtime(jRealBet) {
             case 5:
                 strBuf += "<div  class = \"pb-home-even-span\">짝</div>";
                 break;
+            case 6:
+                strBuf += "<div  class = \"pb-home-odd-span\">좌</div>";
+                strBuf += "<div  class = \"pb-home-odd-span\">3</div>";
+                break;
+            case 7:
+                strBuf += "<div  class = \"pb-home-odd-span\">좌</div>";
+                strBuf += "<div  class = \"pb-home-even-span\">4</div>";
+                break;
+            case 8:
+                strBuf += "<div  class = \"pb-home-even-span\">우</div>";
+                strBuf += "<div  class = \"pb-home-odd-span\">3</div>";
+                break;
+            case 9:
+                strBuf += "<div  class = \"pb-home-even-span\">우</div>";
+                strBuf += "<div  class = \"pb-home-even-span\">4</div>";
+                break;
+
             default:
                 break;
         }
@@ -85,6 +115,18 @@ function ShowBetRealtime(jRealBet) {
                 break;
             case 5:
                 strBuf += jRealBet.config.game_ratio_3;
+                break;
+            case 6:
+                strBuf += jRealBet.config.game_ratio_4;
+                break;
+            case 7:
+                strBuf += jRealBet.config.game_ratio_5;
+                break;
+            case 8:
+                strBuf += jRealBet.config.game_ratio_6;
+                break;
+            case 9:
+                strBuf += jRealBet.config.game_ratio_7;
                 break;
 
             default:
@@ -156,7 +198,7 @@ function ShowBetRealtime(jRealBet) {
 //Function to Request Betting History to WebServer
 function requestBetRealtime() {
     $.ajax({
-        url: '/bsapi/betrealtime',
+        url: '/' + mPath + '/betrealtime',
         type: 'post',
         dataType: "json",
         success: function(jResult) {

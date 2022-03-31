@@ -22,15 +22,15 @@ function showCalcualte(arrCalcData) {
     var elemDataTbBody = document.getElementById("calculate-table-tbody-id");
     for (nRow in arrCalcData) {
         strBuf += "<tr";
-        if (arrCalcData[nRow].mb_level == 9)
+        if (arrCalcData[nRow].mb_level % 3 == 0)
             strBuf += " class=\"tr-company-color\"";
-        else if (arrCalcData[nRow].mb_level == 8)
+        else if (arrCalcData[nRow].mb_level % 3 == 2)
             strBuf += " class=\"tr-agency-color\"";
-        else if (arrCalcData[nRow].mb_level == 7)
+        else if (arrCalcData[nRow].mb_level % 3 == 1)
             strBuf += " class=\"tr-employee-color\"";
 
         strBuf += "><td>";
-        if (arrCalcData[nRow].mb_level > 7)
+        if (arrCalcData[nRow].mb_level > 1)
             strBuf += "<i class=\"glyphicon glyphicon-triangle-right\"></i>"
         strBuf += "<p hidden>" + arrCalcData[nRow].mb_fid + "</p>";
         strBuf += "<p hidden>" + arrCalcData[nRow].mb_emp_fid + "</p>";
@@ -170,15 +170,15 @@ function addRow(nTbRow, arrCalcData) {
         var elemNewRow = elemDataTb.insertRow(nTbRow);
         nTbRow++;
 
-        if (arrCalcData[nRow].mb_level == 9)
+        if (arrCalcData[nRow].mb_level % 3 == 0)
             elemNewRow.className = "tr-company-color";
-        else if (arrCalcData[nRow].mb_level == 8)
+        else if (arrCalcData[nRow].mb_level % 3 == 2)
             elemNewRow.className = "tr-agency-color";
-        else if (arrCalcData[nRow].mb_level == 7)
+        else if (arrCalcData[nRow].mb_level % 3 == 1)
             elemNewRow.className = "tr-employee-color";
 
         var elemCell0 = elemNewRow.insertCell(0);
-        if (arrCalcData[nRow].mb_level > 7)
+        if (arrCalcData[nRow].mb_level > 1)
             strBuf = "<i class=\"glyphicon glyphicon-triangle-right\"></i>"
         strBuf += "<p hidden>" + arrCalcData[nRow].mb_fid + "</p>";
         strBuf += "<p hidden>" + arrCalcData[nRow].mb_emp_fid + "</p>";

@@ -14,7 +14,7 @@ function ShowBetRealtime(jRealBet) {
     var iTemp = 0;
 
     var i = 0;
-    for (i = 0; i < 30; i++) {
+    for (i = 0; i < 33; i++) {
         strBuf += "<tr><td>";
 
         if (i % 2 == 0 || i > 7) {
@@ -105,7 +105,15 @@ function ShowBetRealtime(jRealBet) {
                 case 29:
                     strBuf += "일반볼대중소: 짝소배팅";
                     break;
-
+                case 30:
+                    strBuf += "일반볼대중소: 대배팅";
+                    break;
+                case 31:
+                    strBuf += "일반볼대중소: 중배팅";
+                    break;
+                case 32:
+                    strBuf += "일반볼대중소: 소배팅";
+                    break;
                 default:
                     break;
             }
@@ -215,7 +223,15 @@ function ShowBetRealtime(jRealBet) {
                 strBuf += "<div  class = \"pb-home-even-span\">짝</div>";
                 strBuf += "<div  class = \"pb-home-odd-span\">소</div>";
                 break;
-
+            case 30:
+                strBuf += "<div  class = \"pb-home-mid-span\">대</div>";
+                break;
+            case 31:
+                strBuf += "<div  class = \"pb-home-mid-span\">중</div>";
+                break;
+            case 32:
+                strBuf += "<div  class = \"pb-home-mid-span\">소</div>";
+                break;
 
             default:
                 break;
@@ -312,7 +328,15 @@ function ShowBetRealtime(jRealBet) {
             case 29:
                 strBuf += jRealBet.config.game_ratio_26;
                 break;
-
+            case 30:
+                strBuf += jRealBet.config.game_ratio_27;
+                break;
+            case 31:
+                strBuf += jRealBet.config.game_ratio_28;
+                break;
+            case 32:
+                strBuf += jRealBet.config.game_ratio_29;
+                break;
             default:
                 break;
         }
@@ -395,11 +419,11 @@ function ShowBetRealtime(jRealBet) {
 //Function to Request Betting History to WebServer
 function requestBetRealtime() {
     $.ajax({
-        url: '/bbapi/betrealtime',
+        url: '/' + mPath + '/betrealtime',
         type: 'post',
         dataType: "json",
         success: function(jResult) {
-            // console.log(jResult);
+            console.log(jResult);
             if (jResult.status == "success") {
                 setNavBarElement();
                 ShowBetRealtime(jResult.data);

@@ -10,5 +10,6 @@
 	<th>밸런스금액</th>		
 <?= $this->endSection() ?>
 <?= $this->section('realtime-script') ?>
-	<script src="<?php echo base_url('assets/js/psrealtime-script.js?v=2');?>"></script>
+	<script> var mPath = "psapi"; </script>
+	<script src="<?php echo base_url('assets/js/bsrealtime-script.js?v=2');?>"></script>
 <?= $this->endSection() ?>

@@ -65,15 +65,15 @@ class BsBet_model extends Model {
         return $result;  
     }
 
-    function addBetRound($arrBetData, $objUser, $objConfPs)
+    function addBetRound($arrBetData, $objUser, $objConf)
     {
         $strRatio = "1.95";
         if($arrBetData['mode'] == 1){
-            $strRatio = $objConfPs->game_ratio_1;
+            $strRatio = $objConf->game_ratio_1;
         } else if($arrBetData['mode'] == 2){
-            $strRatio = $objConfPs->game_ratio_2;
+            $strRatio = $objConf->game_ratio_2;
         } else if($arrBetData['mode'] == 3){
-            $strRatio = $objConfPs->game_ratio_3;
+            $strRatio = $objConf->game_ratio_3;
         } 
 
         if($strRatio < 1)   return false;
@@ -118,7 +118,7 @@ class BsBet_model extends Model {
         
     }
 
-    function getBetSumByMode($arrRoundInfo, $objConfPs){
+    function getBetSumByMode($arrRoundInfo, $objConf){
 
         $arrSumData = array();
 
@@ -140,7 +140,7 @@ class BsBet_model extends Model {
             if(!is_null($objResult->bet_money_allsum)) {
                 $nSum = $objResult->bet_money_allsum;
             }
-            $nSum = $nSum * $objConfPs->game_percent_1 / 100;
+            $nSum = $nSum * $objConf->game_percent_1 / 100;
             $arrSum[0] = (int)$nSum;
 
             
@@ -159,22 +159,46 @@ class BsBet_model extends Model {
                 $nSum = $objResult->bet_money_allsum;
             }
             //게임별 누르기율 계산
-            $nSum = $nSum * $objConfPs->game_percent_1 / 100;
+            $nSum = $nSum * $objConf->game_percent_1 / 100;
             $arrSum[1] = (int)$nSum;
         
             $arrSumData[$i] = $arrSum;
         }  
+        $arrSum = array();
+        for($i = 3; $i <7; $i ++){
+            $iMode = $i+1;
+            $strSql = " SELECT SUM(bet_money_sum * mb_game_bs_percent DIV 100) AS bet_money_allsum FROM ( ";
+            $strSql .= " SELECT bet_mb_uid, bet_mode, bet_target, bet_ratio, SUM(bet_money) AS bet_money_sum, mb_game_bs_percent FROM ".$this->table;
+            $strSql .= " JOIN ".$this->mMemberTable." ON ".$this->mMemberTable.".mb_uid = ".$this->table.".bet_mb_uid ";
+            $strSql .= " WHERE bet_round_no='".$arrRoundInfo['round_no']."' AND bet_state = '1' ";
+            $strSql .= " AND bet_time > '".$arrRoundInfo['round_start']."' AND bet_time < '".$arrRoundInfo['round_end']."' ";
+            $strSql .= " AND bet_mode='".$iMode."' GROUP BY bet_mb_uid ";
+            $strSql .= " ) tb_sum ";
+            $objResult = $this -> db -> query($strSql)->getRow();
+
+            //유저별 배팅결과 합
+            $nSum = 0;
+             $nSum = 0;
+            if(!is_null($objResult->bet_money_allsum)) {
+                $nSum = $objResult->bet_money_allsum;
+            }
+            //게임별 누르기율 계산
+            $nSum = $nSum * $objConf->game_percent_2 / 100;
+            $arrSum[0] = (int)$nSum;
+    
+            $arrSumData[$i] = $arrSum;
+        }
 
 
         return $arrSumData;  
     }
 
-     function getBetSumByDay($arrReqInfo, $objConfPs){
+     function getBetSumByDay($arrReqInfo, $objConf){
 
         $arrSum = array();
         $strSql = " SELECT SUM(bet_money) AS bet_money_sum, SUM(bet_win_money) AS win_money_sum  FROM ".$this->table;
         $strSql .= " WHERE bet_time >= '".$arrReqInfo['start']."' AND bet_time <= '".$arrReqInfo['end']."' ";
-        $strSql .= " AND bet_mode>='1' AND bet_mode<='3'  AND bet_state != 4 ";
+        $strSql .= " AND bet_mode>='1' AND bet_mode<='7'  AND bet_state != 4 ";
         $objResult = $this -> db -> query($strSql)->getRow();
 
         $nSum = 0;
@@ -189,21 +213,21 @@ class BsBet_model extends Model {
         $arrSum[1] = $nSum;
            
         //단폴 누르기율
-        $strSql = " SELECT SUM(bet_money_sum * mb_game_bs_percent DIV 100) AS bet_money_allsum FROM ( ";
-        $strSql .= " SELECT bet_mb_uid, bet_mode, bet_target, bet_ratio, SUM(bet_money) AS bet_money_sum, mb_game_bs_percent FROM ".$this->table;
-        $strSql .= " JOIN ".$this->mMemberTable." ON ".$this->mMemberTable.".mb_uid = ".$this->table.".bet_mb_uid ";
-        $strSql .= " WHERE bet_time >= '".$arrReqInfo['start']."' AND bet_time <= '".$arrReqInfo['end']."' ";
-        $strSql .= " AND bet_mode>='1' AND bet_mode<='3' AND bet_state != 4 GROUP BY bet_mb_uid ";
-        $strSql .= " ) tb_sum ";            
-        $objResult = $this -> db -> query($strSql)->getRow();
+        // $strSql = " SELECT SUM(bet_money_sum * mb_game_bs_percent DIV 100) AS bet_money_allsum FROM ( ";
+        // $strSql .= " SELECT bet_mb_uid, bet_mode, bet_target, bet_ratio, SUM(bet_money) AS bet_money_sum, mb_game_bs_percent FROM ".$this->table;
+        // $strSql .= " JOIN ".$this->mMemberTable." ON ".$this->mMemberTable.".mb_uid = ".$this->table.".bet_mb_uid ";
+        // $strSql .= " WHERE bet_time >= '".$arrReqInfo['start']."' AND bet_time <= '".$arrReqInfo['end']."' ";
+        // $strSql .= " AND bet_mode>='1' AND bet_mode<='3' AND bet_state != 4 GROUP BY bet_mb_uid ";
+        // $strSql .= " ) tb_sum ";            
+        // $objResult = $this -> db -> query($strSql)->getRow();
         
-        //유저별 배팅결과 합
+        // //유저별 배팅결과 합
         $nSum = 0;
-        if(!is_null($objResult->bet_money_allsum)) {
-            $nSum = $objResult->bet_money_allsum;
-        }
-        //게임별 누르기율 계산
-        $nSum = $nSum * $objConfPs->game_percent_1 / 100;
+        // if(!is_null($objResult->bet_money_allsum)) {
+        //     $nSum = $objResult->bet_money_allsum;
+        // }
+        // //게임별 누르기율 계산
+        // $nSum = $nSum * $objConf->game_percent_1 / 100;
         $arrSum[2] = $nSum;
 
         return $arrSum;
@@ -313,7 +337,11 @@ class BsBet_model extends Model {
         if((int)$arrReqData['mode'] > 0){
             if($bWhere) $strSql.= " AND ";
             else $strSql.= " WHERE ";
-            $strSql.=" bet_mode = '".$arrReqData['mode']."' ";
+            if($arrReqData['mode'] <= 3)
+                $strSql.=" bet_mode = '".$arrReqData['mode']."' ";
+            else 
+                $strSql.=" bet_mode >= 4 AND bet_mode <= 7 ";
+            
         }
 
         $nStartRow = ($arrReqData['page']-1) * $arrReqData['count'] ;
@@ -368,8 +396,10 @@ class BsBet_model extends Model {
         if((int)$arrReqData['mode'] > 0){
             if($bWhere) $strSql.= " AND ";
             else $strSql.= " WHERE ";    
-            $strSql.=" bet_mode = '".$arrReqData['mode']."' ";
-            $bWhere = true;
+            if($arrReqData['mode'] <= 3)
+                $strSql.=" bet_mode = '".$arrReqData['mode']."' ";
+            else 
+                $strSql.=" bet_mode >= 4 AND bet_mode <= 7 ";
         }
 
         $query = $this -> db -> query($strSql);
@@ -403,23 +433,52 @@ class BsBet_model extends Model {
         $nWinMoney = 0;
         $isWin = false;
         //bet_state=2:Betting-loss 3:Betting-Earn 
-        if($objBetInfo->bet_mode == "1"){
+        switch(intval($objBetInfo->bet_mode)){
+            case 1:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_1;
+                if($objBetInfo->bet_target == $objRoundInfo->round_result_1){
+                    $isWin = true;                            
+                }
+                break;
+            case 2:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_2;
+                if($objBetInfo->bet_target == $objRoundInfo->round_result_2){
+                    $isWin = true;
+                }
+                break;
+            case 3:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_3;
+                if($objBetInfo->bet_target == $objRoundInfo->round_result_3){
+                    $isWin = true;
+                }
+                break;
+            case 4:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_1.$objRoundInfo->round_result_2;
+                if($objRoundInfo->round_result_1 == "P" && $objRoundInfo->round_result_2 == "P"){
+                    $isWin = true;
+                }
+                break;
+            case 5:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_1.$objRoundInfo->round_result_2;
+                if($objRoundInfo->round_result_1 == "P" && $objRoundInfo->round_result_2 == "B"){
+                    $isWin = true;
+                }
+                break;
+            case 6:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_1.$objRoundInfo->round_result_2;
+                if($objRoundInfo->round_result_1 == "B" && $objRoundInfo->round_result_2 == "P"){
+                    $isWin = true;
+                }
+                break;
+            case 7:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_1.$objRoundInfo->round_result_2;
+                if($objRoundInfo->round_result_1 == "B" && $objRoundInfo->round_result_2 == "B"){
+                    $isWin = true;
+                }
+                break;
+            default:return false;
+        } 
 
-            $objBetInfo->bet_result = $objRoundInfo->round_result_1;
-            if($objBetInfo->bet_target == $objRoundInfo->round_result_1){
-                $isWin = true;                            
-            }
-        } else if($objBetInfo->bet_mode == "2"){
-            $objBetInfo->bet_result = $objRoundInfo->round_result_2;
-            if($objBetInfo->bet_target == $objRoundInfo->round_result_2){
-                $isWin = true;
-            }
-        } else if($objBetInfo->bet_mode == "3"){
-            $objBetInfo->bet_result = $objRoundInfo->round_result_3;
-            if($objBetInfo->bet_target == $objRoundInfo->round_result_3){
-                $isWin = true;
-            }
-        } else return false;
 
         if($isWin){                     //적중
             $objBetInfo->bet_state = 3;
@@ -428,15 +487,11 @@ class BsBet_model extends Model {
             $objBetInfo->bet_win_money = (int)$nWinMoney;
             //user_after_money
             $objBetInfo->user_after_money = ($objBetInfo->user_before_money + $objBetInfo->bet_win_money - $objBetInfo->bet_money);
-            $objBetInfo->cumulate_amount += ($objBetInfo->bet_win_money - $objBetInfo->bet_money);
         } else {                        //미적중
             $objBetInfo->bet_state = 2;
             $objBetInfo->bet_win_money = 0;
             //user_after_money
             $objBetInfo->user_after_money = ($objBetInfo->user_before_money - $objBetInfo->bet_money);
-
-            
-            $objBetInfo->cumulate_amount -= $objBetInfo->bet_money;
         }
 
 
@@ -444,7 +499,6 @@ class BsBet_model extends Model {
         $this->builder()->set('bet_state', $objBetInfo->bet_state); 
         $this->builder()->set('bet_win_money', $objBetInfo->bet_win_money);
         $this->builder()->set('user_after_money', $objBetInfo->user_after_money);
-        $this->builder()->set('cumulate_amount', $objBetInfo->cumulate_amount);
 
         $this->builder()->set('account_time', 'NOW()', false);
         

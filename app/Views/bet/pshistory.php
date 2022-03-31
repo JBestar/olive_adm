@@ -5,6 +5,7 @@
 	<option value="1">좌우</option>
 	<option value="2">줄수</option>
 	<option value="3">홀짝</option>
+	<option value="4">조합</option>
 <?= $this->endSection() ?>
 <?= $this->section('history-add-round-search') ?>
 	<label>회차</label>
@@ -23,10 +24,8 @@
 	<th>당첨금액</th>
 	<th>배팅결과</th>
 	<th>포인트</th>
-	<th>매장</th>
-	<th>총판</th>
-	<th>부본사</th>
 <?= $this->endSection() ?>
 <?= $this->section('history_script') ?>
-	<script src="<?php echo base_url('assets/js/pshistory-script.js?v=1');?>"></script>
+	<script> var mPath = "psapi"; </script>
+	<script src="<?php echo base_url('assets/js/bshistory-script.js?v=1');?>"></script>
 <?= $this->endSection() ?>

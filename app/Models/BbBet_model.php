@@ -35,6 +35,7 @@ class BbBet_model extends Model
     ];
     protected $primaryKey = 'bet_fid';
     private $mMemberTable = 'member';
+    private $mRewardTable = 'bet_reward';
 
     public function gets($nCount)
     {
@@ -65,17 +66,17 @@ class BbBet_model extends Model
         return $result;
     }
 
-    public function addBetRound($arrBetData, $objUser, $objConfPb)
+    public function addBetRound($arrBetData, $objUser, $objConf)
     {
         $strRatio = '1.95';
         if (1 == $arrBetData['mode']) {
-            $strRatio = $objConfPb->game_ratio_1;
+            $strRatio = $objConf->game_ratio_1;
         } elseif (2 == $arrBetData['mode']) {
-            $strRatio = $objConfPb->game_ratio_2;
+            $strRatio = $objConf->game_ratio_2;
         } elseif (3 == $arrBetData['mode']) {
-            $strRatio = $objConfPb->game_ratio_3;
+            $strRatio = $objConf->game_ratio_3;
         } elseif (4 == $arrBetData['mode']) {
-            $strRatio = $objConfPb->game_ratio_4;
+            $strRatio = $objConf->game_ratio_4;
         } else {
             return false;
         }
@@ -122,7 +123,7 @@ class BbBet_model extends Model
         return $this->builder()->insert();
     }
 
-    public function getBetSumByMode($arrRoundInfo, $objConfPb)
+    public function getBetSumByMode($arrRoundInfo, $objConf)
     {
         $arrSumData = [];
 
@@ -144,7 +145,7 @@ class BbBet_model extends Model
                 $nSum = $objResult->bet_money_allsum;
             }
             // 게임별 누르기율 계산
-            $nSum = $nSum * $objConfPb->game_percent_1 / 100;
+            $nSum = $nSum * $objConf->game_percent_1 / 100;
             $arrSum[0] = (int) $nSum;
 
             $strSql = ' SELECT SUM(bet_money_sum * mb_game_bb_percent DIV 100) AS bet_money_allsum FROM ( ';
@@ -162,13 +163,13 @@ class BbBet_model extends Model
                 $nSum = $objResult->bet_money_allsum;
             }
             // 게임별 누르기율 계산
-            $nSum = $nSum * $objConfPb->game_percent_1 / 100;
+            $nSum = $nSum * $objConf->game_percent_1 / 100;
             $arrSum[1] = (int) $nSum;
 
             $arrSumData[$i] = $arrSum;
         }
         $arrSum = [];
-        for ($i = 4; $i < 26; ++$i ) {
+        for ($i = 4; $i < 29; ++$i ) {
             $iMode = $i + 1;
             $strSql = ' SELECT SUM(bet_money_sum * mb_game_bb2_percent DIV 100) AS bet_money_allsum FROM ( ';
             $strSql .= ' SELECT bet_mb_uid, bet_mode, bet_target, bet_ratio, SUM(bet_money) AS bet_money_sum, mb_game_bb_percent, mb_game_bb2_percent FROM '.$this->table;
@@ -184,7 +185,7 @@ class BbBet_model extends Model
                 $nSum = $objResult->bet_money_allsum;
             }
             // 게임별 누르기율 계산
-            $nSum = $nSum * $objConfPb->game_percent_2 / 100;
+            $nSum = $nSum * $objConf->game_percent_2 / 100;
             $arrSum[0] = (int) $nSum;
 
             $arrSumData[$i] = $arrSum;
@@ -193,7 +194,7 @@ class BbBet_model extends Model
         return $arrSumData;
     }
 
-    public function getBetSumByDay($arrReqInfo, $objConfPb)
+    public function getBetSumByDay($arrReqInfo, $objConf)
     {
         $arrSumData = [];
 
@@ -215,21 +216,21 @@ class BbBet_model extends Model
         $arrSum[1] = $nSum;
 
         // 단폴 누르기율
-        $strSql = ' SELECT SUM(bet_money_sum * mb_game_bb_percent DIV 100) AS bet_money_allsum FROM ( ';
-        $strSql .= ' SELECT bet_mb_uid, bet_mode, bet_target, bet_ratio, SUM(bet_money) AS bet_money_sum, mb_game_bb_percent, mb_game_bb2_percent FROM '.$this->table;
-        $strSql .= ' JOIN '.$this->mMemberTable.' ON '.$this->mMemberTable.'.mb_uid = '.$this->table.'.bet_mb_uid ';
-        $strSql .= " WHERE bet_time >= '".$arrReqInfo['start']."' AND bet_time <= '".$arrReqInfo['end']."' ";
-        $strSql .= " AND bet_mode>='1' AND bet_mode<='4' AND bet_state != 4 GROUP BY bet_mb_uid ";
-        $strSql .= ' ) tb_sum ';
-        $objResult = $this->db->query($strSql)->getRow();
+        // $strSql = ' SELECT SUM(bet_money_sum * mb_game_bb_percent DIV 100) AS bet_money_allsum FROM ( ';
+        // $strSql .= ' SELECT bet_mb_uid, bet_mode, bet_target, bet_ratio, SUM(bet_money) AS bet_money_sum, mb_game_bb_percent, mb_game_bb2_percent FROM '.$this->table;
+        // $strSql .= ' JOIN '.$this->mMemberTable.' ON '.$this->mMemberTable.'.mb_uid = '.$this->table.'.bet_mb_uid ';
+        // $strSql .= " WHERE bet_time >= '".$arrReqInfo['start']."' AND bet_time <= '".$arrReqInfo['end']."' ";
+        // $strSql .= " AND bet_mode>='1' AND bet_mode<='4' AND bet_state != 4 GROUP BY bet_mb_uid ";
+        // $strSql .= ' ) tb_sum ';
+        // $objResult = $this->db->query($strSql)->getRow();
 
         // 유저별 배팅결과 합
         $nSum = 0;
-        if (!is_null($objResult->bet_money_allsum)) {
-            $nSum = $objResult->bet_money_allsum;
-        }
-        // 게임별 누르기율 계산
-        $nSum = $nSum * $objConfPb->game_percent_1 / 100;
+        // if (!is_null($objResult->bet_money_allsum)) {
+        //     $nSum = $objResult->bet_money_allsum;
+        // }
+        // // 게임별 누르기율 계산
+        // $nSum = $nSum * $objConf->game_percent_1 / 100;
         $arrSum[2] = $nSum;
 
         $arrSumData[0] = $arrSum;
@@ -237,7 +238,7 @@ class BbBet_model extends Model
         $arrSum = [];
         $strSql = ' SELECT SUM(bet_money) AS bet_money_sum, SUM(bet_win_money) AS win_money_sum  FROM '.$this->table;
         $strSql .= " WHERE bet_time > '".$arrReqInfo['start']."' AND bet_time < '".$arrReqInfo['end']."' ";
-        $strSql .= " AND bet_mode>='5' AND bet_mode<='26'  AND bet_state != 4 ";
+        $strSql .= " AND bet_mode>='5' AND bet_mode<='38'  AND bet_state != 4 ";
         $objResult = $this->db->query($strSql)->getRow();
 
         $nSum = 0;
@@ -252,20 +253,20 @@ class BbBet_model extends Model
         $arrSum[1] = $nSum;
 
         // 조합 누르기율
-        $strSql = ' SELECT SUM(bet_money_sum * mb_game_bb2_percent DIV 100) AS bet_money_allsum FROM ( ';
-        $strSql .= ' SELECT bet_mb_uid, bet_mode, bet_target, bet_ratio, SUM(bet_money) AS bet_money_sum, mb_game_bb_percent, mb_game_bb2_percent FROM '.$this->table;
-        $strSql .= ' JOIN '.$this->mMemberTable.' ON '.$this->mMemberTable.'.mb_uid = '.$this->table.'.bet_mb_uid ';
-        $strSql .= " WHERE bet_time > '".$arrReqInfo['start']."' AND bet_time < '".$arrReqInfo['end']."' ";
-        $strSql .= " AND bet_mode>='5' AND bet_mode<='26'  AND bet_state != 4 GROUP BY bet_mb_uid ";
-        $strSql .= ' ) tb_sum ';
-        $objResult = $this->db->query($strSql)->getRow();
-        // 유저별 배팅결과 합
+        // $strSql = ' SELECT SUM(bet_money_sum * mb_game_bb2_percent DIV 100) AS bet_money_allsum FROM ( ';
+        // $strSql .= ' SELECT bet_mb_uid, bet_mode, bet_target, bet_ratio, SUM(bet_money) AS bet_money_sum, mb_game_bb_percent, mb_game_bb2_percent FROM '.$this->table;
+        // $strSql .= ' JOIN '.$this->mMemberTable.' ON '.$this->mMemberTable.'.mb_uid = '.$this->table.'.bet_mb_uid ';
+        // $strSql .= " WHERE bet_time > '".$arrReqInfo['start']."' AND bet_time < '".$arrReqInfo['end']."' ";
+        // $strSql .= " AND bet_mode>='5' AND bet_mode<='28'  AND bet_state != 4 GROUP BY bet_mb_uid ";
+        // $strSql .= ' ) tb_sum ';
+        // $objResult = $this->db->query($strSql)->getRow();
+        // // 유저별 배팅결과 합
         $nSum = 0;
-        if (!is_null($objResult->bet_money_allsum)) {
-            $nSum = $objResult->bet_money_allsum;
-        }
+        // if (!is_null($objResult->bet_money_allsum)) {
+        //     $nSum = $objResult->bet_money_allsum;
+        // }
         // 게임별 누르기율 계산
-        $nSum = $nSum * $objConfPb->game_percent_2 / 100;
+        $nSum = $nSum * $objConf->game_percent_2 / 100;
         $arrSum[2] = (int) $nSum;
 
         $arrSumData[1] = $arrSum;
@@ -291,8 +292,11 @@ class BbBet_model extends Model
             } elseif (2 == $arrReqData['mode']) {
                 $strCondition .= ' AND bet_mode >= 5 AND bet_mode <= 20 ';
             } elseif (3 == $arrReqData['mode']) {
-                $strCondition .= ' AND bet_mode >= 21 AND bet_mode <= 26 ';
-            }
+                $strCondition .= ' AND bet_mode >= 21 AND bet_mode <= 29 ';
+            } else if($arrReqData['mode'] == 4)
+                $strCondition.=" AND bet_mode >= 31 AND bet_mode <= 38 ";
+            else if($arrReqData['mode'] == 5)
+                $strCondition.=" AND bet_mode = 30 ";
         }
         // 총배팅금, 적중금
         $arrSum = [];
@@ -340,6 +344,9 @@ class BbBet_model extends Model
 
     public function search($objEmp, $arrReqData)
     {
+        if(is_null($objEmp))
+            return [];
+            
         $strTbColum = ' mb_fid, mb_uid, mb_level, mb_emp_fid ';
         $strTbRColum = ' r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid ';
 
@@ -350,13 +357,20 @@ class BbBet_model extends Model
             $strSql .= ' UNION ALL SELECT '.$strTbRColum.' FROM '.$this->mMemberTable.' r ';
             $strSql .= ' INNER JOIN tbmember ON r.mb_emp_fid = tbmember.mb_fid )';
 
-            $strSql .= 'SELECT bet_fid, bet_state, bet_emp_fid, bet_mb_uid, bet_round_fid, bet_round_no, bet_time, bet_mode, bet_target, bet_ratio, bet_money, bet_result, bet_win_money, point_amount, employee_amount, agency_amount, company_amount FROM '.$this->table;
+            $strSql .= ' SELECT bet_fid, bet_state, bet_emp_fid, bet_mb_uid, bet_round_fid, bet_round_no, bet_time, ';
+            $strSql .= ' bet_mode, bet_target, bet_ratio, bet_money, bet_result, bet_win_money, rw_mb_uid, rw_point  FROM '.$this->table;
 
             $strSql .= '  JOIN (SELECT  * FROM tbmember UNION SELECT '.$strTbColum.' FROM '.$this->mMemberTable." where mb_fid='".$objEmp->mb_fid."'";
             $strSql .= ' ) AS mb_table ';
             $strSql .= ' ON '.$this->table.'.bet_mb_uid = mb_table.mb_uid ';
+            //Join bet_reward
+            $strSql .= '  LEFT JOIN '.$this->mRewardTable.' ON '.$this->table.'.bet_fid = '.$this->mRewardTable.'.rw_bet_id ';
+                $strSql .= ' AND '.$this->mRewardTable.".rw_game = '".GAME_BOGLE_BALL."' ";
+                $strSql .= ' AND '.$this->mRewardTable.".rw_mb_uid = '".$objEmp->mb_uid."' ";
+            
         } else {
-            $strSql .= 'SELECT bet_fid, bet_state, bet_emp_fid, bet_mb_uid, bet_round_fid, bet_round_no, bet_time, bet_mode, bet_target, bet_ratio, bet_money, bet_result, bet_win_money, point_amount, employee_amount, agency_amount, company_amount FROM '.$this->table;
+            $strSql .= 'SELECT bet_fid, bet_state, bet_emp_fid, bet_mb_uid, bet_round_fid, bet_round_no, bet_time, ';
+            $strSql .= 'bet_mode, bet_target, bet_ratio, bet_money, bet_result, bet_win_money FROM '.$this->table;
         }
 
         $bWhere = false;
@@ -395,8 +409,11 @@ class BbBet_model extends Model
             } elseif (2 == $arrReqData['mode']) {
                 $strSql .= ' bet_mode >= 5 AND bet_mode <= 20 ';
             } elseif (3 == $arrReqData['mode']) {
-                $strSql .= ' bet_mode >= 21 AND bet_mode <= 26 ';
-            }
+                $strSql .= ' bet_mode >= 21 AND bet_mode <= 29 ';
+            } else if($arrReqData['mode'] == 4)
+                $strSql.=" bet_mode >= 31 AND bet_mode <= 38 ";
+            else if($arrReqData['mode'] == 5)
+                $strSql.=" bet_mode = 30 ";
         }
 
         $nStartRow = ($arrReqData['page'] - 1) * $arrReqData['count'];
@@ -409,6 +426,9 @@ class BbBet_model extends Model
 
     public function searchCount($objEmp, $arrReqData)
     {
+        if(is_null($objEmp))
+            return 0;
+
         $strTbColum = ' mb_fid, mb_uid, mb_level, mb_emp_fid ';
         $strTbRColum = ' r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid ';
 
@@ -463,8 +483,12 @@ class BbBet_model extends Model
             } elseif (2 == $arrReqData['mode']) {
                 $strSql .= ' bet_mode >= 5 AND bet_mode <= 20 ';
             } elseif (3 == $arrReqData['mode']) {
-                $strSql .= ' bet_mode >= 21 AND bet_mode <= 26 ';
-            }
+                $strSql .= ' bet_mode >= 21 AND bet_mode <= 29 ';
+            } else if($arrReqData['mode'] == 4)
+                $strSql.=" bet_mode >= 31 AND bet_mode <= 38 ";
+            else if($arrReqData['mode'] == 5)
+                $strSql.=" bet_mode = 30 ";
+            
 
             $bWhere = true;
         }
@@ -502,139 +526,236 @@ class BbBet_model extends Model
 
         $nWinMoney = 0;
         $isWin = false;
-        // bet_state=2:Betting-loss 3:Betting-Earn
-        if ('1' == $objBetInfo->bet_mode) {
-            $objBetInfo->bet_result = $objRoundInfo->round_result_1;
-            if ($objBetInfo->bet_target == $objRoundInfo->round_result_1) {
-                $isWin = true;
-            }
-        } elseif ('2' == $objBetInfo->bet_mode) {
-            $objBetInfo->bet_result = $objRoundInfo->round_result_2;
-            if ($objBetInfo->bet_target == $objRoundInfo->round_result_2) {
-                $isWin = true;
-            }
-        } elseif ('3' == $objBetInfo->bet_mode) {
-            $objBetInfo->bet_result = $objRoundInfo->round_result_3;
-            if ($objBetInfo->bet_target == $objRoundInfo->round_result_3) {
-                $isWin = true;
-            }
-        } elseif ('4' == $objBetInfo->bet_mode) {
-            $objBetInfo->bet_result = $objRoundInfo->round_result_4;
-            if ($objBetInfo->bet_target == $objRoundInfo->round_result_4) {
-                $isWin = true;
-            }
-        } elseif ('5' == $objBetInfo->bet_mode) {
-            $objBetInfo->bet_result = $objRoundInfo->round_result_1.$objRoundInfo->round_result_2;
-            if ('P' == $objRoundInfo->round_result_1 && 'P' == $objRoundInfo->round_result_2) {
-                $isWin = true;
-            }
-        } elseif ('6' == $objBetInfo->bet_mode) {
-            $objBetInfo->bet_result = $objRoundInfo->round_result_1.$objRoundInfo->round_result_2;
-            if ('P' == $objRoundInfo->round_result_1 && 'B' == $objRoundInfo->round_result_2) {
-                $isWin = true;
-            }
-        } elseif ('7' == $objBetInfo->bet_mode) {
-            $objBetInfo->bet_result = $objRoundInfo->round_result_1.$objRoundInfo->round_result_2;
-            if ('B' == $objRoundInfo->round_result_1 && 'P' == $objRoundInfo->round_result_2) {
-                $isWin = true;
-            }
-        } elseif ('8' == $objBetInfo->bet_mode) {
-            $objBetInfo->bet_result = $objRoundInfo->round_result_1.$objRoundInfo->round_result_2;
-            if ('B' == $objRoundInfo->round_result_1 && 'B' == $objRoundInfo->round_result_2) {
-                $isWin = true;
-            }
-        } elseif ('9' == $objBetInfo->bet_mode) {
-            $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_4;
-            if ('P' == $objRoundInfo->round_result_3 && 'P' == $objRoundInfo->round_result_4) {
-                $isWin = true;
-            }
-        } elseif ('10' == $objBetInfo->bet_mode) {
-            $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_4;
-            if ('P' == $objRoundInfo->round_result_3 && 'B' == $objRoundInfo->round_result_4) {
-                $isWin = true;
-            }
-        } elseif ('11' == $objBetInfo->bet_mode) {
-            $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_4;
-            if ('B' == $objRoundInfo->round_result_3 && 'P' == $objRoundInfo->round_result_4) {
-                $isWin = true;
-            }
-        } elseif ('12' == $objBetInfo->bet_mode) {
-            $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_4;
-            if ('B' == $objRoundInfo->round_result_3 && 'B' == $objRoundInfo->round_result_4) {
-                $isWin = true;
-            }
-        } elseif ('13' == $objBetInfo->bet_mode) {
-            $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_1;
-            if ('P' == $objRoundInfo->round_result_3 && 'P' == $objRoundInfo->round_result_1) {
-                $isWin = true;
-            }
-        } elseif ('14' == $objBetInfo->bet_mode) {
-            $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_1;
-            if ('P' == $objRoundInfo->round_result_3 && 'B' == $objRoundInfo->round_result_1) {
-                $isWin = true;
-            }
-        } elseif ('15' == $objBetInfo->bet_mode) {
-            $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_1;
-            if ('B' == $objRoundInfo->round_result_3 && 'P' == $objRoundInfo->round_result_1) {
-                $isWin = true;
-            }
-        } elseif ('16' == $objBetInfo->bet_mode) {
-            $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_1;
-            if ('B' == $objRoundInfo->round_result_3 && 'B' == $objRoundInfo->round_result_1) {
-                $isWin = true;
-            }
-        } elseif ('17' == $objBetInfo->bet_mode) {
-            $objBetInfo->bet_result = $objRoundInfo->round_result_4.$objRoundInfo->round_result_2;
-            if ('P' == $objRoundInfo->round_result_4 && 'P' == $objRoundInfo->round_result_2) {
-                $isWin = true;
-            }
-        } elseif ('18' == $objBetInfo->bet_mode) {
-            $objBetInfo->bet_result = $objRoundInfo->round_result_4.$objRoundInfo->round_result_2;
-            if ('P' == $objRoundInfo->round_result_4 && 'B' == $objRoundInfo->round_result_2) {
-                $isWin = true;
-            }
-        } elseif ('19' == $objBetInfo->bet_mode) {
-            $objBetInfo->bet_result = $objRoundInfo->round_result_4.$objRoundInfo->round_result_2;
-            if ('B' == $objRoundInfo->round_result_4 && 'P' == $objRoundInfo->round_result_2) {
-                $isWin = true;
-            }
-        } elseif ('20' == $objBetInfo->bet_mode) {
-            $objBetInfo->bet_result = $objRoundInfo->round_result_4.$objRoundInfo->round_result_2;
-            if ('B' == $objRoundInfo->round_result_4 && 'B' == $objRoundInfo->round_result_2) {
-                $isWin = true;
-            }
-        } elseif ('21' == $objBetInfo->bet_mode) {
-            $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_5;
-            if ('P' == $objRoundInfo->round_result_3 && 'L' == $objRoundInfo->round_result_5) {
-                $isWin = true;
-            }
-        } elseif ('22' == $objBetInfo->bet_mode) {
-            $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_5;
-            if ('P' == $objRoundInfo->round_result_3 && 'M' == $objRoundInfo->round_result_5) {
-                $isWin = true;
-            }
-        } elseif ('23' == $objBetInfo->bet_mode) {
-            $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_5;
-            if ('P' == $objRoundInfo->round_result_3 && 'S' == $objRoundInfo->round_result_5) {
-                $isWin = true;
-            }
-        } elseif ('24' == $objBetInfo->bet_mode) {
-            $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_5;
-            if ('B' == $objRoundInfo->round_result_3 && 'L' == $objRoundInfo->round_result_5) {
-                $isWin = true;
-            }
-        } elseif ('25' == $objBetInfo->bet_mode) {
-            $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_5;
-            if ('B' == $objRoundInfo->round_result_3 && 'M' == $objRoundInfo->round_result_5) {
-                $isWin = true;
-            }
-        } elseif ('26' == $objBetInfo->bet_mode) {
-            $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_5;
-            if ('B' == $objRoundInfo->round_result_3 && 'S' == $objRoundInfo->round_result_5) {
-                $isWin = true;
-            }
-        } else {
-            return false;
+        //bet_state=2:Betting-loss 3:Betting-Earn 
+        switch(intval($objBetInfo->bet_mode)){
+            case 1:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_1;
+                if($objBetInfo->bet_target == $objRoundInfo->round_result_1){
+                    $isWin = true;                            
+                }
+                break;
+            case 2:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_2;
+                if($objBetInfo->bet_target == $objRoundInfo->round_result_2){
+                    $isWin = true;
+                }
+                break;
+            case 3:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_3;
+                if($objBetInfo->bet_target == $objRoundInfo->round_result_3){
+                    $isWin = true;
+                }
+                break;
+            case 4:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_4;
+                if($objBetInfo->bet_target == $objRoundInfo->round_result_4){
+                    $isWin = true;
+                }
+                break;
+            case 5:    //파워볼조합
+                $objBetInfo->bet_result = $objRoundInfo->round_result_1.$objRoundInfo->round_result_2;
+                if($objRoundInfo->round_result_1 == 'P' && $objRoundInfo->round_result_2 == 'P' ){
+                    $isWin = true;
+                }
+                break;
+            case 6:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_1.$objRoundInfo->round_result_2;
+                if($objRoundInfo->round_result_1 == 'P' && $objRoundInfo->round_result_2 == 'B' ){
+                    $isWin = true;
+                }
+                break;
+            case 7: 
+                $objBetInfo->bet_result = $objRoundInfo->round_result_1.$objRoundInfo->round_result_2;
+                if($objRoundInfo->round_result_1 == 'B' && $objRoundInfo->round_result_2 == 'P' ){
+                    $isWin = true;
+                }
+                break;
+            case 8:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_1.$objRoundInfo->round_result_2;
+                if($objRoundInfo->round_result_1 == 'B' && $objRoundInfo->round_result_2 == 'B' ){
+                    $isWin = true;
+                }
+                break;
+            case 9:    //일반볼조합
+                $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_4;
+                if($objRoundInfo->round_result_3 == 'P' && $objRoundInfo->round_result_4 == 'P' ){
+                    $isWin = true;
+                }
+            case 10:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_4;
+                if($objRoundInfo->round_result_3 == 'P' && $objRoundInfo->round_result_4 == 'B' ){
+                    $isWin = true;
+                }
+                break;
+            case 11:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_4;
+                if($objRoundInfo->round_result_3 == 'B' && $objRoundInfo->round_result_4 == 'P' ){
+                    $isWin = true;
+                }
+                break;
+            case 12:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_4;
+                if($objRoundInfo->round_result_3 == 'B' && $objRoundInfo->round_result_4 == 'B' ){
+                    $isWin = true;
+                }
+                break;
+            case 13:      //일반볼 + 파워볼 조합
+                $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_1;
+                if($objRoundInfo->round_result_3 == 'P' && $objRoundInfo->round_result_1 == 'P' ){
+                    $isWin = true;
+                }
+                break;
+            case 14:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_1;
+                if($objRoundInfo->round_result_3 == 'P' && $objRoundInfo->round_result_1 == 'B' ){
+                    $isWin = true;
+                }
+                break;
+            case 15:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_1;
+                if($objRoundInfo->round_result_3 == 'B' && $objRoundInfo->round_result_1 == 'P' ){
+                    $isWin = true;
+                }
+                break;
+            case 16:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_1;
+                if($objRoundInfo->round_result_3 == 'B' && $objRoundInfo->round_result_1 == 'B' ){
+                    $isWin = true;
+                }
+                break;
+            case 17:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_4.$objRoundInfo->round_result_2;
+                if($objRoundInfo->round_result_4 == 'P' && $objRoundInfo->round_result_2 == 'P' ){
+                    $isWin = true;
+                }
+                break;
+            case 18:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_4.$objRoundInfo->round_result_2;
+                if($objRoundInfo->round_result_4 == 'P' && $objRoundInfo->round_result_2 == 'B' ){
+                    $isWin = true;
+                }
+                break;
+            case 19:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_4.$objRoundInfo->round_result_2;
+                if($objRoundInfo->round_result_4 == 'B' && $objRoundInfo->round_result_2 == 'P' ){
+                    $isWin = true;
+                }
+                break;
+            case 20:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_4.$objRoundInfo->round_result_2;
+                if($objRoundInfo->round_result_4 == 'B' && $objRoundInfo->round_result_2 == 'B' ){
+                    $isWin = true;
+                }
+                break;
+            case 21:   //일반볼 대중소
+                $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_5;
+                if($objRoundInfo->round_result_3 == 'P' && $objRoundInfo->round_result_5 == 'L' ){
+                    $isWin = true;
+                }
+                break;
+            case 22:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_5;
+                if($objRoundInfo->round_result_3 == 'P' && $objRoundInfo->round_result_5 == 'M' ){
+                    $isWin = true;
+                }
+                break;
+            case 23:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_5;
+                if($objRoundInfo->round_result_3 == 'P' && $objRoundInfo->round_result_5 == 'S' ){
+                    $isWin = true;
+                }
+                break;
+            case 24:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_5;
+                if($objRoundInfo->round_result_3 == 'B' && $objRoundInfo->round_result_5 == 'L' ){
+                    $isWin = true;
+                }
+                break;
+            case 25:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_5;
+                if($objRoundInfo->round_result_3 == 'B' && $objRoundInfo->round_result_5 == 'M' ){
+                    $isWin = true;
+                }
+                break;
+            case 26:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_5;
+                if($objRoundInfo->round_result_3 == 'B' && $objRoundInfo->round_result_5 == 'S' ){
+                    $isWin = true;
+                }
+                break;
+            case 27:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_5;
+                if($objRoundInfo->round_result_5 == 'L' ){
+                    $isWin = true;
+                }
+                break;
+            case 28:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_5;
+                if($objRoundInfo->round_result_5 == 'M' ){
+                    $isWin = true;
+                }
+                break;
+            case 29:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_5;
+                if($objRoundInfo->round_result_5 == 'S' ){
+                    $isWin = true;
+                }
+                break;
+            case 30:
+                $objBetInfo->bet_result = $objRoundInfo->round_power;
+                if($objBetInfo->bet_target === $objRoundInfo->round_power ){
+                    $isWin = true;
+                }
+                break;
+            case 31:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_4.$objRoundInfo->round_result_1;
+                if($objRoundInfo->round_result_3 == 'P' && $objRoundInfo->round_result_4 == 'P' && $objRoundInfo->round_result_1 == 'P' ){
+                    $isWin = true;
+                }
+                break;
+            case 32:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_4.$objRoundInfo->round_result_1;
+                if($objRoundInfo->round_result_3 == 'P' && $objRoundInfo->round_result_4 == 'P' && $objRoundInfo->round_result_1 == 'B' ){
+                    $isWin = true;
+                }
+                break;
+            case 33:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_4.$objRoundInfo->round_result_1;
+                if($objRoundInfo->round_result_3 == 'P' && $objRoundInfo->round_result_4 == 'B' && $objRoundInfo->round_result_1 == 'P' ){
+                    $isWin = true;
+                }
+                break;
+            case 34:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_4.$objRoundInfo->round_result_1;
+                if($objRoundInfo->round_result_3 == 'P' && $objRoundInfo->round_result_4 == 'B' && $objRoundInfo->round_result_1 == 'B' ){
+                    $isWin = true;
+                }
+                break;
+            case 35:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_4.$objRoundInfo->round_result_1;
+                if($objRoundInfo->round_result_3 == 'B' && $objRoundInfo->round_result_4 == 'P' && $objRoundInfo->round_result_1 == 'P' ){
+                    $isWin = true;
+                }
+                break;
+            case 36:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_4.$objRoundInfo->round_result_1;
+                if($objRoundInfo->round_result_3 == 'B' && $objRoundInfo->round_result_4 == 'P' && $objRoundInfo->round_result_1 == 'B' ){
+                    $isWin = true;
+                }
+                break;
+            case 37:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_4.$objRoundInfo->round_result_1;
+                if($objRoundInfo->round_result_3 == 'B' && $objRoundInfo->round_result_4 == 'B' && $objRoundInfo->round_result_1 == 'P' ){
+                    $isWin = true;
+                }
+                break;
+            case 38:
+                $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_4.$objRoundInfo->round_result_1;
+                if($objRoundInfo->round_result_3 == 'B' && $objRoundInfo->round_result_4 == 'B' && $objRoundInfo->round_result_1 == 'B' ){
+                    $isWin = true;
+                }
+                break;
+            default:return false;
         }
 
         if ($isWin) {
@@ -644,22 +765,18 @@ class BbBet_model extends Model
             $objBetInfo->bet_win_money = (int) $nWinMoney;
             // user_after_money
             $objBetInfo->user_after_money = ($objBetInfo->user_before_money + $objBetInfo->bet_win_money - $objBetInfo->bet_money);
-            $objBetInfo->cumulate_amount += ($objBetInfo->bet_win_money - $objBetInfo->bet_money);
         } else {
             $objBetInfo->bet_state = 2;
             $objBetInfo->bet_win_money = 0;
             // user_after_money
             $objBetInfo->user_after_money = ($objBetInfo->user_before_money - $objBetInfo->bet_money);
 
-            $objBetInfo->cumulate_amount -= $objBetInfo->bet_money;
         }
 
         $this->builder()->set('bet_result', $objBetInfo->bet_result);
         $this->builder()->set('bet_state', $objBetInfo->bet_state);
         $this->builder()->set('bet_win_money', $objBetInfo->bet_win_money);
         $this->builder()->set('user_after_money', $objBetInfo->user_after_money);
-        $this->builder()->set('cumulate_amount', $objBetInfo->cumulate_amount);
-
         $this->builder()->set('account_time', 'NOW()', false);
 
         $this->builder()->where('bet_fid', $objBetInfo->bet_fid);

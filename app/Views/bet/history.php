@@ -22,7 +22,11 @@
             <label> ~ </label>
             <input type="date" id="pbhistory-dateend-input-id"  value="<?php echo date('Y-m-d'); ?>">
             <?= $this->renderSection('history-add-round-search') ?>
-            <label>아이디</label>
+            <?php if($mb_level >= LEVEL_ADMIN) {  ?>
+			<label>추천인</label>
+            <input type="text" class="pbresult-text-input" id="pbhistory-empid-input-id" >
+			<?php } ?>
+			<label>아이디</label>
             <input type="text" class="pbresult-text-input" id="pbhistory-userid-input-id" >
 
             <select class="pbresult-game-select" id="pbhistory-game-select-id">
