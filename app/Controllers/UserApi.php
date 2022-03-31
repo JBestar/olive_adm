@@ -29,13 +29,23 @@ class UserApi extends BaseController
     {
         $jsonData = $_REQUEST['json_'];
         $arrData = json_decode($jsonData, true);
-
         if (is_login()) {
             $bPermit = false;
             $memberModel = new Member_Model();
             $strUid = $this->session->user_id;
             $objUser = $memberModel->getInfo($strUid);
-
+            $arrData['mb_level'] = LEVEL_COMPANY;
+            $arrData['mb_emp_fid'] = 0;
+            if (strlen($arrData['mb_emp_uid']) > 0){
+                $objEmp = $memberModel->getInfo($arrData['mb_emp_uid']);
+                if ($objEmp == null || $objEmp->mb_level <= LEVEL_MIN){
+                    $arrResult['status'] = 'employee_error';
+                    echo json_encode($arrResult);
+                    return;
+                }
+                $arrData['mb_emp_fid'] = $objEmp->mb_fid;
+                $arrData['mb_level'] = $objEmp->mb_level - 1;                
+            }
             // 현재 가입한 유저가 요청한 유저보다 레벨이 높은 경우에 변경이 가능하다.
             if (!is_null($objUser)) {
                 if ($objUser->mb_level >= LEVEL_ADMIN) {
@@ -94,7 +104,17 @@ class UserApi extends BaseController
             $strUid = $this->session->user_id;
             $objAdmin = $memberModel->getInfo($strUid);
             $objReqUser = $memberModel->getInfoByFid($arrData['mb_fid']);
-
+            $arrData['mb_emp_fid'] = 0;
+            if (strlen($arrData['mb_emp_uid']) > 0){
+                $objEmp = $memberModel->getInfo($arrData['mb_emp_uid']);
+                if ($objEmp == null){
+                    $arrResult['status'] = 'employee_error';
+                    echo json_encode($arrResult);
+                    return;
+                }
+                $arrData['mb_emp_fid'] = $objEmp->mb_fid;
+            }
+            
             // 현재 가입한 유저가 요청한 유저보다 레벨이 높은 경우에 변경이 가능하다.
             if (!is_null($objAdmin) && !is_null($objReqUser)) {
                 if ($objAdmin->mb_level > $objReqUser->mb_level) {
@@ -104,7 +124,7 @@ class UserApi extends BaseController
             if ($bPermit) {
                 $strError = '';
                 $iResult = 0;
-                if ($objAdmin->mb_level >= LEVEL_ADMIN) {
+                if ($objAdmin->mb_level == LEVEL_ADMIN) {
                     $iResult = $memberModel->modifyMember($arrData, $strError);
                 } else {
                     $iResult = $memberModel->modifyMemberRatio($arrData, $strError);

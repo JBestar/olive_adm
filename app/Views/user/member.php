@@ -39,6 +39,10 @@
 				<option value="4"> 4레벨 </option>
 				<option value="5"> 5레벨 </option>
 				<option value="6"> 6레벨 </option>
+				<option value="7"> 7레벨 </option>
+				<option value="8"> 8레벨 </option>
+				<option value="9"> 9레벨 </option>
+				<option value="10"> 10레벨 </option>
 			</select>
 			<select name="pbresult-number" class="pbresult-number-select" id="userpanel-number-select-id">
 				<option value="10">10개</option>

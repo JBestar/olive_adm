@@ -44,7 +44,7 @@
 		</div>
 		<!---->
         <?php $this->renderSection('user-edit-check-level')  ?>
-		<?php { ?>
+		
 		<div class="useredit-text-div">
 			<p>비밀번호:</p> 
 			<?php if(is_null($objMember)) {  ?>	
@@ -56,6 +56,7 @@
 		<!---->
         <?= $this->renderSection('user-edit-form-section1') ?>
 		<!---->
+		<?php if ($mb_level == LEVEL_ADMIN) {?>
 		<div class="useredit-text-div">
 			<p>핸드폰번호:</p> 
 			<?php if(is_null($objMember)) {  ?>			
@@ -106,8 +107,9 @@
 			<input type = "text" id="useredit-bankpwd-input-id" value="<?=$objMember->mb_bank_pwd?>">
 			<?php } ?>
 		</div>
+		<?php }?>
         <?= $this->renderSection('user-edit-form-section2') ?>
-		<?php }  ?>
+		
 			<!---->
 		<div class="useredit-percent-div">
 			<p>파워볼단폴:</p> 
@@ -230,7 +232,7 @@
 		</div>
 		
 		<?php $this->renderSection('user-edit-check-level')  ?>
-        <?php { ?>
+        
 		<p class="useredit-seperate-div">
 		</p>
 		<!---->
@@ -256,6 +258,7 @@
 		</div>
 		<?php } ?>
 		<!---->
+		<?php if ($mb_level == LEVEL_ADMIN) { ?>
 		<div class="useredit-text-div">
 			<p>현재금액:</p> 
 			<?php if(is_null($objMember)) {  ?>	
@@ -275,6 +278,7 @@
 			<label>원</label>
 		</div>
 		<?php } ?>
+		
 
 		<div class = "useredit-button-group">
 			<button class="useredit-cancel-button" id="useredit-cancel-btn-id">취소</button>

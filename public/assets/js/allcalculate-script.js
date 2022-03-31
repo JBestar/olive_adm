@@ -30,7 +30,7 @@ function showCalcualte(arrCalcData) {
             strBuf += " class=\"tr-employee-color\"";
 
         strBuf += "><td>";
-        if (arrCalcData[nRow].mb_level > 1)
+        if (arrCalcData[nRow].mb_level > LEVEL_MIN)
             strBuf += "<i class=\"glyphicon glyphicon-triangle-right\"></i>"
         strBuf += "<p hidden>" + arrCalcData[nRow].mb_fid + "</p>";
         strBuf += "<p hidden>" + arrCalcData[nRow].mb_emp_fid + "</p>";
@@ -40,11 +40,11 @@ function showCalcualte(arrCalcData) {
         strBuf += "</td><td>";
         strBuf += arrCalcData[nRow].mb_nickname; //
         strBuf += "</td><td>";
-        if (arrCalcData[nRow].mb_level == 9) //
+        if (arrCalcData[nRow].mb_level == LEVEL_COMPANY) //
             strBuf += "부본사";
-        else if (arrCalcData[nRow].mb_level == 8) //
+        else if (arrCalcData[nRow].mb_level == LEVEL_AGENCY) //
             strBuf += "총판";
-        else if (arrCalcData[nRow].mb_level == 7) //
+        else if (arrCalcData[nRow].mb_level == LEVEL_EMPLOYEE) //
             strBuf += "매장";
         strBuf += "</td><td>";
         strBuf += parseInt(arrCalcData[nRow].mb_charge).toLocaleString(); //
@@ -114,10 +114,7 @@ function requestCalculate(nFid, nRow) {
         error: function(request, status, error) {
             // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
         }
-
     });
-
-
 }
 
 
@@ -178,7 +175,7 @@ function addRow(nTbRow, arrCalcData) {
             elemNewRow.className = "tr-employee-color";
 
         var elemCell0 = elemNewRow.insertCell(0);
-        if (arrCalcData[nRow].mb_level > 1)
+        if (arrCalcData[nRow].mb_level > LEVEL_MIN)
             strBuf = "<i class=\"glyphicon glyphicon-triangle-right\"></i>"
         strBuf += "<p hidden>" + arrCalcData[nRow].mb_fid + "</p>";
         strBuf += "<p hidden>" + arrCalcData[nRow].mb_emp_fid + "</p>";
@@ -193,11 +190,11 @@ function addRow(nTbRow, arrCalcData) {
         elemCell2.innerHTML = arrCalcData[nRow].mb_nickname; //
 
         var elemCell3 = elemNewRow.insertCell(3);
-        if (arrCalcData[nRow].mb_level == 9) //
+        if (arrCalcData[nRow].mb_level == LEVEL_COMPANY) //
             elemCell3.innerHTML = "부본사";
-        else if (arrCalcData[nRow].mb_level == 8) //
+        else if (arrCalcData[nRow].mb_level == LEVEL_AGENCY) //
             elemCell3.innerHTML = "총판";
-        else if (arrCalcData[nRow].mb_level == 7) //
+        else if (arrCalcData[nRow].mb_level == LEVEL_EMPLOYEE) //
             elemCell3.innerHTML = "매장";
 
         var elemCell4 = elemNewRow.insertCell(4);

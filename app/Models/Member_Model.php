@@ -715,7 +715,7 @@ class Member_Model extends Model
     {
         // 결과 -1: query error 0:오유 1:성공 3:추천인 오유 4:파워볼 배당율오유 5:파워사다리 배당율오유 6:키노사다리 배당율 오유
 
-        if (9 == $arrRegData['mb_level']) {
+        if (LEVEL_COMPANY == $arrRegData['mb_level']) {
             $arrRegData['mb_emp_fid'] = 0;
         } elseif ($arrRegData['mb_emp_fid'] > 0) {
             // 추천인 검사
@@ -724,19 +724,10 @@ class Member_Model extends Model
                 return 3;
             }
 
-            if (LEVEL_AGENCY == $arrRegData['mb_level']) {
-                if (LEVEL_COMPANY != $objEmployee->mb_level) {
-                    return 3;
-                }
-            } elseif (LEVEL_EMPLOYEE == $arrRegData['mb_level']) {
-                if (LEVEL_AGENCY != $objEmployee->mb_level) {
-                    return 3;
-                }
-            } elseif ($arrRegData['mb_level'] < LEVEL_EMPLOYEE) {
-                if (LEVEL_EMPLOYEE != $objEmployee->mb_level) {
-                    return 3;
-                }
+            if ($arrRegData['mb_level'] < LEVEL_MIN){
+                return 3;
             }
+            
             // 배당율 검사
             $ratioResult = $this->checkGameRatio($objEmployee, $arrRegData, $strError);
             if (1 != $ratioResult) {

@@ -9,14 +9,25 @@ function readConfigToObject() {
     objMember.mb_fid = document.getElementById("subnavbar-fid-p-id").innerHTML;
     objMember.mb_uid = document.getElementById("useredit-id-input-id").value;
     objMember.mb_pwd = document.getElementById("useredit-pwd-input-id").value;
-    objMember.mb_level = 9;
+    objMember.mb_level = LEVEL_COMPANY;
     objMember.mb_emp_fid = 0;
     objMember.mb_nickname = document.getElementById("useredit-nickname-input-id").value;
-    objMember.mb_phone = document.getElementById("useredit-phone-input-id").value;
-    objMember.mb_bank_name = document.getElementById("useredit-bankname-input-id").value;
-    objMember.mb_bank_own = document.getElementById("useredit-bankaccount-input-id").value;
-    objMember.mb_bank_num = document.getElementById("useredit-bankserial-input-id").value;
-    objMember.mb_bank_pwd = document.getElementById("useredit-bankpwd-input-id").value;
+    var elePhoneInput = document.getElementById("useredit-phone-input-id");
+    if (typeof(elePhoneInput) != undefined && elePhoneInput != null) 
+        objMember.mb_phone = elePhoneInput.value;
+    var eleBankNameInput = document.getElementById("useredit-bankname-input-id");
+    if (typeof(eleBankNameInput) != undefined && eleBankNameInput != null) 
+        objMember.mb_bank_name = eleBankNameInput.value;
+    var eleBankAccountInput = document.getElementById("useredit-bankaccount-input-id");
+    if (typeof(eleBankAccountInput) != undefined && eleBankAccountInput != null) 
+        objMember.mb_bank_own = eleBankAccountInput.value;
+    var eleBankNumInput = document.getElementById("useredit-bankserial-input-id");
+    if (typeof(eleBankNumInput) != undefined && eleBankNumInput != null) 
+        objMember.mb_bank_num = eleBankNumInput.value;
+    var eleBankPwdInput = document.getElementById("useredit-bankpwd-input-id");
+    if (typeof(eleBankPwdInput) != undefined && eleBankPwdInput != null) 
+        objMember.mb_bank_pwd = eleBankPwdInput.value;
+    
     objMember.mb_color = document.getElementById("useredit-color-input-id").value;
     objMember.mb_emp_permit = document.getElementById("useredit-modify-check-id").checked ? 1 : 0;
     objMember.mb_game_pb_ratio = document.getElementById("useredit-pbbetrate-input-id").value;
@@ -117,6 +128,8 @@ function addBtnEvent() {
                             errString += `${jResult.error[property]}\n`;
                         }
                         alert(errString);
+                    } else if (jResult.status == "employee_error"){
+                        alert("추천인 아이디가 존재하지 않습니다.");
                     }
                 },
                 error: function(request, status, error) {
@@ -148,6 +161,8 @@ function addBtnEvent() {
                         else if (jResult.error == 11)
                             alert("중복된 닉네임입니다.");
                         else alert("등록이 실패되었습니다.");
+                    } else if (jResult.status == "employee_error"){
+                        alert("추천인 아이디가 존재하지 않습니다.");
                     }
                 },
                 error: function(request, status, error) {

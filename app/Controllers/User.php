@@ -22,16 +22,22 @@ class User extends StdController
 		{
 			$objMember = $memberModel->getMemberByFid($memberFid);					
 		}
-		$arrEmpName = null;
-		if ($userLevel != LEVEL_COMPANY)
-			$arrEmpName = $memberModel->getEmployeeNames($objAdmin, $employeeLevel);
+		$empUid = '';
+		// if ($userLevel != LEVEL_COMPANY)
+		// 	$arrEmpName = $memberModel->getEmployeeNames($objAdmin, $employeeLevel);
+		if ($objMember != null){
+			$arrEmpMember = $memberModel->find($objMember->mb_emp_fid);
+			if ($arrEmpMember != null)
+				$empUid = $arrEmpMember['mb_uid'];
+		}
+			
 		$this->load_view_page(
 			$url, 
 			$activePage, 
 			$userLevel, 
 			[
 				'objMember' => $objMember, 
-				'arrEmpName' => $arrEmpName,
+				'emp_uid' => $empUid,
 		]);	
 		
 	}

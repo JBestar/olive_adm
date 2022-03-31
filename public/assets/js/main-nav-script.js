@@ -46,7 +46,7 @@ function requestMemberInfo() {
 
 function requestEmployeeInfo() {
     if (mObjUser == null) return;
-    else if (mObjUser.mb_level <= 9) return;
+    else if (mObjUser.mb_level <= LEVEL_COMPANY) return;
 
     $.ajax({
         type: "POST",
@@ -72,7 +72,7 @@ function requestEmployeeInfo() {
 
 function requestBetInfo() {
     if (mObjUser == null) return;
-    else if (mObjUser.mb_level <= 9) return;
+    else if (mObjUser.mb_level <= LEVEL_COMPANY) return;
 
     $.ajax({
         type: "POST",
@@ -129,13 +129,13 @@ function showMemberInfo(objUser) {
         return;
 
     var strBuf = "";
-    if (objUser.mb_level > 9)
+    if (objUser.mb_level > LEVEL_COMPANY)
         strBuf = "관리자";
-    else if (objUser.mb_level == 9)
+    else if (objUser.mb_level == LEVEL_COMPANY)
         strBuf = "부본사";
-    else if (objUser.mb_level == 8)
+    else if (objUser.mb_level == LEVEL_AGENCY)
         strBuf = "총판";
-    else if (objUser.mb_level == 7)
+    else if (objUser.mb_level == LEVEL_EMPLOYEE)
         strBuf = "매장";
 
 
@@ -146,7 +146,7 @@ function showMemberInfo(objUser) {
     $("#main-navbar-emp-div-id").text(strBuf);
 
 
-    if (objUser.mb_level < 10) {
+    if (objUser.mb_level < LEVEL_ADMIN) {
 
         strBuf = parseInt(objUser.mb_money).toLocaleString() + " 원";
         $("#main-navbar-emp_money-id").text(strBuf);

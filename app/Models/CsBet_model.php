@@ -178,8 +178,7 @@ class CsBet_model extends Model
             $strSql .= "SELECT count(*) as count  FROM ".$this->table;
             $strSql .= " JOIN member ON ".$this->table.".bet_player_id = ".$this->mMemberTable.".mb_live_id ";
         }
-
-
+        
         $bWhere = false;
         if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
             $strSql.=" WHERE bet_time >= '".$arrReqData['start']." 0:0:0' AND bet_time <= '".$arrReqData['end']." 23:59:59'" ;
