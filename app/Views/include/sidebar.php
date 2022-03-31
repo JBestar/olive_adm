@@ -18,13 +18,14 @@
     <i class="glyphicon glyphicon-chevron-right" style = "float:right; padding-right: 10px; font-size: 10px"></i>
   </button>
   <div class="main-dropdown-container" <?=$userdropdown?>>
-    <?php if($mb_level >= LEVEL_ADMIN) {  ?>
-    <a href="<?php echo base_url().'user/company';?>" class="<?=$user_company?>"><i class="glyphicon glyphicon-cd"></i>  부본사</a>
-    <?php } if($mb_level >= LEVEL_COMPANY) {  ?>
-    <a href="<?php echo base_url().'user/agency';?>" class="<?=$user_agency?>"><i class="glyphicon glyphicon-cd"></i>  총판</a>
-    <?php }  if($mb_level >= LEVEL_AGENCY) {  ?>
-    <a href="<?php echo base_url().'user/employee';?>" class="<?=$user_employee?>"><i class="glyphicon glyphicon-cd"></i>  매장</a>
-    <?php }  if($mb_level >= LEVEL_EMPLOYEE) {  ?>
+    <!--?php if($mb_level >= LEVEL_ADMIN) {  ?-->
+    <!--a href="<?php echo base_url().'user/company';?>" class="<?=$user_company?>"><i class="glyphicon glyphicon-cd"></i>  부본사</!--a-->
+    <!--?php } if($mb_level >= LEVEL_COMPANY) {  ?-->
+    <!--a href="<?php echo base_url().'user/agency';?>" class="<?=$user_agency?>"><i class="glyphicon glyphicon-cd"></i>  총판</!--a-->
+    <!--?php }  if($mb_level >= LEVEL_AGENCY) {  ?-->
+    <!--a href="<?php echo base_url().'user/employee';?>" class="<?=$user_employee?>"><i class="glyphicon glyphicon-cd"></i>  매장</!--a-->
+    <!--?php }  if($mb_level >= LEVEL_EMPLOYEE) {  ?-->
+    <?php { ?>
     <a href="<?php echo base_url().'user/member/0';?>" class="<?=$user_member?>"><i class="glyphicon glyphicon-cd"></i> 회원</a>
     <?php } ?>
   </div>

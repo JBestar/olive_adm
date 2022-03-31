@@ -192,7 +192,18 @@ class UserApi extends BaseController
                 $bResult = $memberModel->updateMemberByFid($arrData);
 
                 if ($bResult) {
+                    $arrUserData = $memberModel->find($arrData['mb_fid']);
+                    $arrUserData['mb_empname'] = '';
+                    if ($arrUserData['mb_emp_fid'] != 0){
+                        $arrEmpInfo = $memberModel->find($arrUserData['mb_emp_fid']);
+                        if ($arrEmpInfo != null)
+                        {
+                            $arrUserData['mb_empname'] = $arrEmpInfo['mb_uid'];
+                        }
+                    }
                     $arrResult['status'] = 'success';
+                    $arrResult['level'] = $objUser->mb_level;
+                    $arrResult['data'] = $arrUserData;                    
                 } else {
                     $arrResult['status'] = 'fail';
                 }

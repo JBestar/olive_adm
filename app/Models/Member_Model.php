@@ -805,22 +805,23 @@ class Member_Model extends Model
         } elseif ($arrData['mb_emp_fid'] > 0) {
             // 추천인 검사
             $objEmployee = $this->getMemberByFid($arrData['mb_emp_fid']);
-            if (is_null($objEmployee)) {
+            if (is_null($objEmployee) || $objEmployee->mb_level < LEVEL_MIN) {
                 return 3;
             }
 
-            if (LEVEL_AGENCY == $objMember->mb_level) {
-                if (LEVEL_COMPANY != $objEmployee->mb_level) {
-                    return 3;
-                }
-            } elseif (LEVEL_EMPLOYEE == $objMember->mb_level) {
-                if (LEVEL_AGENCY != $objEmployee->mb_level) {
-                    return 3;
-                }
-            } elseif ($objMember->mb_level < LEVEL_EMPLOYEE) {
-                if (LEVEL_EMPLOYEE != $objEmployee->mb_level) {
-                    return 3;
-                }
+            // if (LEVEL_AGENCY == $objMember->mb_level) {
+            //     if (LEVEL_COMPANY != $objEmployee->mb_level) {
+            //         return 3;
+            //     }
+            // } elseif (LEVEL_EMPLOYEE == $objMember->mb_level) {
+            //     if (LEVEL_AGENCY != $objEmployee->mb_level) {
+            //         return 3;
+            //     }
+            // } else
+            if ($objMember->mb_level < LEVEL_EMPLOYEE) {
+                // if (LEVEL_EMPLOYEE != $objEmployee->mb_level) {
+                //     return 3;
+                // }
 
                 $arrData['mb_color'] = $objEmployee->mb_color;
             }
@@ -992,6 +993,7 @@ class Member_Model extends Model
     public function searchCountByEmpFid($nAdminFid, $nAdminLev, $arrReqData)
     {
         $sqlBuilder = $this->builder()->selectCount('*', 'count');
+        $sqlBuilder = $sqlBuilder->where('mb_level !=', LEVEL_ADMIN);
         if ($nAdminLev == LEVEL_ADMIN){
             if ($nAdminFid != 0)
                 $sqlBuilder->where('mb_emp_fid', $nAdminFid);
@@ -1003,7 +1005,8 @@ class Member_Model extends Model
             $sqlBuilder->where('mb_grade', $arrReqData['mb_grade']);
         }
         if (strlen($arrReqData['mb_uid']) > 0){
-            $sqlBuilder->where('mb_uid', $arrReqData['mb_uid']);
+            // $sqlBuilder->where('mb_uid', $arrReqData['mb_uid']);
+            $sqlBuilder->like('mb_uid', $arrReqData['mb_uid']);
         }
         return $sqlBuilder->get()->getRow();
     }
@@ -1130,19 +1133,21 @@ class Member_Model extends Model
 
     public function searchMemberByEmpFid($nAdminFid, $nAdminLev, $arrReqData)
     {
-        $queryBuilder = $this->builder();
+        $strQuery = "SELECT * FROM $this->table WHERE mb_level != '".LEVEL_ADMIN."'";
         if ($nAdminFid != 0){
-            $queryBuilder = $queryBuilder->where('mb_emp_fid', $nAdminFid);
+            $strQuery .= " AND mb_emp_fid = '".$nAdminFid."'";
         }
         if (strlen($arrReqData['mb_uid']) > 0) {
-            $queryBuilder = $queryBuilder->where('mb_uid', $arrReqData['mb_uid']);
+            $strQuery .= " AND mb_uid LIKE '%".$arrReqData['mb_uid']."%'";
         }
         if (0 != $arrReqData['mb_grade']){
-            $queryBuilder = $queryBuilder->where('mb_grade', $arrReqData['mb_grade']);
+            $strQuery .= " AND mb_grade = '".$arrReqData['mb_grade']."'";
         }
+        $strQuery .= " ORDER BY (CASE WHEN mb_state_active = 2 THEN 0 ELSE 1 END) ";
+        $strQuery .= " ,mb_level DESC";
+        
         $nStartRow = ($arrReqData['page'] - 1) * $arrReqData['count'];
-        $queryBuilder->orderBy('mb_time_join', 'DESC')
-        ->limit($arrReqData['count'], $nStartRow);
-        return $queryBuilder->get()->getResult();
+        $strQuery .= ' LIMIT '.$nStartRow.', '.$arrReqData['count'];
+        return $this->db->query($strQuery)->getResult();
     }
 }
