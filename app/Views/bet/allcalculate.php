@@ -22,5 +22,5 @@
 	<th>최종손익</th>				
 <?= $this->endSection() ?>
 <?= $this->section('calculate-script') ?>
-	<script src="<?php echo base_url('assets/js/allcalculate-script.js?v=2');?>"></script>
+	<script src="<?php echo base_url('assets/js/allcalculate-script.js?v=3');?>"></script>
 <?= $this->endSection() ?>

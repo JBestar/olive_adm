@@ -61,5 +61,5 @@
 </div>
 
 <script src="<?php echo base_url('assets/js/page.js');?>"></script>
-<script src="<?php echo base_url('assets/js/message-script.js');?>"></script>
+<script src="<?php echo base_url('assets/js/message-script.js?v=1');?>"></script>
 <?= $this->endSection() ?>

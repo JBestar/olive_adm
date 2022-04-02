@@ -83,31 +83,31 @@ class Member_Model extends Model
     ];
     protected $validationMessages = [
         'mb_uid' => [
-            'required' => '아이디는 필수정보입니다.',
+            'required' => '아이디는 필수입력사항입니다.',
             'alpha_numeric' => '아이디는 영문,숫자만 가능합니다.',
-            'is_unique' => '아이디가 유일하지 않습니다.',
+            'is_unique' => '아이디가 이미 존재합니다.',
         ],
         'mb_nickname' => [
-            'required' => '닉네임은 필수정보입니다.',
+            'required' => '닉네임은 필수입력사항입니다.',
             'min_length' => '닉네임은 최소 3글자 이상입니다.',
             'max_length' => '닉네임은 최대 20글자 이하입니다.',
-            'is_unique' => '닉네임이 유일하지 않습니다.',
+            'is_unique' => '닉네임이 이미 존재합니다.',
         ],
         'mb_pwd' => [
-            'required' => '비번은 필수적입니다.',
+            'required' => '비밀번호는 필수입력사항입니다.',
         ],
         'mb_level' => [
-            'required' => '레벨은 필수입니다.',
+            'required' => '레벨은 필수입력사항입니다.',
         ],
         'mb_phone' => [
-            'required' => '핸드폰번호는 필수입니다.',
+            'required' => '핸드폰번호는 필수입력사항입니다.',
             'numeric' => '핸드폰번호는 숫자만 가능합니다.',
         ],
         'mb_bank_pwd' => [
-            'required' => '출금비번은 필수입니다.',
+            'required' => '출금비번은 필수입력사항입니다.',
         ],
         'mb_bank_name' => [
-            'required' => '은행번호는 필수입니다.',
+            'required' => '은행번호는 필수입력사항입니다.',
         ],
     ];
 
@@ -773,6 +773,8 @@ class Member_Model extends Model
         $arrRegData['mb_state_active'] = 2;
         $arrRegData['mb_game_pb'] = 1;
         $arrRegData['mb_game_ps'] = 1;
+        $arrRegData['mb_game_bb'] = 1;
+        $arrRegData['mb_game_bs'] = 1;
         $arrRegData['mb_game_cs'] = 1;
         $arrRegData['mb_game_sl'] = 1;
         $result = $this->insert($arrRegData);
@@ -907,7 +909,8 @@ class Member_Model extends Model
             return 0;
         }
 
-        $this->setZeroGameRatio($arrDta);
+        
+        $this->setZeroGameRatio($arrData);
 
         if (strlen($arrData['mb_game_pb_percent']) < 1) {
             $arrData['mb_game_pb_percent'] = 0;

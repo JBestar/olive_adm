@@ -11,5 +11,5 @@
 <?= $this->endSection() ?>
 <?= $this->section('realtime-script') ?>
 	<script> var mPath = "psapi"; </script>
-	<script src="<?php echo base_url('assets/js/bsrealtime-script.js?v=2');?>"></script>
+	<script src="<?php echo base_url('assets/js/bsrealtime-script.js?v=3');?>"></script>
 <?= $this->endSection() ?>

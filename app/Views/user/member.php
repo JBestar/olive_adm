@@ -96,5 +96,5 @@
 </div>
 
 <script src="<?php echo base_url('assets/js/page.js');?>"></script>
-<script src="<?php echo base_url('assets/js/member-script.js?v=2');?>"></script>
+<script src="<?php echo base_url('assets/js/member-script.js?v=3');?>"></script>
 <?= $this->endSection() ?>

@@ -137,6 +137,8 @@ function showMemberInfo(objUser) {
         strBuf = "총판";
     else if (objUser.mb_level == LEVEL_EMPLOYEE)
         strBuf = "매장";
+    else
+        strBuf = "회원";
 
 
     $("#main-navbar-level-id").text(strBuf);

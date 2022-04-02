@@ -22,5 +22,5 @@
 	<th>포인트</th>
 <?= $this->endSection() ?>
 <?= $this->section('history_script') ?>
-<script src="<?php echo base_url('assets/js/cshistory-script.js?v=1	');?>"></script>
+<script src="<?php echo base_url('assets/js/cshistory-script.js?v=2');?>"></script>
 <?= $this->endSection() ?>

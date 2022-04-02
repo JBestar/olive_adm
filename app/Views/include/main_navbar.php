@@ -110,6 +110,6 @@
 
 
   <!--?= $this->renderSection('content') ?-->
-	<script src="<?php echo base_url('assets/js/main-nav-script.js?v=1');?>"></script>
+	<script src="<?php echo base_url('assets/js/main-nav-script.js?v=3');?>"></script>
 	
 	<!--?= $this->endSection() ?-->

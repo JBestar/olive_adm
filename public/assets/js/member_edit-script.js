@@ -17,19 +17,19 @@ function readConfigToObject() {
         objMember.mb_pwd = document.getElementById("useredit-pwd-input-id").value;
         objMember.mb_emp_uid = document.getElementById("useredit-sort-select-id").value;
         var elePhoneInput = document.getElementById("useredit-phone-input-id");
-        if (typeof(elePhoneInput) != undefined && elePhoneInput != null) 
+        if (typeof(elePhoneInput) != undefined && elePhoneInput != null)
             objMember.mb_phone = elePhoneInput.value;
         var eleBankNameInput = document.getElementById("useredit-bankname-input-id");
-        if (typeof(eleBankNameInput) != undefined && eleBankNameInput != null) 
+        if (typeof(eleBankNameInput) != undefined && eleBankNameInput != null)
             objMember.mb_bank_name = eleBankNameInput.value;
         var eleBankAccountInput = document.getElementById("useredit-bankaccount-input-id");
-        if (typeof(eleBankAccountInput) != undefined && eleBankAccountInput != null) 
+        if (typeof(eleBankAccountInput) != undefined && eleBankAccountInput != null)
             objMember.mb_bank_own = eleBankAccountInput.value;
         var eleBankNumInput = document.getElementById("useredit-bankserial-input-id");
-        if (typeof(eleBankNumInput) != undefined && eleBankNumInput != null) 
+        if (typeof(eleBankNumInput) != undefined && eleBankNumInput != null)
             objMember.mb_bank_num = eleBankNumInput.value;
         var eleBankPwdInput = document.getElementById("useredit-bankpwd-input-id");
-        if (typeof(eleBankPwdInput) != undefined && eleBankPwdInput != null) 
+        if (typeof(eleBankPwdInput) != undefined && eleBankPwdInput != null)
             objMember.mb_bank_pwd = eleBankPwdInput.value;
         objMember.mb_money = document.getElementById("useredit-money-input-id").value;
         objMember.mb_point = document.getElementById("useredit-point-input-id").value;
@@ -112,7 +112,7 @@ function addBtnEvent() {
                 url: "/userapi/modifymember",
                 data: { json_: jsonData },
                 success: function(jResult) {
-                    //console.log(jResult);
+                    console.log(jResult);
                     if (jResult.status == "success") {
                         window.location.replace('/user/member/0');
                     } else if (jResult.status == "logout") {
@@ -141,12 +141,12 @@ function addBtnEvent() {
                         alert("보글볼 배당율이 매장설정값 " + jResult.error + "보다 높게 설정되었습니다.");
                     } else if (jResult.status == "bs_ratio_error") {
                         alert("보글사다리 배당율이 매장설정값 " + jResult.error + "보다 높게 설정되었습니다.");
-                    } else if (jResult.status == "employee_error"){
+                    } else if (jResult.status == "employee_error") {
                         alert("추천인 아이디가 존재하지 않습니다.");
                     }
                 },
                 error: function(request, status, error) {
-                    // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                 }
 
             });
@@ -188,7 +188,7 @@ function addBtnEvent() {
                         alert("보글볼 배당율이 매장설정값 " + jResult.error + "보다 높게 설정되었습니다.");
                     } else if (jResult.status == "bs_ratio_error") {
                         alert("보글사다리 배당율이 매장설정값 " + jResult.error + "보다 높게 설정되었습니다.");
-                    } else if (jResult.status == "employee_error"){
+                    } else if (jResult.status == "employee_error") {
                         alert("추천인 아이디가 존재하지 않습니다.");
                     }
                 },

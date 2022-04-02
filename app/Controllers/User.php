@@ -165,7 +165,7 @@ class User extends StdController
 		$this->load_view_page(
 			'user/member', 
 			'user_member', 
-			LEVEL_EMPLOYEE, 
+			LEVEL_MIN, 
 			['emp_uid' => $strEmpUid]);
 	}
 
@@ -174,7 +174,7 @@ class User extends StdController
 			'user/member_edit', 
 			'user_member', 
 			$strMemberFid, 
-			LEVEL_EMPLOYEE,
-			LEVEL_EMPLOYEE);		
+			LEVEL_MIN,
+			LEVEL_MIN);		
 	}
 }

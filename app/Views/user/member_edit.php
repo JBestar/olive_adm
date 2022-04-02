@@ -53,5 +53,5 @@
 </div>
 <?php echo $this->endSection(); ?>
 <?php echo $this->section('user-edit-script'); ?>
-<script src="<?php echo base_url('assets/js/member_edit-script.js?v=2'); ?>"></script>
+<script src="<?php echo base_url('assets/js/member_edit-script.js?v=3'); ?>"></script>
 <?php echo $this->endSection(); ?>

@@ -27,5 +27,5 @@
 <?= $this->endSection() ?>
 <?= $this->section('history_script') ?>
 	<script> var mPath = "psapi"; </script>
-	<script src="<?php echo base_url('assets/js/bshistory-script.js?v=1');?>"></script>
+	<script src="<?php echo base_url('assets/js/bshistory-script.js?v=2');?>"></script>
 <?= $this->endSection() ?>

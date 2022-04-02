@@ -77,5 +77,5 @@
 </div>
 
 <script src="<?php echo base_url('assets/js/page.js');?>"></script>
-<script src="<?php echo base_url('assets/js/transfer-script.js?v=1');?>"></script>
+<script src="<?php echo base_url('assets/js/transfer-script.js?v=2');?>"></script>
 <?= $this->endSection() ?>

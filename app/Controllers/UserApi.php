@@ -105,7 +105,7 @@ class UserApi extends BaseController
             $objAdmin = $memberModel->getInfo($strUid);
             $objReqUser = $memberModel->getInfoByFid($arrData['mb_fid']);
             $arrData['mb_emp_fid'] = 0;
-            if (strlen($arrData['mb_emp_uid']) > 0){
+            if ($objAdmin->mb_level == LEVEL_ADMIN && strlen($arrData['mb_emp_uid']) > 0){
                 $objEmp = $memberModel->getInfo($arrData['mb_emp_uid']);
                 if ($objEmp == null){
                     $arrResult['status'] = 'employee_error';

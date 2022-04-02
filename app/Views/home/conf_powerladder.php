@@ -88,5 +88,5 @@
 <!--main_navbar.php-->
 </div>
 
-<script src="<?php echo base_url('assets/js/confps-script.js');?>"></script>
+<script src="<?php echo base_url('assets/js/confps-script.js?v=1');?>"></script>
 <?= $this->endSection() ?>
