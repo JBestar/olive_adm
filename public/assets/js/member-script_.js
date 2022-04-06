@@ -179,7 +179,6 @@ function showMember(arrMember, nAdminLevel) {
         strBuf += "에볼: " + parseInt(arrMember[nRow].mb_live_money).toLocaleString() + "<br>";
         strBuf += "슬롯: " + parseInt(arrMember[nRow].mb_slot_money).toLocaleString() + "<br>";
         strBuf += "네츄럴슬롯: " + parseInt(arrMember[nRow].mb_fslot_money).toLocaleString() + "<br>";
-        /*
         strBuf += "</td> <td>";
         strBuf += "파워볼: " + arrMember[nRow].mb_game_pb_ratio + "% / " + arrMember[nRow].mb_game_pb2_ratio + "% <br>";
         strBuf += "파워사다리: " + arrMember[nRow].mb_game_ps_ratio + "% <br>";
@@ -187,7 +186,7 @@ function showMember(arrMember, nAdminLevel) {
         strBuf += "보글사다리: " + arrMember[nRow].mb_game_bs_ratio + "% <br>";
         strBuf += "카지노: " + arrMember[nRow].mb_game_cs_ratio + "% <br>";
         strBuf += "슬롯: " + arrMember[nRow].mb_game_sl_ratio + "% <br>";
-        */
+
         strBuf += "</td> <td>";
         if (arrMember[nRow].mb_state_active == 1) {
             strBuf += "<button name='" + arrMember[nRow].mb_fid + "'  class='button-active'>승인</button>";
