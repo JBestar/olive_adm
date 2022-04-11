@@ -1640,6 +1640,7 @@ Style - powerball
     background-color: #98ec67;
 }
 
+
 /*==================
 	loading
 ==================*/
@@ -1649,9 +1650,10 @@ Style - powerball
     top: 0;
     width: 100%;
     height: 100%;
-    opacity: .8;
+    opacity: .5;
     z-index: 100;
-    background-color: #17181B;
+    background-color: #676767;
+    /*17181B*/
     -webkit-transition-duration: 0.5s;
     transition-duration: 0.5s;
     -webkit-transition-property: opacity;
@@ -1774,6 +1776,7 @@ Style - powerball
     flex-basis: 100%;
     height: 10px;
 }
+
 
 /*
 .switch {

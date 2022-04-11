@@ -10,7 +10,9 @@
 		<a href="<?php echo base_url().'bet/bscalculate';?>" class="sub-navbar-a" >보글사다리</a>
 		<a href="<?php echo base_url().'bet/cscalculate';?>" class="sub-navbar-a" >에볼루션</a>
 		<a href="<?php echo base_url().'bet/slcalculate';?>" class="sub-navbar-a" >슬롯게임</a>
+		<?php if($_ENV['app.name'] == APP_LUCKYONE) :?>
 		<a href="<?php echo base_url().'bet/fslcalculate';?>" class="sub-navbar-a" >네츄럴슬롯</a>
+		<?php endif ?>
 
 	</div>
 

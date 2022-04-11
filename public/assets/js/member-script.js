@@ -178,7 +178,8 @@ function showMember(arrMember, nAdminLevel) {
         strBuf += "</td> <td>";
         strBuf += "에볼: " + parseInt(arrMember[nRow].mb_live_money).toLocaleString() + "<br>";
         strBuf += "슬롯: " + parseInt(arrMember[nRow].mb_slot_money).toLocaleString() + "<br>";
-        strBuf += "네츄럴슬롯: " + parseInt(arrMember[nRow].mb_fslot_money).toLocaleString() + "<br>";
+        if ($("#main-container-id").data('app') == APP_LUCKYONE)
+            strBuf += "네츄럴슬롯: " + parseInt(arrMember[nRow].mb_fslot_money).toLocaleString() + "<br>";
         /*
         strBuf += "</td> <td>";
         strBuf += "파워볼: " + arrMember[nRow].mb_game_pb_ratio + "% / " + arrMember[nRow].mb_game_pb2_ratio + "% <br>";

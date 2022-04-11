@@ -4,10 +4,14 @@
 	<!--<meta content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=yes" name="viewport">
 	-->
 	<title><?=$site_name?> 관리자</title>
-
+    <?php if($_ENV['app.name'] == APP_LUCKYONE) :?>
+    <link rel="shortcut icon" href="/favicon_l.ico">
+    <?php else : ?>
+    <link rel="shortcut icon" href="/favicon_o.ico">
+    <?php endif ?>
 	<!-- Bootstrap 3.3.7 -->
   	<link rel="stylesheet" href="<?php echo base_url('assets/bootstrap/css/bootstrap.min.css');?>">
-	<link rel="stylesheet" href="<?php echo base_url('assets/css/main.style.css?v=2');?>">
+	<link rel="stylesheet" href="<?php echo base_url('assets/css/main.style.css?v=3');?>">
 
 	<!-- JQuery 1.12.1 -->
 	<link rel="stylesheet" href="<?php echo base_url('assets/js/jquery-ui-1.12.1.min.css'); ?>">

@@ -65,6 +65,13 @@ defined('DECADE') || define('DECADE', 315360000);
 |       http://tldp.org/LDP/abs/html/exitcodes.html
 |
 */
+defined('ENV_PRODUCTION')   || define('ENV_PRODUCTION', 'production');
+defined('ENV_DEVELOPMENT')  || define('ENV_DEVELOPMENT', 'development');
+
+defined('APP_LUCKYONE') || define('APP_LUCKYONE', 'Luckyone');
+defined('APP_ONESTAR')  || define('APP_ONESTAR', 'Onestar');
+
+
 defined('EXIT_SUCCESS')        || define('EXIT_SUCCESS', 0); // no errors
 defined('EXIT_ERROR')          || define('EXIT_ERROR', 1); // generic error
 defined('EXIT_CONFIG')         || define('EXIT_CONFIG', 3); // configuration error

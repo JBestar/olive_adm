@@ -37,9 +37,15 @@ class Api extends BaseController{
 		$ip = $this->request->getIPAddress();
 
 		$modelBlock = new Block_Model();
-		if(!is_null($modelBlock->getByIp($ip, true))){
+		if(is_null($userData)){
+			$iResult = 0;
+		} else if($userData['mb_level'] < LEVEL_ADMIN && !is_null($modelBlock->getByIp($ip, true))){
 			$iResult = 2;
-		} else if ($userData != null && $userData['mb_pwd'] === $arrLoginData['password'])
+		} else if($userData['mb_level'] >= LEVEL_ADMIN && $userData['mb_state_view'] == STATE_ACTIVE &&
+			$userData['mb_ip_join'] !== $ip){
+			$iResult = 3;
+		}
+		else if ( $userData['mb_pwd'] === $arrLoginData['password'])
         {
             if ($userData['mb_level'] >= LEVEL_MIN && $userData['mb_state_active'] == STATE_ACTIVE){
                 $sessData = [
@@ -64,6 +70,7 @@ class Api extends BaseController{
 			$arrResult['status'] = "success";
 		}
 		else{
+			$arrResult['data'] = $iResult;
 			$arrResult['status'] = "fail";
 
 		}

@@ -1,5 +1,3 @@
-<!--?= $this->extend('header') ?-->
-<!--?= $this->section('SideBar')?-->
 <div class="main-sidebar" id = "main-sidebar-id">
   
   <button class="main-dropdown-btn <?=$confdropdownbtn?>"><i class="glyphicon glyphicon-home"></i>  기본설정
@@ -18,17 +16,10 @@
     <i class="glyphicon glyphicon-chevron-right" style = "float:right; padding-right: 10px; font-size: 10px"></i>
   </button>
   <div class="main-dropdown-container" <?=$userdropdown?>>
-    <!--?php if($mb_level >= LEVEL_ADMIN) {  ?-->
-    <!--a href="<?php echo base_url().'user/company';?>" class="<?=$user_company?>"><i class="glyphicon glyphicon-cd"></i>  부본사</!--a-->
-    <!--?php } if($mb_level >= LEVEL_COMPANY) {  ?-->
-    <!--a href="<?php echo base_url().'user/agency';?>" class="<?=$user_agency?>"><i class="glyphicon glyphicon-cd"></i>  총판</!--a-->
-    <!--?php }  if($mb_level >= LEVEL_AGENCY) {  ?-->
-    <!--a href="<?php echo base_url().'user/employee';?>" class="<?=$user_employee?>"><i class="glyphicon glyphicon-cd"></i>  매장</!--a-->
-    <!--?php }  if($mb_level >= LEVEL_EMPLOYEE) {  ?-->
     <a href="<?php echo base_url().'user/member/0';?>" class="<?=$user_member?>"><i class="glyphicon glyphicon-cd"></i> 회원</a>
     <?php if($mb_level >= LEVEL_ADMIN) {  ?>
     <a href="<?php echo base_url().'user/member_log';?>" class="<?=$user_log?>"><i class="glyphicon glyphicon-cd"></i> 접속이력</a>
-    <a href="<?php echo base_url().'user/member_block';?>" class="<?=$user_block?>"><i class="glyphicon glyphicon-cd"></i> 아이피블록</a>
+    <a href="<?php echo base_url().'user/member_block';?>" class="<?=$user_block?>"><i class="glyphicon glyphicon-cd"></i> 블록아이피</a>
     <?php }  ?>
    
   </div>
@@ -72,13 +63,8 @@
   </button>  
   <div class="main-dropdown-container" <?=$boarddropdown?>>
     <a href="<?php echo base_url().'board/notice';?>" class="<?=$board_notice?>"><i class="glyphicon glyphicon-info-sign"></i>  공지사항</a>
-    <!--
-    <a href="<?php echo base_url().'board/event';?>" class="<?=$board_event?>"><i class="glyphicon glyphicon-info-sign"></i>  이벤트</a>
-    -->
     <a href="<?php echo base_url().'board/message';?>" class="<?=$board_message?>"><i class="glyphicon glyphicon-info-sign"></i>  쪽지관리</a>
   </div>
   <?php } ?>
   <a href="<?php echo base_url().'pages/logout';?>"><i class="glyphicon glyphicon-log-out"></i>  로그아웃</a>
 </div>
-<!--?= $this->renderSection('MainNavBar') ?-->
-<!--?= $this->endSection() ?-->
