@@ -1,7 +1,7 @@
 <?php
 namespace App\Controllers;
 use App\Controllers\BaseController;
-use App\Models\BbBet_model;
+use App\Models\BbBet_Model;
 use App\Models\BbRound_model;
 use App\Models\ConfGame_model;
 use App\Models\Member_Model;
@@ -79,7 +79,7 @@ class BbApi extends BaseController {
 		//var_dump($arrBetData);
 		if(is_login()) {
 			//model
-			$bbbetModel = new BbBet_model();
+			$bbbetModel = new BbBet_Model();
 			$memberModel  = new Member_Model();
 			
 			$strUid = $this->session->user_id;
@@ -125,7 +125,7 @@ class BbApi extends BaseController {
 		//var_dump($arrBetData);
 		if(is_login()) {
 			//model
-			$bbbetModel = new BbBet_model();
+			$bbbetModel = new BbBet_Model();
 			$memberModel  = new Member_Model();
 			
 			$strUid = $this->session->user_id;
@@ -152,7 +152,7 @@ class BbApi extends BaseController {
 	//실시간베팅결과 합을 Ajax로 전송
 	public function betrealtime(){ 
 		if(is_login()) {
-			$bbbetModel = new BbBet_model();
+			$bbbetModel = new BbBet_Model();
 			$confgameModel = new ConfGame_model();
 			
 			$arrRoundInfo = getBRoundInfo(ROUND_2MIN);
@@ -262,7 +262,7 @@ class BbApi extends BaseController {
 
 			//model
 			$memberModel  = new Member_Model();
-			$bbbetModel = new BbBet_model();
+			$bbbetModel = new BbBet_Model();
 			$moneyhistoryModel = new MoneyHistory_Model();
 
 			$strUid = $this->session->user_id;
@@ -315,7 +315,7 @@ class BbApi extends BaseController {
 			//model
 			$memberModel  = new Member_Model();
 			$bbroundModel = new BbRound_model();
-			$bbbetModel = new BbBet_model();
+			$bbbetModel = new BbBet_Model();
 			$moneyhistoryModel = new MoneyHistory_Model();
 
 			$strUid = $this->session->user_id;

@@ -2,7 +2,7 @@
 namespace App\Models;
 use CodeIgniter\Model;
 
-class PsRound_model extends Model {
+class PsRound_Model extends Model {
 
     protected $table = 'round_powerladder';
     protected $allowedFields = [

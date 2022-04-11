@@ -29,10 +29,10 @@ class Home extends StdController
 		$this->load_view_page('home/conf_maintain', 'conf_site', LEVEL_ADMIN, ['arrConfig' => $arrConfig]);
 	}
 
-	//보험설정
-	// public function conf_betsite(){
-	// 	$this->load_view_page('home/conf_betsite', 'conf_site', LEVEL_ADMIN, ['conf_site' => " sidebar-a-active"]);	
-	// }
+	// 보험설정
+	public function conf_betsite(){
+		$this->load_view_page('home/conf_betsite', 'conf_site', LEVEL_ADMIN);	
+	}
 
 	public function conf_powerball(){
 		$param = [

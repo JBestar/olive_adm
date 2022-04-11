@@ -6,7 +6,7 @@ use App\Models\BsRound_model;
 use App\Models\Member_Model;
 use App\Models\ConfSite_Model;
 use App\Models\PbRound_model;
-use App\Models\PsRound_model;
+use App\Models\PsRound_Model;
 
 class Result extends StdController {
 
@@ -74,7 +74,7 @@ class Result extends StdController {
 
 	public function psresult_edit($strRoundFid)
 	{
-		$psroundModel = new PsRound_model();
+		$psroundModel = new PsRound_Model();
 		$this->result_edit_page(
 			$psroundModel, 
 			$strRoundFid, 

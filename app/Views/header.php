@@ -7,18 +7,15 @@
 
 	<!-- Bootstrap 3.3.7 -->
   	<link rel="stylesheet" href="<?php echo base_url('assets/bootstrap/css/bootstrap.min.css');?>">
+	<link rel="stylesheet" href="<?php echo base_url('assets/css/main.style.css?v=2');?>">
 
-	<link rel="stylesheet" href="<?php echo base_url('assets/css/main.style.css?v=1');?>">
-
-  	<!-- JQuery 3.4.1 
-	<script src="<?php echo base_url('assets/js/jquery-3.4.1.min.js'); ?>"></script>
-	-->
 	<!-- JQuery 1.12.1 -->
 	<link rel="stylesheet" href="<?php echo base_url('assets/js/jquery-ui-1.12.1.min.css'); ?>">
 	<script src="<?php echo base_url('assets/js/jquery-1.12.4.min.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/js/jquery-ui-1.12.1.min.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js'); ?>"></script>
-	<script src="<?php echo base_url('assets/js/common.js?v=2'); ?>"></script>
+	<script src="<?php echo base_url('assets/js/util.js'); ?>"></script>
+	<script src="<?php echo base_url('assets/js/common.js?v=4'); ?>"></script>
 
 </head>
 <body>

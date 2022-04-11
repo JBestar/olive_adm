@@ -8,16 +8,17 @@ $(document).ready(function() {
 
 
 function showConfSite(arrData) {
-    if (arrData.length != 6)
+    if (arrData.length < 4)
         return;
 
-    if (arrData[0].length > 0)
-        $("#conf-betsite-input-id").val(arrData[0]);
+    $("#conf-betsite-input-id").val(arrData[0]);
     $("#conf-userid-input-id").val(arrData[1]);
     $("#conf-userpwd-input-id").val(arrData[2]);
-    $("#conf-pball-input-id").val(arrData[3]);
-    $("#conf-pladder-input-id").val(arrData[4]);
-    $("#conf-kladder-input-id").val(arrData[5]);
+    $("#confpb-bet-check-id").prop('checked', arrData[3] > 0 ? true : false);
+    // $("#conf-pball-input-id").val(arrData[3]);
+    // $("#conf-pladder-input-id").val(arrData[4]);
+    // $("#conf-bball-input-id").val(arrData[5]);
+    // $("#conf-bladder-input-id").val(arrData[6]);
 
 }
 
@@ -46,21 +47,27 @@ function addBtnEvent() {
             alert("계정 비밀번호를 입력하세요.");
             return;
         }
-        objData.pball = $("#conf-pball-input-id").val();
-        if (objData.pball.length < 1) {
-            alert("파워볼 누르기율을 입력하세요.");
-            return;
-        }
-        objData.pladder = $("#conf-pladder-input-id").val();
-        if (objData.pladder.length < 1) {
-            alert("파워사다리 누르기율을 입력하세요.");
-            return;
-        }
-        objData.kladder = $("#conf-kladder-input-id").val();
-        if (objData.kladder.length < 1) {
-            alert("키노사다리 누르기율을 입력하세요.");
-            return;
-        }
+        objData.active = $("#confpb-bet-check-id").prop('checked') ? 1 : 0;
+        // objData.pball = $("#conf-pball-input-id").val();
+        // if (objData.pball.length < 1) {
+        //     alert("파워볼 누르기율을 입력하세요.");
+        //     return;
+        // }
+        // objData.pladder = $("#conf-pladder-input-id").val();
+        // if (objData.pladder.length < 1) {
+        //     alert("파워사다리 누르기율을 입력하세요.");
+        //     return;
+        // }
+        // objData.bball = $("#conf-bball-input-id").val();
+        // if (objData.bball.length < 1) {
+        //     alert("보글파워볼 누르기율을 입력하세요.");
+        //     return;
+        // }
+        // objData.bladder = $("#conf-bladder-input-id").val();
+        // if (objData.bladder.length < 1) {
+        //     alert("보글사다리 누르기율을 입력하세요.");
+        //     return;
+        // }
         var jsonData = JSON.stringify(objData);
 
 
@@ -95,8 +102,7 @@ function addBtnEvent() {
 
 
     $("#confsite-cancel-btn-id").click(function() {
-
-        window.location.replace('/home/conf_betsite');
+        location.reload();
     });
 
 }

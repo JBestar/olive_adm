@@ -1,4 +1,5 @@
 <?php namespace App\Controllers;
+
 use App\Models\Member_Model;
 use App\Models\Notice_Model;
 use App\Models\Charge_Model;
@@ -6,11 +7,13 @@ use App\Models\Clean_model;
 use App\Models\ConfGame_model;
 use App\Models\Exchange_model;
 use App\Models\MoneyHistory_Model;
-use App\Models\TransferHistory_model;
+use App\Models\Transfer_Model;
 use App\Models\ConfSite_Model;
 use App\Models\CsBet_model;
 use App\Models\SlBet_model;
 use App\Models\SlotPrd_Model;
+use App\Models\SessLog_Model;
+use App\Models\Block_Model;
 
 class Api extends BaseController{
     public function index()
@@ -28,10 +31,15 @@ class Api extends BaseController{
 		$jsonData = $_REQUEST['json_'];
 		$arrLoginData = json_decode($jsonData, true);
 		//model
-        $model = new Member_Model();
-        $userData = $model->where('mb_uid', $arrLoginData['username'])->first();
-        $result = false;
-        if ($userData != null && $userData['mb_pwd'] === $arrLoginData['password'])
+        $modelMember = new Member_Model();
+        $userData = $modelMember->where('mb_uid', $arrLoginData['username'])->first();
+        $iResult = 0;
+		$ip = $this->request->getIPAddress();
+
+		$modelBlock = new Block_Model();
+		if(!is_null($modelBlock->getByIp($ip, true))){
+			$iResult = 2;
+		} else if ($userData != null && $userData['mb_pwd'] === $arrLoginData['password'])
         {
             if ($userData['mb_level'] >= LEVEL_MIN && $userData['mb_state_active'] == STATE_ACTIVE){
                 $sessData = [
@@ -39,20 +47,35 @@ class Api extends BaseController{
                     'logged_in' => TRUE, 
                 ];
 				$this->session->set($sessData);
-				$model->updateLoginTime($userData['mb_fid'], $this->request->getIPAddress());
-                $result = true;
+				$userData['mb_ip_last'] = $ip;
+				$modelMember->updateLogin($userData);
+                $iResult = 1;
+
+				$modelSessLog = new SessLog_Model();
+				$modelSessLog->add($userData);
+
             }
         }   
 		//결과값 
- 		if($result){	
+ 		if($iResult == 1){	
 			$arrData = ['redirect' => '/'];
 
 			$arrResult['data'] = $arrData;
 			$arrResult['status'] = "success";
 		}
-		else
+		else{
 			$arrResult['status'] = "fail";
+
+		}
         return $this->response->setJSON($arrResult);
+	}
+
+	public function logout()
+	{
+		$this->session->destroy();
+		
+		$arrResult['status'] = "success";
+		echo json_encode($arrResult);
 	}
 	//게임설정 
 	public function conf_game(){
@@ -120,11 +143,9 @@ class Api extends BaseController{
 			if($bPermit){
 				//model
 				$confsiteModel = new ConfSite_Model();
-				$bResult = $confsiteModel->saveData($arrData);
+				$confsiteModel->saveData($arrData);
 			
-				if($bResult)
-					$arrResult['status'] = "success";
-				else $arrResult['status'] = "fail";
+				$arrResult['status'] = "success";
 			} else $arrResult['status'] = "nopermit";
 		}
 		else {
@@ -188,11 +209,9 @@ class Api extends BaseController{
 			if($bPermit){
 				//model
 				$confgameModel = new ConfGame_model();
-				$bResult = $confgameModel->saveData($arrData);
+				$confgameModel->saveData($arrData);
 			
-				if($bResult)
-					$arrResult['status'] = "success";
-				else $arrResult['status'] = "fail";
+				$arrResult['status'] = "success";
 			} else $arrResult['status'] = "nopermit";
 		}
 		else {
@@ -289,7 +308,7 @@ class Api extends BaseController{
 	}
 
 	//비번 변경  
-	public function changepassword(){
+	public function change_password(){
 		$jsonData = $_REQUEST['json_'];
 		$arrData = json_decode($jsonData, true);		
 
@@ -375,13 +394,7 @@ class Api extends BaseController{
 		echo json_encode($arrResult);
 	}
 
-	public function test(){
-		$chargeModel = new Charge_Model();
-		$objCharge = $chargeModel->get(6);
-		var_dump($objCharge);
-	}
-
-public function depositproc(){
+	public function depositproc(){
 		$jsonData = $_REQUEST['json_'];
 		$arrReqData = json_decode($jsonData, true);
 
@@ -800,7 +813,7 @@ public function withdrawlist(){
 		//var_dump($arrBetData);
 		if(is_login()) {
 			//model
-			$transferhistoryModel = new TransferHistory_model();
+			$transferhistoryModel = new Transfer_Model();
 			$memberModel  = new Member_Model();
 			
 			$strUid = $this->session->user_id;
@@ -832,7 +845,7 @@ public function withdrawlist(){
 		//var_dump($arrBetData);
 		if(is_login()) {
 			//model
-			$transferhistoryModel = new TransferHistory_model();
+			$transferhistoryModel = new Transfer_Model();
 			$memberModel  = new Member_Model();
 			
 			$strUid = $this->session->user_id;

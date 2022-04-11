@@ -2,7 +2,7 @@
 namespace App\Models;
 use CodeIgniter\Model;
 
-class TransferHistory_model extends Model {
+class Transfer_Model extends Model {
 	
 	protected $table = 'transfer_history';
     protected $allowedFields = [

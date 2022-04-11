@@ -68,7 +68,9 @@ class Member_Model extends Model
     
     private $getFields = ['mb_fid', 'mb_uid', 'mb_level','mb_emp_fid', 'mb_emp_permit', 'mb_nickname', 
         'mb_email', 'mb_phone', 'mb_bank_name', 'mb_bank_own', 'mb_bank_num', 'mb_bank_pwd',
-        'mb_money', 'mb_point', 'mb_money_charge', 'mb_money_exchange', 'mb_grade', 'mb_state_active', 
+        'mb_ip_join', 'mb_ip_last',
+        'mb_money', 'mb_point', 'mb_money_charge', 'mb_money_exchange', 'mb_grade', 
+        'mb_state_active', 'mb_state_alarm', 'mb_state_view',
         'mb_game_pb', 'mb_game_ps', 'mb_game_bb', 'mb_game_bs', 'mb_game_cs', 'mb_game_sl', 
         'mb_game_pb_ratio', 'mb_game_pb2_ratio','mb_game_ps_ratio', 'mb_game_bb_ratio', 'mb_game_bb2_ratio', 
         'mb_game_bs_ratio', 'mb_game_cs_ratio', 'mb_game_sl_ratio', 
@@ -135,22 +137,35 @@ class Member_Model extends Model
             return 0;
         }
 
-        if (strlen($arrPwd['password_new']) < 1) {
-            return 0;
-        }
-        // 이전 패스워드가 같은가 검사
-        if (0 != strcmp($arrPwd['password_new'], $arrPwd['password_newok'])) {
-            return 0;
-        }
-
+        
         $objUser = $this->login($strUserId, $arrPwd['password']);
         if (null == $objUser) {
             return 2;
         }
 
-        return $this->builder()->set('mb_pwd', $arrPwd['password_new'])
+        // 이전 패스워드가 같은가 검사
+        if (strlen($arrPwd['password_new']) > 0 && 0 != strcmp($arrPwd['password_new'], $arrPwd['password_newok'])) {
+            return 0;
+        }
+
+        if(strlen($arrPwd['password_new']) < 1 && !array_key_exists('ip_addr', $arrPwd) )
+            return 0; 
+
+        $data = [
+            'mb_pwd'=> $arrPwd['password_new'],
+        ];
+
+        if(array_key_exists('ip_addr', $arrPwd) ){
+            $data['mb_ip_join'] = $arrPwd['ip_addr'];
+            $data['mb_state_view'] = $arrPwd['ip_check'];
+
+        }
+
+        $this->builder()->set($data)
         ->where('mb_fid', $objUser->mb_fid)
         ->update();
+
+        return 1;
     }
 
     public function changeAlarmState($strUserId, $arrReqData)
@@ -506,11 +521,11 @@ class Member_Model extends Model
         return $arrBetData;
     }
 
-    public function updateLoginTime($userFid, $ipAddress)
+    public function updateLogin($userData)
     {
         $this->builder()->set('mb_time_last', 'NOW()', false);
-        $this->builder()->set('mb_ip_last', $ipAddress);
-        $this->builder()->where('mb_fid', $userFid);
+        $this->builder()->set('mb_ip_last', $userData['mb_ip_last']);
+        $this->builder()->where('mb_fid', $userData['mb_fid']);
 
         return $this->builder()->update();
     }
@@ -1028,11 +1043,13 @@ class Member_Model extends Model
         else{
             $sqlBuilder->where('mb_emp_fid', $nAdminFid);
         }
-        if (0 != $arrReqData['mb_grade']){
+        if ($arrReqData['mb_grade'] != 0){
             $sqlBuilder->where('mb_grade', $arrReqData['mb_grade']);
         }
+        if ($arrReqData['mb_state'] >= 0){
+            $sqlBuilder->where('mb_state_active', $arrReqData['mb_state']);
+        }
         if (strlen($arrReqData['mb_uid']) > 0){
-            // $sqlBuilder->where('mb_uid', $arrReqData['mb_uid']);
             $sqlBuilder->like('mb_uid', $arrReqData['mb_uid']);
         }
         return $sqlBuilder->get()->getRow();
@@ -1160,18 +1177,35 @@ class Member_Model extends Model
 
     public function searchMemberByEmpFid($nAdminFid, $nAdminLev, $arrReqData)
     {
-        $strQuery = "SELECT * FROM $this->table WHERE mb_level != '".LEVEL_ADMIN."'";
+        $strTbColum = " ".implode(", ", $this->getFields);
+        $strTbColum.= ", block_ip, block_state ";
+
+        $strTbColum = "mb_fid, mb_uid, mb_level, mb_emp_fid, mb_emp_permit, mb_nickname,  
+	        mb_ip_join, mb_ip_last, mb_money, mb_point, mb_money_charge, mb_money_exchange, mb_grade, mb_state_active, mb_state_alarm, 
+	        mb_state_view, mb_game_pb, mb_game_ps, mb_game_bb, mb_game_bs, mb_game_cs, mb_game_sl, mb_game_pb_ratio, mb_game_pb2_ratio, 
+	        mb_game_ps_ratio, mb_game_bb_ratio, mb_game_bb2_ratio, mb_game_bs_ratio, mb_game_cs_ratio, mb_game_sl_ratio, mb_game_pb_percent, 
+	        mb_game_pb2_percent, mb_game_ps_percent, mb_game_bb_percent, mb_game_bb2_percent, mb_game_bs_percent,  
+            mb_live_money, mb_slot_money, mb_fslot_money, block_ip, block_state";
+
+        $tbBlock = "block_list";
+        $strQuery = "SELECT ".$strTbColum." FROM ".$this->table;
+        $strQuery .= ' LEFT JOIN '.$tbBlock.' ON '.$this->table.'.mb_ip_last = '.$tbBlock.'.block_ip ';
+        $strQuery.= " WHERE mb_level < '".LEVEL_ADMIN."'";
+
         if ($nAdminFid != 0){
             $strQuery .= " AND mb_emp_fid = '".$nAdminFid."'";
         }
         if (strlen($arrReqData['mb_uid']) > 0) {
             $strQuery .= " AND mb_uid LIKE '%".$arrReqData['mb_uid']."%'";
         }
-        if (0 != $arrReqData['mb_grade']){
+        if ($arrReqData['mb_grade'] != 0){
             $strQuery .= " AND mb_grade = '".$arrReqData['mb_grade']."'";
         }
+        if ($arrReqData['mb_state'] >= 0){
+            $strQuery .= " AND mb_state_active = '".$arrReqData['mb_state']."' ";
+        }
         $strQuery .= " ORDER BY (CASE WHEN mb_state_active = 2 THEN 0 ELSE 1 END) ";
-        $strQuery .= " ,mb_level DESC";
+        $strQuery .= " , mb_level DESC";
         
         $nStartRow = ($arrReqData['page'] - 1) * $arrReqData['count'];
         $strQuery .= ' LIMIT '.$nStartRow.', '.$arrReqData['count'];

@@ -11,7 +11,7 @@
     <a href="<?php echo base_url().'home/conf_powerball';?>" class="<?=$conf_game?>"><i class="glyphicon glyphicon-play-circle"></i>  게임설정</a>
     <a href="<?php echo base_url().'home/conf_sound';?>" class="<?=$conf_other?>"><i class="glyphicon glyphicon-wrench"></i>  기타설정</a>
     <?php } ?>
-    <a href="<?php echo base_url().'home/conf_password';?>" class="<?=$conf_password?>"><i class="glyphicon glyphicon-lock"></i> 비밀번호 변경</a>
+    <a href="<?php echo base_url().'home/conf_password';?>" class="<?=$conf_password?>"><i class="glyphicon glyphicon-lock"></i> 정보변경</a>
   </div>
   
   <button class="main-dropdown-btn <?=$userdropdownbtn?>"><i class="glyphicon glyphicon-user"></i>  회원관리
@@ -25,9 +25,12 @@
     <!--?php }  if($mb_level >= LEVEL_AGENCY) {  ?-->
     <!--a href="<?php echo base_url().'user/employee';?>" class="<?=$user_employee?>"><i class="glyphicon glyphicon-cd"></i>  매장</!--a-->
     <!--?php }  if($mb_level >= LEVEL_EMPLOYEE) {  ?-->
-    <?php { ?>
     <a href="<?php echo base_url().'user/member/0';?>" class="<?=$user_member?>"><i class="glyphicon glyphicon-cd"></i> 회원</a>
-    <?php } ?>
+    <?php if($mb_level >= LEVEL_ADMIN) {  ?>
+    <a href="<?php echo base_url().'user/member_log';?>" class="<?=$user_log?>"><i class="glyphicon glyphicon-cd"></i> 접속이력</a>
+    <a href="<?php echo base_url().'user/member_block';?>" class="<?=$user_block?>"><i class="glyphicon glyphicon-cd"></i> 아이피블록</a>
+    <?php }  ?>
+   
   </div>
   
   <button class="main-dropdown-btn <?=$bankdropdownbtn?>"><i class="glyphicon glyphicon-usd"></i>  충환전관리

@@ -4,14 +4,12 @@
 	<div class = "sub-navbar">
 		<p><i class="glyphicon glyphicon-cog"></i> 기본설정::점검설정</p>
 		<a href="<?php echo base_url().'home/conf_site';?>" class="sub-navbar-a" >본사설정</a>
-		<!-- <a href="<?php echo base_url().'home/conf_betsite';?>" class="sub-navbar-a" >보험설정</a> -->
+		<a href="<?php echo base_url().'home/conf_betsite';?>" class="sub-navbar-a" >보험설정</a>
 		<a href="<?php echo base_url().'home/conf_maintain';?>" class="sub-navbar-a active" >점검설정</a>
 	</div>
 
-		<!--Site Setting-->
+	<!--Site Setting-->
 	<div class="confsite-site-panel">
-
-
 
 		<h4><i class="glyphicon glyphicon-hand-right"></i> 사이트점검설정</h4>						
 		<div class="confsite-site-check-div">

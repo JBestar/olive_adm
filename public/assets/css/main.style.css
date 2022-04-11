@@ -15,6 +15,10 @@ a:link {
     text-decoration: none;
 }
 
+input[type=checkbox]:hover {
+    cursor: pointer;
+}
+
 .main-navbar-dropdown-container {
     position: fixed;
     top: 82px;
@@ -632,9 +636,14 @@ Style - conf_site
     clear: both;
 }
 
+.confsite-site-check-div input[type=checkbox] {
+    zoom: 120%;
+    margin-top: 0px;
+}
+
 .confsite-site-check-div label {
-    padding-left: 10px;
-    font-size: 12px;
+    padding-left: 5px;
+    font-size: 14px;
     font-weight: normal;
     text-align: left;
     color: var(--bar-font-color);
@@ -713,7 +722,7 @@ Style - password
 
 .confsite-password-text-div input {
     float: left;
-    width: 70%;
+    width: 200px;
     font-size: 12px;
     text-align: left;
     background-color: var(--main-bg-color);

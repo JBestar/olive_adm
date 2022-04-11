@@ -44,16 +44,14 @@ class ConfSite_Model extends Model
     public function getBetSite($nLevel){
 
         $nConfigId = CONF_BETSITE;
-        $arrSiteInfo = ["", "", "", "", "", "" ];
+        $arrSiteInfo = ["", "", "", 0 ];
 
         $objConfig = $this->asObject()->where(array('conf_id'=>$nConfigId))->first();
         if(!is_null($objConfig) && $nLevel >= LEVEL_ADMIN){
             $strSite = $objConfig->conf_content;
-            $arrSiteInfo = explode('/', $strSite);
-            if(count($arrSiteInfo) == 6){
-                if($nLevel == LEVEL_ADMIN){
-                    $arrSiteInfo[0] = "";
-                } 
+            $arrSiteInfo = explode('#', $strSite);
+            if(count($arrSiteInfo) >= 3){
+                $arrSiteInfo[3] = $objConfig->conf_active;
                 return $arrSiteInfo;
             }
         }
@@ -65,34 +63,31 @@ class ConfSite_Model extends Model
         if($nAdminLev < LEVEL_ADMIN)
             return false;
 
-        if($nAdminLev == LEVEL_ADMIN){
-            $arrSiteInfo = $this->getBetSite(LEVEL_ADMIN + 1);
-            if(strlen($arrSiteInfo[0]) > 0)
-                $arrReqData['site'] = $arrSiteInfo[0];
-            else return false; 
-        }
         $strContent = "";
         if(strlen($arrReqData['site'])<1) return false;
-        $strContent .= $arrReqData['site']."/";
+        $strContent .= $arrReqData['site']."#";
         
         if(strlen($arrReqData['userid'])<1) return false;
-        $strContent .= $arrReqData['userid']."/";
+        $strContent .= $arrReqData['userid']."#";
         
         if(strlen($arrReqData['userpwd'])<1) return false;
-        $strContent .= $arrReqData['userpwd']."/";
+        $strContent .= $arrReqData['userpwd'];
         
-        if(strlen($arrReqData['pball'])<1) return false;
-        $strContent .= $arrReqData['pball']."/";
+        // if(strlen($arrReqData['pball'])<1) return false;
+        // $strContent .= $arrReqData['pball']."#";
         
-        if(strlen($arrReqData['pladder'])<1) return false;
-        $strContent .= $arrReqData['pladder']."/";
+        // if(strlen($arrReqData['pladder'])<1) return false;
+        // $strContent .= $arrReqData['pladder']."#";
+        
+        // if(strlen($arrReqData['bball'])<1) return false;
+        // $strContent .= $arrReqData['bball']."#";
 
-        if(strlen($arrReqData['kladder'])<1) return false;
-        $strContent .= $arrReqData['kladder'];
+        // if(strlen($arrReqData['bladder'])<1) return false;
+        // $strContent .= $arrReqData['bladder'];
 
         $this->builder()->set('conf_content', $strContent);
-
-        $this->builder()->where('conf_id', 11);
+        $this->builder()->set('conf_active', $arrReqData['active']);
+        $this->builder()->where('conf_id', CONF_BETSITE);
         
         return $this->builder()->update();
     }

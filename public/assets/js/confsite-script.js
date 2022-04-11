@@ -30,8 +30,7 @@ function readConfigToObject() {
 
 function addBtnEvent() {
 
-    var elemOkBtn = document.getElementById("confsite-ok-btn-id");
-    elemOkBtn.addEventListener("click", function() {
+    $("#confsite-ok-btn-id").click(function() {
 
         if (!confirm("저장하시겠습니까?"))
             return;
@@ -63,8 +62,7 @@ function addBtnEvent() {
     });
 
 
-    var elemCancelBtn = document.getElementById("confsite-cancel-btn-id");
-    elemCancelBtn.addEventListener("click", function() {
+    $("#confsite-cancel-btn-id").click(function() {
         window.location.reload();
     });
 

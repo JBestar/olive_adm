@@ -26,6 +26,8 @@
                'user_agency' => '',
                'user_employee' => '',
                'user_member' => '',
+               'user_log' => '',
+               'user_block' => '',
                'bankdropdownbtn' => " main-dropdown-active-btn",
                'bankdropdown' => "style=\"display:block\"", 
                'bank_deposit' => '',

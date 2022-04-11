@@ -13,9 +13,8 @@
   	
   	<!-- JQuery 3.4.1 -->
 	<script src="<?php echo base_url('assets/js/jquery-3.4.1.min.js'); ?>"></script>
-
 	<script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js'); ?>"></script>
-
+	<script src="<?php echo base_url('assets/js/util.js'); ?>"></script>
 </head>
 <body>
 	<div class="login-background-panel">
@@ -36,6 +35,6 @@
 		</div>
 	</div>
 
-	<script src="<?php echo base_url('assets/js/pages-script.js');?>"></script>
+	<script src="<?php echo base_url('assets/js/pages-script.js?v=1');?>"></script>
 </body>
 </html>

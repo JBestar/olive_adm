@@ -1,8 +1,7 @@
-
 var i = 0; // 1씩 증가시켜서 전달할 변수
 
 // 메시지 수신
-self.onmessage = function( e ) {
+self.onmessage = function(e) {
     loop();
 };
 
@@ -10,11 +9,11 @@ self.onmessage = function( e ) {
 function loop() {
 
     // 1씩 증가시켜서 전달
-    postMessage( i ); 
+    postMessage(i);
 
     // 1초뒤에 다시 실행
-    setTimeout( function() {
+    setTimeout(function() {
         loop();
-    }, 30000 );
+    }, 30000);
 
 }

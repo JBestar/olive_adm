@@ -31,6 +31,14 @@
 			<label>아이디</label>
             <input type="text" class="pbresult-text-input" id="userpanel-userid-input-id" >
 			
+			<select name="pbresult-level" class="pbresult-number-select" id="userpanel-state-select-id" stype="width:80px">
+				<option value="-1">::전체::</option>
+				<option value="1">승인</option>
+				<option value="0">차단</option>
+				<option value="2">대기</option>
+
+			</select>
+
 			<select name="pbresult-level" class="pbresult-number-select" id="userpanel-level-select-id">
 				<option value="0">::레벨::</option>
 				<option value="1"> 1레벨 </option>
@@ -63,6 +71,9 @@
 					<th>현재금액</th>
 					<th>포인트</th>
 					<th>게임사별<br>보유알</th>
+					<?php if ($mb_level >= LEVEL_ADMIN) {?>	
+					<th>접속IP</th>
+					<?php } ?>
 					<th>승인</th>
 					<th>게임별설정</th>
 				</tr>
@@ -93,5 +104,5 @@
 </div>
 
 <script src="<?php echo base_url('assets/js/page.js');?>"></script>
-<script src="<?php echo base_url('assets/js/member-script.js?v=4');?>"></script>
+<script src="<?php echo base_url('assets/js/member-script.js?v=5');?>"></script>
 <?= $this->endSection() ?>

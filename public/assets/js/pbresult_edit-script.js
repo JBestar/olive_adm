@@ -34,7 +34,6 @@ function readConfigToObject() {
 
 function addBtnEvent() {
 
-    var elemOkBtn = document.getElementById("pbresult_edit-save-btn-id");
     $("#pbresult_edit-save-btn-id").click(function() {
 
         var jsonData = readConfigToObject();

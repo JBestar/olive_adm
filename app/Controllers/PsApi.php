@@ -5,7 +5,7 @@ use App\Models\ConfGame_model;
 use App\Models\Member_Model;
 use App\Models\MoneyHistory_Model;
 use App\Models\PsBet_model;
-use App\Models\PsRound_model;
+use App\Models\PsRound_Model;
 
 class PsApi extends BaseController {
 
@@ -33,7 +33,7 @@ class PsApi extends BaseController {
 		if(is_login()) {
 
 			//model
-			$psroundModel = new PsRound_model();;
+			$psroundModel = new PsRound_Model();;
 			$objResults = $psroundModel->search($arrGetData);
 
 			$arrResult['data'] = $objResults;
@@ -56,7 +56,7 @@ class PsApi extends BaseController {
 		if(is_login()) {
 
 			//model
-			$psroundModel = new PsRound_model();;
+			$psroundModel = new PsRound_Model();;
 			$objCount = $psroundModel->searchCount($arrGetData);
 			
 			$arrResult['data'] = $objCount;
@@ -198,7 +198,7 @@ class PsApi extends BaseController {
 
 			//model
 			$memberModel  = new Member_Model();
-			$psroundModel = new PsRound_model();;
+			$psroundModel = new PsRound_Model();;
 			$strUid = $this->session->user_id;
 			$objUser = $memberModel->getInfo($strUid);
 			$iResult = 0;
@@ -237,7 +237,7 @@ class PsApi extends BaseController {
 
 			//model
 			$memberModel  = new Member_Model();
-			$psroundModel = new PsRound_model();;
+			$psroundModel = new PsRound_Model();;
 			$strUid = $this->session->user_id;
 			$objUser = $memberModel->getInfo($strUid);
 			$bResult = false;
@@ -318,7 +318,7 @@ class PsApi extends BaseController {
 
 			//model
 			$memberModel  = new Member_Model();
-			$psroundModel = new PsRound_model();;
+			$psroundModel = new PsRound_Model();;
 			$psbetModel = new PsBet_model();
 			$moneyhistoryModel = new MoneyHistory_Model();
 

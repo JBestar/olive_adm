@@ -16,34 +16,19 @@
 	</style>
 	<!--Sub Navbar-->
 	<div class = "sub-navbar">
-		<p><i class="glyphicon glyphicon-user"></i> 회원관리::회원</p>
+		<p><i class="glyphicon glyphicon-user"></i> 회원관리::접속이력</p>
 	</div>
 	<!--Site Setting-->
 	<div class="user-panel">	
 		<div>
-			<?php if($mb_level >= LEVEL_ADMIN) {  ?>
-			<a href="<?php echo base_url().'user/member_edit/0';?>" class="user-panel-add-a" >회원 등록</a>
-			<?php } ?>
-			<?php if ($mb_level >= LEVEL_ADMIN) {?>	
-			<label>추천인</label>
-            <input type="text" class="pbresult-text-input" id="userpanel-empid-input-id" value= "<?=$emp_uid ?>">
-			<?php } ?>
+			<!-- <a href="javascript:" class="user-panel-add-a" >전체 삭제</a> -->
 			<label>아이디</label>
             <input type="text" class="pbresult-text-input" id="userpanel-userid-input-id" >
-			
-			<select name="pbresult-level" class="pbresult-number-select" id="userpanel-level-select-id">
-				<option value="0">::레벨::</option>
-				<option value="1"> 1레벨 </option>
-				<option value="2"> 2레벨 </option>
-				<option value="3"> 3레벨 </option>
-				<option value="4"> 4레벨 </option>
-				<option value="5"> 5레벨 </option>
-				<option value="6"> 6레벨 </option>
-				<option value="7"> 7레벨 </option>
-				<option value="8"> 8레벨 </option>
-				<option value="9"> 9레벨 </option>
-				<option value="10"> 10레벨 </option>
-			</select>
+			<label>접속일자</label>
+			<input type="date" id="userpanel-datestart-input-id"  value="<?php echo date('Y-m-d'); ?>">
+            <label> ~ </label>
+            <input type="date" id="userpanel-dateend-input-id"  value="<?php echo date('Y-m-d'); ?>">
+            
 			<select name="pbresult-number" class="pbresult-number-select" id="userpanel-number-select-id">
 				<option value="10">10개</option>
 				<option value="20">20개</option>
@@ -56,16 +41,11 @@
 			<thead>
 				<tr>
 					<th>번호</th>
-					<th>추천인</th>
 					<th>아이디</th>
 					<th>닉네임</th>
-					<th>레벨</th>
-					<th>현재금액</th>
-					<th>포인트</th>
-					<th>게임사별<br>보유알</th>
-					<th>배당율</th>
-					<th>승인</th>
-					<th>게임별설정</th>
+					<th>접속IP</th>
+					<th>접속시간</th>
+					<th>IP차단</th>
 				</tr>
 			</thead>
 			<tbody  id="user-member-table-id">
@@ -94,5 +74,5 @@
 </div>
 
 <script src="<?php echo base_url('assets/js/page.js');?>"></script>
-<script src="<?php echo base_url('assets/js/member-script.js?v=4');?>"></script>
+<script src="<?php echo base_url('assets/js/member_log-script.js');?>"></script>
 <?= $this->endSection() ?>

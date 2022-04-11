@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\BbBet_model;
+use App\Models\BbBet_Model;
 use App\Models\BsBet_model;
 use App\Models\Charge_Model;
 use App\Models\ConfGame_model;
@@ -13,6 +13,8 @@ use App\Models\Notice_Model;
 use App\Models\PbBet_model;
 use App\Models\PsBet_model;
 use App\Models\MoneyHistory_Model;
+use App\Models\SessLog_Model;
+use App\Models\Block_Model;
 
 class UserApi extends BaseController
 {
@@ -385,7 +387,7 @@ class UserApi extends BaseController
             $confgameModel = new ConfGame_model();
             $pbbetModel = new PbBet_model();
             $psbetModel = new PsBet_model();
-            $bbbetModel = new BbBet_model();
+            $bbbetModel = new BbBet_Model();
             $bsbetModel = new BsBet_model();
 
             $objUser = $memberModel->getInfo($strUid);
@@ -545,8 +547,213 @@ class UserApi extends BaseController
         }
     }
 
+    
+	public function loglist(){
+		$jsonData = $_REQUEST['json_'];
+		$arrReqData = json_decode($jsonData, true);
+		if(is_login())
+		{
+            $memberModel = new Member_Model();
+
+            $strUid = $this->session->user_id;
+            $objUser = $memberModel->getInfo($strUid);
+
+            if($objUser->mb_level  >= LEVEL_ADMIN) {
+                $modelSesslog = new SessLog_Model();
+
+                $arrData = $modelSesslog->search($arrReqData);
+                    
+                $arrResult['data'] = $arrData;
+                $arrResult['status'] = "success";
+            } else{
+                $arrResult['status'] = "fail";
+            }
+
+		}
+		else{
+			$arrResult['status'] = "logout";
+		}
+		echo json_encode($arrResult);
+	}
+
+	public function logcnt(){
+		$jsonData = $_REQUEST['json_'];
+		$arrReqData = json_decode($jsonData, true);
+		if(is_login())
+		{
+            $memberModel = new Member_Model();
+         
+            $strUid = $this->session->user_id;
+            $objUser = $memberModel->getInfo($strUid);
+
+            if($objUser->mb_level  >= LEVEL_ADMIN) {
+                $modelSesslog = new SessLog_Model();
+                $objCount = $modelSesslog->searchCount($arrReqData);
+
+                $arrResult['data'] = $objCount;
+                $arrResult['status'] = "success";
+            } else {
+                $arrResult['status'] = "fail";
+            }
+		}
+		else{
+			$arrResult['status'] = "logout";
+		}
+		echo json_encode($arrResult);
+	}
 
     
+	public function blocklist(){
+		$jsonData = $_REQUEST['json_'];
+		$arrReqData = json_decode($jsonData, true);
+		if(is_login())
+		{
+            $memberModel = new Member_Model();
+            
+            $strUid = $this->session->user_id;
+            $objUser = $memberModel->getInfo($strUid);
+
+            if($objUser->mb_level  >= LEVEL_ADMIN) {
+
+                $modelBlock = new Block_Model();
+                $arrData = $modelBlock->search($arrReqData);
+                    
+                $arrResult['data'] = $arrData;
+                $arrResult['status'] = "success";
+            } else{
+                $arrResult['status'] = "fail";
+            }
+
+		}
+		else{
+			$arrResult['status'] = "logout";
+		}
+		echo json_encode($arrResult);
+	}
+
+	public function blockcnt(){
+		$jsonData = $_REQUEST['json_'];
+		$arrReqData = json_decode($jsonData, true);
+		if(is_login())
+		{
+            $memberModel = new Member_Model();
+
+            $strUid = $this->session->user_id;
+            $objUser = $memberModel->getInfo($strUid);
+
+            if($objUser->mb_level  >= LEVEL_ADMIN) {
+
+                $modelBlock = new Block_Model();
+                $objCount = $modelBlock->searchCount($arrReqData);
+
+                $arrResult['data'] = $objCount;
+                $arrResult['status'] = "success";
+            } else {
+                $arrResult['status'] = "fail";
+            }
+		}
+		else{
+			$arrResult['status'] = "logout";
+		}
+		echo json_encode($arrResult);
+	}
+
+    
+    // 블록아이피 추가
+    public function add_block()
+    {
+        $jsonData = $_REQUEST['json_'];
+        $arrData = json_decode($jsonData, true);
+
+        if (is_login()) {
+            $bPermit = false;
+            $memberModel = new Member_Model();
+            $strUid = $this->session->user_id;
+            $objUser = $memberModel->getInfo($strUid);
+
+            if($objUser->mb_level  >= LEVEL_ADMIN) {
+                $modelBlock = new Block_Model();
+                // $arrData['block_state'] = 1;
+                $arrData['block_updated'] = date("Y-m-d H:i:s");
+
+                $bResult = $modelBlock->saveByIp($arrData);
+
+                if ($bResult) {
+                    $arrResult['status'] = 'success';
+                } else {
+                    $arrResult['status'] = 'fail';
+                }
+            } else {
+                $arrResult['status'] = 'nopermit';
+            }
+        } else {
+            $arrResult['status'] = 'logout';
+        }
+        echo json_encode($arrResult);
+    }
+
+    // 블록아이피 변경
+    public function update_block()
+    {
+        $jsonData = $_REQUEST['json_'];
+        $arrData = json_decode($jsonData, true);
+
+        if (is_login()) {
+            $bPermit = false;
+            $memberModel = new Member_Model();
+            $strUid = $this->session->user_id;
+            $objUser = $memberModel->getInfo($strUid);
+
+            if($objUser->mb_level  >= LEVEL_ADMIN) {
+                $modelBlock = new Block_Model();
+
+                $bResult = $modelBlock->updateByFid($arrData);
+
+                if ($bResult) {
+                    $arrResult['status'] = 'success';
+                } else {
+                    $arrResult['status'] = 'fail';
+                }
+            } else {
+                $arrResult['status'] = 'nopermit';
+            }
+        } else {
+            $arrResult['status'] = 'logout';
+        }
+        echo json_encode($arrResult);
+    }
+
+    // 블록아이피 삭제
+    public function delete_block()
+    {
+        $jsonData = $_REQUEST['json_'];
+        $arrData = json_decode($jsonData, true);
+
+        if (is_login()) {
+            $bPermit = false;
+            $memberModel = new Member_Model();
+            $strUid = $this->session->user_id;
+            $objUser = $memberModel->getInfo($strUid);
+
+            if($objUser->mb_level  >= LEVEL_ADMIN) {
+                $modelBlock = new Block_Model();
+
+                $bResult = $modelBlock->deleteByFid($arrData['block_fid']);
+
+                if ($bResult) {
+                    $arrResult['status'] = 'success';
+                } else {
+                    $arrResult['status'] = 'fail';
+                }
+            } else {
+                $arrResult['status'] = 'nopermit';
+            }
+        } else {
+            $arrResult['status'] = 'logout';
+        }
+        echo json_encode($arrResult);
+    }
+
     public function transfer()
     {
         $jsonData = $_REQUEST['json_'];
@@ -588,6 +795,31 @@ class UserApi extends BaseController
         }
     }
 
+    public function empIp()
+    {
+        if (is_login()) {
+            // model
+            $memberModel = new Member_Model();
+            $strUid = $this->session->user_id;
+            $objEmp = $memberModel->getInfo($strUid);
+
+            if(is_null($objEmp) || $objEmp->mb_level < LEVEL_ADMIN){
+                $arrResult['status'] = 'fail';
+            } else{
+                $arrInfo = [
+                    'ip_addr'  => $objEmp->mb_ip_join,
+                    'ip_check' => $objEmp->mb_state_view > 0 ? 1:0
+                ];
+                $arrResult['data'] = $arrInfo;
+                $arrResult['status'] = 'success';
+            }
+
+        } else {
+            $arrResult['status'] = 'logout';
+            
+        }
+        echo json_encode($arrResult);
+    }
 
 
 }

@@ -5,7 +5,7 @@
 		<?php if(is_null($objNotice)) {  ?>
 			<p><i class="glyphicon glyphicon-info-sign"></i> 쪽지 작성</p>		
 		<?php } else if($objNotice->notice_type == 3) {  ?>
-			<p><i class="glyphicon glyphicon-info-sign"></i> 고객문의 해답</p>
+			<p><i class="glyphicon glyphicon-info-sign"></i> 고객문의 회답</p>
 		<?php } else {?>
 			<p><i class="glyphicon glyphicon-info-sign"></i> 쪽지 수정</p>
 		<?php } ?>
@@ -18,7 +18,13 @@
 			<p id="subnavbar-type-p-id" hidden><?=$objNotice->notice_type?></p>
 		<?php } ?>
 	</div>
-
+	<style>
+	.useredit-text-div input[type=checkbox] {
+		zoom: 130%;
+		margin-top: 5px;
+		width:20px;
+	}
+	</style>
 <!--Site Setting-->
 	<div class="useredit-panel">
 		<div class="useredit-text-div">
@@ -34,15 +40,15 @@
 		<div class="useredit-text-div">
 			<p>발송(대기):</p>
 			<?php if(is_null($objNotice)) {  ?>
-			<input type="checkbox" id="notice-state-check-id" style="width: 20px; padding-top: 5px;" name="public" checked>
+			<input type="checkbox" id="notice-state-check-id" name="public" checked>
 			<?php } else if($objNotice->notice_type == 3) {  ?>	
-			<input type="checkbox" id="notice-state-check-id" style="width: 20px; padding-top: 5px;" name="public" checked>
+			<input type="checkbox" id="notice-state-check-id" name="public" checked>
 			<?php } else if($objNotice->notice_state_active == 0) {  ?>	
-			<input type="checkbox" id="notice-state-check-id" style="width: 20px; padding-top: 5px;" name="public">
+			<input type="checkbox" id="notice-state-check-id" name="public">
 			<?php } else {?>
-			<input type="checkbox" id="notice-state-check-id" style="width: 20px; padding-top: 5px;" checked name="public">
+			<input type="checkbox" id="notice-state-check-id" checked name="public">
 			<?php } ?>
-			<label for="public">발송</label>
+			<label for="public" style="font-size:14px;">발송</label>
 		</div>
 		<div class="useredit-text-div">
 			<p>쪽지제목:</p> 
@@ -61,7 +67,7 @@
 		</div>
 	
 		<div class="useredit-text-div">
-			<p>해답내용:</p> 
+			<p>회답내용:</p> 
 			<textarea rows="8" id="notice-answer-text-id" style="width:60%;"><?php if(!is_null($objNotice)) {  ?><?=$objNotice->notice_answer?><?php } ?></textarea>	
 		</div>
 		<?php } else {?>
@@ -77,7 +83,7 @@
 			<?php if(is_null($objNotice) || $objNotice->notice_type==0) {  ?>
 			<button class="useredit-ok-button"  id="notice-save-btn-id">발송</button>			
 			<?php } else {?>
-			<button class="useredit-ok-button"  id="notice-save-btn-id">해답</button>
+			<button class="useredit-ok-button"  id="notice-save-btn-id">회답</button>
 			<?php } ?>
 			
 		</div>

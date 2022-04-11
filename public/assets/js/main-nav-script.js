@@ -107,7 +107,7 @@ function requestAlarmState() {
         dataType: "json",
         url: "/api/changealarmstate",
         success: function(jResult) {
-            //console.log(jResult);            
+            // console.log(jResult);
             if (jResult.status == "success") {
 
             } else if (jResult.status == "fail") {

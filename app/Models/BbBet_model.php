@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class BbBet_model extends Model
+class BbBet_Model extends Model
 {
     protected $table = 'bet_bogleball';
     protected $allowedFields = [

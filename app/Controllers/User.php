@@ -141,6 +141,23 @@ class User extends StdController
 	}
 	*/
 
+	function member_log(){
+		
+		$this->load_view_page(
+			'user/member_log', 
+			'user_log', 
+			LEVEL_ADMIN);
+	}
+
+	
+	function member_block(){
+		
+		$this->load_view_page(
+			'user/member_block', 
+			'user_block', 
+			LEVEL_ADMIN);
+	}
+
 	function member($strEmpFid){
 		if (is_login() === false){
 			return $this->response->redirect(base_url().'pages/login', 'refresh');

@@ -3,13 +3,23 @@
 
 <!--Sub Navbar-->
 <div class="sub-navbar">
-	<p><i class="glyphicon glyphicon-lock"></i> 기본설정::비밀번호변경</p>
+	<p><i class="glyphicon glyphicon-lock"></i> 기본설정::정보변경</p>
 </div>
 <!--Site Setting-->
 <div class="confsite-password-panel">
-	<!---->
+	<?php if ($mb_level > LEVEL_COMPANY) {  ?>
+	<div class="confsite-password-text-div" style="margin-top:20px">
+		<p>접속 아이피검사:</p>
+		<input type="checkbox" id="confsite-ip-check-id" style="width:20px; zoom:120%;">
+		<p style="width:200px;">로그인시 아이피 검사</p>
+	</div>
 	<div class="confsite-password-text-div">
-		<p>이전비밀번호:</p> <input type="password" id="confsite-password-input-id">
+		<p>접속 아이피:</p> <input type="text" id="confsite-ip-input-id" placeholder="X.X.X.X" pattern="^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$">
+		<p style="width:200px;" ></p>
+	</div>
+	<?php } ?>
+	<div class="confsite-password-text-div" style="margin-top:20px">
+		<p>현재 비밀번호:</p> <input type="password" id="confsite-password-input-id">
 	</div>
 	<div class="confsite-password-text-div">
 		<p>새 비밀번호:</p> <input type="password" id="confsite-password-new-input-id">
@@ -29,5 +39,5 @@
 </div>
 
 
-<script src="<?php echo base_url('assets/js/confpwd-script.js');?>"></script>
+<script src="<?php echo base_url('assets/js/confpwd-script.js?v=1');?>"></script>
 <?= $this->endSection() ?>

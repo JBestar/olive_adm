@@ -42,7 +42,7 @@ function showMoneyHistory(arrData) {
                 strBuf += "<span style='color:blue;'>슬롯 => 사이트</span>";
                 break;
             case '5':
-                strBuf += "<span style='color:blue;'>사이트 => 네츄럴슬롯</span>";
+                strBuf += "<span style='color:green;'>사이트 => 네츄럴슬롯</span>";
                 break;
             case '6':
                 strBuf += "<span style='color:blue;'>네츄럴슬롯 => 사이트</span>";

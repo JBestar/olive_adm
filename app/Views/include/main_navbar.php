@@ -20,7 +20,7 @@
 				<td>카지노<span id="main-navbar-emp_evrate-id">0 %</span></td>
 				<?php } else { ?>
 
-				<td>새 쪽지&nbsp;<a href="/board/message" id="main-navbar-newmessage-id">0 통</a></td>
+				<td>새 문의&nbsp;<a href="/board/message" id="main-navbar-newmessage-id">0 통</a></td>
 				<td>충전&nbsp;<a href="/bank/deposit" id="main-navbar-charge_wait-id">0 대기</a></td>
 
 				<?php } ?>

@@ -17,7 +17,8 @@
 		<h4><i class="glyphicon glyphicon-hand-right"></i> <?=$game_name?> 게임관련 설정</h4>	
 		<div class="confsite-game-text-div">
 			<p>유저 게임승인:</p> 
-			<input type="checkbox" id="confpb-bet-check-id"><label> 유저게임승인</label>
+			<input type="checkbox" id="confpb-bet-check-id" style="zoom:120%; margin-top:4px;">
+			<label style="font-size:13px; font-weight:normal; padding-top:0px;"> 유저게임승인</label>
 		</div>
 		<div class="confsite-game-text-div">
 			<p>에이젼트 코드:</p> 
