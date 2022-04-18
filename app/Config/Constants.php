@@ -70,6 +70,7 @@ defined('ENV_DEVELOPMENT')  || define('ENV_DEVELOPMENT', 'development');
 
 defined('APP_LUCKYONE') || define('APP_LUCKYONE', 'Luckyone');
 defined('APP_ONESTAR')  || define('APP_ONESTAR', 'Onestar');
+defined('APP_SKY')      || define('APP_SKY', 'Sky');
 
 
 defined('EXIT_SUCCESS')        || define('EXIT_SUCCESS', 0); // no errors
