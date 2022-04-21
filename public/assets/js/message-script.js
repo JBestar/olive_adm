@@ -145,6 +145,7 @@ function requestNotice() {
     var jsonData = { "count": CountPerPage, "page": nPage, "notice_type": strNoticeType, "notice_mb_uid": strMbUid };
 
     jsonData = JSON.stringify(jsonData);
+    $(".loading").show();
 
     $.ajax({
         type: "POST",
@@ -152,6 +153,7 @@ function requestNotice() {
         url: "/api/getmessage",
         data: { json_: jsonData },
         success: function(jResult) {
+            $(".loading").hide();
             //console.log(jResult);
             if (jResult.status == "success") {
                 showNotice(jResult.data);
@@ -160,6 +162,7 @@ function requestNotice() {
             }
         },
         error: function(request, status, error) {
+            $(".loading").hide();
             //console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
         }
 

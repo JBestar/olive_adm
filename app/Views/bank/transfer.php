@@ -4,7 +4,7 @@
 	<i class="glyphicon glyphicon-resize-horizontal"></i>
 	-->
 	<div class = "sub-navbar">
-		<p> 사이트 <i class="glyphicon glyphicon-transfer"></i> 카지노 머니이동내역</p>
+		<p> 사이트 <i class="glyphicon glyphicon-transfer"></i> 게임사 머니이동내역</p>
 	</div>
 	<!--Site Setting-->
 	<div class="bank-panel">	

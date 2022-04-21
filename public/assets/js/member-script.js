@@ -135,7 +135,7 @@ function showMember(arrMember, nAdminLevel) {
 
     var curPage = getActivePage();
     var firstIdx = (curPage - 1) * CountPerPage;
-
+    var strApp = $("#main-container-id").data('app');
     for (var nRow in arrMember) {
         strBuf += "<tr id ='" + arrMember[nRow].mb_fid + "'";
         if (arrMember[nRow].mb_color != null)
@@ -177,9 +177,12 @@ function showMember(arrMember, nAdminLevel) {
         strBuf += parseInt(arrMember[nRow].mb_point).toLocaleString();
         strBuf += "</td> <td>";
         strBuf += "에볼: " + parseInt(arrMember[nRow].mb_live_money).toLocaleString() + "<br>";
-        strBuf += "슬롯: " + parseInt(arrMember[nRow].mb_slot_money).toLocaleString() + "<br>";
-        if ($("#main-container-id").data('app') == APP_LUCKYONE)
+        if (strApp != APP_ONESTAR)
+            strBuf += "슬롯: " + parseInt(arrMember[nRow].mb_slot_money).toLocaleString() + "<br>";
+        if (strApp == APP_LUCKYONE)
             strBuf += "네츄럴슬롯: " + parseInt(arrMember[nRow].mb_fslot_money).toLocaleString() + "<br>";
+        if (strApp == APP_ONESTAR)
+            strBuf += "슬롯: " + parseInt(arrMember[nRow].mb_fslot_money).toLocaleString() + "<br>";
         /*
         strBuf += "</td> <td>";
         strBuf += "파워볼: " + arrMember[nRow].mb_game_pb_ratio + "% / " + arrMember[nRow].mb_game_pb2_ratio + "% <br>";

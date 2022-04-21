@@ -8,9 +8,14 @@
 		<a href="<?php echo base_url().'bet/bbhistory';?>" class="sub-navbar-a" >보글볼</a>
 		<a href="<?php echo base_url().'bet/bshistory';?>" class="sub-navbar-a" >보글사다리</a>
 		<a href="<?php echo base_url().'bet/cshistory';?>" class="sub-navbar-a" >에볼루션</a>
+		<?php if($_ENV['app.name'] != APP_ONESTAR) :?>
         <a href="<?php echo base_url().'bet/slhistory';?>" class="sub-navbar-a" >슬롯게임</a>
+		<?php endif ?>
 		<?php if($_ENV['app.name'] == APP_LUCKYONE) :?>
 		<a href="<?php echo base_url().'bet/fslhistory';?>" class="sub-navbar-a" >네츄럴슬롯</a>
+		<?php endif ?>
+		<?php if($_ENV['app.name'] == APP_ONESTAR) :?>
+		<a href="<?php echo base_url().'bet/fslhistory';?>" class="sub-navbar-a" >슬롯</a>
 		<?php endif ?>
 	</div>
 

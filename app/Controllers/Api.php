@@ -11,6 +11,7 @@ use App\Models\Transfer_Model;
 use App\Models\ConfSite_Model;
 use App\Models\CsBet_model;
 use App\Models\SlBet_model;
+use App\Models\SlotGame_Model;
 use App\Models\SlotPrd_Model;
 use App\Models\SessLog_Model;
 use App\Models\Block_Model;
@@ -1249,7 +1250,7 @@ public function withdrawlist(){
 	public function slbetlistcnt(){ 
 		$jsonData = $_REQUEST['json_'];
 		$arrGetData = json_decode($jsonData, true);
-		//var_dump($arrBetData);
+
 		if(is_login()) {
 			//model
 			$slbetModel = new SlBet_model();
@@ -1275,7 +1276,88 @@ public function withdrawlist(){
 		} 		
 	}
 
+	public function fslotlist(){
+		$jsonData = $_REQUEST['json_'];
+		$arrReqData = json_decode($jsonData, true);
 
+		$objResult = new \StdClass;
+		if(is_login()) {
+			//model
+			$slgameModel = new SlotGame_Model();
+			$memberModel  = new Member_Model();
+			
+			$strUid = $this->session->user_id;
+			$objAdmin = $memberModel->getInfo($strUid);
+			if($objAdmin->mb_level < LEVEL_ADMIN){
+				$objResult->status = "fail";
+			} else {
+				$objResult->status = "success";
+				$objResult->data = $slgameModel->search($arrReqData);
+			}
+		
+		}
+		else{
+			$objResult->status = "logout";
+
+		}
+		echo json_encode($objResult);
+
+	}
+
+	public function fslotcnt(){ 
+		$jsonData = $_REQUEST['json_'];
+		$arrReqData = json_decode($jsonData, true);
+
+		$objResult = new \StdClass;
+		if(is_login()) {
+			//model
+			$slgameModel = new SlotGame_Model();
+			$memberModel  = new Member_Model();
+			
+			$strUid = $this->session->user_id;
+			$objAdmin = $memberModel->getInfo($strUid);
+			if($objAdmin->mb_level < LEVEL_ADMIN){
+				$objResult->status = "fail";
+			} else {
+				$objResult->status = "success";
+				$objResult->data = $slgameModel->searchCount($arrReqData);
+			}
+		
+		}
+		else{
+			$objResult->status = "logout";
+
+		}
+		echo json_encode($objResult);
+	}
+
+	public function fslotset(){ 
+		$jsonData = $_REQUEST['json_'];
+		$arrReqData = json_decode($jsonData, true);
+
+		$objResult = new \StdClass;
+		if(is_login()) {
+			//model
+			$slgameModel = new SlotGame_Model();
+			$memberModel  = new Member_Model();
+			
+			$strUid = $this->session->user_id;
+			$objAdmin = $memberModel->getInfo($strUid);
+			if($objAdmin->mb_level < LEVEL_ADMIN){
+				$objResult->status = "fail";
+			} else {
+				$slgameModel->changeAct($arrReqData);
+
+				$objResult->status = "success";
+			}
+		
+		}
+		else{
+			$objResult->status = "logout";
+
+		}
+		echo json_encode($objResult);
+	}
 
 	//DB 정리
 	public function cleanDb(){ 
@@ -1311,6 +1393,7 @@ public function withdrawlist(){
 			echo json_encode($arrResult);	
 		}
 	}
+
 
 
 }

@@ -235,10 +235,9 @@
 		<?php $this->renderSection('user-edit-check-level')  ?>
         
 		
-		</p>
 		<!---->
 		<?php if ($mb_level >= LEVEL_ADMIN) { ?>
-		<p class="useredit-seperate-div">
+		<p class="useredit-seperate-div"></p>
 
 		<?php if(!is_null($objMember)) {  ?>
 		<div class="useredit-text-div">

@@ -69,6 +69,7 @@ function requestMember() {
     };
 
     jsonData = JSON.stringify(jsonData);
+    $(".loading").show();
 
     $.ajax({
         type: "POST",
@@ -76,6 +77,7 @@ function requestMember() {
         url: "/userapi/blocklist",
         data: { json_: jsonData },
         success: function(jResult) {
+            $(".loading").hide();
             // console.log(jResult);
             if (jResult.status == "success") {
                 showMember(jResult.data);
@@ -84,6 +86,7 @@ function requestMember() {
             }
         },
         error: function(request, status, error) {
+            $(".loading").hide();
             // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
         }
 

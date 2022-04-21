@@ -103,11 +103,8 @@ class Home extends StdController
 		$param = [
 			'game_name' => "네츄럴슬롯",
 			'game_id' => GAME_SLOT_2,
-			'active_ev' => '',
-			'active_sl1' => '',
-			'active_sl2' => 'active'
 		];
-		$this->load_view_page('home/conf_casino', 'conf_game', LEVEL_ADMIN, $param);	
+		$this->load_view_page('home/conf_fslot', 'conf_game', LEVEL_ADMIN, $param);	
 	}
 
 	public function conf_sound(){

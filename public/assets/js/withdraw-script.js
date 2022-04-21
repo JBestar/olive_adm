@@ -137,6 +137,7 @@ function requestWithdrawList() {
 
     var jsonData = { "count": CountPerPage, "page": nPage, "mb_uid": strUid, "start": dtStart, "end": dtEnd };
     jsonData = JSON.stringify(jsonData);
+    $(".loading").show();
 
     $.ajax({
         type: "POST",
@@ -144,6 +145,7 @@ function requestWithdrawList() {
         dataType: "json",
         url: "/api/withdrawlist",
         success: function(jResult) {
+            $(".loading").hide();
             //console.log(jResult);
             if (jResult.status == "success") {
                 showWithdrawList(jResult.data);
@@ -154,6 +156,7 @@ function requestWithdrawList() {
             }
         },
         error: function(request, status, error) {
+            $(".loading").hide();
             //console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
         }
 

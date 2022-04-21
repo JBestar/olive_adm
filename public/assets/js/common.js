@@ -13,6 +13,8 @@ if (logged != "yes") {
 
 const APP_LUCKYONE = "Luckyone";
 const APP_ONESTAR = "Onestar";
+const APP_SKY = "Sky";
+
 
 const LEVEL_ADMIN = 100;
 const LEVEL_COMPANY = 99;
