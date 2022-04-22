@@ -27,6 +27,6 @@
 	<th>포인트</th>
 <?= $this->endSection() ?>
 <?= $this->section('history_script') ?>
-	<script> var mPath = "bbapi"; </script>
-	<script src="<?php echo base_url('assets/js/bbhistory-script.js?v=4');?>"></script>
+	<script> var mPath = "/bbapi"; </script>
+	<script src="<?php echo base_url('assets/js/pbhistory-script.js?v=1');?>"></script>
 <?= $this->endSection() ?>

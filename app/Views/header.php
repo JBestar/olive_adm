@@ -24,7 +24,11 @@
 	<script src="<?php echo base_url('assets/js/common.js?v=4'); ?>"></script>
 
 </head>
+<?php if($_ENV['CI_ENVIRONMENT'] == ENV_PRODUCTION) :?>
+<body oncontextmenu="return false" ondragstart="return true" onselectstart="return true">
+<?php else : ?>
 <body>
+<?php endif ?>
 <div class="main-navbar-dropdown-container" id="main-navbar-dropdown-container-id" style="display: none;">
   <div class="main-navbar-dropdown-div"> 
   <button id="main-navbar-dropdown-logout-id"><span class="glyphicon glyphicon-log-out"></span>&nbsp&nbsp로그아웃</button>

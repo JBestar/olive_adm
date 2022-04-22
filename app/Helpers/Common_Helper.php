@@ -204,5 +204,27 @@
 
     }
 
+    function getBetTimeRange($arrReqData){
+      $sCon = "";
+      if (strlen($arrReqData['start']) <=10 && strlen($arrReqData['end']) <= 10) {
+          $sCon = " bet_time >= '".$arrReqData['start']." 00:00:00' AND bet_time <= '".$arrReqData['end']." 23:59:59' ";
+      } else {
+          $sCon = " bet_time >= '".$arrReqData['start'].":00' AND bet_time <= '".$arrReqData['end'].":59' ";
+      }
+      return $sCon;
+
+    }
+
+    
+    function getTimeRange($key, $arrReqData){
+      $sCon = "";
+      if (strlen($arrReqData['start']) <=10 && strlen($arrReqData['end']) <= 10) {
+          $sCon = $key." >= '".$arrReqData['start']." 00:00:00' AND ".$key." <= '".$arrReqData['end']." 23:59:59' ";
+      } else {
+          $sCon = $key." >= '".$arrReqData['start'].":00' AND ".$key." <= '".$arrReqData['end'].":59' ";
+      }
+      return $sCon;
+
+    }
 
 ?>

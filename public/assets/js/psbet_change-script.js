@@ -34,33 +34,35 @@ function ShowBetHistory(jsonBetData) {
         strBuf += "</td>";
 
         strBetMode = "<td>";
-        if (jsonBetData[nRow].bet_mode == "1") {
+        if (jsonBetData[nRow].bet_mode == 1) {
             strBetMode = "<td class = 'pb-home-table-betmode-power'> 좌우";
-        } else if (jsonBetData[nRow].bet_mode == "2") {
+        } else if (jsonBetData[nRow].bet_mode == 2) {
             strBetMode = "<td class = 'pb-home-table-betmode-line'> 줄수";
-        } else if (jsonBetData[nRow].bet_mode == "3") {
+        } else if (jsonBetData[nRow].bet_mode == 3) {
             strBetMode = "<td class = 'pb-home-table-betmode-normal'> 홀짝";
+        } else {
+            strBetMode = "<td class = 'pb-home-table-betmode-line'> 조합";
         }
+
         strBetTarget = "";
         strResultTarget = "";
-        if (jsonBetData[nRow].bet_mode == "1") {
-            strBetTarget = jsonBetData[nRow].bet_target == "P" ? "<div  class = 'pb-home-odd-span'>좌</div>" : "<div  class = 'pb-home-even-span'>우</div>";
-            if (jsonBetData[nRow].bet_result == "P")
-                strResultTarget = "<div  class = 'pb-home-odd-span'>좌</div>";
-            else if (jsonBetData[nRow].bet_result == "B")
-                strResultTarget = "<div  class = 'pb-home-even-span'>우</div>";
-        } else if (jsonBetData[nRow].bet_mode == "2") {
-            strBetTarget = jsonBetData[nRow].bet_target == "P" ? "<div  class = 'pb-home-odd-span'>3</div>" : "<div  class = 'pb-home-even-span'>4</div>";
-            if (jsonBetData[nRow].bet_result == "P")
-                strResultTarget = "<div  class = 'pb-home-odd-span'>3</div>";
-            else if (jsonBetData[nRow].bet_result == "B")
-                strResultTarget = "<div  class = 'pb-home-even-span'>4</div>";
-        } else if (jsonBetData[nRow].bet_mode == "3") {
-            strBetTarget = jsonBetData[nRow].bet_target == "P" ? "<div  class = 'pb-home-odd-span'>홀</div>" : "<div  class = 'pb-home-even-span'>짝</div>";
-            if (jsonBetData[nRow].bet_result == "P")
-                strResultTarget = "<div  class = 'pb-home-odd-span'>홀</div>";
-            else if (jsonBetData[nRow].bet_result == "B")
-                strResultTarget = "<div  class = 'pb-home-even-span'>짝</div>";
+        if (jsonBetData[nRow].bet_mode >= 1 && jsonBetData[nRow].bet_mode <= 3) {
+            strBetTarget = getHtmlByBet(jsonBetData[nRow].bet_mode, jsonBetData[nRow].bet_target);
+            strResultTarget = getHtmlByBet(jsonBetData[nRow].bet_mode, jsonBetData[nRow].bet_result);
+        } else if (jsonBetData[nRow].bet_mode >= 4 && jsonBetData[nRow].bet_mode <= 7) {
+            if (jsonBetData[nRow].bet_result.length > 1) {
+                strResultTarget = getHtmlByBet("1", jsonBetData[nRow].bet_result.charAt(0)) + getHtmlByBet("2", jsonBetData[nRow].bet_result.charAt(1));
+            }
+            if (jsonBetData[nRow].bet_mode == 4) {
+                strBetTarget = getHtmlByBet("1", "P") + getHtmlByBet("2", "P");
+            } else if (jsonBetData[nRow].bet_mode == 5) {
+                strBetTarget = getHtmlByBet("1", "P") + getHtmlByBet("2", "B");
+            } else if (jsonBetData[nRow].bet_mode == 6) {
+                strBetTarget = getHtmlByBet("1", "B") + getHtmlByBet("2", "P");
+            } else if (jsonBetData[nRow].bet_mode == 7) {
+                strBetTarget = getHtmlByBet("1", "B") + getHtmlByBet("2", "B");
+            }
+
         }
 
         strBuf += strBetMode;
@@ -134,14 +136,22 @@ function addTableBtnEvent() {
 
 function getHtmlByBet(strMode, strTarget) {
     var strResult = "";
-    if (strMode == "1" || strMode == "3") {
-        strResult = strTarget == "P" ? "<div  class = 'pb-home-odd-span'>홀</div> " : "<div  class = 'pb-home-even-span'>짝</div> ";
-    } else if (strMode == "2" || strMode == "4") {
-        strResult = strTarget == "P" ? "<div  class = 'pb-home-odd-span'><i class='glyphicon glyphicon-arrow-down'></i></div> " : "<div  class = 'pb-home-even-span'><i class='glyphicon glyphicon-arrow-up'></i></div> ";
-    } else {
-        if (strTarget == 'L') strResult = "<div  class = 'pb-home-even-span'>대</div> ";
-        else if (strTarget == 'M') strResult = "<div  class = 'pb-home-mid-span'>중</div> ";
-        else if (strTarget == 'S') strResult = "<div  class = 'pb-home-odd-span'>소</div> ";
+    iMode = parseInt(strMode);
+    if (iMode == 1) {
+        if (strTarget == "P")
+            strResult = "<div  class = 'pb-home-odd-span'>좌</div> "
+        else if (strTarget == "B")
+            strResult = "<div  class = 'pb-home-even-span'>우</div> ";
+    } else if (iMode == 2) {
+        if (strTarget == "P")
+            strResult = "<div  class = 'pb-home-odd-span'>3</div> "
+        else if (strTarget == "B")
+            strResult = "<div  class = 'pb-home-even-span'>4</div> ";
+    } else if (iMode == 3) {
+        if (strTarget == "P")
+            strResult = "<div  class = 'pb-home-odd-span'>홀</div> "
+        else if (strTarget == "B")
+            strResult = "<div  class = 'pb-home-even-span'>짝</div> ";
     }
     return strResult;
 }
@@ -183,19 +193,24 @@ function requestBetHistory() {
 
     var dtStart = $("#pbbetchange-date-input-id").val();
     var dtEnd = $("#pbbetchange-date-input-id").val();
-    var nCount = 1000;
     var strRound = $("#pbbetchange-round-input-id").val();
-    var nMode = 0;
-    var nPage = 1;
-    var strUser = "";
 
     if (strRound < 1) return;
 
-    var jsonData = { "count": nCount, "page": nPage, "start": dtStart, "end": dtEnd, "user": strUser, "round": strRound, "mode": nMode };
+    var jsonData = {
+        "count": 100,
+        "page": 1,
+        "start": dtStart,
+        "end": dtEnd,
+        "user": "",
+        "round": strRound,
+        "mode": 0,
+        "emp": ""
+    };
     jsonData = JSON.stringify(jsonData);
     $(".loading").show();
     $.ajax({
-        url: '/psapi/betlist',
+        url: mPath + '/betlist',
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",
@@ -220,7 +235,7 @@ function requestBetIgnore(jsData) {
     var jsonData = JSON.stringify(jsData);
 
     $.ajax({
-        url: '/psapi/betignore',
+        url: mPath + '/betignore',
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",
@@ -242,7 +257,7 @@ function requestBetProcess(jsData) {
     var jsonData = JSON.stringify(jsData);
 
     $.ajax({
-        url: '/psapi/betprocess',
+        url: mPath + '/betprocess',
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",

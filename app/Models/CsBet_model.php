@@ -34,7 +34,7 @@ class CsBet_model extends Model
         
         $strCondition = " WHERE bet_money > 0 ";
         if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
-            $strCondition.=" AND bet_time >= '".$arrReqData['start']." 0:0:0' AND bet_time <= '".$arrReqData['end']." 23:59:59'" ;
+            $strCondition.=" AND ".getBetTimeRange($arrReqData);
                         
         }
         if(strlen($arrReqData['user']) > 0){
@@ -99,7 +99,7 @@ class CsBet_model extends Model
         $bWhere = false;
         $strWhere="";
         if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
-            $strWhere.=" WHERE bet_time >= '".$arrReqData['start']." 0:0:0' AND bet_time <= '".$arrReqData['end']." 23:59:59'" ;
+            $strWhere.=" WHERE ".getBetTimeRange($arrReqData);
             $bWhere = true;            
         }
         if(strlen($arrReqData['user']) > 0){
@@ -190,7 +190,7 @@ class CsBet_model extends Model
         
         $bWhere = false;
         if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
-            $strSql.=" WHERE bet_time >= '".$arrReqData['start']." 0:0:0' AND bet_time <= '".$arrReqData['end']." 23:59:59'" ;
+            $strSql.=" WHERE ".getBetTimeRange($arrReqData);
             $bWhere = true;
         }
         if(strlen($arrReqData['user']) > 0){

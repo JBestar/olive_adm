@@ -34,9 +34,9 @@ function showGame(list) {
             html += "</td><td>";
             html += game.provider;
             html += "</td><td>";
-            html += game.name_ko;
+            html += game.rname_ko;
             html += "</td><td>";
-            html += game.name;
+            html += game.rname;
             html += "</td><td>";
             html += game.game_code;
             html += "</td><td>";
@@ -51,7 +51,9 @@ function showGame(list) {
             html += "</td><tr>";
             nRow++;
         });
-
+        if (html.length < 1) {
+            html = "<tr><td colspan='6'>자료가 없습니다.</td></tr>";
+        }
     }
     $("#confsite-table-data").html(html);
 

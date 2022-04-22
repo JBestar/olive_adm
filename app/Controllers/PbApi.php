@@ -85,17 +85,14 @@ class PbApi extends BaseController {
 			$strUid = $this->session->user_id;
 			$objAdmin = $memberModel->getInfo($strUid);
 
-			$bPoint = false;
 			$arrBetAccount = null;
 			if($objAdmin->mb_level >= LEVEL_ADMIN){
 				if(strlen(trim($arrGetData['emp'])) > 0){
 					$objAdmin = $memberModel->getInfo(trim($arrGetData['emp']));
-					$bPoint = true;
 				}
 				else 	
 					$arrBetAccount = $pbbetModel->getBetAccount($arrGetData);
 			} else {
-				$bPoint = true;
 			}
 
 			$arrBetResults = $pbbetModel->search($objAdmin, $arrGetData);
@@ -103,7 +100,6 @@ class PbApi extends BaseController {
 			$objResult = new \StdClass;
 			$objResult->data = $arrBetResults;
 			$objResult->account = $arrBetAccount;
-			$objResult->point = $bPoint?1:0;
 			$objResult->status = "success";
 		
 			echo json_encode($objResult);

@@ -26,6 +26,6 @@
 	<th>포인트</th>
 <?= $this->endSection() ?>
 <?= $this->section('history_script') ?>
-	<script> var mPath = "psapi"; </script>
-	<script src="<?php echo base_url('assets/js/bshistory-script.js?v=3');?>"></script>
+	<script> var mPath = "/psapi"; </script>
+	<script src="<?php echo base_url('assets/js/pshistory-script.js?v=1');?>"></script>
 <?= $this->endSection() ?>

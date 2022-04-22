@@ -351,6 +351,11 @@ class Member_Model extends Model
     // 배팅금액 (하부포함)
     public function calcBetMoneys($objEmp, $arrReqData)
     {
+        $strCond = "";
+        if (strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0) {
+            $strCond = " WHERE ".getBetTimeRange($arrReqData);
+        }
+
         $strTbColum = ' mb_fid, mb_uid, mb_level, mb_emp_fid ';
         $strTbRColum = ' r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid ';
 
@@ -364,39 +369,27 @@ class Member_Model extends Model
         $strSQL .= ' ) AS mb_table ';
 
         $strSQL .= ' JOIN ( (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, bet_emp_fid, bet_mb_uid FROM bet_powerball ';
-        if (strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0) {
-            $strSQL .= " WHERE bet_time >= '".$arrReqData['start']." 0:0:0' AND bet_time <= '".$arrReqData['end']." 23:59:59' ";
-        }
+        $strSQL .= $strCond;
         $strSQL .= ' GROUP BY bet_mb_uid) ';
 
         $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, bet_emp_fid, bet_mb_uid FROM bet_powerladder ';
-        if (strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0) {
-            $strSQL .= " WHERE bet_time >= '".$arrReqData['start']." 0:0:0' AND bet_time <= '".$arrReqData['end']." 23:59:59' ";
-        }
+        $strSQL .= $strCond;
         $strSQL .= ' GROUP BY bet_mb_uid) ';
 
         $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, bet_emp_fid, bet_mb_uid FROM bet_casino ';
-        if (strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0) {
-            $strSQL .= " WHERE bet_time >= '".$arrReqData['start']." 0:0:0' AND bet_time <= '".$arrReqData['end']." 23:59:59' ";
-        }
+        $strSQL .= $strCond;
         $strSQL .= ' GROUP BY bet_mb_uid) ';
 
         $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, bet_emp_fid, bet_mb_uid FROM bet_slot ';
-        if (strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0) {
-            $strSQL .= " WHERE bet_time >= '".$arrReqData['start']." 0:0:0' AND bet_time <= '".$arrReqData['end']." 23:59:59' ";
-        }
+        $strSQL .= $strCond;
         $strSQL .= ' GROUP BY bet_mb_uid) ';
 
         $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, bet_emp_fid, bet_mb_uid FROM bet_bogleball ';
-        if (strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0) {
-            $strSQL .= " WHERE bet_time >= '".$arrReqData['start']." 0:0:0' AND bet_time <= '".$arrReqData['end']." 23:59:59' ";
-        }
+        $strSQL .= $strCond;
         $strSQL .= ' GROUP BY bet_mb_uid) ';
 
         $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, bet_emp_fid, bet_mb_uid FROM bet_bogleladder ';
-        if (strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0) {
-            $strSQL .= " WHERE bet_time >= '".$arrReqData['start']." 0:0:0' AND bet_time <= '".$arrReqData['end']." 23:59:59' ";
-        }
+        $strSQL .= $strCond;
         $strSQL .= ' GROUP BY bet_mb_uid) ';
 
         $strSQL .= ' )AS bet_table ON bet_table.bet_mb_uid = mb_table.mb_uid ';
@@ -441,27 +434,25 @@ class Member_Model extends Model
         $strSQL .= ' ) AS mb_table ';
 
         $strSQL .= ' JOIN ( SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, bet_emp_fid, bet_mb_uid FROM ';
-        if (GAME_POWER_BALL == $arrReqData['type']) {
+        if ($arrReqData['type'] == GAME_POWER_BALL ) {
             $strSQL .= ' bet_powerball ';
-        } elseif (GAME_POWER_LADDER == $arrReqData['type']) {
+        } elseif ($arrReqData['type'] == GAME_POWER_LADDER ) {
             $strSQL .= ' bet_powerladder ';
-        } elseif (GAME_KENO_LADDER == $arrReqData['type']) {
+        } elseif ($arrReqData['type'] == GAME_KENO_LADDER ) {
             $strSQL .= ' bet_kenoladder ';
-        } elseif (GAME_CASINO_EVOL == $arrReqData['type']) {
+        } elseif ($arrReqData['type'] == GAME_CASINO_EVOL ) {
             $strSQL .= ' bet_casino ';
-        } elseif (GAME_BOGLE_BALL == $arrReqData['type']) {
+        } elseif ($arrReqData['type'] == GAME_BOGLE_BALL ) {
             $strSQL .= ' bet_bogleball ';
-        } elseif (GAME_BOGLE_LADDER == $arrReqData['type']) {
+        } elseif ($arrReqData['type'] == GAME_BOGLE_LADDER ) {
             $strSQL .= ' bet_bogleladder ';
-        } elseif (GAME_SLOT_1 == $arrReqData['type'] || GAME_SLOT_2 == $arrReqData['type']) {
+        } elseif ($arrReqData['type'] == GAME_SLOT_1 || $arrReqData['type'] == GAME_SLOT_2 ) {
             $strSQL .= ' bet_slot ';
         } else {
             return null;
         }
-        if (strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0) {
-            $strSQL .= " WHERE bet_time >= '".$arrReqData['start']." 0:0:0' AND bet_time <= '".$arrReqData['end']." 23:59:59' ";
-        }
-        if (GAME_SLOT_1 == $arrReqData['type'] || GAME_SLOT_2 == $arrReqData['type']){
+        $strSQL .= " WHERE ".getBetTimeRange($arrReqData);
+        if ($arrReqData['type'] == GAME_SLOT_1 || $arrReqData['type'] == GAME_SLOT_2){
             $strSQL .= " AND bet_game_id = '".$arrReqData['type']."' ";
         }
         $strSQL .= ' GROUP BY bet_mb_uid ';
@@ -789,17 +780,7 @@ class Member_Model extends Model
             if (1 != $ratioResult) {
                 return $ratioResult;
             }
-            // if ($arrRegData['mb_level'] < LEVEL_EMPLOYEE) {
-            //     if (!array_key_exists('mb_color', $arrRegData)) {
-            //         $arrRegData['mb_color'] = $objEmployee->mb_color;
-            //     } elseif (0 != strcmp($arrRegData['mb_color'], $objEmployee->mb_color)) {
-            //         $arrRegData['mb_color'] = $objEmployee->mb_color;
-            //     }
-
-            //     if (!array_key_exists('mb_emp_permit', $arrRegData)) {
-            //         $arrRegData['mb_emp_permit'] = 0;
-            //     }
-            // }
+            
         } else {
             return 0;
         }
@@ -903,13 +884,6 @@ class Member_Model extends Model
         $bResult = $this->update($arrData['mb_fid'], $arrData);
         
         if ($bResult) {
-            // 하부 회원색 변경
-            // if (array_key_exists('mb_color', $arrData) && $objMember->mb_level >= LEVEL_EMPLOYEE) {
-            //     $this->builder()->set('mb_color', $arrData['mb_color']);
-            //     $this->builder()->where('mb_emp_fid', $arrData['mb_fid']);
-            //     $this->builder()->update();
-            // }
-
             return 1;
         }
         $strError = $this->errors();
@@ -1098,39 +1072,7 @@ class Member_Model extends Model
             if (!is_null($objResult->mb_count)) {
                 $arrEmpUserInfo['waitcompany'] = $objResult->mb_count;
             }
-        } /*else if($objMember->mb_level >= LEVEL_EMPLOYEE){ //소속 유저수
-
-            $strTbColum = " mb_fid, mb_uid, mb_level, mb_emp_fid, mb_state_active ";
-            $strTbRColum = " r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid , r.mb_state_active";
-
-            $strSQL = "WITH RECURSIVE tbmember (".$strTbColum.") AS";
-            $strSQL .= " ( SELECT ".$strTbColum." FROM ".$this->table." WHERE mb_emp_fid = '".$objMember->mb_fid."'";
-            $strSQL .= " UNION ALL SELECT ".$strTbRColum." FROM ".$this->table." r ";
-            $strSQL .= " INNER JOIN tbmember ON r.mb_emp_fid = tbmember.mb_fid )";
-
-            $strSQL .= " SELECT COUNT(*) as mb_count FROM tbmember where ";
-            $strSQL .= " mb_level < '".$objMember->mb_level."' ";
-
-            $objResult = $this -> db -> query($strSQL)->getRow();
-            if(!is_null($objResult->mb_count)) $arrEmpUserInfo['alluser'] = $objResult->mb_count;
-            //대기중인 유저수
-
-            $strTbColum = " mb_fid, mb_uid, mb_level, mb_emp_fid, mb_state_active ";
-            $strTbRColum = " r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid , r.mb_state_active";
-
-            $strSQL = "WITH RECURSIVE tbmember (".$strTbColum.") AS";
-            $strSQL .= " ( SELECT ".$strTbColum." FROM ".$this->table." WHERE mb_emp_fid = '".$objMember->mb_fid."'";
-            $strSQL .= " UNION ALL SELECT ".$strTbRColum." FROM ".$this->table." r ";
-            $strSQL .= " INNER JOIN tbmember ON r.mb_emp_fid = tbmember.mb_fid )";
-
-            $strSQL .= " SELECT COUNT(*) as mb_count FROM tbmember where ";
-            $strSQL .= " mb_level < '".$objMember->mb_level."' AND mb_state_active = '2' ";
-
-            $objResult = $this -> db -> query($strSQL)->getRow();
-            if(!is_null($objResult->mb_count)) $arrEmpUserInfo['waituser'] = $objResult->mb_count;
-
-
-        }*/
+        }
 
         return $arrEmpUserInfo;
     }

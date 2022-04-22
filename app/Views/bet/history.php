@@ -25,9 +25,9 @@
 		
 		<div class="pbresult-list-div">
 			<label>기간</label>
-			<input type="date" id="pbhistory-datestart-input-id"  value="<?php echo date('Y-m-')."01"; ?>">
+			<input type="datetime-local" id="pbhistory-datestart-input-id"  value="<?php echo date('Y-m')."-01T00:00"; ?>">
             <label> ~ </label>
-            <input type="date" id="pbhistory-dateend-input-id"  value="<?php echo date('Y-m-d'); ?>">
+            <input type="datetime-local" id="pbhistory-dateend-input-id"  value="<?php echo date('Y-m-d')."T00:00"; ?>">
             <?= $this->renderSection('history-add-round-search') ?>
             <?php if($mb_level >= LEVEL_ADMIN) {  ?>
 			<label>추천인</label>

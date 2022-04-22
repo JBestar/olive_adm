@@ -37,7 +37,7 @@ class SlBet_model extends Model
         $strCondition = " WHERE bet_money > 0 ";
         $strCondition.=" AND bet_game_id = '".$arrReqData['game']."' ";
         if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
-            $strCondition.=" AND bet_time >= '".$arrReqData['start']." 0:0:0' AND bet_time <= '".$arrReqData['end']." 23:59:59'" ;
+            $strCondition.=" AND ".getBetTimeRange($arrReqData);
                         
         }
         if(strlen($arrReqData['user']) > 0){
@@ -100,7 +100,7 @@ class SlBet_model extends Model
         
         $strWhere=" WHERE bet_game_id = '".$arrReqData['game']."' ";
         if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
-            $strWhere.=" AND bet_time >= '".$arrReqData['start']." 0:0:0' AND bet_time <= '".$arrReqData['end']." 23:59:59'" ;
+            $strWhere.=" AND ".getBetTimeRange($arrReqData);
         }
         if(strlen($arrReqData['user']) > 0){
             $strWhere.=" AND bet_mb_uid = '".$arrReqData['user']."' ";
@@ -205,7 +205,7 @@ class SlBet_model extends Model
 
         $strSql.=" WHERE bet_game_id = '".$arrReqData['game']."' ";
         if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
-            $strSql.=" AND bet_time >= '".$arrReqData['start']." 0:0:0' AND bet_time <= '".$arrReqData['end']." 23:59:59'" ;
+            $strSql.=" AND ".getBetTimeRange($arrReqData);
         }
         if(strlen($arrReqData['user']) > 0){
             $strSql.=" AND bet_mb_uid = '".$arrReqData['user']."' ";

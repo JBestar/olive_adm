@@ -55,7 +55,7 @@ class SlotGame_Model extends Model {
         }
 
         // $strSql = " SELECT fslot_game.*, ".$this->prdTable.".name as prd_name FROM ";
-        $strSql = " SELECT fslot_game.* FROM ";
+        $strSql = " SELECT fslot_game.*, rslot_game.name as rname, rslot_game.name_ko AS rname_ko FROM ";
             $strSql.= "( SELECT * FROM ".$this->table;
             $strSql.= " WHERE cat = '".GAME_SLOT_2."' AND open = '1' ".$where;
             $strSql.= " ) AS fslot_game";
@@ -66,7 +66,7 @@ class SlotGame_Model extends Model {
         
         $strSql.= " group by fslot_game.fid ";
         $nStartRow = ($arrReqData['page']-1) * $arrReqData['count'] ;
-        $strSql.=" ORDER BY fid ASC LIMIT ".$nStartRow.", ".$arrReqData['count'];
+        $strSql.=" ORDER BY rname ASC LIMIT ".$nStartRow.", ".$arrReqData['count'];
         
         $query = $this -> db -> query($strSql);
         $result = $query -> getResult();

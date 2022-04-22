@@ -10,7 +10,7 @@ function requestPageInfo() {
 
 
 //Function to Show Betting History
-function ShowBetHistory(jsonBetData, hasPoint) {
+function ShowBetHistory(jsonBetData) {
     var elemBetDataTb = document.getElementById("pbbet-table-id");
     var strBuf = "";
 
@@ -162,7 +162,7 @@ function requestBetHistory() {
             $(".loading").hide();
             // console.log(jResult);
             if (jResult.status == "success") {
-                ShowBetHistory(jResult.data, jResult.point);
+                ShowBetHistory(jResult.data);
                 ShowBetAccount(jResult.account);
             }
         },

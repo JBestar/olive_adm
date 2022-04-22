@@ -359,7 +359,6 @@ class UserApi extends BaseController
                 $arrEmpInfo['emp_money'] = $objAdminMoney->emp_money;
                 $arrEmpInfo['emp_point'] = $objAdminMoney->emp_point;
 
-                // date_default_timezone_set('Asia/Seoul');
                 $arrReqData['start'] = date('Y-m-d');
                 $arrReqData['end'] = $arrReqData['start'];
                 $arrEmpInfo['emp_money_charge'] = $chargeModel->calcAdminCharge($arrReqData);
@@ -398,7 +397,6 @@ class UserApi extends BaseController
 
             $objResult = new \stdClass();
             if ($objUser->mb_level >= LEVEL_ADMIN) {
-                // date_default_timezone_set('Asia/Seoul');
                 $strDate = date('Y-m-d');
                 $arrReqData['start'] = $strDate.' 00:00:00';
                 $arrReqData['end'] = $strDate.' 23:59:59';

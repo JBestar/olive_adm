@@ -10,7 +10,7 @@ function requestPageInfo() {
 
 
 //Function to Show Betting History
-function ShowBetHistory(jsonBetData, hasPoint) {
+function ShowBetHistory(jsonBetData) {
     var elemBetDataTb = document.getElementById("pbbet-table-id");
     var strBuf = "";
 
@@ -196,7 +196,7 @@ function requestBetHistory() {
     jsonData = JSON.stringify(jsonData);
     $(".loading").show();
     $.ajax({
-        url: '/' + mPath + '/betlist',
+        url: mPath + '/betlist',
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",
@@ -204,7 +204,7 @@ function requestBetHistory() {
             $(".loading").hide();
             // console.log(jResult);
             if (jResult.status == "success") {
-                ShowBetHistory(jResult.data, jResult.point);
+                ShowBetHistory(jResult.data);
                 ShowBetAccount(jResult.account);
             }
         },
@@ -242,7 +242,7 @@ function requestTotalPage() {
     jsonData = JSON.stringify(jsonData);
 
     $.ajax({
-        url: '/' + mPath + '/betlistcnt',
+        url: mPath + '/betlistcnt',
         data: { json_: jsonData },
         dataType: 'json',
         type: 'post',

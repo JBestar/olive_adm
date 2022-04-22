@@ -31,126 +31,123 @@ function ShowBetHistory(jsonBetData) {
         strBuf += jsonBetData[nRow].bet_mb_uid;
         strBuf += "</td>";
 
+        jsonBetData[nRow].bet_mode = parseInt(jsonBetData[nRow].bet_mode);
         strBetMode = "<td>";
-        if (jsonBetData[nRow].bet_mode == "1" || jsonBetData[nRow].bet_mode == "2") {
+        if (jsonBetData[nRow].bet_mode == 1 || jsonBetData[nRow].bet_mode == 2) {
             strBetMode = "<td class = 'pb-home-table-betmode-power'> 파워볼";
-        } else if (jsonBetData[nRow].bet_mode == "3" || jsonBetData[nRow].bet_mode == "4") {
+        } else if (jsonBetData[nRow].bet_mode == 3 || jsonBetData[nRow].bet_mode == 4) {
             strBetMode = "<td class = 'pb-home-table-betmode-normal'> 일반볼";
-        } else if (jsonBetData[nRow].bet_mode == "5" || jsonBetData[nRow].bet_mode == "6" || jsonBetData[nRow].bet_mode == "7" || jsonBetData[nRow].bet_mode == "8") {
+        } else if (jsonBetData[nRow].bet_mode >= 5 && jsonBetData[nRow].bet_mode <= 8) {
             strBetMode = "<td class = 'pb-home-table-betmode-power'> 파워볼조합";
-        } else if (jsonBetData[nRow].bet_mode == "9" || jsonBetData[nRow].bet_mode == "10" || jsonBetData[nRow].bet_mode == "11" || jsonBetData[nRow].bet_mode == "12") {
+        } else if (jsonBetData[nRow].bet_mode >= 9 && jsonBetData[nRow].bet_mode <= 12) {
             strBetMode = "<td class = 'pb-home-table-betmode-normal'> 일반볼조합";
-        } else if (jsonBetData[nRow].bet_mode == "13" || jsonBetData[nRow].bet_mode == "14" || jsonBetData[nRow].bet_mode == "15" || jsonBetData[nRow].bet_mode == "16" ||
-            jsonBetData[nRow].bet_mode == "17" || jsonBetData[nRow].bet_mode == "18" || jsonBetData[nRow].bet_mode == "19" || jsonBetData[nRow].bet_mode == "20") {
+        } else if (jsonBetData[nRow].bet_mode >= 13 && jsonBetData[nRow].bet_mode <= 20) {
             strBetMode = "<td class = 'pb-home-table-betmode-line'> 일반+파워조합";
-        } else if (jsonBetData[nRow].bet_mode == "21" || jsonBetData[nRow].bet_mode == "22" || jsonBetData[nRow].bet_mode == "23" ||
-            jsonBetData[nRow].bet_mode == "24" || jsonBetData[nRow].bet_mode == "25" || jsonBetData[nRow].bet_mode == "26") {
+        } else if (jsonBetData[nRow].bet_mode >= 21 && jsonBetData[nRow].bet_mode <= 29) {
             strBetMode = "<td class = 'pb-home-table-betmode-line'> 일반볼대중소";
+        } else if (jsonBetData[nRow].bet_mode >= 31 && jsonBetData[nRow].bet_mode <= 38) {
+            strBetMode = "<td class = 'pb-home-table-betmode-line'> 일반조합+파워홀짝";
+        } else if (jsonBetData[nRow].bet_mode == 30) {
+            strBetMode = "<td class = 'pb-home-table-betmode-line'> 파워볼 숫자";
         }
         strBetTarget = "";
         strResultTarget = "";
-        if (jsonBetData[nRow].bet_mode == "1" || jsonBetData[nRow].bet_mode == "3") {
-            strBetTarget = jsonBetData[nRow].bet_target == "P" ? "<div  class = 'pb-home-odd-span'>홀</div>" : "<div  class = 'pb-home-even-span'>짝</div>";
-            if (jsonBetData[nRow].bet_result == "P")
-                strResultTarget = "<div  class = 'pb-home-odd-span'>홀</div>";
-            else if (jsonBetData[nRow].bet_result == "B")
-                strResultTarget = "<div  class = 'pb-home-even-span'>짝</div>";
-        } else if (jsonBetData[nRow].bet_mode == "2" || jsonBetData[nRow].bet_mode == "4") {
-            strBetTarget = jsonBetData[nRow].bet_target == "P" ? "<div  class = 'pb-home-odd-span'><i class='glyphicon glyphicon-arrow-down'></i></div>" : "<div  class = 'pb-home-even-span'><i class='glyphicon glyphicon-arrow-up'></i></div>";
+        if (jsonBetData[nRow].bet_mode >= 1 && jsonBetData[nRow].bet_mode <= 4) {
+            strBetTarget = getHtmlByBet(jsonBetData[nRow].bet_mode, jsonBetData[nRow].bet_target);
+            strResultTarget = getHtmlByBet(jsonBetData[nRow].bet_mode, jsonBetData[nRow].bet_result);
+        } else if (jsonBetData[nRow].bet_mode >= 5 && jsonBetData[nRow].bet_mode <= 12) {
+            if (jsonBetData[nRow].bet_result.length > 1) {
+                strResultTarget = getHtmlByBet("1", jsonBetData[nRow].bet_result.charAt(0)) + getHtmlByBet("2", jsonBetData[nRow].bet_result.charAt(1));
+            }
+            if (jsonBetData[nRow].bet_mode == 5 || jsonBetData[nRow].bet_mode == 9) {
+                strBetTarget = getHtmlByBet(1, "P") + getHtmlByBet(2, "P");
 
-            if (jsonBetData[nRow].bet_result == "P")
-                strResultTarget = "<div  class = 'pb-home-odd-span'><i class='glyphicon glyphicon-arrow-down'></i></div>";
-            else if (jsonBetData[nRow].bet_result == "B")
-                strResultTarget = "<div  class = 'pb-home-even-span'><i class='glyphicon glyphicon-arrow-up'></i></div>";
-        } else if (jsonBetData[nRow].bet_mode == "5" || jsonBetData[nRow].bet_mode == "9") {
-            strBetTarget = getHtmlByBet("1", "P") + getHtmlByBet("2", "P");
-            if (jsonBetData[nRow].bet_result.length > 1) {
-                strResultTarget = getHtmlByBet("1", jsonBetData[nRow].bet_result.charAt(0)) + getHtmlByBet("2", jsonBetData[nRow].bet_result.charAt(1));
+            } else if (jsonBetData[nRow].bet_mode == 6 || jsonBetData[nRow].bet_mode == 10) {
+                strBetTarget = getHtmlByBet("1", "P") + getHtmlByBet("2", "B");
+
+            } else if (jsonBetData[nRow].bet_mode == 7 || jsonBetData[nRow].bet_mode == 11) {
+                strBetTarget = getHtmlByBet("1", "B") + getHtmlByBet("2", "P");
+
+            } else if (jsonBetData[nRow].bet_mode == 8 || jsonBetData[nRow].bet_mode == 12) {
+                strBetTarget = getHtmlByBet("1", "B") + getHtmlByBet("2", "B");
+
             }
-        } else if (jsonBetData[nRow].bet_mode == "6" || jsonBetData[nRow].bet_mode == "10") {
-            strBetTarget = getHtmlByBet("1", "P") + getHtmlByBet("2", "B");
-            if (jsonBetData[nRow].bet_result.length > 1) {
-                strResultTarget = getHtmlByBet("1", jsonBetData[nRow].bet_result.charAt(0)) + getHtmlByBet("2", jsonBetData[nRow].bet_result.charAt(1));
-            }
-        } else if (jsonBetData[nRow].bet_mode == "7" || jsonBetData[nRow].bet_mode == "11") {
-            strBetTarget = getHtmlByBet("1", "B") + getHtmlByBet("2", "P");
-            if (jsonBetData[nRow].bet_result.length > 1) {
-                strResultTarget = getHtmlByBet("1", jsonBetData[nRow].bet_result.charAt(0)) + getHtmlByBet("2", jsonBetData[nRow].bet_result.charAt(1));
-            }
-        } else if (jsonBetData[nRow].bet_mode == "8" || jsonBetData[nRow].bet_mode == "12") {
-            strBetTarget = getHtmlByBet("1", "B") + getHtmlByBet("2", "B");
-            if (jsonBetData[nRow].bet_result.length > 1) {
-                strResultTarget = getHtmlByBet("1", jsonBetData[nRow].bet_result.charAt(0)) + getHtmlByBet("2", jsonBetData[nRow].bet_result.charAt(1));
-            }
-        } else if (jsonBetData[nRow].bet_mode == "13") {
-            strBetTarget = getHtmlByBet("1", "P") + getHtmlByBet("1", "P");
+        } else if (jsonBetData[nRow].bet_mode >= 13 && jsonBetData[nRow].bet_mode <= 16) {
             if (jsonBetData[nRow].bet_result.length > 1) {
                 strResultTarget = getHtmlByBet("1", jsonBetData[nRow].bet_result.charAt(0)) + getHtmlByBet("1", jsonBetData[nRow].bet_result.charAt(1));
             }
-        } else if (jsonBetData[nRow].bet_mode == "14") {
-            strBetTarget = getHtmlByBet("1", "P") + getHtmlByBet("1", "B");
-            if (jsonBetData[nRow].bet_result.length > 1) {
-                strResultTarget = getHtmlByBet("1", jsonBetData[nRow].bet_result.charAt(0)) + getHtmlByBet("1", jsonBetData[nRow].bet_result.charAt(1));
+            if (jsonBetData[nRow].bet_mode == 13) {
+                strBetTarget = getHtmlByBet("1", "P") + getHtmlByBet("1", "P");
+            } else if (jsonBetData[nRow].bet_mode == 14) {
+                strBetTarget = getHtmlByBet("1", "P") + getHtmlByBet("1", "B");
+            } else if (jsonBetData[nRow].bet_mode == 15) {
+                strBetTarget = getHtmlByBet("1", "B") + getHtmlByBet("1", "P");
+            } else if (jsonBetData[nRow].bet_mode == 16) {
+                strBetTarget = getHtmlByBet("1", "B") + getHtmlByBet("1", "B");
             }
-        } else if (jsonBetData[nRow].bet_mode == "15") {
-            strBetTarget = getHtmlByBet("1", "B") + getHtmlByBet("1", "P");
-            if (jsonBetData[nRow].bet_result.length > 1) {
-                strResultTarget = getHtmlByBet("1", jsonBetData[nRow].bet_result.charAt(0)) + getHtmlByBet("1", jsonBetData[nRow].bet_result.charAt(1));
-            }
-        } else if (jsonBetData[nRow].bet_mode == "16") {
-            strBetTarget = getHtmlByBet("1", "B") + getHtmlByBet("1", "B");
-            if (jsonBetData[nRow].bet_result.length > 1) {
-                strResultTarget = getHtmlByBet("1", jsonBetData[nRow].bet_result.charAt(0)) + getHtmlByBet("1", jsonBetData[nRow].bet_result.charAt(1));
-            }
-        } else if (jsonBetData[nRow].bet_mode == "17") {
-            strBetTarget = getHtmlByBet("2", "P") + getHtmlByBet("2", "P");
+        } else if (jsonBetData[nRow].bet_mode >= 17 && jsonBetData[nRow].bet_mode <= 20) {
             if (jsonBetData[nRow].bet_result.length > 1) {
                 strResultTarget = getHtmlByBet("2", jsonBetData[nRow].bet_result.charAt(0)) + getHtmlByBet("2", jsonBetData[nRow].bet_result.charAt(1));
             }
-        } else if (jsonBetData[nRow].bet_mode == "18") {
-            strBetTarget = getHtmlByBet("2", "P") + getHtmlByBet("2", "B");
-            if (jsonBetData[nRow].bet_result.length > 1) {
-                strResultTarget = getHtmlByBet("2", jsonBetData[nRow].bet_result.charAt(0)) + getHtmlByBet("2", jsonBetData[nRow].bet_result.charAt(1));
+            if (jsonBetData[nRow].bet_mode == 17) {
+                strBetTarget = getHtmlByBet("2", "P") + getHtmlByBet("2", "P");
+            } else if (jsonBetData[nRow].bet_mode == 18) {
+                strBetTarget = getHtmlByBet("2", "P") + getHtmlByBet("2", "B");
+            } else if (jsonBetData[nRow].bet_mode == 19) {
+                strBetTarget = getHtmlByBet("2", "B") + getHtmlByBet("2", "P");
+            } else if (jsonBetData[nRow].bet_mode == 20) {
+                strBetTarget = getHtmlByBet("2", "B") + getHtmlByBet("2", "B");
             }
-        } else if (jsonBetData[nRow].bet_mode == "19") {
-            strBetTarget = getHtmlByBet("2", "B") + getHtmlByBet("2", "P");
-            if (jsonBetData[nRow].bet_result.length > 1) {
-                strResultTarget = getHtmlByBet("2", jsonBetData[nRow].bet_result.charAt(0)) + getHtmlByBet("2", jsonBetData[nRow].bet_result.charAt(1));
-            }
-        } else if (jsonBetData[nRow].bet_mode == "20") {
-            strBetTarget = getHtmlByBet("2", "B") + getHtmlByBet("2", "B");
-            if (jsonBetData[nRow].bet_result.length > 1) {
-                strResultTarget = getHtmlByBet("2", jsonBetData[nRow].bet_result.charAt(0)) + getHtmlByBet("2", jsonBetData[nRow].bet_result.charAt(1));
-            }
-        } else if (jsonBetData[nRow].bet_mode == "21") {
-            strBetTarget = getHtmlByBet("1", "P") + getHtmlByBet("5", "L");
+        } else if (jsonBetData[nRow].bet_mode >= 21 && jsonBetData[nRow].bet_mode <= 26) {
             if (jsonBetData[nRow].bet_result.length > 1) {
                 strResultTarget = getHtmlByBet("1", jsonBetData[nRow].bet_result.charAt(0)) + getHtmlByBet("5", jsonBetData[nRow].bet_result.charAt(1));
             }
-        } else if (jsonBetData[nRow].bet_mode == "22") {
-            strBetTarget = getHtmlByBet("1", "P") + getHtmlByBet("5", "M");
-            if (jsonBetData[nRow].bet_result.length > 1) {
-                strResultTarget = getHtmlByBet("1", jsonBetData[nRow].bet_result.charAt(0)) + getHtmlByBet("5", jsonBetData[nRow].bet_result.charAt(1));
+            if (jsonBetData[nRow].bet_mode == 21) {
+                strBetTarget = getHtmlByBet("1", "P") + getHtmlByBet("5", "L");
+            } else if (jsonBetData[nRow].bet_mode == 22) {
+                strBetTarget = getHtmlByBet("1", "P") + getHtmlByBet("5", "M");
+            } else if (jsonBetData[nRow].bet_mode == 23) {
+                strBetTarget = getHtmlByBet("1", "P") + getHtmlByBet("5", "S");
+            } else if (jsonBetData[nRow].bet_mode == 24) {
+                strBetTarget = getHtmlByBet("1", "B") + getHtmlByBet("5", "L");
+            } else if (jsonBetData[nRow].bet_mode == 25) {
+                strBetTarget = getHtmlByBet("1", "B") + getHtmlByBet("5", "M");
+            } else if (jsonBetData[nRow].bet_mode == 26) {
+                strBetTarget = getHtmlByBet("1", "B") + getHtmlByBet("5", "S");
             }
-        } else if (jsonBetData[nRow].bet_mode == "23") {
-            strBetTarget = getHtmlByBet("1", "P") + getHtmlByBet("5", "S");
-            if (jsonBetData[nRow].bet_result.length > 1) {
-                strResultTarget = getHtmlByBet("1", jsonBetData[nRow].bet_result.charAt(0)) + getHtmlByBet("5", jsonBetData[nRow].bet_result.charAt(1));
+        } else if (jsonBetData[nRow].bet_mode == 27) {
+            strBetTarget = getHtmlByBet("5", "L");
+            strResultTarget = getHtmlByBet("5", jsonBetData[nRow].bet_result);
+        } else if (jsonBetData[nRow].bet_mode == 28) {
+            strBetTarget = getHtmlByBet("5", "M");
+            strResultTarget = getHtmlByBet("5", jsonBetData[nRow].bet_result);
+        } else if (jsonBetData[nRow].bet_mode == 29) {
+            strBetTarget = getHtmlByBet("5", "S");
+            strResultTarget = getHtmlByBet("5", jsonBetData[nRow].bet_result);
+        } else if (jsonBetData[nRow].bet_mode == 30) {
+            strBetTarget = getHtmlByBet("6", jsonBetData[nRow].bet_target);
+            strResultTarget = getHtmlByBet("6", jsonBetData[nRow].bet_result);
+        } else if (jsonBetData[nRow].bet_mode >= 31 && jsonBetData[nRow].bet_mode <= 38) {
+            if (jsonBetData[nRow].bet_result.length > 2) {
+                strResultTarget = getHtmlByBet("1", jsonBetData[nRow].bet_result.charAt(0)) + getHtmlByBet("2", jsonBetData[nRow].bet_result.charAt(1)) +
+                    getHtmlByBet("1", jsonBetData[nRow].bet_result.charAt(2));
             }
-        } else if (jsonBetData[nRow].bet_mode == "24") {
-            strBetTarget = getHtmlByBet("1", "B") + getHtmlByBet("5", "L");
-            if (jsonBetData[nRow].bet_result.length > 1) {
-                strResultTarget = getHtmlByBet("1", jsonBetData[nRow].bet_result.charAt(0)) + getHtmlByBet("5", jsonBetData[nRow].bet_result.charAt(1));
-            }
-        } else if (jsonBetData[nRow].bet_mode == "25") {
-            strBetTarget = getHtmlByBet("1", "B") + getHtmlByBet("5", "M");
-            if (jsonBetData[nRow].bet_result.length > 1) {
-                strResultTarget = getHtmlByBet("1", jsonBetData[nRow].bet_result.charAt(0)) + getHtmlByBet("5", jsonBetData[nRow].bet_result.charAt(1));
-            }
-        } else if (jsonBetData[nRow].bet_mode == "26") {
-            strBetTarget = getHtmlByBet("1", "B") + getHtmlByBet("5", "S");
-            if (jsonBetData[nRow].bet_result.length > 1) {
-                strResultTarget = getHtmlByBet("1", jsonBetData[nRow].bet_result.charAt(0)) + getHtmlByBet("5", jsonBetData[nRow].bet_result.charAt(1));
+            if (jsonBetData[nRow].bet_mode == 31) {
+                strBetTarget = getHtmlByBet("1", "P") + getHtmlByBet("2", "P") + getHtmlByBet("1", "P");
+            } else if (jsonBetData[nRow].bet_mode == 32) {
+                strBetTarget = getHtmlByBet("1", "P") + getHtmlByBet("2", "P") + getHtmlByBet("1", "B");
+            } else if (jsonBetData[nRow].bet_mode == 33) {
+                strBetTarget = getHtmlByBet("1", "P") + getHtmlByBet("2", "B") + getHtmlByBet("1", "P");
+            } else if (jsonBetData[nRow].bet_mode == 34) {
+                strBetTarget = getHtmlByBet("1", "P") + getHtmlByBet("2", "B") + getHtmlByBet("1", "B");
+            } else if (jsonBetData[nRow].bet_mode == 35) {
+                strBetTarget = getHtmlByBet("1", "B") + getHtmlByBet("2", "P") + getHtmlByBet("1", "P");
+            } else if (jsonBetData[nRow].bet_mode == 36) {
+                strBetTarget = getHtmlByBet("1", "B") + getHtmlByBet("2", "P") + getHtmlByBet("1", "B");
+            } else if (jsonBetData[nRow].bet_mode == 37) {
+                strBetTarget = getHtmlByBet("1", "B") + getHtmlByBet("2", "B") + getHtmlByBet("1", "P");
+            } else if (jsonBetData[nRow].bet_mode == 38) {
+                strBetTarget = getHtmlByBet("1", "B") + getHtmlByBet("2", "B") + getHtmlByBet("1", "B");
             }
         }
 
@@ -226,20 +223,30 @@ function addTableBtnEvent() {
 
 function getHtmlByBet(strMode, strTarget) {
     var strResult = "";
-    if (strMode == "1" || strMode == "3") {
-        strResult = strTarget == "P" ? "<div  class = 'pb-home-odd-span'>홀</div> " : "<div  class = 'pb-home-even-span'>짝</div> ";
-    } else if (strMode == "2" || strMode == "4") {
-        strResult = strTarget == "P" ? "<div  class = 'pb-home-odd-span'><i class='glyphicon glyphicon-arrow-down'></i></div> " : "<div  class = 'pb-home-even-span'><i class='glyphicon glyphicon-arrow-up'></i></div> ";
-    } else {
-        if (strTarget == 'L') strResult = "<div  class = 'pb-home-even-span'>대</div> ";
+    iMode = parseInt(strMode);
+    if (iMode == 1 || iMode == 3) {
+        if (strTarget == "P")
+            strResult = "<div  class = 'pb-home-odd-span'>홀</div> "
+        else if (strTarget == "B")
+            strResult = "<div  class = 'pb-home-even-span'>짝</div> ";
+    } else if (iMode == 2 || iMode == 4) {
+        if (strTarget == "P")
+            strResult = "<div  class = 'pb-home-odd-span'><i class='glyphicon glyphicon-arrow-down'></i></div> ";
+        else if (strTarget == "B")
+            strResult = "<div  class = 'pb-home-even-span'><i class='glyphicon glyphicon-arrow-up'></i></div> ";
+    } else if (iMode == 5) {
+        if (strTarget == 'L') strResult = "<div  class = 'pb-home-mid-span'>대</div> ";
         else if (strTarget == 'M') strResult = "<div  class = 'pb-home-mid-span'>중</div> ";
-        else if (strTarget == 'S') strResult = "<div  class = 'pb-home-odd-span'>소</div> ";
+        else if (strTarget == 'S') strResult = "<div  class = 'pb-home-mid-span'>소</div> ";
+    } else if (iMode == 6) {
+        if (strTarget.length > 0)
+            strResult = "<div  class = 'pb-home-mid-span'>" + strTarget + "</div> ";
     }
     return strResult;
 }
 
 function addEventListner() {
-    $("#pbbetchange-list-view-but-id").click(function() {
+    $("#pbbetchange-view-but-id").click(function() {
         requestBetHistory();
     });
 
@@ -272,28 +279,32 @@ function addEventListner() {
 
 //Function to Request Betting History to WebServer
 function requestBetHistory() {
-
     var dtStart = $("#pbbetchange-date-input-id").val();
     var dtEnd = $("#pbbetchange-date-input-id").val();
-    var nCount = 1000;
     var strRound = $("#pbbetchange-round-input-id").val();
-    var nMode = 0;
-    var nPage = 1;
-    var strUser = "";
-
     if (strRound < 1) return;
 
-    var jsonData = { "count": nCount, "page": nPage, "start": dtStart, "end": dtEnd, "user": strUser, "round": strRound, "mode": nMode };
+    var jsonData = {
+        "count": 100,
+        "page": 1,
+        "start": dtStart,
+        "end": dtEnd,
+        "user": "",
+        "round": strRound,
+        "mode": 0,
+        "emp": ""
+    };
     jsonData = JSON.stringify(jsonData);
+
     $(".loading").show();
     $.ajax({
-        url: '/pbapi/betlist',
+        url: mPath + '/betlist',
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",
         success: function(jResult) {
             $(".loading").hide();
-            //console.log(jResult);
+            // console.log(jResult);
             if (jResult.status == "success") {
                 mBetData = jResult.data;
                 ShowBetHistory(jResult.data);
@@ -301,7 +312,7 @@ function requestBetHistory() {
         },
         error: function(request, status, error) {
             $(".loading").hide();
-            //console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
         }
 
     });
@@ -310,9 +321,8 @@ function requestBetHistory() {
 
 function requestBetIgnore(jsData) {
     var jsonData = JSON.stringify(jsData);
-    console.log(jsonData);
     $.ajax({
-        url: '/pbapi/betignore',
+        url: mPath + '/betignore',
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",
@@ -335,7 +345,7 @@ function requestBetProcess(jsData) {
     var jsonData = JSON.stringify(jsData);
 
     $.ajax({
-        url: '/pbapi/betprocess',
+        url: mPath + '/betprocess',
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",

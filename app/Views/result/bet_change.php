@@ -20,15 +20,14 @@
 				<?php } ?>
 				<label> 일 </label>
 				<?php if($strRoundNo > 0) {  ?>
-				<input type="number" id="pbbetchange-round-input-id" value="<?=$strRoundNo?>">
+				<input type="number" style="width:100px;" id="pbbetchange-round-input-id" value="<?=$strRoundNo?>">
 	    		<?php } else {?>
-				<input type="number" id="pbbetchange-round-input-id" >    		
+				<input type="number" style="width:100px;" id="pbbetchange-round-input-id" >    		
 				<?php } ?>
 		        <label>회차</label>
 		        <button class="list-view-but" id="pbbetchange-view-but-id">베팅보기</button>
 		        <button class="list-view-but" id="pbbetchange-process-but-id">회차 결과처리</button>
 		        <button class="list-view-but" id="pbbetchange-ignore-but-id">회차 무효처리</button>
-		        <!--<button class="list-view-but" id="pbbetchange-rebuild-but-id">회차 복구처리</button>-->
     		</div>
 			<Table class="bet-table">
 				<thead>

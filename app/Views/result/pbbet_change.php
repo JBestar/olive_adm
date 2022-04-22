@@ -15,5 +15,6 @@
 	<th>처리</th>
 <?= $this->endSection() ?>
 <?= $this->section('bet-change-script') ?>
+	<script> var mPath = "/pbapi"; </script>
 	<script src="<?php echo base_url('assets/js/pbbet_change-script.js?v=2');?>"></script>
 <?= $this->endSection() ?>

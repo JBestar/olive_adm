@@ -105,12 +105,12 @@ class Charge_Model extends Model
         $strSQL .= " GROUP BY charge_mb_uid";
         $strSQL .= " )AS charge_table ON charge_table.charge_mb_uid = mb_table.mb_uid ";      
 
-         $objResult = $this -> db -> query($strSQL)->getRow();
+        $objResult = $this -> db -> query($strSQL)->getRow();
 
-         $nTotalCharge = 0;
-         if(!is_null($objResult->charge_money)) $nTotalCharge += $objResult->charge_money;
+        $nTotalCharge = 0;
+        if(!is_null($objResult->charge_money)) $nTotalCharge += $objResult->charge_money;
 
-         return $nTotalCharge;
+        return $nTotalCharge;
          /*
          $objResult = null;
          //Own Charge
