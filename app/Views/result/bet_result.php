@@ -13,9 +13,9 @@
 		<h4><?= $this->renderSection('bet-result-title')?> 게임결과</h4>
 		<div class="pbresult-list-div">
 			<label>기간 선택</label>
-			<input type="date" id="pbresult-datestart-input-id" >
+			<input type="date" id="pbresult-datestart-input-id" value="<?php echo date('Y-m-d'); ?>">
             <label> ~ </label>
-            <input type="date" id="pbresult-dateend-input-id" >
+            <input type="date" id="pbresult-dateend-input-id" value="<?php echo date('Y-m-d'); ?>">
             <label><?= $this->renderSection('bet-result-round-name')?></label>
             <input type="number" id="pbresult-round-input-id" style="width:100px;" min="1">
 			<select name="pbresult-number" class="pbresult-number-select" id="pbresult-number-select-id">
@@ -38,13 +38,15 @@
 			</tbody>
 		</Table>
 		<div class="pbresult-list-page-div">
-		<div class="pagination"  id="list-page"  style="display:none">
+			<div class="pagination" id="list-page" style="display:none">
+				<button class="list-page-button" id="page-first"  onclick="firstPage()"><<</button>
 				<button class="list-page-button" id="page-prev"  onclick="prevPage()"><</button>
 				<div class="pagination-div" id="pagination-num">
 					<button class="active">1</button>
 					<button class="">2</button>						
 				</div>
 				<button class="list-page-button" id="page-next"  onclick="nextPage()">></button>
+				<button class="list-page-button" id="page-last"  onclick="lastPage()">>></button>
 			</div>			
 	
 		</div>
@@ -54,6 +56,6 @@
 <!--main_navbar.php-main-container-->
 </div>
 
-<script src="<?php echo base_url('assets/js/page.js');?>"></script>
+<script src="<?php echo base_url('assets/js/page.js?v=1');?>"></script>
 <?= $this->renderSection('bet-result-script')?>
 <?= $this->endSection() ?>

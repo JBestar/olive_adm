@@ -1,7 +1,7 @@
 <?= $this->extend('result/bet_change') ?>
 <?= $this->section('bet-change-title') ?>보글사다리<?= $this->endSection() ?>
 <?= $this->section('bet-change-table-header') ?>
-	<th>ID</th>
+	<th>번호</th>
 	<th>배팅시간</th>
 	<th>회차</th>
 	<th>아이디</th>

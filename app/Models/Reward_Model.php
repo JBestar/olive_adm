@@ -39,7 +39,7 @@ class Reward_Model extends Model {
         if($gameId > 0)
             $strSQL.=" AND rw_game = '".$gameId."' ";
         if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 )
-            $strSQL.=" AND rw_time >= '".$arrReqData['start']." 0:0:0' AND rw_time <= '".$arrReqData['end']." 23:59:59' " ;
+            $strSQL.=" AND ".getTimeRange("rw_time", $arrReqData);
     
         $objResult = $this->db->query($strSQL)->getRow();
         

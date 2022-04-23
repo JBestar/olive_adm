@@ -27,7 +27,7 @@
 			<label>기간</label>
 			<input type="datetime-local" id="pbhistory-datestart-input-id"  value="<?php echo date('Y-m')."-01T00:00"; ?>">
             <label> ~ </label>
-            <input type="datetime-local" id="pbhistory-dateend-input-id"  value="<?php echo date('Y-m-d')."T00:00"; ?>">
+            <input type="datetime-local" id="pbhistory-dateend-input-id"  value="<?php echo date('Y-m-d')."T23:59"; ?>">
             <?= $this->renderSection('history-add-round-search') ?>
             <?php if($mb_level >= LEVEL_ADMIN) {  ?>
 			<label>추천인</label>
@@ -67,12 +67,14 @@
 			<p>당첨금: <span id="total-benefit-id">0</span></p>
 			<?php } ?>
 			<div class="pagination"  id="list-page"  style="display:none">
+				<button class="list-page-button" id="page-first"  onclick="firstPage()"><<</button>
 				<button class="list-page-button" id="page-prev"  onclick="prevPage()"><</button>
 				<div class="pagination-div" id="pagination-num">
 					<button class="active">1</button>
 					<button class="">2</button>						
 				</div>
 				<button class="list-page-button" id="page-next"  onclick="nextPage()">></button>
+				<button class="list-page-button" id="page-last"  onclick="lastPage()">>></button>
 			</div>			
 	
 		</div>

@@ -13,7 +13,7 @@
 	<input type="text" class="pbresult-text-input" id="pbhistory-roundid-input-id" >
 <?= $this->endSection() ?>
 <?= $this->section('history-bet-table-headers') ?>
-	<th>ID</th>
+	<th>번호</th>
 	<th>배팅시간</th>
 	<th>회차</th>
 	<th>아이디</th>

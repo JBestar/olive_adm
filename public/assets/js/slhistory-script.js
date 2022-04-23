@@ -13,19 +13,14 @@ function requestPageInfo() {
 function ShowBetHistory(jsonBetData) {
     var elemBetDataTb = document.getElementById("pbbet-table-id");
     var strBuf = "";
-
-    var tHead = "";
-    tHead = "<th>ID</th> <th>아이디</th> <th>닉네임</th> <th>배팅시간</th> <th>구분</th>";
-    tHead += "<th>게임</th> <th>배팅금액</th> <th>배팅결과</th> <th>당첨금액</th> <th>포인트</th>";
-
-    $(".bet-table thead tr").html(tHead);
-
-
+    var curPage = getActivePage();
+    var firstIdx = (curPage - 1) * CountPerPage;
     var strWinMoney = "";
+
     for (nRow in jsonBetData) {
 
         strBuf += "<tr><td>";
-        strBuf += jsonBetData[nRow].bet_fid;
+        strBuf += (parseInt(nRow) + firstIdx + 1);
         strBuf += "</td><td>";
         strBuf += jsonBetData[nRow].mb_uid;
         strBuf += "</td><td>";
@@ -50,7 +45,6 @@ function ShowBetHistory(jsonBetData) {
         if (parseInt(jsonBetData[nRow].bet_win_money) > parseInt(jsonBetData[nRow].bet_money)) {
             strResult = "<td  class = 'pb-home-table-betstate-earn'>적중";
             strWinMoney = (parseInt(jsonBetData[nRow].bet_win_money) - parseInt(jsonBetData[nRow].bet_money)).toLocaleString() + "원";
-
         } else if (jsonBetData[nRow].bet_win_money == jsonBetData[nRow].bet_money) {
             strResult = "<td  class = 'pb-home-table-betstate-wait'>비김";
         } else {
@@ -70,7 +64,7 @@ function ShowBetHistory(jsonBetData) {
     }
 
     if (strBuf.length < 1) {
-        strBuf = "<tr><td colspan='15'>자료가 없습니다.</td></tr>";
+        strBuf = "<tr><td colspan='10'>자료가 없습니다.</td></tr>";
     }
     elemBetDataTb.innerHTML = strBuf;
 

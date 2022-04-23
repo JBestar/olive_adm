@@ -18,11 +18,11 @@ function ShowBetHistory(jsonBetData) {
     var strResultTarget = "";
     var strWinMoney = "";
     var strResult = "";
-    //if(jsonBetHistory.data.length > 0)
+
     for (nRow in jsonBetData) {
 
         strBuf += "<tr><td>";
-        strBuf += jsonBetData[nRow].bet_fid;
+        strBuf += (parseInt(nRow) + 1);
         strBuf += "</td><td>";
         strBuf += jsonBetData[nRow].bet_time;
         strBuf += "</td><td>";

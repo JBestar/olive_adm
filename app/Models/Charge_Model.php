@@ -101,7 +101,7 @@ class Charge_Model extends Model
         $strSQL .= " JOIN (SELECT SUM(charge_money) AS charge_money, charge_mb_uid FROM ".$this->table;
         $strSQL.=" WHERE charge_action_state = '2' ";
         if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 )
-            $strSQL.=" AND charge_time_require >= '".$arrReqData['start']." 0:0:0' AND charge_time_require <= '".$arrReqData['end']." 23:59:59' " ;
+            $strSQL.=" AND ".getTimeRange("charge_time_require", $arrReqData);
         $strSQL .= " GROUP BY charge_mb_uid";
         $strSQL .= " )AS charge_table ON charge_table.charge_mb_uid = mb_table.mb_uid ";      
 

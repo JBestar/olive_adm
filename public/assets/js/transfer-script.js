@@ -11,11 +11,13 @@ function requestPageInfo() {
 function showMoneyHistory(arrData) {
     var elemBetDataTb = document.getElementById("transfer-table-id");
     var strBuf = "";
+    var curPage = getActivePage();
+    var firstIdx = (curPage - 1) * CountPerPage;
 
     for (nRow in arrData) {
 
         strBuf += "<tr><td>";
-        strBuf += arrData[nRow].money_fid;
+        strBuf += (parseInt(nRow) + firstIdx + 1);
         strBuf += "</td><td>";
         strBuf += arrData[nRow].mb_nickname;
         strBuf += "</td><td>";

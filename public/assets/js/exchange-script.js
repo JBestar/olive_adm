@@ -19,11 +19,13 @@ function showMoneyHistory(jsonBetData) {
     var strResultTarget = "";
     var strWinMoney = "";
     var strResult = "";
+    var curPage = getActivePage();
+    var firstIdx = (curPage - 1) * CountPerPage;
 
     for (nRow in jsonBetData) {
 
         strBuf += "<tr><td>";
-        strBuf += jsonBetData[nRow].money_fid;
+        strBuf += (parseInt(nRow) + firstIdx + 1);
         strBuf += "</td><td>";
         strBuf += jsonBetData[nRow].mb_nickname;
         strBuf += "</td><td>";

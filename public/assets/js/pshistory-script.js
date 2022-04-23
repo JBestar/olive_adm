@@ -14,22 +14,18 @@ function ShowBetHistory(jsonBetData) {
     var elemBetDataTb = document.getElementById("pbbet-table-id");
     var strBuf = "";
 
-    var tHead = "";
-    tHead = "<th>ID</th> <th>배팅시간</th> <th>회차</th> <th>아이디</th> <th>구분</th>";
-    tHead += "<th>배팅금액</th> <th>배당율</th> <th>배팅선택</th> <th>경기결과</th>";
-    tHead += "<th>당첨금액</th> <th>배팅결과</th> <th>포인트</th>";
-
-    $(".bet-table thead tr").html(tHead);
-
     var strBetMode = "";
     var strBetTarget = "";
     var strResultTarget = "";
     var strWinMoney = "";
     var strResult = "";
+    var curPage = getActivePage();
+    var firstIdx = (curPage - 1) * CountPerPage;
+
     for (nRow in jsonBetData) {
 
         strBuf += "<tr><td>";
-        strBuf += jsonBetData[nRow].bet_fid;
+        strBuf += (parseInt(nRow) + firstIdx + 1);
         strBuf += "</td><td>";
         strBuf += jsonBetData[nRow].bet_time;
         strBuf += "</td><td>";

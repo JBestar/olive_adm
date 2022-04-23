@@ -4,7 +4,7 @@ $(document).ready(function() {
 });
 
 function requestPageInfo() {
-    requestMember();
+    requestNotice();
 }
 
 
@@ -12,11 +12,12 @@ function showNotice(arrNotice) {
 
     var strBuf = "";
     var nRow;
-    var nNo = 0;
+    var curPage = getActivePage();
+    var firstIdx = (curPage - 1) * CountPerPage;
 
     for (nRow in arrNotice) {
         strBuf += "<td>";
-        strBuf += arrNotice[nRow].notice_fid;
+        strBuf += (parseInt(nRow) + firstIdx + 1);
         strBuf += "</td> <td>";
         if (arrNotice[nRow].notice_type == 0)
             strBuf += "쪽지";

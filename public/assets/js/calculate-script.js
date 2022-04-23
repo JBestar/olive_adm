@@ -97,7 +97,7 @@ function requestCalculate(nFid, nRow) {
         dataType: "json",
         success: function(jResult) {
             $(".loading").hide();
-            console.log(jResult);
+            // console.log(jResult);
             if (jResult.status == "success") {
                 if (nRow < 0) showCalcualte(jResult.data);
                 else addRow(nRow, jResult.data, jResult.level);
@@ -107,7 +107,7 @@ function requestCalculate(nFid, nRow) {
         },
         error: function(request, status, error) {
             $(".loading").hide();
-            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
         }
 
     });

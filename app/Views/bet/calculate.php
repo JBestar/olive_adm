@@ -26,9 +26,9 @@
 		
 		<div class="pbresult-list-div">
 			<label>기간</label>
-			<input type="date" id="calculate-datestart-input-id" value="<?php echo date('Y-m-d'); ?>">
+			<input type="datetime-local" id="calculate-datestart-input-id"  value="<?php echo date('Y-m-d')."T00:00"; ?>">
             <label> ~ </label>
-            <input type="date" id="calculate-dateend-input-id" value="<?php echo date('Y-m-d'); ?>">
+            <input type="datetime-local" id="calculate-dateend-input-id"  value="<?php echo date('Y-m-d')."T23:59"; ?>">
 			<button class="pbresult-list-view-but" id="calculate-list-view-but-id">검색</button>
 		</div>
 		<Table class="calculate-table" id="calculate-table-id">
