@@ -1,6 +1,6 @@
 <!--?= $this->extend('include/sidebar')?-->
 <!--?= $this->section('MainNavBar')?-->
-<div class="main-container" id="main-container-id" data-app="<?=$_ENV['app.name']?>">
+<div class="main-container" id="main-container-id" data-app="<?=$_ENV['app.type']?>">
 	<div class="loading" style="display: none;">
 		<div class="load lds-ellipsis"></div>
 	</div>

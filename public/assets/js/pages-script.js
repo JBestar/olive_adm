@@ -40,7 +40,7 @@ function login() {
         url: "/api/login",
         data: { json_: jsonData },
         success: function(jResult) {
-            console.log(jResult);
+            // console.log(jResult);
             if (jResult.status == "success") {
                 setCookie('logged', 'yes', 0);
                 window.location.replace(jResult.data.redirect);
@@ -50,7 +50,7 @@ function login() {
             }
         },
         error: function(request, status, error) {
-            //console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            // console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
         }
 
     });

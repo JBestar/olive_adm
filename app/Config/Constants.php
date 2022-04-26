@@ -72,7 +72,12 @@ defined('APP_LUCKYONE')     || define('APP_LUCKYONE', 'Luckyone');
 defined('APP_ONESTAR')      || define('APP_ONESTAR', 'Onestar');
 defined('APP_SKY')          || define('APP_SKY', 'Sky');
 defined('APP_GOLDMOON')     || define('APP_GOLDMOON', 'Goldmoon');
+defined('APP_MSLOT')        || define('APP_MSLOT', 'Mslot');
 
+defined('APPTYPE_0')        || define('APPTYPE_0', 0);      //Premier
+defined('APPTYPE_1')        || define('APPTYPE_1', 1);      //Slot Combine
+defined('APPTYPE_2')        || define('APPTYPE_2', 2);      //Netural Slot
+defined('APPTYPE_3')        || define('APPTYPE_3', 3);      //Only Slot
 
 defined('EXIT_SUCCESS')        || define('EXIT_SUCCESS', 0); // no errors
 defined('EXIT_ERROR')          || define('EXIT_ERROR', 1); // generic error

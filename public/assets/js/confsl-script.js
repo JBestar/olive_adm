@@ -40,9 +40,22 @@ function showGame(list) {
             html += "</td><td>";
             html += game.game_code;
             html += "</td><td>";
+            html += "<select class='' onchange='onChangeHidden(this)' data-name='" + game.rname + "' ";
+            if (game.rhidden == 0) {
+                html += " style='color:black'> <option selected='' value='0'>보이기</option><option value='1'>감추기</option></select>";
+            } else {
+                html += " style='color:red'> <option value='0'>보이기</option><option selected='' value='1'>감추기</option></select>";
+            }
+            html += "</td><td>";
+            html += "<select class='' onchange='onChangeMaintain(this)' data-name='" + game.rname + "' ";
+            if (game.rmaintain == 0) {
+                html += " style='color:black'> <option selected='' value='0'>운영</option><option value='1'>점검</option></select>";
+            } else {
+                html += " style='color:red'> <option value='0'>운영</option><option selected='' value='1'>점검</option></select>";
+            }
+            html += "</td><td>";
 
-            html += "<select class='' onchange='onChangeApiType(this)' ";
-            html += "' data-fid=" + game.fid + "' ";
+            html += "<select class='' onchange='onChangeAct(this)' data-fid='" + game.fid + "' ";
             if (game.act == 1) {
                 html += " style='color:black'> <option selected='' value='0'>OUR</option><option value='1'>KPLAY</option></select>";
             } else {
@@ -59,7 +72,66 @@ function showGame(list) {
 
 }
 
-function onChangeApiType(objSelect) {
+function onChangeHidden(objSelect) {
+
+    let iType = $(objSelect).val();
+    if (iType == 1)
+        $(objSelect).css("color", "red");
+    else
+        $(objSelect).css("color", "black");
+
+    var jsonData = {
+        "hidden": iType == 1 ? 1 : 0,
+        "name": $(objSelect).data("name"),
+    };
+    console.log(jsonData);
+    jsonData = JSON.stringify(jsonData);
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "/api/fslotset",
+        data: { json_: jsonData },
+        success: function(jResult) {
+            console.log(jResult);
+            if (jResult.status == "success") {}
+        },
+        error: function(request, status, error) {
+            // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+        }
+    });
+
+}
+
+function onChangeMaintain(objSelect) {
+
+    let iType = $(objSelect).val();
+    if (iType == 1)
+        $(objSelect).css("color", "red");
+    else
+        $(objSelect).css("color", "black");
+
+    var jsonData = {
+        "maintain": iType == 1 ? 1 : 0,
+        "name": $(objSelect).data("name"),
+    };
+    console.log(jsonData);
+    jsonData = JSON.stringify(jsonData);
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "/api/fslotset",
+        data: { json_: jsonData },
+        success: function(jResult) {
+            console.log(jResult);
+            if (jResult.status == "success") {}
+        },
+        error: function(request, status, error) {
+            // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+        }
+    });
+}
+
+function onChangeAct(objSelect) {
 
     let iType = $(objSelect).val();
     // console.log(iType);

@@ -61,7 +61,7 @@ class Api extends BaseController{
 				$modelMember->updateLogin($userData);
                 $iResult = 1;
 				
-				if($objMember->mb_level <= LEVEL_ADMIN){
+				if($userData['mb_level'] <= LEVEL_ADMIN){
 					$modelSessLog = new SessLog_Model();
 					$modelSessLog->add($userData);
 				}

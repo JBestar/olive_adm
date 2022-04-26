@@ -8,6 +8,8 @@
     <link rel="shortcut icon" href="/favicon_o.ico">
     <?php elseif($_ENV['app.name'] == APP_SKY) :?>
     <link rel="shortcut icon" href="/favicon_s.ico">
+    <?php elseif($_ENV['app.name'] == APP_MSLOT) :?>
+    <link rel="shortcut icon" href="/favicon_m.ico">
     <?php else : ?>
     <link rel="shortcut icon" href="/favicon_l.ico">
     <?php endif ?>

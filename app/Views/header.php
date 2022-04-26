@@ -8,6 +8,8 @@
     <link rel="shortcut icon" href="/favicon_o.ico">
     <?php elseif($_ENV['app.name'] == APP_SKY) :?>
     <link rel="shortcut icon" href="/favicon_s.ico">
+    <?php elseif($_ENV['app.name'] == APP_MSLOT) :?>
+    <link rel="shortcut icon" href="/favicon_m.ico">
     <?php else : ?>
     <link rel="shortcut icon" href="/favicon_l.ico">
     <?php endif ?>
@@ -21,7 +23,7 @@
 	<script src="<?php echo base_url('assets/js/jquery-ui-1.12.1.min.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/js/util.js?v=1'); ?>"></script>
-	<script src="<?php echo base_url('assets/js/common.js?v=1'); ?>"></script>
+	<script src="<?php echo base_url('assets/js/common.js?v=2'); ?>"></script>
 
 </head>
 <?php if($_ENV['CI_ENVIRONMENT'] == ENV_PRODUCTION) :?>

@@ -70,13 +70,13 @@ function showMember(arrMember, nAdminLevel) {
         strBuf += "</td> <td>";
         strBuf += "<span id='ev_" + arrMember[nRow].mb_fid + "'>에볼: " + parseInt(arrMember[nRow].mb_live_money).toLocaleString() + "</span><br>";
 
-        if (strApp == APP_GOLDMOON || strApp == APP_SKY)
+        if (strApp == APPTYPE_0)
             strBuf += "<span id='sl_" + arrMember[nRow].mb_fid + "'>슬롯: " + parseInt(arrMember[nRow].mb_slot_money).toLocaleString() + "</span><br>";
-        if (strApp == APP_GOLDMOON)
+        if (strApp == APPTYPE_0)
             strBuf += "<span id='fsl_" + arrMember[nRow].mb_fid + "'>네츄럴슬롯: " + parseInt(arrMember[nRow].mb_fslot_money).toLocaleString() + "</span>";
-        else if (strApp == APP_ONESTAR)
+        else if (strApp == APPTYPE_2)
             strBuf += "<span id='fsl_" + arrMember[nRow].mb_fid + "'>슬롯: " + parseInt(arrMember[nRow].mb_fslot_money).toLocaleString() + "</span>";
-        else if (strApp == APP_LUCKYONE)
+        else if (strApp == APPTYPE_1)
             strBuf += "<span id='tsl_" + arrMember[nRow].mb_fid + "'>슬롯: " + (parseInt(arrMember[nRow].mb_slot_money) + parseInt(arrMember[nRow].mb_fslot_money)).toLocaleString() + "</span>";
         strBuf += '<br><button class="refresh_btn" onclick="refreshEv(' + arrMember[nRow].mb_fid + ');"></button>';
 

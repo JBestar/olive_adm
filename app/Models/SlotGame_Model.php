@@ -10,7 +10,9 @@ class SlotGame_Model extends Model {
 
     protected $returnType = 'object'; 
     protected $allowedFields = [
-        'act'
+        'act',
+        'hidden',
+        'maintain',
     ];
     protected $prdTable      = 'slot_prd';
 
@@ -38,14 +40,25 @@ class SlotGame_Model extends Model {
     
     public function changeAct($arrReqData)
     {
-        
-        if (!array_key_exists('act', $arrReqData) || !array_key_exists('fid', $arrReqData)) {
-            return false;
-        }
+        $data = [];
 
-        return $this->builder()->set('act', $arrReqData['act'])
-            ->where('fid', $arrReqData['fid'])
-            ->update();
+        if(array_key_exists('act', $arrReqData)){
+            $data['act'] =  $arrReqData['act'];
+            return $this->update($arrReqData['fid'], $data);
+        } else if(array_key_exists('hidden', $arrReqData)){
+            $data['hidden'] =  $arrReqData['hidden'];
+            
+            return $this->set($data)
+             ->where('name', $arrReqData['name'])
+             ->update();
+        } else if(array_key_exists('maintain', $arrReqData)){
+            $data['maintain'] =  $arrReqData['maintain'];
+            
+            return $this->set($data)
+             ->where('name', $arrReqData['name'])
+             ->update();
+        } else return false;
+    
     }
 
     public function search($arrReqData){
@@ -55,8 +68,9 @@ class SlotGame_Model extends Model {
         }
 
         // $strSql = " SELECT fslot_game.*, ".$this->prdTable.".name as prd_name FROM ";
-        $strSql = " SELECT fslot_game.*, rslot_game.name as rname, rslot_game.name_ko AS rname_ko FROM ";
-            $strSql.= "( SELECT * FROM ".$this->table;
+        $strSql = " SELECT fslot_game.*, rslot_game.name as rname, rslot_game.name_ko AS rname_ko, rslot_game.fid AS rfid, ";
+        $strSql.= " rslot_game.hidden AS rhidden, rslot_game.maintain AS rmaintain "; 
+            $strSql.= " FROM ( SELECT * FROM ".$this->table;
             $strSql.= " WHERE cat = '".GAME_SLOT_2."' AND open = '1' ".$where;
             $strSql.= " ) AS fslot_game";
         $strSql.= " JOIN (SELECT * FROM ".$this->table;
