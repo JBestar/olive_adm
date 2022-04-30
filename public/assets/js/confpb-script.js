@@ -61,7 +61,7 @@ function requestConfPowerball() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/api/conf_game",
+        url: FURL + "/api/conf_game",
         data: { json_: jsonData },
         success: function(jResult) {
             //console.log(jResult);
@@ -140,13 +140,13 @@ function addBtnEvent() {
         $.ajax({
             type: "POST",
             dataType: "json",
-            url: "/api/saveconfgame",
+            url: FURL + "/api/saveconfgame",
             data: { json_: jsonData },
             success: function(jResult) {
                 if (jResult.status == "success") {
                     location.reload();
                 } else if (jResult.status == "logout") {
-                    window.location.replace('/');
+                    window.location.replace( FURL +'/');
                 } else if (jResult.status == "fail") {
                     alert("저장이 실패되었습니다.");
                 } else if (jResult.status == "nopermit") {

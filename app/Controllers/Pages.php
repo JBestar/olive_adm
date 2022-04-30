@@ -5,7 +5,7 @@ class Pages extends BaseController
 {
     public function index()
 	{
-		return $this->response->redirect( base_url().'pages/login', 'refresh');
+		return $this->response->redirect( $_ENV['app.furl'].'/pages/login');
 		
 	}
 
@@ -20,11 +20,11 @@ class Pages extends BaseController
 	public function logout()
 	{
 		$this->session->destroy();
-		$this->response->redirect( base_url().'pages/login', 'refresh');
+		$this->response->redirect( $_ENV['app.furl'].'/pages/login');
 	}
 
 	public function nopermit(){
 		//echo view('pages/nopermit');
-		$this->response->redirect( base_url().'pages/login', 'refresh');		
+		$this->response->redirect( $_ENV['app.furl'].'/pages/login');		
 	}
 }

@@ -67,7 +67,7 @@
 				<?php } else {?>
 				<button name="<?=$objMember->mb_fid?>">차단</button>
 				<?php } ?>
-				<a href="<?php echo base_url().$editUrl.'/'.$objMember->mb_fid;?>">수정</a>
+				<a href="<?php echo siteFurl().$editUrl.'/'.$objMember->mb_fid;?>">수정</a>
 				<?php if($mb_level >= LEVEL_ADMIN) {  ?>
 				<a href="/board/message_edit/0/<?=$objMember->mb_fid?>">쪽지</a>
 				<button name="<?=$objMember->mb_fid?>">삭제</button>

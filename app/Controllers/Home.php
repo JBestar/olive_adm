@@ -9,10 +9,10 @@ class Home extends StdController
 	{
 		if(is_login())
 		{		
-			return $this->response->redirect(base_url().'home/conf_password', 'refresh');
+			return $this->response->redirect($_ENV['app.furl'].'home/conf_password');
 		}
 		else {
-			return $this->response->redirect(base_url().'pages/login', 'refresh');
+			return $this->response->redirect($_ENV['app.furl'].'pages/login');
 		}	
 	}
 	

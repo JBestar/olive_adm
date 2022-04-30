@@ -77,14 +77,14 @@ function addBtnEvent() {
         $.ajax({
             type: "POST",
             dataType: "json",
-            url: "/api/setBetSite",
+            url: FURL + "/api/setBetSite",
             data: { json_: jsonData },
             success: function(jResult) {
                 // console.log(jResult);
                 if (jResult.status == "success") {
                     window.location.reload();
                 } else if (jResult.status == "logout") {
-                    window.location.replace('/');
+                    window.location.replace( FURL +'/');
                 } else if (jResult.status == "fail") {
                     alert("저장이 실패되었습니다.");
                 } else if (jResult.status == "nopermit") {
@@ -112,13 +112,13 @@ function requestConfBetSite() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/api/getBetSite",
+        url: FURL + "/api/getBetSite",
         success: function(jResult) {
             // console.log(jResult);
             if (jResult.status == "success") {
                 showConfSite(jResult.data);
             } else if (jResult.status == "logout") {
-                window.location.replace('/');
+                window.location.replace( FURL +'/');
             } else if (jResult.status == "nopermit") {
                 alert("권한이 없습니다.");
             }

@@ -73,6 +73,7 @@ defined('APP_ONESTAR')      || define('APP_ONESTAR', 'Onestar');
 defined('APP_SKY')          || define('APP_SKY', 'Sky');
 defined('APP_GOLDMOON')     || define('APP_GOLDMOON', 'Goldmoon');
 defined('APP_MSLOT')        || define('APP_MSLOT', 'Mslot');
+defined('APP_KANGNUM')        || define('APP_KANGNUM', 'Kangnum');
 
 defined('APPTYPE_0')        || define('APPTYPE_0', 0);      //Premier
 defined('APPTYPE_1')        || define('APPTYPE_1', 1);      //Slot Combine

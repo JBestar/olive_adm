@@ -128,14 +128,14 @@ function addBtnEvent() {
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: "/userapi/modifymember",
+                url: FURL + "/userapi/modifymember",
                 data: { json_: jsonData },
                 success: function(jResult) {
                     // console.log(jResult);
                     if (jResult.status == "success") {
-                        window.location.replace('/user/member/0');
+                        window.location.replace( FURL +'/user/member/0');
                     } else if (jResult.status == "logout") {
-                        window.location.replace('/');
+                        window.location.replace( FURL +'/');
                     } else if (jResult.status == "fail") {
                         if (jResult.error == 2)
                             alert("중복된 아이디입니다.");
@@ -177,14 +177,14 @@ function addBtnEvent() {
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: "/userapi/addmember",
+                url: FURL + "/userapi/addmember",
                 data: { json_: jsonData },
                 success: function(jResult) {
                     //console.log(jResult);
                     if (jResult.status == "success") {
-                        window.location.replace('/user/member/0');
+                        window.location.replace( FURL +'/user/member/0');
                     } else if (jResult.status == "logout") {
-                        window.location.replace('/');
+                        window.location.replace( FURL +'/');
                     } else if (jResult.status == "val_error") {
                         var errorString = '';
                         for (property in jResult.error) {
@@ -226,7 +226,7 @@ function addBtnEvent() {
 
 
     $("#useredit-cancel-btn-id").click(function() {
-        window.location.replace('/user/member/0');
+        window.location.replace( FURL +'/user/member/0');
     });
 
     $("#useredit-transfer-but-id").click(function() {
@@ -251,14 +251,14 @@ function addBtnEvent() {
         $.ajax({
             type: "POST",
             dataType: "json",
-            url: "/userapi/transfer",
+            url: FURL + "/userapi/transfer",
             data: { json_: jsonData },
             success: function(jResult) {
                 // console.log(jResult);
                 if (jResult.status == "success") {
                     location.reload();
                 } else if (jResult.status == "logout") {
-                    window.location.replace('/');
+                    window.location.replace( FURL +'/');
                 } else if (jResult.status == "fail") {
                     if (jResult.msg) {
                         alert(jResult.msg);

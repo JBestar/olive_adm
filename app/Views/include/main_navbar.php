@@ -24,8 +24,8 @@
 				<td>카지노<span id="main-navbar-emp_evrate-id">0 %</span></td>
 				<?php } else { ?>
 
-				<td>새 문의&nbsp;<a href="/board/message" id="main-navbar-newmessage-id">0 통</a></td>
-				<td>충전&nbsp;<a href="/bank/deposit" id="main-navbar-charge_wait-id">0 대기</a></td>
+				<td>새 문의&nbsp;<a href="<?php echo site_furl('/board/message');?>" id="main-navbar-newmessage-id">0 통</a></td>
+				<td>충전&nbsp;<a href="<?php echo site_furl('/bank/deposit');?>" id="main-navbar-charge_wait-id">0 대기</a></td>
 
 				<?php } ?>
 
@@ -45,8 +45,8 @@
 				<td>슬롯<span id="main-navbar-emp_slrate-id">0 %</span></td>
 				<?php } else { ?>
 
-				<td>가입신청&nbsp;<a href="/user/member/0" id="main-navbar-user_wait-id">0 명</span></td>
-				<td>환전&nbsp;<a href="/bank/withdraw" id="main-navbar-exchange_wait-id">0 대기</span></td>
+				<td>가입신청&nbsp;<a href="<?php echo site_furl('/user/member/0');?>" id="main-navbar-user_wait-id">0 명</span></td>
+				<td>환전&nbsp;<a href="<?php echo site_furl('/bank/withdraw');?>" id="main-navbar-exchange_wait-id">0 대기</span></td>
 
 				<?php } ?>
 
@@ -127,7 +127,7 @@
 
 
 	<?php if(array_key_exists("app.produce", $_ENV)) :?>
-		<script src="<?php echo base_url('/assets/js/main-nav-script.js?t='.time());?>"></script>
+		<script src="<?php echo site_furl('/assets/js/main-nav-script.js?t='.time());?>"></script>
 	<?php else : ?>
-		<script src="<?php echo base_url('/assets/js/main-nav-script.js?v=1');?>"></script>
+		<script src="<?php echo site_furl('/assets/js/main-nav-script.js?v=1');?>"></script>
 	<?php endif ?>

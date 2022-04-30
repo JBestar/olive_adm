@@ -3,9 +3,9 @@
 <!--Sub Navbar-->
 	<div class = "sub-navbar">
 		<p><i class="glyphicon glyphicon-cog"></i> 기본설정::점검설정</p>
-		<a href="<?php echo base_url().'home/conf_site';?>" class="sub-navbar-a" >본사설정</a>
-		<a href="<?php echo base_url().'home/conf_betsite';?>" class="sub-navbar-a" >보험설정</a>
-		<a href="<?php echo base_url().'home/conf_maintain';?>" class="sub-navbar-a active" >점검설정</a>
+		<a href="<?php echo siteFurl().'home/conf_site';?>" class="sub-navbar-a" >본사설정</a>
+		<a href="<?php echo siteFurl().'home/conf_betsite';?>" class="sub-navbar-a" >보험설정</a>
+		<a href="<?php echo siteFurl().'home/conf_maintain';?>" class="sub-navbar-a active" >점검설정</a>
 	</div>
 
 	<!--Site Setting-->
@@ -46,8 +46,8 @@
 </div>
 
 <?php if(array_key_exists("app.produce", $_ENV)) :?>
-    <script src="<?php echo base_url('/assets/js/confmaintain-script.js?t='.time());?>"></script>
+    <script src="<?php echo site_furl('/assets/js/confmaintain-script.js?t='.time());?>"></script>
 <?php else : ?>
-    <script src="<?php echo base_url('/assets/js/confmaintain-script.js?v=1');?>"></script>
+    <script src="<?php echo site_furl('/assets/js/confmaintain-script.js?v=1');?>"></script>
 <?php endif ?>
 <?= $this->endSection() ?>

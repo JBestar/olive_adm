@@ -2,7 +2,7 @@
 <?= $this->section('bet-result-title') ?>파워볼<?= $this->endSection() ?>
 <?= $this->section('bet-result-round-name') ?>일회차<?= $this->endSection() ?>
 <?= $this->section('bet-result-edit') ?>
-<a href="<?php echo base_url().'result/pbresult_edit/0';?>" class="user-panel-add-a" >회차등록</a>
+<a href="<?php echo siteFurl().'result/pbresult_edit/0';?>" class="user-panel-add-a" >회차등록</a>
 <?= $this->endSection() ?>
 <?= $this->section('bet-result-table-header') ?>
 	<th>추첨일</th>
@@ -19,8 +19,8 @@
 <?= $this->endSection() ?>
 <?= $this->section('bet-result-script') ?>
 <?php if(array_key_exists("app.produce", $_ENV)) :?>
-	<script src="<?php echo base_url('/assets/js/pbresult-script.js?t='.time());?>"></script>
+	<script src="<?php echo site_furl('/assets/js/pbresult-script.js?t='.time());?>"></script>
 <?php else : ?>
-	<script src="<?php echo base_url('/assets/js/pbresult-script.js?v=1');?>"></script>
+	<script src="<?php echo site_furl('/assets/js/pbresult-script.js?v=1');?>"></script>
 <?php endif ?>
 <?= $this->endSection() ?>

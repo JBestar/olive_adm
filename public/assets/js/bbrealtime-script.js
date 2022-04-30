@@ -420,7 +420,7 @@ function ShowBetRealtime(jRealBet) {
 function requestBetRealtime() {
     $(".loading").show();
     $.ajax({
-        url: '/' + mPath + '/betrealtime',
+        url: FURL + '/' + mPath + '/betrealtime',
         type: 'post',
         dataType: "json",
         success: function(jResult) {

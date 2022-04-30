@@ -6,7 +6,7 @@
 	</div>
 
 	<div class="user-panel">
-		<a href="<?php echo base_url().'board/event_edit/0';?>" class="user-panel-add-a" >이벤트 새로 등록</a>
+		<a href="<?php echo site_furl('board/event_edit/0');?>" class="user-panel-add-a" >이벤트 새로 등록</a>
 		<Table class="user-table" id="notice-table-id">
 			<tr>
 				<th>번호</th>
@@ -30,7 +30,7 @@
 				<td><?=$obNotice->notice_time_create?></td>
 				<td><?=$obNotice->notice_mb_uid?></td>
 				<td>
-					<a href="<?php echo base_url().'board/event_edit/'.$obNotice->notice_fid;?>" >수정</a>
+					<a href="<?php echo site_furl('board/event_edit/'.$obNotice->notice_fid);?>" >수정</a>
 					<button name="<?=$obNotice->notice_fid?>">삭제</button>
 				</td>
 			</tr>
@@ -45,8 +45,8 @@
 
 
 <?php if(array_key_exists("app.produce", $_ENV)) :?>
-    <script src="<?php echo base_url('/assets/js/event-script.js?t='.time());?>"></script>
+    <script src="<?php echo site_furl('/assets/js/event-script.js?t='.time());?>"></script>
 <?php else : ?>
-    <script src="<?php echo base_url('/assets/js/event-script.js?v=1');?>"></script>
+    <script src="<?php echo site_furl('/assets/js/event-script.js?v=1');?>"></script>
 <?php endif ?>
 <?= $this->endSection() ?>

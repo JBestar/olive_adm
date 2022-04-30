@@ -61,14 +61,14 @@ function addBtnEvent() {
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: "/api/updatenotice",
+                url: FURL + "/api/updatenotice",
                 data: { json_: jsonData },
                 success: function(jResult) {
                     //console.log(jResult);
                     if (jResult.status == "success") {
-                        window.location.replace('/board/notice');
+                        window.location.replace( FURL +'/board/notice');
                     } else if (jResult.status == "logout") {
-                        window.location.replace('/');
+                        window.location.replace( FURL +'/');
                     } else if (jResult.status == "fail") {
                         alert("수정이 실패되었습니다.");
                     }
@@ -84,14 +84,14 @@ function addBtnEvent() {
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: "/api/addnotice",
+                url: FURL + "/api/addnotice",
                 data: { json_: jsonData },
                 success: function(jResult) {
                     //console.log(jResult);
                     if (jResult.status == "success") {
-                        window.location.replace('/board/notice');
+                        window.location.replace( FURL +'/board/notice');
                     } else if (jResult.status == "logout") {
-                        window.location.replace('/');
+                        window.location.replace( FURL +'/');
                     } else if (jResult.status == "fail") {
                         alert("저장이 실패되었습니다.");
                     }
@@ -108,7 +108,7 @@ function addBtnEvent() {
 
 
     $("#notice-cancel-btn-id").click(function() {
-        window.location.replace('/board/notice');
+        window.location.replace( FURL +'/board/notice');
     });
 
 }

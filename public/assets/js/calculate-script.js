@@ -91,7 +91,7 @@ function requestCalculate(nFid, nRow) {
     jsonData = JSON.stringify(jsonData);
     $(".loading").show();
     $.ajax({
-        url: '/api/calculategame',
+        url: FURL + '/api/calculategame',
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",
@@ -102,7 +102,7 @@ function requestCalculate(nFid, nRow) {
                 if (nRow < 0) showCalcualte(jResult.data);
                 else addRow(nRow, jResult.data, jResult.level);
             } else if (jResult.status == "logout") {
-                window.location.replace('/');
+                window.location.replace( FURL +'/');
             }
         },
         error: function(request, status, error) {

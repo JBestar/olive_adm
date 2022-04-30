@@ -79,7 +79,7 @@ function requestMember() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/userapi/loglist",
+        url: FURL + "/userapi/loglist",
         data: { json_: jsonData },
         success: function(jResult) {
             $(".loading").hide();
@@ -118,7 +118,7 @@ function requestTotalPage() {
     jsonData = JSON.stringify(jsonData);
 
     $.ajax({
-        url: '/userapi/logcnt',
+        url: FURL + '/userapi/logcnt',
         data: { json_: jsonData },
         dataType: 'json',
         type: 'post',
@@ -144,20 +144,20 @@ function requestAddBlock(jsData) {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/userapi/add_block",
+        url: FURL + "/userapi/add_block",
         data: { json_: jsonData },
         success: function(jResult) {
             // console.log(jResult);
 
             if (jResult.status == "success") {
-                location.replace('/user/member_block');
+                location.replace( FURL +'/user/member_block');
             } else if (jResult.status == "fail") {
 
             } else if (jResult.status == "nopermit") {
                 alert('변경권한이 없습니다.');
-                location.replace('/pages/nopermit');
+                location.replace( FURL +'/pages/nopermit');
             } else if (jResult.status == "logout") {
-                location.replace('/');
+                location.replace( FURL +'/');
             }
         },
         error: function(request, status, error) {

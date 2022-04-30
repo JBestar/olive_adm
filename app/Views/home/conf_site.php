@@ -1,16 +1,16 @@
 <?= $this->extend('header') ?>
 <?= $this->section('content') ?>
-<script src="/assets/js/summernote-lite.js"></script>
-<script src="/assets/js/summernote-ko-KR.js"></script>
+<script src="<?php echo site_furl('/assets/js/summernote-lite.js');?>"></script>
+<script src="<?php echo site_furl('/assets/js/summernote-ko-KR.js');?>"></script>
 
-<link rel="stylesheet" href="/assets/css/summernote-lite.css">
+<link rel="stylesheet" href="<?php echo siteFurl().'assets/css/summernote-lite.css';?>">
 
 <!--Sub Navbar-->
 <div class="sub-navbar">
 	<p><i class="glyphicon glyphicon-cog"></i> 기본설정::본사설정</p>
-	<a href="<?php echo base_url().'home/conf_site';?>" class="sub-navbar-a active">본사설정</a>
-	<a href="<?php echo base_url().'home/conf_betsite';?>" class="sub-navbar-a">보험설정</a>
-	<a href="<?php echo base_url().'home/conf_maintain';?>" class="sub-navbar-a">점검설정</a>
+	<a href="<?php echo siteFurl().'home/conf_site';?>" class="sub-navbar-a active">본사설정</a>
+	<a href="<?php echo siteFurl().'home/conf_betsite';?>" class="sub-navbar-a">보험설정</a>
+	<a href="<?php echo siteFurl().'home/conf_maintain';?>" class="sub-navbar-a">점검설정</a>
 	<?php if($mb_level > LEVEL_ADMIN) {  ?>
 	<button class="sub-navbar-but" style="display: none;" onclick="cleanDb(1);">디비초기화</button>
 	<button class="sub-navbar-but" onclick="cleanDb(0);">디비정리</button>
@@ -131,8 +131,8 @@
 </div>
 
 <?php if(array_key_exists("app.produce", $_ENV)) :?>
-    <script src="<?php echo base_url('/assets/js/confsite-script.js?t='.time());?>"></script>
+    <script src="<?php echo site_furl('/assets/js/confsite-script.js?t='.time());?>"></script>
 <?php else : ?>
-    <script src="<?php echo base_url('/assets/js/confsite-script.js?v=1');?>"></script>
+    <script src="<?php echo site_furl('/assets/js/confsite-script.js?v=1');?>"></script>
 <?php endif ?>
 <?= $this->endSection() ?>

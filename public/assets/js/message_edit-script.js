@@ -79,14 +79,14 @@ function addBtnEvent() {
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: "/api/updatenotice",
+                url: FURL + "/api/updatenotice",
                 data: { json_: jsonData },
                 success: function(jResult) {
                     //console.log(jResult);
                     if (jResult.status == "success") {
-                        window.location.replace('/board/message');
+                        window.location.replace( FURL +'/board/message');
                     } else if (jResult.status == "logout") {
-                        window.location.replace('/');
+                        window.location.replace( FURL +'/');
                     } else if (jResult.status == "fail") {
 
                     }
@@ -103,14 +103,14 @@ function addBtnEvent() {
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: "/api/addMessage",
+                url: FURL + "/api/addMessage",
                 data: { json_: jsonData },
                 success: function(jResult) {
                     //console.log(jResult);
                     if (jResult.status == "success") {
-                        window.location.replace('/board/message');
+                        window.location.replace( FURL +'/board/message');
                     } else if (jResult.status == "logout") {
-                        window.location.replace('/');
+                        window.location.replace( FURL +'/');
                     } else if (jResult.status == "fail") {
                         alert("발송자 아이디가 존재하지 않습니다.");
                     }
@@ -127,7 +127,7 @@ function addBtnEvent() {
 
 
     $("#notice-cancel-btn-id").click(function() {
-        window.location.replace('/board/message');
+        window.location.replace( FURL +'/board/message');
     });
 
 
@@ -138,13 +138,13 @@ function requestMembers() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/userapi/allmember",
+        url: FURL + "/userapi/allmember",
         success: function(jResult) {
             //console.log(jResult);
             if (jResult.status == "success") {
                 showAutoComplete(jResult.data);
             } else if (jResult.status == "logout") {
-                window.location.replace('/');
+                window.location.replace( FURL +'/');
             } else if (jResult.status == "fail") {
 
             }

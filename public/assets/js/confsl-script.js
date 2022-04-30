@@ -84,15 +84,15 @@ function onChangeHidden(objSelect) {
         "hidden": iType == 1 ? 1 : 0,
         "name": $(objSelect).data("name"),
     };
-    console.log(jsonData);
+    // console.log(jsonData);
     jsonData = JSON.stringify(jsonData);
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/api/fslotset",
+        url: FURL + "/api/fslotset",
         data: { json_: jsonData },
         success: function(jResult) {
-            console.log(jResult);
+            // console.log(jResult);
             if (jResult.status == "success") {}
         },
         error: function(request, status, error) {
@@ -114,15 +114,15 @@ function onChangeMaintain(objSelect) {
         "maintain": iType == 1 ? 1 : 0,
         "name": $(objSelect).data("name"),
     };
-    console.log(jsonData);
+    // console.log(jsonData);
     jsonData = JSON.stringify(jsonData);
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/api/fslotset",
+        url: FURL + "/api/fslotset",
         data: { json_: jsonData },
         success: function(jResult) {
-            console.log(jResult);
+            // console.log(jResult);
             if (jResult.status == "success") {}
         },
         error: function(request, status, error) {
@@ -149,7 +149,7 @@ function onChangeAct(objSelect) {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/api/fslotset",
+        url: FURL + "/api/fslotset",
         data: { json_: jsonData },
         success: function(jResult) {
             // console.log(jResult);
@@ -181,7 +181,7 @@ function requestGame() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/api/fslotlist",
+        url: FURL + "/api/fslotlist",
         data: { json_: jsonData },
         success: function(jResult) {
             // console.log(jResult);
@@ -216,7 +216,7 @@ function requestTotalPage() {
     jsonData = JSON.stringify(jsonData);
 
     $.ajax({
-        url: '/api/fslotcnt',
+        url: FURL + '/api/fslotcnt',
         data: { json_: jsonData },
         dataType: 'json',
         type: 'post',

@@ -22,7 +22,7 @@
 			height: 18px;
 			vertical-align: top;
 			margin-left: 10px;
-			background: url(/assets/image/refresh_btn.png) no-repeat left top;
+			background: url(<?php echo site_furl('/assets/image/refresh_btn.png');?>) no-repeat left top;
 		}
 		.user-table button.refresh_btn:hover{
 			border:1px;
@@ -31,7 +31,7 @@
 		}
 
 		.user-table button.refresh_btn.refresh{
-			background: url(/assets/image/refresh_btn.gif) no-repeat left top;
+			background: url(<?php echo site_furl('/assets/image/refresh_btn.gif');?>) no-repeat left top;
 		}
 	</style>
 	<!--Sub Navbar-->
@@ -42,7 +42,7 @@
 	<div class="user-panel">	
 		<div>
 			<?php if($mb_level >= LEVEL_ADMIN) {  ?>
-			<a href="<?php echo base_url().'user/member_edit/0';?>" class="user-panel-add-a" >회원 등록</a>
+			<a href="<?php echo siteFurl().'user/member_edit/0';?>" class="user-panel-add-a" >회원 등록</a>
 			<?php } ?>
 			<?php if ($mb_level >= LEVEL_ADMIN) {?>	
 			<label>추천인</label>
@@ -125,11 +125,11 @@
 <!--main_navbar.php-main-container-->
 </div>
 <?php if(array_key_exists("app.produce", $_ENV)) :?>
-    <script src="<?php echo base_url('/assets/js/page.js?t='.time());?>"></script>
-    <script src="<?php echo base_url('/assets/js/member-script.js?t='.time());?>"></script>
+    <script src="<?php echo site_furl('/assets/js/page.js?t='.time());?>"></script>
+    <script src="<?php echo site_furl('/assets/js/member-script.js?t='.time());?>"></script>
 <?php else : ?>
-    <script src="<?php echo base_url('/assets/js/page.js?v=1');?>"></script>
-    <script src="<?php echo base_url('/assets/js/member-script.js?v=1');?>"></script>
+    <script src="<?php echo site_furl('/assets/js/page.js?v=1');?>"></script>
+    <script src="<?php echo site_furl('/assets/js/member-script.js?v=1');?>"></script>
 <?php endif ?>
 
 <?= $this->endSection() ?>

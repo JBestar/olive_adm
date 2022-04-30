@@ -4,21 +4,21 @@
 	<div class = "sub-navbar">
 		<p><i class="glyphicon glyphicon-play-circle"></i> 기본설정::게임설정</p>
 		<?php if(!$npg_deny) :?>
-			<a href="<?php echo base_url().'home/conf_powerball';?>" class="sub-navbar-a" >파워볼</a>
-			<a href="<?php echo base_url().'home/conf_powerladder';?>" class="sub-navbar-a " >파워사다리</a>
+			<a href="<?php echo siteFurl().'home/conf_powerball';?>" class="sub-navbar-a" >파워볼</a>
+			<a href="<?php echo siteFurl().'home/conf_powerladder';?>" class="sub-navbar-a " >파워사다리</a>
    		<?php endif ?>   
     	<?php if(!$bpg_deny) :?>
-			<a href="<?php echo base_url().'home/conf_bogleball';?>" class="sub-navbar-a" >보글파워볼</a>
-			<a href="<?php echo base_url().'home/conf_bogleladder';?>" class="sub-navbar-a " >보글사다리</a>
+			<a href="<?php echo siteFurl().'home/conf_bogleball';?>" class="sub-navbar-a" >보글파워볼</a>
+			<a href="<?php echo siteFurl().'home/conf_bogleladder';?>" class="sub-navbar-a " >보글사다리</a>
    		<?php endif ?>   
-		<a href="<?php echo base_url().'home/conf_evol';?>" class="sub-navbar-a <?=$active_ev?>" >에볼루션</a>
+		<a href="<?php echo siteFurl().'home/conf_evol';?>" class="sub-navbar-a <?=$active_ev?>" >에볼루션</a>
 		<?php if($_ENV['app.type'] != APPTYPE_2) :?>
-  		<a href="<?php echo base_url().'home/conf_slot_1';?>" class="sub-navbar-a <?=$active_sl1?>">정품슬롯</a>
+  		<a href="<?php echo siteFurl().'home/conf_slot_1';?>" class="sub-navbar-a <?=$active_sl1?>">정품슬롯</a>
 		<?php endif ?>
 		<?php if($_ENV['app.type'] == APPTYPE_0 || $_ENV['app.type'] == APPTYPE_1) :?>
-  		<a href="<?php echo base_url().'home/conf_slot_2';?>" class="sub-navbar-a <?=$active_sl2?>">네츄럴슬롯</a>
+  		<a href="<?php echo siteFurl().'home/conf_slot_2';?>" class="sub-navbar-a <?=$active_sl2?>">네츄럴슬롯</a>
 		  <?php elseif($_ENV['app.type'] == APPTYPE_2) :?>
-		<a href="<?php echo base_url().'home/conf_slot_2';?>" class="sub-navbar-a <?=$active_sl2?>" >네츄럴슬롯</a>
+		<a href="<?php echo siteFurl().'home/conf_slot_2';?>" class="sub-navbar-a <?=$active_sl2?>" >네츄럴슬롯</a>
 		<?php endif ?>
 	</div>
 	<!--Site Setting-->
@@ -55,8 +55,8 @@
 <!--main_navbar.php-->
 </div>
 <?php if(array_key_exists("app.produce", $_ENV)) :?>
-    <script src="<?php echo base_url('/assets/js/confcs-script.js?t='.time());?>"></script>
+    <script src="<?php echo site_furl('/assets/js/confcs-script.js?t='.time());?>"></script>
 <?php else : ?>
-    <script src="<?php echo base_url('/assets/js/confcs-script.js?v=1');?>"></script>
+    <script src="<?php echo site_furl('/assets/js/confcs-script.js?v=1');?>"></script>
 <?php endif ?>
 <?= $this->endSection() ?>

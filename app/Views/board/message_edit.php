@@ -1,9 +1,9 @@
 <?= $this->extend('header') ?>
 <?= $this->section('content') ?>
-	<script src="/assets/js/summernote-lite.js"></script>
-	<script src="/assets/js/summernote-ko-KR.js"></script>
+	<script src="<?php echo site_furl('/assets/js/summernote-lite.js');?>"></script>
+	<script src="<?php echo site_furl('/assets/js/summernote-ko-KR.js');?>"></script>
 
-	<link rel="stylesheet" href="/assets/css/summernote-lite.css">
+	<link rel="stylesheet" href="<?php echo site_furl('/assets/css/summernote-lite.css');?>">
   	<!--Sub Navbar-->
 	<div class = "sub-navbar">
 		<?php if(is_null($objNotice)) {  ?>
@@ -103,8 +103,8 @@
 <!--main_navbar.php-->
 </div>
 <?php if(array_key_exists("app.produce", $_ENV)) :?>
-    <script src="<?php echo base_url('/assets/js/message_edit-script.js?t='.time());?>"></script>
+    <script src="<?php echo site_furl('/assets/js/message_edit-script.js?t='.time());?>"></script>
 <?php else : ?>
-    <script src="<?php echo base_url('/assets/js/message_edit-script.js?v=1');?>"></script>
+    <script src="<?php echo site_furl('/assets/js/message_edit-script.js?v=1');?>"></script>
 <?php endif ?>
 <?= $this->endSection() ?>

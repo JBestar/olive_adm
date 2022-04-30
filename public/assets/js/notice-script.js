@@ -12,6 +12,9 @@ function addBtnEvent() {
 
     elemTableBtns[i].addEventListener("click", function () {
       if (this.innerHTML.search("삭제") >= 0) {
+        if(!confirm("삭제하시겠습니까?"))
+          return;
+
         var jsonData = {
           "notice_fid": this.name,
           "notice_state_delete": 1
@@ -43,7 +46,7 @@ function requestUpdateNotice(jsData) {
   $.ajax({
     type: "POST",
     dataType: "json",
-    url: "/api/updateNotice",
+    url: FURL + "/api/updateNotice",
     data: {
       json_: jsonData
     },
@@ -51,7 +54,7 @@ function requestUpdateNotice(jsData) {
       //console.log(jResult);
 
       if (jResult.status == "success") {
-        window.location.replace('/board/notice');
+        window.location.replace( FURL +'/board/notice');
       } else if (jResult.status == "fail") {
 
       }

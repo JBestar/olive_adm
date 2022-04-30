@@ -25,9 +25,9 @@ class UserApi extends BaseController
     public function index()
     {
         if (is_login()) {
-            $this->response->redirect(base_url());
+            $this->response->redirect($_ENV['app.furl']);
         } else {
-            $this->response->redirect(base_url().'pages/login');
+            $this->response->redirect($_ENV['app.furl'].'/pages/login');
         }
     }
 

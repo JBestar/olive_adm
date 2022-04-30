@@ -24,10 +24,10 @@ class Api extends BaseController{
 	{				
 		if(is_login())
 		{
-			$this->response->redirect( base_url());
+			$this->response->redirect( $_ENV['app.furl']);
 		}
 		else {
-			$this->response->redirect( base_url().'pages/login');
+			$this->response->redirect( $_ENV['app.furl'].'/pages/login');
 		}	
 	}
     //관리자 로그인
@@ -647,9 +647,9 @@ public function withdrawlist(){
 				
 				if($bResult) $noticeModel->updateNoticeByEmpFid($arrData);
 				
-				if($bResult)
+				// if($bResult)
 					$arrResult['status'] = "success";
-				else $arrResult['status'] = "fail";
+				// else $arrResult['status'] = "fail";
 			} else $arrResult['status'] = "nopermit";
 		}
 		else {

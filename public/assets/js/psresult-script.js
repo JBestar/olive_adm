@@ -37,8 +37,8 @@ function ShowGameResult(jsonRoundResults) {
             strBuf += "<span class='pbresult-rule-even-span'>짝</span>";
 
         strBuf += "</td><td>";
-        strBuf += "<a href='/result/psresult_edit/" + jsonRoundResults[nRow].round_fid + "' >수정</a>";
-        strBuf += "<a href='/result/psbetchange/" + jsonRoundResults[nRow].round_date + "/" + jsonRoundResults[nRow].round_num + "' >적특</a>";
+        strBuf += "<a href='"+FURL+"/result/psresult_edit/" + jsonRoundResults[nRow].round_fid + "' >수정</a>";
+        strBuf += "<a href='"+FURL+"/result/psbetchange/" + jsonRoundResults[nRow].round_date + "/" + jsonRoundResults[nRow].round_num + "' >적특</a>";
         strBuf += "</td></tr>";
 
     }
@@ -73,7 +73,7 @@ function requestGameResult() {
     jsonData = JSON.stringify(jsonData);
     $(".loading").show();
     $.ajax({
-        url: '/psapi/result',
+        url: FURL + '/psapi/result',
         data: { json_: jsonData },
         dataType: 'json',
         type: 'post',
@@ -105,7 +105,7 @@ function requestTotalPage() {
     jsonData = JSON.stringify(jsonData);
 
     $.ajax({
-        url: '/psapi/resultcnt',
+        url: FURL + '/psapi/resultcnt',
         data: { json_: jsonData },
         dataType: 'json',
         type: 'post',

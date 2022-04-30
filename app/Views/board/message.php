@@ -7,7 +7,7 @@
 
 	<div class="user-panel">
 		<div class="pbresult-list-div">
-			<a href="<?php echo base_url().'board/message_edit/0/0';?>" class="user-panel-add-a" >쪽지 작성</a>
+			<a href="<?php echo site_furl('board/message_edit/0/0');?>" class="user-panel-add-a" >쪽지 작성</a>
 
 			<label>아이디</label>
 			<input type="text" class="pbresult-text-input" id="message-userid-input-id" >
@@ -62,10 +62,10 @@
 </div>
 
 <?php if(array_key_exists("app.produce", $_ENV)) :?>
-    <script src="<?php echo base_url('/assets/js/page.js?t='.time());?>"></script>
-    <script src="<?php echo base_url('/assets/js/message-script.js?t='.time());?>"></script>
+    <script src="<?php echo site_furl('/assets/js/page.js?t='.time());?>"></script>
+    <script src="<?php echo site_furl('/assets/js/message-script.js?t='.time());?>"></script>
 <?php else : ?>
-	<script src="<?php echo base_url('assets/js/page.js?v=1');?>"></script>
-    <script src="<?php echo base_url('/assets/js/message-script.js?v=1');?>"></script>
+	<script src="<?php echo site_furl('assets/js/page.js?v=1');?>"></script>
+    <script src="<?php echo site_furl('/assets/js/message-script.js?v=1');?>"></script>
 <?php endif ?>
 <?= $this->endSection() ?>

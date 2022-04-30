@@ -70,7 +70,7 @@ function setUserSound(strSound, nVolume) {
         elemAlarmPlayer.volume = volume;
     }
 
-    elemAlarmSource.attr("src", "/assets/sound/" + strSound);
+    elemAlarmSource.attr("src", FURL+"/assets/sound/" + strSound);
     elemAlarmPlayer.load();
 
     if (nVolume < 0)
@@ -90,7 +90,7 @@ function setChargeSound(strSound, nVolume) {
         elemAlarmPlayer.volume = volume;
     }
 
-    elemAlarmSource.attr("src", "/assets/sound/" + strSound);
+    elemAlarmSource.attr("src", FURL+"/assets/sound/" + strSound);
     elemAlarmPlayer.load();
 
     if (nVolume < 0)
@@ -111,7 +111,7 @@ function setExchangeSound(strSound, nVolume) {
         elemAlarmPlayer.volume = volume;
     }
 
-    elemAlarmSource.attr("src", "/assets/sound/" + strSound);
+    elemAlarmSource.attr("src", FURL+"/assets/sound/" + strSound);
     elemAlarmPlayer.load();
 
     if (nVolume < 0)
@@ -132,7 +132,7 @@ function setMessageSound(strSound, nVolume) {
         elemAlarmPlayer.volume = volume;
     }
 
-    elemAlarmSource.attr("src", "/assets/sound/" + strSound);
+    elemAlarmSource.attr("src", FURL+"/assets/sound/" + strSound);
     elemAlarmPlayer.load();
 
     if (nVolume < 0)
@@ -149,7 +149,7 @@ function requestSoundInfo() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/api/getsoundconf",
+        url: FURL + "/api/getsoundconf",
         success: function(jResult) {
             //console.log(jResult);            
             if (jResult.status == "success") {
@@ -157,7 +157,7 @@ function requestSoundInfo() {
             } else if (jResult.status == "fail") {
 
             } else if (jResult.status == "logout") {
-                window.location.replace("/");
+                window.location.replace( FURL +"/");
             }
         },
         error: function(request, status, error) {
@@ -201,13 +201,13 @@ function saveSoundInfo() {
 
 
     var jsonData = JSON.stringify(arrData);
-    console.log(jsonData);
+    // console.log(jsonData);
 
     $.ajax({
         type: "POST",
         data: { json_: jsonData },
         dataType: "json",
-        url: "/api/savesoundconf",
+        url: FURL + "/api/savesoundconf",
         success: function(jResult) {
             //console.log(jResult);            
             if (jResult.status == "success") {
@@ -216,7 +216,7 @@ function saveSoundInfo() {
             } else if (jResult.status == "fail") {
 
             } else if (jResult.status == "logout") {
-                window.location.replace("/");
+                window.location.replace( FURL +"/");
             }
         },
         error: function(request, status, error) {

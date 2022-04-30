@@ -4,25 +4,25 @@
 	<div class = "sub-navbar" value=<?= $this->renderSection('history-active') ?>>
 		<p><i class="glyphicon glyphicon-book"></i> 배팅내역</p>
 		<?php if(!$npg_deny) :?>
-			<a href="<?php echo base_url().'bet/pbhistory';?>" class="sub-navbar-a" >파워볼</a>
-			<a href="<?php echo base_url().'bet/pshistory';?>" class="sub-navbar-a" >파워사다리</a>
+			<a href="<?php echo site_furl('bet/pbhistory');?>" class="sub-navbar-a" >파워볼</a>
+			<a href="<?php echo site_furl('bet/pshistory');?>" class="sub-navbar-a" >파워사다리</a>
 		<?php endif ?>   
     	<?php if(!$bpg_deny) :?>
-		<a href="<?php echo base_url().'bet/bbhistory';?>" class="sub-navbar-a" >보글볼</a>
-		<a href="<?php echo base_url().'bet/bshistory';?>" class="sub-navbar-a" >보글사다리</a>
+		<a href="<?php echo site_furl('bet/bbhistory');?>" class="sub-navbar-a" >보글볼</a>
+		<a href="<?php echo site_furl('bet/bshistory');?>" class="sub-navbar-a" >보글사다리</a>
    		<?php endif ?>   
-		<a href="<?php echo base_url().'bet/cshistory';?>" class="sub-navbar-a" >에볼루션</a>
+		<a href="<?php echo site_furl('bet/cshistory');?>" class="sub-navbar-a" >에볼루션</a>
 
 		<?php if($mb_level >= LEVEL_ADMIN) :  ?>
 			<?php if($_ENV['app.type'] != APPTYPE_2) :?>
-				<a href="<?php echo base_url().'bet/xslhistory';?>" class="sub-navbar-a" >정품슬롯</a>
+				<a href="<?php echo site_furl('bet/xslhistory');?>" class="sub-navbar-a" >정품슬롯</a>
 			<?php endif ?>
-			<a href="<?php echo base_url().'bet/fslhistory';?>" class="sub-navbar-a" >네츄럴슬롯</a>
+			<a href="<?php echo site_furl('bet/fslhistory');?>" class="sub-navbar-a" >네츄럴슬롯</a>
 			<?php if($_ENV['app.type'] != APPTYPE_2) :?>
-				<a href="<?php echo base_url().'bet/slhistory';?>" class="sub-navbar-a" >슬롯</a>
+				<a href="<?php echo site_furl('bet/slhistory');?>" class="sub-navbar-a" >슬롯</a>
 			<?php endif ?>
 		<?php else: ?>
-			<a href="<?php echo base_url().'bet/slhistory';?>" class="sub-navbar-a" >슬롯</a>
+			<a href="<?php echo site_furl('bet/slhistory');?>" class="sub-navbar-a" >슬롯</a>
 		<?php endif ?>
 	</div>
 
@@ -92,9 +92,9 @@
 <!--main_navbar.php-main-container-->
 </div>
 <?php if(array_key_exists("app.produce", $_ENV)) :?>
-    <script src="<?php echo base_url('/assets/js/page.js?t='.time());?>"></script>
+    <script src="<?php echo site_furl('/assets/js/page.js?t='.time());?>"></script>
 <?php else : ?>
-    <script src="<?php echo base_url('/assets/js/page.js?v=1');?>"></script>
+    <script src="<?php echo site_furl('/assets/js/page.js?v=1');?>"></script>
 <?php endif ?>
 
 <?= $this->renderSection('history_script') ?>

@@ -37,7 +37,7 @@ function showMember(arrMember, confs) {
         strBuf += (parseInt(nRow) + firstIdx + 1);
         strBuf += "</td> <td>";
         if (confs.emp_level >= LEVEL_ADMIN) {
-            strBuf += "<a href='/user/member/";
+            strBuf += "<a href='"+FURL+"/user/member/";
             strBuf += arrMember[nRow].mb_emp_fid;
             strBuf += "' class='link-member'>"
             strBuf += arrMember[nRow].mb_empname;
@@ -48,7 +48,7 @@ function showMember(arrMember, confs) {
 
         strBuf += "</td> <td>";
         if (confs.emp_level >= LEVEL_ADMIN) {
-            strBuf += "<a href='/user/member/";
+            strBuf += "<a href='"+FURL+"/user/member/";
             strBuf += arrMember[nRow].mb_fid;
             strBuf += "' class='link-member'>"
             strBuf += arrMember[nRow].mb_uid;
@@ -97,9 +97,9 @@ function showMember(arrMember, confs) {
         } else {
             strBuf += "<button name='" + arrMember[nRow].mb_fid + "' >차단</button>";
         }
-        strBuf += "<a href='/user/member_edit/" + arrMember[nRow].mb_fid + "' >수정</a>";
+        strBuf += "<a href='"+FURL+"/user/member_edit/" + arrMember[nRow].mb_fid + "' >수정</a>";
         if (confs.emp_level > LEVEL_COMPANY) {
-            var strEncodeURI = "/board/message_edit/0/" + arrMember[nRow].mb_fid;
+            var strEncodeURI = FURL+"/board/message_edit/0/" + arrMember[nRow].mb_fid;
             strBuf += "<a href='" + strEncodeURI + "' >쪽지</a>";
             strBuf += "<button name='" + arrMember[nRow].mb_fid + "'>삭제</button>   ";
         }
@@ -198,7 +198,7 @@ function requestMember() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/userapi/getmembers",
+        url: FURL + "/userapi/getmembers",
         data: { json_: jsonData },
         success: function(jResult) {
             //console.log(jResult);            
@@ -242,7 +242,7 @@ function requestTotalPage() {
     jsonData = JSON.stringify(jsonData);
 
     $.ajax({
-        url: '/userapi/getmembercnt',
+        url: FURL + '/userapi/getmembercnt',
         data: { json_: jsonData },
         dataType: 'json',
         type: 'post',
@@ -363,7 +363,7 @@ function requestWaitToPermit(elemBut, jsData) {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/userapi/wait_permit",
+        url: FURL + "/userapi/wait_permit",
         data: { json_: jsonData },
         success: function(jResult) {
             //console.log(jResult);
@@ -379,9 +379,9 @@ function requestWaitToPermit(elemBut, jsData) {
                 alert('회원승인이 실패되었습니다.');
             } else if (jResult.status == "nopermit") {
                 alert('변경권한이 없습니다.');
-                window.location.replace('/pages/nopermit');
+                window.location.replace( FURL +'/pages/nopermit');
             } else if (jResult.status == "logout") {
-                window.location.replace('/');
+                window.location.replace( FURL +'/');
             }
         },
         error: function(request, status, error) {
@@ -399,7 +399,7 @@ function requestUpdateCompany(jsData) {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/userapi/updatemember",
+        url: FURL + "/userapi/updatemember",
         data: { json_: jsonData },
         success: function(jResult) {
             // console.log(jResult);
@@ -411,9 +411,9 @@ function requestUpdateCompany(jsData) {
 
             } else if (jResult.status == "nopermit") {
                 alert('변경권한이 없습니다.');
-                location.replace('/pages/nopermit');
+                location.replace( FURL +'/pages/nopermit');
             } else if (jResult.status == "logout") {
-                location.replace('/');
+                location.replace( FURL +'/');
             }
         },
         error: function(request, status, error) {
@@ -431,21 +431,21 @@ function requestAddBlock(jsData) {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/userapi/add_block",
+        url: FURL + "/userapi/add_block",
         data: { json_: jsonData },
         success: function(jResult) {
             // console.log(jResult);
 
             if (jResult.status == "success") {
-                location.replace('/user/member_block');
+                location.replace( FURL +'/user/member_block');
                 // updateMember(jResult.data, jResult.level);
             } else if (jResult.status == "fail") {
 
             } else if (jResult.status == "nopermit") {
                 alert('변경권한이 없습니다.');
-                location.replace('/pages/nopermit');
+                location.replace( FURL +'/pages/nopermit');
             } else if (jResult.status == "logout") {
-                location.replace('/');
+                location.replace( FURL +'/');
             }
         },
         error: function(request, status, error) {
@@ -464,7 +464,7 @@ function requestDeleteCompany(jsData) {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/userapi/deletemember",
+        url: FURL + "/userapi/deletemember",
         data: { json_: jsonData },
         success: function(jResult) {
             //console.log(jResult);
@@ -476,9 +476,9 @@ function requestDeleteCompany(jsData) {
 
             } else if (jResult.status == "nopermit") {
                 alert('변경권한이 없습니다.');
-                window.location.replace('/pages/nopermit');
+                window.location.replace( FURL +'/pages/nopermit');
             } else if (jResult.status == "logout") {
-                window.location.replace('/');
+                window.location.replace( FURL +'/');
             }
         },
         error: function(request, status, error) {
@@ -497,7 +497,7 @@ function refreshEv(mbFid, elBtn) {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/userapi/egg_ev",
+        url: FURL + "/userapi/egg_ev",
         data: { json_: jsonData },
         success: function(jResult) {
             // console.log(jResult);
@@ -510,7 +510,7 @@ function refreshEv(mbFid, elBtn) {
             } else if (jResult.status == "fail") {
 
             } else if (jResult.status == "logout") {
-                window.location.replace('/');
+                window.location.replace( FURL +'/');
             }
         },
         error: function(request, status, error) {
@@ -536,7 +536,7 @@ function refreshSl(mbFid) {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/userapi/egg_sl",
+        url: FURL + "/userapi/egg_sl",
         data: { json_: jsonData },
         success: function(jResult) {
             // console.log(jResult);
@@ -548,7 +548,7 @@ function refreshSl(mbFid) {
             } else if (jResult.status == "fail") {
 
             } else if (jResult.status == "logout") {
-                window.location.replace('/');
+                window.location.replace( FURL +'/');
             }
         },
         error: function(request, status, error) {
@@ -566,20 +566,20 @@ function refreshFsl(mbFid, elBtn) {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/userapi/egg_fsl",
+        url: FURL + "/userapi/egg_fsl",
         data: { json_: jsonData },
         success: function(jResult) {
             // console.log(jResult);
             $(elBtn).removeClass("refresh");
 
             if (jResult.status == "success") {
-                $("#fsl_" + mbFid).text("슬롯: " + parseInt(jResult.slot_money).toLocaleString());
+                $("#fsl_" + mbFid).text("슬롯: " + parseInt(jResult.fslot_money).toLocaleString());
                 $("#tsl_" + mbFid).text("슬롯: " + (parseInt(jResult.slot_money) + parseInt(jResult.fslot_money)).toLocaleString());
 
             } else if (jResult.status == "fail") {
 
             } else if (jResult.status == "logout") {
-                window.location.replace('/');
+                window.location.replace( FURL +'/');
             }
         },
         error: function(request, status, error) {

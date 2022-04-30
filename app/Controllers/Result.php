@@ -16,12 +16,12 @@ class Result extends StdController {
 	 */
 	public function index()
 	{
-		$this->response->redirect( base_url().'result/pbresult', 'refresh');
+		$this->response->redirect( $_ENV['app.furl'].'/result/pbresult');
 		
 	}
 	private function result_edit_page($betModel, $roundFid, $url, $activePage, $userLevel){
 		if (is_login() === false){
-			return $this->response->redirect( base_url().'pages/login', 'refresh');
+			return $this->response->redirect( $_ENV['app.furl'].'/pages/login');
 		}
 		$objRound = null;
 		$memberModel  = new Member_Model();
@@ -33,11 +33,11 @@ class Result extends StdController {
 			if($roundFid > 0){
 				$objRound = $betModel->get($roundFid);
 				if(is_null($objRound)){
-					$this->response->redirect( base_url().'pages/nopermit', 'refresh');		
+					$this->response->redirect( $_ENV['app.furl'].'/pages/nopermit');		
 				}									
 			} else if($roundFid == 0){
 				$objRound = null;					
-			} else $this->response->redirect( base_url().'pages/nopermit', 'refresh');	
+			} else $this->response->redirect( $_ENV['app.furl'].'/pages/nopermit');	
 			$this->load_view_page($url, $activePage, LEVEL_ADMIN, [
 				'objRound' => $objRound
 			]);	

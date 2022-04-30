@@ -34,11 +34,11 @@ class StdController extends BaseController
 			else {
 				if($objUser->mb_level >= $userLevel){
 					echo view($url, $arrData);
-				} else  $this->response->redirect( base_url().'pages/nopermit', 'refresh');
+				} else  $this->response->redirect( $_ENV['app.furl'].'/pages/nopermit');
 			}
 		}
 		else {
-			$this->response->redirect( base_url().'pages/login', 'refresh');
+			$this->response->redirect( $_ENV['app.furl'].'/pages/login');
 		}
 	}
 }

@@ -46,9 +46,9 @@ function showNotice(arrNotice) {
         else strBuf += arrNotice[nRow].notice_mb_uid;
         strBuf += "</td> <td>";
         if (arrNotice[nRow].notice_type == 0)
-            strBuf += "<a href='/board/message_edit/" + arrNotice[nRow].notice_fid + "/0' >수정</a>";
+            strBuf += "<a href='"+FURL+"/board/message_edit/" + arrNotice[nRow].notice_fid + "/0' >수정</a>";
         else if (arrNotice[nRow].notice_type == 3)
-            strBuf += "<a href='/board/message_edit/" + arrNotice[nRow].notice_fid + "/0' >보기</a>";
+            strBuf += "<a href='"+FURL+"/board/message_edit/" + arrNotice[nRow].notice_fid + "/0' >보기</a>";
 
         strBuf += "<button name='" + arrNotice[nRow].notice_fid + "'>삭제</button>   ";
 
@@ -116,7 +116,7 @@ function requestUpdateNotice(jsData) {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/api/updateNotice",
+        url: FURL + "/api/updateNotice",
         data: { json_: jsonData },
         success: function(jResult) {
             //console.log(jResult);
@@ -151,7 +151,7 @@ function requestNotice() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/api/getmessage",
+        url: FURL + "/api/getmessage",
         data: { json_: jsonData },
         success: function(jResult) {
             $(".loading").hide();
@@ -185,7 +185,7 @@ function requestTotalPage() {
     jsonData = JSON.stringify(jsonData);
 
     $.ajax({
-        url: '/api/getmessagecnt',
+        url: FURL + '/api/getmessagecnt',
         data: { json_: jsonData },
         dataType: 'json',
         type: 'post',

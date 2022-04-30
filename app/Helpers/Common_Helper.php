@@ -227,4 +227,13 @@
 
     }
 
+    function siteFurl(){
+      return $_ENV['app.furl']."/";
+    }
+
+    function site_furl($url){
+      if(substr($url, 0, 1) == "/")
+        return $_ENV['app.furl'].$url;
+      else return $_ENV['app.furl']."/".$url;
+    }
 ?>

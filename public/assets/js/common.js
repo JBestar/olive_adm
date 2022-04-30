@@ -3,7 +3,7 @@ if (logged != "yes") {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/api/logout",
+        url: FURL + "/api/logout",
         success: function(jResult) {
             location.reload();
         },

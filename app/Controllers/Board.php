@@ -13,7 +13,7 @@ class Board extends StdController {
 	 */
 	public function index()
 	{
-		$this->response->redirect( base_url().'board/notice', 'refresh');
+		$this->response->redirect( $_ENV['app.furl'].'/board/notice', 'refresh');
 		
 	}
 
@@ -47,7 +47,7 @@ class Board extends StdController {
 	public function message_edit($strNoticeFid, $strUserFid)
 	{
 		if (is_login() === false){
-			return $this->response->redirect( base_url().'pages/login', 'refresh');
+			return $this->response->redirect( $_ENV['app.furl'].'/pages/login');
 		}
 		$objNotice = null;
 		if($strNoticeFid > 0)

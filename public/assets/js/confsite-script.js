@@ -55,14 +55,14 @@ function addBtnEvent() {
         $.ajax({
             type: "POST",
             dataType: "json",
-            url: "/api/saveconfsite",
+            url: FURL + "/api/saveconfsite",
             data: { json_: jsonData },
             success: function(jResult) {
                 // console.log(jResult);
                 if (jResult.status == "success") {
                     window.location.reload();
                 } else if (jResult.status == "logout") {
-                    window.location.replace('/');
+                    window.location.replace( FURL +'/');
                 } else if (jResult.status == "fail") {
                     alert("저장이 실패되었습니다.");
                 }
@@ -104,7 +104,7 @@ function requestCleanDb(objData) {
         type: "POST",
         dataType: "json",
         data: { json_: jsonData },
-        url: "/api/cleanDb",
+        url: FURL + "/api/cleanDb",
         success: function(jResult) {
             //console.log(jResult);
             if (jResult.status == "success") {

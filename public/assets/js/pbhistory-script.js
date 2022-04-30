@@ -277,7 +277,7 @@ function requestBetHistory() {
     jsonData = JSON.stringify(jsonData);
     $(".loading").show();
     $.ajax({
-        url: mPath + '/betlist',
+        url: FURL + mPath + '/betlist',
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",
@@ -325,7 +325,7 @@ function requestTotalPage() {
 
 
     $.ajax({
-        url: mPath + '/betlistcnt',
+        url: FURL + mPath + '/betlistcnt',
         data: { json_: jsonData },
         dataType: 'json',
         type: 'post',

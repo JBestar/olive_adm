@@ -48,7 +48,7 @@ function addBtnEvent() {
         $.ajax({
             type: "POST",
             dataType: "json",
-            url: "/api/change_password",
+            url: FURL + "/api/change_password",
             data: { json_: jsonData },
             success: function(jResult) {
                 //console.log(jResult);
@@ -83,7 +83,7 @@ function requestJoinIp() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/userapi/empIp",
+        url: FURL + "/userapi/empIp",
         success: function(jResult) {
             console.log(jResult);
             if (jResult.status == "success") {

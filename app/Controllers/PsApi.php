@@ -20,7 +20,7 @@ class PsApi extends BaseController {
 
 		}
 		else {
-			$this->response->redirect( base_url().'pages/login');
+			$this->response->redirect( $_ENV['app.furl'].'/pages/login');
 		}	
 		
 	}

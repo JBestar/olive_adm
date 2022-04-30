@@ -11,7 +11,7 @@ class User extends StdController
 	 */
 	private function user_edit_page($url, $activePage, $memberFid, $employeeLevel, $userLevel){
 		if (is_login() === false){
-			return $this->response->redirect( base_url().'pages/login', 'refresh');
+			return $this->response->redirect( $_ENV['app.furl'].'/pages/login');
 		}
 		
 		$memberModel = new Member_Model();
@@ -44,10 +44,10 @@ class User extends StdController
 	{
 		if(is_login())
 		{
-			$this->response->redirect(base_url().'user/member/0', 'refresh');
+			$this->response->redirect($_ENV['app.furl'].'/user/member/0');
 		}
 		else {
-			$this->response->redirect( base_url().'pages/login', 'refresh');
+			$this->response->redirect($_ENV['app.furl'].'/pages/login');
 		}	
 		
 	}
@@ -71,7 +71,7 @@ class User extends StdController
 
 	function member($strEmpFid){
 		if (is_login() === false){
-			return $this->response->redirect(base_url().'pages/login', 'refresh');
+			return $this->response->redirect($_ENV['app.furl'].'/pages/login');
 		}
 		$memberModel = new Member_Model();
 		$objEmp = $memberModel->find($strEmpFid);

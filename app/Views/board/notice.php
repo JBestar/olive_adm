@@ -7,7 +7,7 @@
 
 	<div class="user-panel">
 		<div style="min-height:30px;">
-			<a href="<?php echo base_url().'board/notice_edit/0';?>" class="user-panel-add-a" >공지사항 새로 등록</a>
+			<a href="<?php echo siteFurl().'board/notice_edit/0';?>" class="user-panel-add-a" >공지사항 새로 등록</a>
 		</div>
 		<Table class="user-table" id="notice-table-id">
 			<tr>
@@ -42,7 +42,7 @@
 				<td><?=$obNotice->notice_time_create?></td>
 				<td><?=$obNotice->notice_mb_uid?></td>
 				<td>
-					<a href="<?php echo base_url().'board/notice_edit/'.$obNotice->notice_fid;?>" >수정</a>
+					<a href="<?php echo siteFurl().'board/notice_edit/'.$obNotice->notice_fid;?>" >수정</a>
 					<button name="<?=$obNotice->notice_fid?>">삭제</button>
 				</td>
 			</tr>
@@ -56,8 +56,8 @@
 </div>
 
 <?php if(array_key_exists("app.produce", $_ENV)) :?>
-    <script src="<?php echo base_url('/assets/js/notice-script.js?t='.time());?>"></script>
+    <script src="<?php echo site_furl('/assets/js/notice-script.js?t='.time());?>"></script>
 <?php else : ?>
-    <script src="<?php echo base_url('/assets/js/notice-script.js?v=1');?>"></script>
+    <script src="<?php echo site_furl('/assets/js/notice-script.js?v=1');?>"></script>
 <?php endif ?>
 <?= $this->endSection() ?>

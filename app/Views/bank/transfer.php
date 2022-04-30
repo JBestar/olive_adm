@@ -78,10 +78,10 @@
 </div>
 
 <?php if(array_key_exists("app.produce", $_ENV)) :?>
-    <script src="<?php echo base_url('/assets/js/page.js?t='.time());?>"></script>
-    <script src="<?php echo base_url('/assets/js/transfer-script.js?t='.time());?>"></script>
+    <script src="<?php echo site_furl('/assets/js/page.js?t='.time());?>"></script>
+    <script src="<?php echo site_furl('/assets/js/transfer-script.js?t='.time());?>"></script>
 <?php else : ?>
-    <script src="<?php echo base_url('/assets/js/page.js?v=1');?>"></script>
-    <script src="<?php echo base_url('/assets/js/transfer-script.js?v=1');?>"></script>
+    <script src="<?php echo site_furl('/assets/js/page.js?v=1');?>"></script>
+    <script src="<?php echo site_furl('/assets/js/transfer-script.js?v=1');?>"></script>
 <?php endif ?>
 <?= $this->endSection() ?>

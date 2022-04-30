@@ -192,7 +192,7 @@ function requestBetHistory() {
     jsonData = JSON.stringify(jsonData);
     $(".loading").show();
     $.ajax({
-        url: mPath + '/betlist',
+        url: FURL + mPath + '/betlist',
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",
@@ -238,12 +238,12 @@ function requestTotalPage() {
     jsonData = JSON.stringify(jsonData);
 
     $.ajax({
-        url: mPath + '/betlistcnt',
+        url: FURL + mPath + '/betlistcnt',
         data: { json_: jsonData },
         dataType: 'json',
         type: 'post',
         success: function(jResult) {
-            console.log(jResult);
+            // console.log(jResult);
             if (jResult.status == "success") {
                 TotalCount = jResult.data.count;
                 setFirstPage();
@@ -252,7 +252,7 @@ function requestTotalPage() {
             }
         },
         error: function(request, status, error) {
-            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
         }
 
     });

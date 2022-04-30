@@ -124,13 +124,13 @@ function requestMoneyHistory() {
     jsonData = JSON.stringify(jsonData);
     $(".loading").show();
     $.ajax({
-        url: '/api/moneyhistory',
+        url: FURL + '/api/moneyhistory',
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",
         success: function(jResult) {
             $(".loading").hide();
-            console.log(jResult);
+            // console.log(jResult);
             if (jResult.status == "success") {
                 showMoneyHistory(jResult.data);
             }
@@ -158,7 +158,7 @@ function requestTotalPage() {
 
 
     $.ajax({
-        url: '/api/moneyhistorycnt',
+        url: FURL + '/api/moneyhistorycnt',
         data: { json_: jsonData },
         dataType: 'json',
         type: 'post',

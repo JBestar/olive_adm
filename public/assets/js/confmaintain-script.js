@@ -32,13 +32,13 @@ function addBtnEvent() {
         $.ajax({
             type: "POST",
             dataType: "json",
-            url: "/api/saveconfmaintain",
+            url: FURL + "/api/saveconfmaintain",
             data: { json_: jsonData },
             success: function(jResult) {
                 if (jResult.status == "success") {
                     window.location.reload();
                 } else if (jResult.status == "logout") {
-                    window.location.replace('/');
+                    window.location.replace( FURL +'/');
                 } else if (jResult.status == "fail") {
                     alert("저장이 실패되었습니다.");
                 }

@@ -210,7 +210,7 @@ function requestBetHistory() {
     jsonData = JSON.stringify(jsonData);
     $(".loading").show();
     $.ajax({
-        url: mPath + '/betlist',
+        url: FURL + mPath + '/betlist',
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",
@@ -235,7 +235,7 @@ function requestBetIgnore(jsData) {
     var jsonData = JSON.stringify(jsData);
 
     $.ajax({
-        url: mPath + '/betignore',
+        url: FURL + mPath + '/betignore',
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",
@@ -257,7 +257,7 @@ function requestBetProcess(jsData) {
     var jsonData = JSON.stringify(jsData);
 
     $.ajax({
-        url: mPath + '/betprocess',
+        url: FURL + mPath + '/betprocess',
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",

@@ -60,7 +60,7 @@ function startWorker() {
       stopWorker();
     }
 
-    worker = new Worker( '/assets/js/worker.js' );
+    worker = new Worker( FURL+'/assets/js/worker.js' );
     worker.postMessage( '워커 실행' );    // 워커에 메시지를 보낸다.
 
     // 메시지는 JSON구조로 직렬화 할 수 있는 값이면 사용할 수 있다. Object등

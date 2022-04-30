@@ -37,13 +37,13 @@ function login() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/api/login",
+        url: FURL + "/api/login",
         data: { json_: jsonData },
         success: function(jResult) {
             // console.log(jResult);
             if (jResult.status == "success") {
                 setCookie('logged', 'yes', 0);
-                window.location.replace(jResult.data.redirect);
+                window.location.replace( FURL +jResult.data.redirect);
 
             } else if (jResult.status == "fail") {
 

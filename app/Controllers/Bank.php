@@ -11,10 +11,10 @@ class Bank extends StdController {
 				
 		if(is_login())
 		{
-			$this->response->redirect('bank/deposit', 'refresh');
+			$this->response->redirect($_ENV['app.furl'].'/bank/deposit');
 		}
 		else {
-			$this->response->redirect( base_url().'pages/login', 'refresh');
+			$this->response->redirect($_ENV['app.furl'].'/pages/login');
 		}	
 		
 	}

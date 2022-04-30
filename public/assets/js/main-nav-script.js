@@ -20,7 +20,7 @@ function requestMemberInfo() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/userapi/assets",
+        url: FURL + "/userapi/assets",
         success: function(jResult) {
             // console.log(jResult);
             if (jResult.status == "success") {
@@ -32,7 +32,7 @@ function requestMemberInfo() {
             } else if (jResult.status == "fail") {
                 alert('로그인정보를 가져오는데 실패했습니다. \n 다시 가입해 주세요.');
             } else if (jResult.status == "logout") {
-                window.location.replace("/");
+                window.location.replace( FURL +"/");
             }
         },
         error: function(request, status, error) {
@@ -51,7 +51,7 @@ function requestEmployeeInfo() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/userapi/empinfo",
+        url: FURL + "/userapi/empinfo",
         success: function(jResult) {
             //console.log(jResult);            
             if (jResult.status == "success") {
@@ -59,7 +59,7 @@ function requestEmployeeInfo() {
             } else if (jResult.status == "fail") {
 
             } else if (jResult.status == "logout") {
-                window.location.replace("/");
+                window.location.replace( FURL +"/");
             }
         },
         error: function(request, status, error) {
@@ -77,7 +77,7 @@ function requestBetInfo() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/userapi/empbetinfo",
+        url: FURL + "/userapi/empbetinfo",
         success: function(jResult) {
             //console.log(jResult);            
             if (jResult.status == "success") {
@@ -85,7 +85,7 @@ function requestBetInfo() {
             } else if (jResult.status == "fail") {
 
             } else if (jResult.status == "logout") {
-                window.location.replace("/");
+                window.location.replace( FURL +"/");
             }
         },
         error: function(request, status, error) {
@@ -105,7 +105,7 @@ function requestAlarmState() {
         type: "POST",
         data: { json_: jsonData },
         dataType: "json",
-        url: "/api/changealarmstate",
+        url: FURL + "/api/changealarmstate",
         success: function(jResult) {
             // console.log(jResult);
             if (jResult.status == "success") {
@@ -113,7 +113,7 @@ function requestAlarmState() {
             } else if (jResult.status == "fail") {
 
             } else if (jResult.status == "logout") {
-                window.location.replace("/");
+                window.location.replace( FURL +"/");
             }
         },
         error: function(request, status, error) {
@@ -245,7 +245,7 @@ function showEmpInfo(objEmpInfo, arrSoundInfo) {
         var nVolume = 1;
 
         if (nWaitCnt > 0) {
-            mAudio.src = '/assets/sound/' + arrSoundInfo[0][0];
+            mAudio.src = FURL + '/assets/sound/' + arrSoundInfo[0][0];
 
             if (parseInt(arrSoundInfo[0][1]) <= 100) {
                 nVolume = arrSoundInfo[0][1] / 100.0;
@@ -256,7 +256,7 @@ function showEmpInfo(objEmpInfo, arrSoundInfo) {
             mAudio.play();
 
         } else if (objEmpInfo.waitcharge > 0) {
-            mAudio.src = '/assets/sound/' + arrSoundInfo[1][0];
+            mAudio.src = FURL + '/assets/sound/' + arrSoundInfo[1][0];
             if (parseInt(arrSoundInfo[1][1]) <= 100) {
                 nVolume = arrSoundInfo[1][1] / 100.0;
             }
@@ -265,7 +265,7 @@ function showEmpInfo(objEmpInfo, arrSoundInfo) {
             mAudio.play();
 
         } else if (objEmpInfo.waitexchange > 0) {
-            mAudio.src = '/assets/sound/' + arrSoundInfo[2][0];
+            mAudio.src = FURL + '/assets/sound/' + arrSoundInfo[2][0];
             if (parseInt(arrSoundInfo[2][1]) <= 100) {
                 nVolume = arrSoundInfo[2][1] / 100.0;
             }
@@ -275,7 +275,7 @@ function showEmpInfo(objEmpInfo, arrSoundInfo) {
             mAudio.play();
 
         } else if (objEmpInfo.newmessage > 0) {
-            mAudio.src = '/assets/sound/' + arrSoundInfo[3][0];
+            mAudio.src = FURL + '/assets/sound/' + arrSoundInfo[3][0];
             if (parseInt(arrSoundInfo[3][1]) <= 100) {
                 nVolume = arrSoundInfo[3][1] / 100.0;
             }
@@ -364,7 +364,7 @@ function addNavbarButtonEvent() {
 
     var btnDropdownLogout = document.getElementById("main-navbar-dropdown-logout-id");
     btnDropdownLogout.onclick = function() {
-        window.location.replace("/pages/logout");
+        window.location.replace( FURL +"/pages/logout");
 
     }
 

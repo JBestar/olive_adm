@@ -47,8 +47,8 @@
 <?php echo $this->endSection(); ?>
 <?php echo $this->section('user-edit-script'); ?>
 <?php if(array_key_exists("app.produce", $_ENV)) :?>
-	<script src="<?php echo base_url('/assets/js/member_edit-script.js?t='.time());?>"></script>
+	<script src="<?php echo site_furl('/assets/js/member_edit-script.js?t='.time());?>"></script>
 <?php else : ?>
-	<script src="<?php echo base_url('/assets/js/member_edit-script.js?v=1');?>"></script>
+	<script src="<?php echo site_furl('/assets/js/member_edit-script.js?v=1');?>"></script>
 <?php endif ?>
 <?php echo $this->endSection(); ?>

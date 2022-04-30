@@ -145,7 +145,7 @@ function requestBetHistory() {
     jsonData = JSON.stringify(jsonData);
     $(".loading").show();
     $.ajax({
-        url: '/api/csbetlist',
+        url: FURL + '/api/csbetlist',
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",
@@ -188,7 +188,7 @@ function requestTotalPage() {
     jsonData = JSON.stringify(jsonData);
 
     $.ajax({
-        url: '/api/csbetlistcnt',
+        url: FURL + '/api/csbetlistcnt',
         data: { json_: jsonData },
         dataType: 'json',
         type: 'post',

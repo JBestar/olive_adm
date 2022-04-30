@@ -147,7 +147,7 @@ function requestDepositList() {
         type: "POST",
         data: { json_: jsonData },
         dataType: "json",
-        url: "/api/depositlist",
+        url: FURL + "/api/depositlist",
         success: function(jResult) {
             //console.log(jResult);
             if (jResult.status == "success") {
@@ -178,7 +178,7 @@ function requestTotalPage() {
     jsonData = JSON.stringify(jsonData);
 
     $.ajax({
-        url: '/api/depositlistcnt',
+        url: FURL + '/api/depositlistcnt',
         data: { json_: jsonData },
         dataType: 'json',
         type: 'post',
@@ -209,7 +209,7 @@ function requestProcDeposit(jsData) {
         type: "POST",
         data: { json_: jsonData },
         dataType: "json",
-        url: "/api/depositproc",
+        url: FURL + "/api/depositproc",
         success: function(jResult) {
             //	console.log(jResult);
             if (jResult.status == "success") {
@@ -218,7 +218,7 @@ function requestProcDeposit(jsData) {
             } else if (jResult.status == "fail") {
                 alert("충전처리가 실패되었습니다.");
             } else if (jResult.status == "logout") {
-                window.location.replace('/');
+                window.location.replace( FURL +'/');
             }
         },
         error: function(request, status, error) {

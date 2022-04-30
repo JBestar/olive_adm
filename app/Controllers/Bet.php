@@ -12,10 +12,10 @@ class Bet extends StdController {
 				
 		if(is_login())
 		{
-			$this->response->redirect(base_url().'bet/pbrealtime', 'refresh');
+			$this->response->redirect($_ENV['app.furl'].'/bet/pbrealtime', 'refresh');
 		}
 		else {
-			$this->response->redirect( base_url().'pages/login', 'refresh');
+			$this->response->redirect( $_ENV['app.furl'].'/pages/login', 'refresh');
 		}	
 		
 	}

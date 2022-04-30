@@ -104,7 +104,7 @@ function requestTransferHistory() {
     jsonData = JSON.stringify(jsonData);
     $(".loading").show();
     $.ajax({
-        url: '/api/translist',
+        url: FURL + '/api/translist',
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",
@@ -138,7 +138,7 @@ function requestTotalPage() {
 
 
     $.ajax({
-        url: '/api/translistcnt',
+        url: FURL + '/api/translistcnt',
         data: { json_: jsonData },
         dataType: 'json',
         type: 'post',

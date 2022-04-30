@@ -59,15 +59,15 @@ function addBtnEvent() {
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: "/bbapi/modifyround",
+                url: FURL + "/bbapi/modifyround",
                 data: { json_: jsonData },
                 success: function(jResult) {
                     //console.log(jResult);
                     if (jResult.status == "success") {
                         alert("저장되었습니다.");
-                        window.location.replace('/result/bbresult');
+                        window.location.replace( FURL +'/result/bbresult');
                     } else if (jResult.status == "logout") {
-                        window.location.replace('/');
+                        window.location.replace( FURL +'/');
                     } else if (jResult.status == "fail") {
                         alert("저장이 실패되었습니다.");
                     }
@@ -83,14 +83,14 @@ function addBtnEvent() {
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: "/bbapi/registerround",
+                url: FURL + "/bbapi/registerround",
                 data: { json_: jsonData },
                 success: function(jResult) {
                     //console.log(jResult);
                     if (jResult.status == "success") {
                         alert("저장되었습니다.");
                     } else if (jResult.status == "logout") {
-                        window.location.replace('/');
+                        window.location.replace( FURL +'/');
                     } else if (jResult.status == "fail") {
                         if (jResult.data == 2)
                             alert("이미 등록된 게임회차입니다.");
@@ -116,7 +116,7 @@ function addBtnEvent() {
 
     $("#pbresult_edit-cancel-btn-id").click(function() {
 
-        window.location.replace('/result/bbresult');
+        window.location.replace( FURL +'/result/bbresult');
     });
 
 }

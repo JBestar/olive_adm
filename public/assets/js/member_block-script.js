@@ -74,7 +74,7 @@ function requestMember() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/userapi/blocklist",
+        url: FURL + "/userapi/blocklist",
         data: { json_: jsonData },
         success: function(jResult) {
             $(".loading").hide();
@@ -109,7 +109,7 @@ function requestTotalPage() {
     jsonData = JSON.stringify(jsonData);
 
     $.ajax({
-        url: '/userapi/blockcnt',
+        url: FURL + '/userapi/blockcnt',
         data: { json_: jsonData },
         dataType: 'json',
         type: 'post',
@@ -167,7 +167,7 @@ function requestUpdateBlock(jsData) {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/userapi/update_block",
+        url: FURL + "/userapi/update_block",
         data: { json_: jsonData },
         success: function(jResult) {
             // console.log(jResult);
@@ -178,9 +178,9 @@ function requestUpdateBlock(jsData) {
 
             } else if (jResult.status == "nopermit") {
                 alert('변경권한이 없습니다.');
-                location.replace('/pages/nopermit');
+                location.replace( FURL +'/pages/nopermit');
             } else if (jResult.status == "logout") {
-                location.replace('/');
+                location.replace( FURL +'/');
             }
         },
         error: function(request, status, error) {
@@ -202,7 +202,7 @@ function requestDeleteBlock(jsData) {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/userapi/delete_block",
+        url: FURL + "/userapi/delete_block",
         data: { json_: jsonData },
         success: function(jResult) {
             // console.log(jResult);
@@ -212,9 +212,9 @@ function requestDeleteBlock(jsData) {
             } else if (jResult.status == "fail") {
 
             } else if (jResult.status == "nopermit") {
-                location.replace('/pages/nopermit');
+                location.replace( FURL +'/pages/nopermit');
             } else if (jResult.status == "logout") {
-                location.replace('/');
+                location.replace( FURL +'/');
             }
         },
         error: function(request, status, error) {

@@ -143,7 +143,7 @@ function requestWithdrawList() {
         type: "POST",
         data: { json_: jsonData },
         dataType: "json",
-        url: "/api/withdrawlist",
+        url: FURL + "/api/withdrawlist",
         success: function(jResult) {
             $(".loading").hide();
             //console.log(jResult);
@@ -177,7 +177,7 @@ function requestTotalPage() {
     jsonData = JSON.stringify(jsonData);
 
     $.ajax({
-        url: '/api/withdrawlistcnt',
+        url: FURL + '/api/withdrawlistcnt',
         data: { json_: jsonData },
         dataType: 'json',
         type: 'post',
@@ -210,7 +210,7 @@ function requestProcWithdraw(jsData) {
         type: "POST",
         data: { json_: jsonData },
         dataType: "json",
-        url: "/api/withdrawproc",
+        url: FURL + "/api/withdrawproc",
         success: function(jResult) {
             //console.log(jResult);
             if (jResult.status == "success") {
@@ -219,7 +219,7 @@ function requestProcWithdraw(jsData) {
             } else if (jResult.status == "fail") {
                 alert("환전처리가 실패되었습니다.");
             } else if (jResult.status == "logout") {
-                window.location.replace('/');
+                window.location.replace( FURL +'/');
             }
         },
         error: function(request, status, error) {
