@@ -307,7 +307,7 @@
 					<button class="pbresult-money-but" id="money_5">50만원</button>  
 					<button class="pbresult-money-but" id="money_6">100만원</button>  
 					<button class="pbresult-list-view-but" id="useredit-give-but-id" style="margin-right:0px;">직충전</button>  
-					<button class="pbresult-list-view-but" id="useredit-withdraw-but-id">직환전</button>  
+					<button class="pbresult-list-view-but" id="useredit-withdraw-but-id"  style="margin-left:5px;">직환전</button>  
 
 				</div>
 			<?php endif ?>
@@ -328,7 +328,7 @@
 				</div>
 
 				<div class="useredit-text-div">
-					<p>이송금액:</p> 
+					<p>이동금액:</p> 
 					<input type = "text" id="useredit-transfer-input-id" value="0" >
 					<label>원</label>
 					<button class="pbresult-money-but" id="money_1">1만원</button>
@@ -337,7 +337,8 @@
 					<button class="pbresult-money-but" id="money_4">10만원</button>  
 					<button class="pbresult-money-but" id="money_5">50만원</button>  
 					<button class="pbresult-money-but" id="money_6">100만원</button>  
-					<button class="pbresult-list-view-but" id="useredit-transfer-but-id">이송</button>  
+					<button class="pbresult-list-view-but" id="useredit-transfer-but-id" style="margin-right:0px;">이송</button>  
+					<button class="pbresult-list-view-but" id="useredit-return-but-id" style="margin-left:5px;">환수</button>  
 				</div>
 
 			<?php } ?>

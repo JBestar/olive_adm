@@ -49,6 +49,8 @@ function showDepositList(arrData) {
             strBuf += "<td style='color:red;'>충전취소";
         else if (arrData[nRow].charge_action_state == 4)
             strBuf += "<td style='color:#aab000;'>임시대기";
+        else if (arrData[nRow].charge_action_state == 5)
+            strBuf += "<td style='color:#aab000;'>직충전";
         else strBuf += "<td>";
 
         strBuf += "</td><td>";

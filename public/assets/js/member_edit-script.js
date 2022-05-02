@@ -240,6 +240,20 @@ function addBtnEvent() {
         window.location.replace( FURL +'/user/member/0');
     });
 
+    
+    $("#useredit-withdraw-money-id").click(function() {
+        if (!confirm("보유금액을 회수하시겠습니까?"))
+            return;
+
+        requestWithdraw(0);
+    });
+
+    $("#useredit-withdraw-point-id").click(function() {
+        if (!confirm("보유포인트를 회수하시겠습니까?"))
+            return;
+
+        requestWithdraw(1)
+    });
         
     $("#useredit-give-but-id").click(function() {
         var nAmount = parseInt($("#useredit-transfer-input-id").val().replace(/,/g, ""));
@@ -307,19 +321,29 @@ function addBtnEvent() {
 
     });
     
-    $("#useredit-withdraw-money-id").click(function() {
-        if (!confirm("보유금액을 회수하시겠습니까?"))
+    
+    $("#useredit-return-but-id").click(function() {
+        var nAmount = parseInt($("#useredit-transfer-input-id").val().replace(/,/g, ""));
+        if (isNaN(nAmount) || nAmount == "") {
+            nAmount = 0;
+        }
+        if (nAmount == 0) {
+            confirmAlert("환수금액을 입력 해주세요.");
+            return false;
+        }
+
+        if (!confirm(nAmount.toLocaleString() + "원을 회원에게서 환수하시겠습니까?"))
             return;
 
-        requestWithdraw(0);
+        var jsonData = {
+            'mb_fid': $("#subnavbar-fid-p-id").html(),
+            'amount': nAmount,
+            'type':3
+        }
+        requestTrasnfer(jsonData);
+
     });
 
-    $("#useredit-withdraw-point-id").click(function() {
-        if (!confirm("보유포인트를 회수하시겠습니까?"))
-            return;
-
-        requestWithdraw(1)
-    });
 
 }
 
@@ -340,11 +364,11 @@ function requestTrasnfer(jsonData){
             } else if (jResult.status == "fail") {
                 if (jResult.msg) {
                     alert(jResult.msg);
-                } else alert("충전이 실패되었습니다.")
+                } else alert("조작이 실패되었습니다.")
             }
         },
         error: function(request, status, error) {
-            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
         }
 
     });

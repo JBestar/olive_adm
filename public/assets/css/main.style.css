@@ -283,9 +283,36 @@ tr {
 }
 
 .main-navbar-info-table td a:hover {
-    color: var(--span-font-color);
+    /* color: var(--span-font-color); */
     font-weight: bold;
     text-decoration: underline;
+}
+
+.main-navbar-info-table td a.flicker {
+    animation: flicker 1s linear infinite;
+    font-weight: bold;
+}
+
+@keyframes flicker {
+    0% {
+        color:#c600c3;
+        /* opacity: 0; */
+    }
+
+    30% {
+        color:#00c631;
+        /* opacity: 0.7; */
+    }
+
+    60% {
+        color:#a5c600;
+        /* opacity: 0.7; */
+    }
+
+    100% {
+        color:#c60021;
+        /* opacity: 0; */
+    }
 }
 
 .main-navbar-betinfo-table {

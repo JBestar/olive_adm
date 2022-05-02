@@ -4,30 +4,59 @@
 	<!--<meta content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=yes" name="viewport">
 	-->
 	<title><?=$site_name?> 관리자</title>
-    <?php if($_ENV['app.name'] == APP_ONESTAR) :?>
-    	<link rel="shortcut icon" href="<?php echo site_furl('/favicon_o.ico');?>">
-    <?php elseif($_ENV['app.name'] == APP_SKY) :?>
-    	<link rel="shortcut icon" href="<?php echo site_furl('/favicon_s.ico');?>">
-    <?php elseif($_ENV['app.name'] == APP_MSLOT) :?>
-    	<link rel="shortcut icon" href="<?php echo site_furl('/favicon_m.ico');?>">
-    <?php elseif($_ENV['app.name'] == APP_KANGNUM) :?>
-    	<link rel="shortcut icon" href="<?php echo site_furl('/favicon_k.ico');?>">
-    <?php elseif($_ENV['app.name'] == APP_MAX) :?>
-    	<link rel="shortcut icon" href="<?php echo site_furl('/favicon_x.ico');?>">
-    <?php elseif($_ENV['app.name'] == APP_THUNDER) :?>
-    	<link rel="shortcut icon" href="<?php echo site_furl('/favicon_t.ico');?>">
-	<?php elseif($_ENV['app.name'] == APP_WORLD) :?>
-    	<link rel="shortcut icon" href="<?php echo site_furl('/favicon_w.ico');?>">
-	<?php elseif($_ENV['app.name'] == APP_ROYAL) :?>
-    	<link rel="shortcut icon" href="<?php echo site_furl('/favicon_r.ico');?>">
-	<?php elseif($_ENV['app.name'] == APP_COD) :?>
-    	<link rel="shortcut icon" href="<?php echo site_furl('/favicon_c.ico');?>">
-    <?php else : ?>
-    	<link rel="shortcut icon" href="<?php echo site_furl('/favicon_l.ico');?>">
-    <?php endif ?>
+	<?php switch($_ENV['app.name']) { 
+        case APP_ONESTAR:?>
+            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_o.ico');?>">
+        <?php break; 
+        case APP_SKY :?>
+            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_s.ico');?>">
+        <?php break; 
+        case APP_MSLOT :?>
+            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_m.ico');?>">
+        <?php break; 
+        case APP_KANGNUM :?>                        
+            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_k.ico');?>">
+        <?php break; 
+        case APP_MAX :?>
+            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_x.ico');?>">
+        <?php break; 
+        case APP_THUNDER :?>
+            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_t.ico');?>">
+        <?php break; 
+        case APP_WORLD :?>
+            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_w.ico');?>">
+        <?php break; 
+        case APP_ROYAL :?>
+            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_r.ico');?>">
+        <?php break; 
+        case APP_COD :?>
+            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_c.ico');?>">
+        <?php break; 
+        case APP_ORION :?>
+            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_or.ico');?>">
+        <?php break; 
+        case APP_MAJOR :?>
+            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_ma.ico');?>">
+        <?php break; 
+        case APP_CHANEL :?>
+            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_ch.ico');?>">
+        <?php break; 
+        case APP_APPLE :?>
+            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_a.ico');?>">
+        <?php break; 
+        case APP_BMW :?>
+            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_b.ico');?>">
+        <?php break; 
+        case APP_BIG :?>
+            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_bg.ico');?>">
+        <?php break; 
+        default :?>
+            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_l.ico');?>">
+        <?php break; 
+        } ?>
 	<!-- Bootstrap 3.3.7 -->
   	<link rel="stylesheet" href="<?php echo site_furl('assets/bootstrap/css/bootstrap.min.css');?>">
-	<link rel="stylesheet" href="<?php echo site_furl('assets/css/main.style.css?v=4');?>">
+	<link rel="stylesheet" href="<?php echo site_furl('assets/css/main.style.css?v=5');?>">
 
 	<!-- JQuery 1.12.1 -->
 	<link rel="stylesheet" href="<?php echo site_furl('assets/js/jquery-ui-1.12.1.min.css'); ?>">

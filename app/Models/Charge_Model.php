@@ -42,6 +42,18 @@ class Charge_Model extends Model
         return $this->asObject()->where('charge_fid', $strChargeFid)->first();
     }
 
+    
+    public function register($data)
+    {
+        try {
+            return $this->insert($data);
+        } catch (\Exception $e) {  
+            return false;
+        }
+        return false;
+
+    }
+    
 	function deleteState($strChargeFid, $bDelete){
 
 		$this->builder()->set('charge_state_delete', $bDelete?1:0);
@@ -73,7 +85,7 @@ class Charge_Model extends Model
     //일충전금액
     function calcAdminCharge($arrReqData){
         $strSQL = "SELECT SUM(charge_money) AS charge_sum FROM ".$this->table;
-        $strSQL.=" WHERE charge_action_state = '2' ";
+        $strSQL.=" WHERE charge_action_state = '2' OR charge_action_state = '5' ";
         if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
             $strSQL.=" AND charge_time_require >= '".$arrReqData['start']." 0:0:0' AND charge_time_require <= '".$arrReqData['end']." 23:59:59'" ; 
         }
@@ -99,7 +111,7 @@ class Charge_Model extends Model
         $strSQL .=" ) AS mb_table ";
         
         $strSQL .= " JOIN (SELECT SUM(charge_money) AS charge_money, charge_mb_uid FROM ".$this->table;
-        $strSQL.=" WHERE charge_action_state = '2' ";
+        $strSQL.=" WHERE charge_action_state = '2'  OR charge_action_state = '5' ";
         if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 )
             $strSQL.=" AND ".getTimeRange("charge_time_require", $arrReqData);
         $strSQL .= " GROUP BY charge_mb_uid";

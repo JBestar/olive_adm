@@ -194,10 +194,10 @@ function showMemberInfo(objUser) {
 function showEmpInfo(objEmpInfo, arrSoundInfo) {
     if (objEmpInfo == undefined || objEmpInfo == null)
         return;
+    $("#main-navbar-table-id td a").removeClass("flicker");
 
     var strBuf = objEmpInfo.newmessage + " 통";
     $("#main-navbar-newmessage-id").text(strBuf);
-
 
     var nWaitCnt = 0;
     nWaitCnt += parseInt(objEmpInfo.waituser);
@@ -227,53 +227,56 @@ function showEmpInfo(objEmpInfo, arrSoundInfo) {
     strBuf = parseInt(objEmpInfo.emp_money_exchange).toLocaleString() + " 원";
     $("#main-navbar-emp_exchange-id").text(strBuf);
 
-
-    if (document.getElementById("main-navbar-alarm-check-id").checked) {
-
-        var nVolume = 1;
-
-        if (nWaitCnt > 0) {
+    var bAlarmEnable = $("#main-navbar-alarm-check-id").prop('checked');
+    var bAlarm = false;
+    var nVolume = 1;
+    if (nWaitCnt > 0) {
+        $("#main-navbar-user_wait-id").addClass("flicker");
+        if(bAlarmEnable){
             mAudio.src = FURL + '/assets/sound/' + arrSoundInfo[0][0];
-
             if (parseInt(arrSoundInfo[0][1]) <= 100) {
                 nVolume = arrSoundInfo[0][1] / 100.0;
             }
+            bAlarm = true;
+        }
 
-            mAudio.volume = nVolume;
-            mAudio.load();
-            mAudio.play();
+    } else if (objEmpInfo.waitcharge > 0) {
 
-        } else if (objEmpInfo.waitcharge > 0) {
+        $("#main-navbar-charge_wait-id").addClass("flicker");
+        if(bAlarmEnable){
             mAudio.src = FURL + '/assets/sound/' + arrSoundInfo[1][0];
             if (parseInt(arrSoundInfo[1][1]) <= 100) {
                 nVolume = arrSoundInfo[1][1] / 100.0;
             }
-            mAudio.volume = nVolume;
-            mAudio.load();
-            mAudio.play();
+            bAlarm = true;
+        }
 
-        } else if (objEmpInfo.waitexchange > 0) {
+    } else if (objEmpInfo.waitexchange > 0) {
+        $("#main-navbar-exchange_wait-id").addClass("flicker");
+
+        if(bAlarmEnable){
             mAudio.src = FURL + '/assets/sound/' + arrSoundInfo[2][0];
             if (parseInt(arrSoundInfo[2][1]) <= 100) {
                 nVolume = arrSoundInfo[2][1] / 100.0;
             }
-
-            mAudio.volume = nVolume;
-            mAudio.load();
-            mAudio.play();
-
-        } else if (objEmpInfo.newmessage > 0) {
+            bAlarm = true;
+        }
+    } else if (objEmpInfo.newmessage > 0) {
+        $("#main-navbar-newmessage-id").addClass("flicker");
+        if(bAlarmEnable){
             mAudio.src = FURL + '/assets/sound/' + arrSoundInfo[3][0];
             if (parseInt(arrSoundInfo[3][1]) <= 100) {
                 nVolume = arrSoundInfo[3][1] / 100.0;
             }
-
-            mAudio.volume = nVolume;
-            mAudio.load();
-            mAudio.play();
-
+            bAlarm = true;
         }
+    }
 
+    if(bAlarm){
+        mAudio.volume = nVolume;
+        mAudio.load();
+        mAudio.play();
+        // setTimeout(() => mAudio.play(), 1000);
     }
 
 

@@ -49,6 +49,8 @@ function showWithdrawList(arrData) {
             strBuf += "<td style='color:red;'>환전취소";
         else if (arrData[nRow].exchange_action_state == 4)
             strBuf += "<td style='color:#aab000;'>임시대기";
+        else if (arrData[nRow].exchange_action_state == 5)
+            strBuf += "<td style='color:#aab000;'>직환전";
         else strBuf += "<td>";
         strBuf += "</td><td>";
         if (arrData[nRow].exchange_time_process != null)

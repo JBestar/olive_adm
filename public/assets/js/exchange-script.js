@@ -76,9 +76,9 @@ function showMoneyHistory(jsonBetData) {
         } else if (jsonBetData[nRow].money_change_type == 18) {
             strBuf += "보글사다리 정산";
         } else if (jsonBetData[nRow].money_change_type == 19) {
-            strBuf += "머니충전";
+            strBuf += "이송충전";
         } else if (jsonBetData[nRow].money_change_type == 20) {
-            strBuf += "머니이송";
+            strBuf += "이송환전";
         } else if (jsonBetData[nRow].money_change_type == 21) {
             strBuf += "입금취소";
         } else if (jsonBetData[nRow].money_change_type == 22) {

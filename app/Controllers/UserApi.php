@@ -778,23 +778,63 @@ class UserApi extends BaseController
 
             if(is_null($objMember) || is_null($objEmp)){
                 $objResult->status = 'fail';
+            } else if($arrData['amount'] <= 0 ){
+                $objResult->status = 'fail';
+                $objResult->msg = '금액을 정확히 입력해주세요.';
             } else if($objEmp->mb_level >= LEVEL_ADMIN) {
                 $objResult->status = 'fail';
                 
                 if($arrData['type'] == 0){
                     //직충전
-                    if($arrData['amount'] > 0 && $memberModel->moneyProc($objMember, $arrData['amount']))
+                    if($memberModel->moneyProc($objMember, $arrData['amount']))
                     {
+                        $chargeModel = new Charge_Model();
+
+                        $data =[
+                            'charge_emp_fid' => $objMember->mb_emp_fid,
+                            'charge_mb_uid' => $objMember->mb_uid,
+                            'charge_mb_realname' => $objMember->mb_nickname,
+                            'charge_mb_phone' => $objMember->mb_phone,
+                            'charge_money' => $arrData['amount'],
+                            'charge_time_require' => date("Y-m-d H:i:s"),
+                            'charge_action_state' => 5,
+                            'charge_action_uid' => $objEmp->mb_uid,
+                            'charge_time_process' => date("Y-m-d H:i:s"),
+                            'charge_money_before' => $objMember->mb_money,
+                            'charge_money_after' => $objMember->mb_money + $arrData['amount'],
+                        ];
+                        $chargeModel->register($data);
+
                         $moneyhistoryModel->registerTransfer($objMember, $objEmp->mb_uid, $arrData['amount'], MONEYCHANGE_INC);
                         $objResult->status = 'success';
                     }
                 } else if($arrData['type'] == 1){
+                    //직환전
                     if(intval($objMember->mb_money) < $arrData['amount']){
                         $arrData['amount'] = $objMember->mb_money;
                     }
-                    //직환전
                     if($arrData['amount'] > 0 && $memberModel->moneyProc($objMember, 0-$arrData['amount']))
                     {
+                        $exchangeModel = new Exchange_Model();
+
+                        $data =[
+                            'exchange_emp_fid' => $objMember->mb_emp_fid,
+                            'exchange_mb_uid' => $objMember->mb_uid,
+                            'exchange_mb_phone' => $objMember->mb_phone,
+                            'exchange_money' => $arrData['amount'],
+                            'exchange_time_require' => date("Y-m-d H:i:s"),
+                            'exchange_action_state' => 5,
+                            'exchange_action_uid' => $objEmp->mb_uid,
+                            'exchange_time_process' => date("Y-m-d H:i:s"),
+                            'exchange_bank_name' => $objMember->mb_bank_name,
+                            'exchange_bank_account' => $objMember->mb_bank_own,
+                            'exchange_bank_serial' => $objMember->mb_bank_num,
+                            'exchange_money_before' => $objMember->mb_money,
+                            'exchange_money_after' => $objMember->mb_money-$arrData['amount']
+
+                        ];
+                        $exchangeModel->register($data);
+
                         $moneyhistoryModel->registerTransfer($objMember, $objEmp->mb_uid, 0-$arrData['amount'], MONEYCHANGE_DEC);
                         $objResult->status = 'success';
                     }
@@ -803,17 +843,30 @@ class UserApi extends BaseController
             }
             else if($objMember->mb_emp_fid !== $objEmp->mb_fid){
                 $objResult->status = 'fail';
-            } else if($arrData['amount'] > $objEmp->mb_money){
+            } else {
                 $objResult->status = 'fail';
-                $objResult->msg = '이송금액이 보유금액을 초하셧습니다.';
-            }
-            else if($memberModel->trasferMoney($objEmp, $objMember, $arrData['amount'])){
 
-                $moneyhistoryModel->registerTransfer($objEmp, $objMember->mb_uid, 0-$arrData['amount'], MONEYCHANGE_TRANS_S);
-                $moneyhistoryModel->registerTransfer($objMember, $objEmp->mb_uid, $arrData['amount'], MONEYCHANGE_TRANS_R);
-                $objResult->status = 'success';
-            } else{
-                $objResult->status = 'fail';
+                if($arrData['type'] == 2){                      //이송
+                    if($arrData['amount'] > $objEmp->mb_money){
+                        $objResult->msg = '이송금액이 보유금액을 초과하셧습니다.';
+                    } else if($memberModel->trasferMoney($objEmp, $objMember, $arrData['amount'])){
+
+                        $moneyhistoryModel->registerTransfer($objEmp, $objMember->mb_uid, 0-$arrData['amount'], MONEYCHANGE_TRANS_S);
+                        $moneyhistoryModel->registerTransfer($objMember, $objEmp->mb_uid, $arrData['amount'], MONEYCHANGE_TRANS_R);
+                        $objResult->status = 'success';
+                    } 
+                } else if($arrData['type'] == 3){               //환수
+                    if($arrData['amount'] > $objMember->mb_money){
+                        $arrData['amount'] = $objMember->mb_money;
+                    }
+                    if($arrData['amount'] > 0 && $memberModel->trasferMoney($objMember, $objEmp, $arrData['amount'])){
+
+                        $moneyhistoryModel->registerTransfer($objEmp, $objMember->mb_uid, $arrData['amount'], MONEYCHANGE_TRANS_R);
+                        $moneyhistoryModel->registerTransfer($objMember, $objEmp->mb_uid, 0-$arrData['amount'], MONEYCHANGE_TRANS_S);
+                        $objResult->status = 'success';
+                    } 
+                }
+                
             }
 
             echo json_encode($objResult);
