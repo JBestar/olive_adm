@@ -6,7 +6,7 @@
 	<title><?=$site_name?> 관리자</title>
 	<?php switch($_ENV['app.name']) { 
         case APP_ONESTAR:?>
-            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_o.ico');?>">
+            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_re.ico');?>">
         <?php break; 
         case APP_SKY :?>
             <link rel="shortcut icon" href="<?php echo site_furl('/favicon_s.ico');?>">
