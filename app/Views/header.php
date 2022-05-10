@@ -50,6 +50,12 @@
         case APP_BIG :?>
             <link rel="shortcut icon" href="<?php echo site_furl('/favicon_bg.ico');?>">
         <?php break; 
+        case APP_DREAM :?>
+            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_d.ico');?>">
+        <?php break; 
+        case APP_EMPEROR :?>
+            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_e.ico');?>">
+        <?php break; 
         default :?>
             <link rel="shortcut icon" href="<?php echo site_furl('/favicon_l.ico');?>">
         <?php break; 
