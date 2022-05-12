@@ -1011,8 +1011,6 @@ class Member_Model extends Model
             if(strlen($arrReqData['mb_uid']) > 0){            
                 $strSQL.=" AND mb_uid LIKE '".$arrReqData['mb_uid']."%' ";
             }
-            writeLog($strSQL);
-            
             return $this -> db -> query($strSQL)->getRow();
 
         }
@@ -1045,7 +1043,6 @@ class Member_Model extends Model
         
         $nStartRow = ($arrReqData['page'] - 1) * $arrReqData['count'];
         $strQuery .= ' LIMIT '.$nStartRow.', '.$arrReqData['count'];
-        writeLog($strQuery);
         return $this->db->query($strQuery)->getResult();
     }
 
@@ -1084,8 +1081,6 @@ class Member_Model extends Model
             $nStartRow = ($arrReqData['page']-1) * $arrReqData['count'] ;
             $strSQL .= ' LIMIT '.$nStartRow.', '.$arrReqData['count'];
             
-            writeLog($strSQL);
-
             return $this -> db -> query($strSQL)->getResult();
           
         }
