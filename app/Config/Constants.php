@@ -172,7 +172,10 @@ defined('RESULT_EXIST_ID')     || define('RESULT_EXIST_ID', 5);
 defined('RESULT_EXIST_NAME')   || define('RESULT_EXIST_NAME', 6);
 defined('RESULT_WAIT')         || define('RESULT_WAIT', 7);
 defined('RESULT_EMP_ERROR')    || define('RESULT_EMP_ERROR', 8);
-
+//Json Result Status
+defined('STATUS_SUCCESS')      || define('STATUS_SUCCESS', 'success');
+defined('STATUS_FAIL')         || define('STATUS_FAIL', 'fail');
+defined('STATUS_LOGOUT')       || define('STATUS_LOGOUT', 'logout');
 
 defined('TM_OFFSET')    	   || define('TM_OFFSET', 20);
 
