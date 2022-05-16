@@ -97,8 +97,11 @@ class BaseController extends Controller
 	}
 
 	protected function allEgg(&$objMember){
-		$this->evEgg($objMember);
-		usleep(100000);
+		$confs = $this->getSiteConf();
+		if(!$confs["cas_deny"]){
+			$this->evEgg($objMember);
+			usleep(100000);
+		}
 		$this->slEgg($objMember);
 		usleep(100000);
 		$this->fslEgg($objMember);
@@ -218,7 +221,10 @@ class BaseController extends Controller
 	protected function evtoMb(&$objMember){
 		$iResult = 0;
 		$logHead = "<EvtoMb> ";
-
+		$confs = $this->getSiteConf();
+		if($confs["cas_deny"]){
+			return 1;
+		}
 		//에볼 => 지갑 머니넘기기
 		if($objMember->mb_live_id > 0){
 			//에볼 머니 요청
