@@ -17,6 +17,7 @@ namespace App\Controllers;
 use CodeIgniter\Controller;
 use App\Models\Sess_Model;
 use App\Models\Member_Model;
+use App\Models\ConfSite_Model;
 
 use App\Libraries\ApiCas_Lib;
 use App\Libraries\ApiSlot_Lib;
@@ -97,7 +98,8 @@ class BaseController extends Controller
 	}
 
 	protected function allEgg(&$objMember){
-		$confs = $this->getSiteConf();
+		$confsiteModel = new ConfSite_Model();
+		$confs = $this->getSiteConf($confsiteModel);
 		if(!$confs["cas_deny"]){
 			$this->evEgg($objMember);
 			usleep(100000);
@@ -221,7 +223,8 @@ class BaseController extends Controller
 	protected function evtoMb(&$objMember){
 		$iResult = 0;
 		$logHead = "<EvtoMb> ";
-		$confs = $this->getSiteConf();
+		$confsiteModel = new ConfSite_Model();
+		$confs = $this->getSiteConf($confsiteModel);
 		if($confs["cas_deny"]){
 			return 1;
 		}
