@@ -1044,7 +1044,7 @@ class Member_Model extends Model
         $strQuery.= $where;
 
         $strQuery .= " ORDER BY (CASE WHEN mb_state_active = 2 THEN 0 ELSE 1 END) ";
-        $strQuery .= " , mb_level DESC, mb_time_join DESC ";
+        $strQuery .= " , mb_uid ASC ";
         
         $nStartRow = ($arrReqData['page'] - 1) * $arrReqData['count'];
         $strQuery .= ' LIMIT '.$nStartRow.', '.$arrReqData['count'];
@@ -1081,7 +1081,7 @@ class Member_Model extends Model
             }
 
             $strSQL .= " ORDER BY (CASE WHEN mb_state_active = 2 THEN 0 ELSE 1 END) ";
-            $strSQL .= " , mb_level DESC, mb_uid ASC ";
+            $strSQL .= " , mb_uid ASC ";
 
             $nStartRow = ($arrReqData['page']-1) * $arrReqData['count'] ;
             $strSQL .= ' LIMIT '.$nStartRow.', '.$arrReqData['count'];
