@@ -69,4 +69,41 @@ class Sess_Model extends Model {
                     ->delete();
     }
 
+    
+    function search($arrReqData)
+    {
+        $strSql = "SELECT ".$this->table.".*, member.mb_nickname, member.mb_level FROM ".$this->table;
+        $strSql .= " JOIN member ON ".$this->table.".sess_mb_fid = member.mb_fid ";
+        $strSql .= " WHERE mb_level <= '".LEVEL_ADMIN."' ";
+        
+        if(strlen($arrReqData['mb_uid']) > 0){
+            $strSql.=" AND sess_mb_uid = '".$arrReqData['mb_uid']."' ";
+        }
+        $nStartRow = ($arrReqData['page']-1) * $arrReqData['count'] ;
+
+        $strSql.=" ORDER BY sess_fid ASC LIMIT ".$nStartRow.", ".$arrReqData['count'];
+
+        $query = $this -> db -> query($strSql);
+        $result = $query -> getResult();
+        
+        return $result; 
+
+    }
+
+
+    function searchCount($arrReqData)
+    {
+        $strSql = "SELECT count(*) as count FROM ".$this->table;
+        $strSql .= " JOIN member ON ".$this->table.".sess_mb_fid = member.mb_fid ";
+        $strSql .= " WHERE mb_level <= '".LEVEL_ADMIN."' ";
+        if(strlen($arrReqData['mb_uid']) > 0){
+            $strSql.=" AND sess_mb_uid = '".$arrReqData['mb_uid']."' ";
+        }
+        $query = $this -> db -> query($strSql);
+        $result = $query -> getRow();
+        
+        return $result; 
+
+    }
+
 }

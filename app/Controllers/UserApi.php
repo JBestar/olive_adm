@@ -609,7 +609,58 @@ class UserApi extends BaseController
 		echo json_encode($arrResult);
 	}
 
-    
+    public function conlist(){
+		$jsonData = $_REQUEST['json_'];
+		$arrReqData = json_decode($jsonData, true);
+		if(is_login())
+		{
+            $memberModel = new Member_Model();
+
+            $strUid = $this->session->user_id;
+            $objUser = $memberModel->getInfo($strUid);
+
+            if($objUser->mb_level  >= LEVEL_ADMIN) {
+
+                $arrData = $this->modelSess->search($arrReqData);
+                    
+                $arrResult['data'] = $arrData;
+                $arrResult['status'] = "success";
+            } else{
+                $arrResult['status'] = "fail";
+            }
+
+		}
+		else{
+			$arrResult['status'] = "logout";
+		}
+		echo json_encode($arrResult);
+	}
+
+	public function concnt(){
+		$jsonData = $_REQUEST['json_'];
+		$arrReqData = json_decode($jsonData, true);
+		if(is_login())
+		{
+            $memberModel = new Member_Model();
+         
+            $strUid = $this->session->user_id;
+            $objUser = $memberModel->getInfo($strUid);
+
+            if($objUser->mb_level  >= LEVEL_ADMIN) {
+                $objCount = $this->modelSess->searchCount($arrReqData);
+
+                $arrResult['data'] = $objCount;
+                $arrResult['status'] = "success";
+            } else {
+                $arrResult['status'] = "fail";
+            }
+		}
+		else{
+			$arrResult['status'] = "logout";
+		}
+		echo json_encode($arrResult);
+	}
+
 	public function blocklist(){
 		$jsonData = $_REQUEST['json_'];
 		$arrReqData = json_decode($jsonData, true);

@@ -63,6 +63,13 @@ class User extends StdController
 			LEVEL_ADMIN);
 	}
 
+	function member_connect(){
+		
+		$this->load_view_page(
+			'user/member_connect', 
+			'user_log', 
+			LEVEL_ADMIN);
+	}
 	
 	function member_block(){
 		

@@ -54,6 +54,7 @@ class SessLog_Model extends Model {
     function searchCount($arrReqData)
     {
         $strSql = "SELECT count(*) as count FROM ".$this->table;
+        $strSql .= " JOIN member ON ".$this->table.".log_mb_uid = member.mb_uid ";
         $strSql .= " WHERE log_delete = '0' ";
         if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
             $strSql.=" AND log_time >= '".$arrReqData['start']." 0:0:0' AND log_time <= '".$arrReqData['end']." 23:59:59'" ; 

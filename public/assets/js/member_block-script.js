@@ -1,6 +1,7 @@
 $(document).ready(function() {
     addEventListner();
     requestTotalPage();
+    
 });
 
 function requestPageInfo() {
@@ -39,7 +40,7 @@ function showMember(arrMember) {
         strBuf = "<tr><td colspan='6'>자료가 없습니다.</td></tr>";
     }
 
-    document.getElementById("user-member-table-id").innerHTML = strBuf;
+    $("#user-member-table-id").html(strBuf);
     addBtnEvent();
 }
 

@@ -27,8 +27,8 @@
   <div class="main-dropdown-container" <?=$userdropdown?>>
     <a href="<?php echo siteFurl().'user/member/0';?>" class="<?=$user_member?>"><i class="glyphicon glyphicon-cd"></i> 회원</a>
     <?php if($mb_level >= LEVEL_ADMIN) {  ?>
-    <a href="<?php echo siteFurl().'user/member_log';?>" class="<?=$user_log?>"><i class="glyphicon glyphicon-cd"></i> 접속이력</a>
-    <a href="<?php echo siteFurl().'user/member_block';?>" class="<?=$user_block?>"><i class="glyphicon glyphicon-cd"></i> 블록아이피</a>
+    <a href="<?php echo siteFurl().'user/member_connect';?>" class="<?=$user_log?>"><i class="glyphicon glyphicon-time"></i> 실시간접속</a>
+    <a href="<?php echo siteFurl().'user/member_block';?>" class="<?=$user_block?>"><i class="glyphicon glyphicon-ban-circle"></i> 블록아이피</a>
     <?php }  ?>
    
   </div>

@@ -16,9 +16,9 @@
 	</style>
 	<!--Sub Navbar-->
 	<div class = "sub-navbar">
-		<p><i class="glyphicon glyphicon-user"></i> 회원관리::접속이력</p>
-		<a href="<?php echo siteFurl().'user/member_connect';?>" class="sub-navbar-a" >실시간접속</a>
-		<a href="<?php echo siteFurl().'user/member_log';?>" class="sub-navbar-a active" >접속이력</a>
+		<p><i class="glyphicon glyphicon-user"></i> 회원관리::실시간접속</p>
+		<a href="<?php echo siteFurl().'user/member_connect';?>" class="sub-navbar-a active" >실시간접속</a>
+		<a href="<?php echo siteFurl().'user/member_log';?>" class="sub-navbar-a" >접속이력</a>
 	</div>
 	<!--Site Setting-->
 	<div class="user-panel">	
@@ -26,11 +26,7 @@
 			<!-- <a href="javascript:" class="user-panel-add-a" >전체 삭제</a> -->
 			<label>아이디</label>
             <input type="text" class="pbresult-text-input" id="userpanel-userid-input-id" >
-			<label>접속일자</label>
-			<input type="date" id="userpanel-datestart-input-id"  value="<?php echo date('Y-m-d'); ?>">
-            <label> ~ </label>
-            <input type="date" id="userpanel-dateend-input-id"  value="<?php echo date('Y-m-d'); ?>">
-            
+			
 			<select name="pbresult-number" class="pbresult-number-select" id="userpanel-number-select-id">
 				<option value="10">10개</option>
 				<option value="20">20개</option>
@@ -47,7 +43,7 @@
 					<th>닉네임</th>
 					<th>접속IP</th>
 					<th>접속시간</th>
-					<th>IP차단</th>
+					<th>업뎃시간</th>
 				</tr>
 			</thead>
 			<tbody  id="user-member-table-id">
@@ -77,9 +73,9 @@
 </div>
 <?php if(array_key_exists("app.produce", $_ENV)) :?>
     <script src="<?php echo site_furl('/assets/js/page.js?t='.time());?>"></script>
-    <script src="<?php echo site_furl('/assets/js/member_log-script.js?t='.time());?>"></script>
+    <script src="<?php echo site_furl('/assets/js/member_connect-script.js?t='.time());?>"></script>
 <?php else : ?>
     <script src="<?php echo site_furl('/assets/js/page.js?v=1');?>"></script>
-    <script src="<?php echo site_furl('/assets/js/member_log-script.js?v=1');?>"></script>
+    <script src="<?php echo site_furl('/assets/js/member_connect-script.js?v=1');?>"></script>
 <?php endif ?>
 <?= $this->endSection() ?>
