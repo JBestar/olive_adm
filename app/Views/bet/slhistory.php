@@ -2,6 +2,7 @@
 <?= $this->section('history-active') ?>"<?=$game_name?>"<?= $this->endSection() ?>
 <?= $this->section('history-title') ?><?=$game_name?> 배팅내역<?= $this->endSection() ?>
 <?= $this->section('history_game_options') ?>	
+	<option value="0">::업체선택::</option>	
 	<?php foreach ($prds as $prd):?>
 		<option value="<?=$prd->code?>"><?=$prd->name_kr?></option>
 	<?php endforeach;?>
@@ -11,7 +12,7 @@
 	<th>아이디</th>
 	<th>닉네임</th>	
 	<th>배팅시간</th>
-	<th>구분</th>
+	<th>업체명</th>
 	<th>게임종류</th>
 	<th>배팅금액</th>
 	<th>배팅결과</th>

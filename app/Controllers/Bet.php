@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers;
 use App\Models\SlotPrd_Model;
+use App\Models\CasPrd_Model;
 
 class Bet extends StdController {
 
@@ -45,7 +46,13 @@ class Bet extends StdController {
 	}
 	
 	public function cshistory(){
-		$this->load_view_page('bet/cshistory', 'bet_history');
+		$modelCasprd = new CasPrd_Model();
+		$arrPrd = $modelCasprd->gets();
+
+		$param = [
+			'prds' => $arrPrd
+		];
+		$this->load_view_page('bet/cshistory', 'bet_history', 0, $param);
 	}
 	
 	

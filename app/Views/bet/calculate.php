@@ -13,7 +13,7 @@
 			<a href="<?php echo site_furl('bet/bscalculate');?>" class="sub-navbar-a" >보글사다리</a>
    		<?php endif ?>   
 		<?php if(!$cas_deny) :?>
-		   <a href="<?php echo site_furl('bet/cscalculate');?>" class="sub-navbar-a" >에볼루션</a>
+		   <a href="<?php echo site_furl('bet/cscalculate');?>" class="sub-navbar-a" >카지노</a>
    		<?php endif ?>   
 		<?php if(!$slot_deny) :?>
 			<?php if($mb_level >= LEVEL_ADMIN) :  ?>

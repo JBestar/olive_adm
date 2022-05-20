@@ -488,8 +488,6 @@ class Member_Model extends Model
             $strSQL .= ' bet_powerball ';
         } elseif ($arrReqData['type'] == GAME_POWER_LADDER ) {
             $strSQL .= ' bet_powerladder ';
-        } elseif ($arrReqData['type'] == GAME_KENO_LADDER ) {
-            $strSQL .= ' bet_kenoladder ';
         } elseif ($arrReqData['type'] == GAME_CASINO_EVOL ) {
             $strSQL .= ' bet_casino ';
         } elseif ($arrReqData['type'] == GAME_BOGLE_BALL ) {

@@ -1,9 +1,9 @@
 <?= $this->extend('/bet/calculate') ?>
 <?= $this->section('calculate-active') ?>
-"에볼루션"
+"카지노"
 <?= $this->endSection() ?>
 <?= $this->section('calculate-title') ?>
-에볼루션 정산내역
+카지노 정산내역
 <?= $this->endSection() ?>
 <?= $this->section('calculate-table-header') ?>
 	<th></th>

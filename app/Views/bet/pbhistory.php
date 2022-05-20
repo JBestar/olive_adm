@@ -2,6 +2,7 @@
 <?= $this->section('history-active') ?>"파워볼"<?= $this->endSection() ?>
 <?= $this->section('history-title') ?>파워볼 배팅내역<?= $this->endSection() ?>
 <?= $this->section('history_game_options') ?>		
+	<option value="0">::배팅선택::</option>	
 	<option value="1">파워볼 단폴</option>
 	<option value="2">파워볼 조합</option>
 	<option value="3">일반볼 대중소</option>

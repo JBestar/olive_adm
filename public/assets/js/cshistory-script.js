@@ -31,11 +31,16 @@ function ShowBetHistory(jsonBetData, hasPoint) {
         strBuf += "</td><td>";
         strBuf += jsonBetData[nRow].bet_time;
         strBuf += "</td><td>";
+        if(jsonBetData[nRow].prd_name != null)
+            strBuf += jsonBetData[nRow].prd_name;
+        strBuf += "</td><td>";
         strBuf += getGameName(jsonBetData[nRow].bet_game_type);
         strBuf += "</td><td>";
         if (jsonBetData[nRow].game_name != null)
             strBuf += jsonBetData[nRow].game_name;
-        else
+        else if(jsonBetData[nRow].bet_game_id > 0){
+            strBuf += jsonBetData[nRow].bet_round_no;
+        } else
             strBuf += jsonBetData[nRow].bet_table_code;
         strBuf += "</td><td>";
         strBuf += parseInt(jsonBetData[nRow].bet_money).toLocaleString() + "원";
@@ -154,7 +159,7 @@ function requestBetHistory() {
         dataType: "json",
         success: function(jResult) {
             $(".loading").hide();
-            // console.log(jResult);
+            console.log(jResult);
             if (jResult.status == "success") {
                 ShowBetHistory(jResult.data, 1);
                 ShowBetAccount(jResult.account);
@@ -196,7 +201,7 @@ function requestTotalPage() {
         dataType: 'json',
         type: 'post',
         success: function(jResult) {
-            // console.log(jResult);
+            console.log(jResult);
             if (jResult.status == "success") {
                 TotalCount = jResult.data.count;
                 setFirstPage();

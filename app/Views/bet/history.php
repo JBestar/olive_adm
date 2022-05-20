@@ -12,7 +12,7 @@
 			<a href="<?php echo site_furl('bet/bshistory');?>" class="sub-navbar-a" >보글사다리</a>
    		<?php endif ?>   
 		<?php if(!$cas_deny) :?>
-			<a href="<?php echo site_furl('bet/cshistory');?>" class="sub-navbar-a" >에볼루션</a>
+			<a href="<?php echo site_furl('bet/cshistory');?>" class="sub-navbar-a" >카지노</a>
 		<?php endif ?>
 		<?php if(!$slot_deny) :?>
 			<?php if($mb_level >= LEVEL_ADMIN) :  ?>
@@ -48,7 +48,6 @@
             <input type="text" class="pbresult-text-input" id="pbhistory-userid-input-id" >
 
             <select class="pbresult-game-select" id="pbhistory-game-select-id">
-				<option value="0">::구분선택::</option>
                 <?= $this->renderSection('history_game_options') ?>
 			</select>
 
