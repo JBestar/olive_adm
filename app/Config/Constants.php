@@ -134,6 +134,8 @@ defined('CONF_SOUND_1')        || define('CONF_SOUND_1', 15);
 defined('CONF_SOUND_2')        || define('CONF_SOUND_2', 16);
 defined('CONF_SOUND_3')        || define('CONF_SOUND_3', 17);
 defined('CONF_SOUND_4')        || define('CONF_SOUND_4', 18);
+
+defined('CONF_CASINO_KGON')     || define('CONF_CASINO_KGON', 20);
 defined('CONF_CASINO_EVOL')    || define('CONF_CASINO_EVOL', 21);
 defined('CONF_SLOT_1')         || define('CONF_SLOT_1', 22);
 defined('CONF_SLOT_2')         || define('CONF_SLOT_2', 23);
@@ -143,6 +145,7 @@ defined('CONF_BPG_DENY')        || define('CONF_BPG_DENY', 27);
 defined('CONF_CAS_DENY')        || define('CONF_CAS_DENY', 28);
 defined('CONF_SLOT_DENY')       || define('CONF_SLOT_DENY', 29);
 defined('CONF_IMG_TYPE')        || define('CONF_IMG_TYPE', 30);
+defined('CONF_KGON_ENABLE')     || define('CONF_KGON_ENABLE', 31);
 
 defined('LEVEL_MAX')           || define('LEVEL_MAX', 100);
 defined('LEVEL_ADMIN')         || define('LEVEL_ADMIN', 100);
@@ -189,7 +192,7 @@ defined('LOG_FILE')             || define('LOG_FILE', ROOTPATH."logs".DIRECTORY_
 //game type
 defined('GAME_POWER_BALL')     || define('GAME_POWER_BALL', 1);
 defined('GAME_POWER_LADDER')   || define('GAME_POWER_LADDER', 2);
-defined('GAME_KENO_LADDER')    || define('GAME_KENO_LADDER', 3);
+defined('GAME_CASINO_KGON')    || define('GAME_CASINO_KGON', 3);
 defined('GAME_CASINO_EVOL')    || define('GAME_CASINO_EVOL', 4);
 defined('GAME_BOGLE_BALL')     || define('GAME_BOGLE_BALL', 5);
 defined('GAME_BOGLE_LADDER')   || define('GAME_BOGLE_LADDER', 6);

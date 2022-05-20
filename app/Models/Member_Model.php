@@ -63,6 +63,9 @@ class Member_Model extends Model
         'mb_fslot_id',
         'mb_fslot_uid',
         'mb_fslot_money',
+        'mb_kgon_id',
+        'mb_kgon_uid',
+        'mb_kgon_money',
     ];
 
     protected $primaryKey = 'mb_fid';
@@ -79,7 +82,8 @@ class Member_Model extends Model
         'mb_game_bb2_percent', 'mb_game_bs_percent',
         'mb_live_id', 'mb_live_uid', 'mb_live_money', 
         'mb_slot_uid', 'mb_slot_money', 
-        'mb_fslot_id', 'mb_fslot_uid', 'mb_fslot_money' ];
+        'mb_fslot_id', 'mb_fslot_uid', 'mb_fslot_money',
+        'mb_kgon_id', 'mb_kgon_uid', 'mb_kgon_money' ];
 
 
     private $fields = ['mb_fid', 'mb_uid', 'mb_level','mb_emp_fid', 'mb_emp_permit', 'mb_nickname', 
@@ -93,7 +97,8 @@ class Member_Model extends Model
             'mb_game_bb2_percent', 'mb_game_bs_percent',
             'mb_live_id', 'mb_live_uid', 'mb_live_money', 
             'mb_slot_uid', 'mb_slot_money', 
-            'mb_fslot_id', 'mb_fslot_uid', 'mb_fslot_money' ];
+            'mb_fslot_id', 'mb_fslot_uid', 'mb_fslot_money' ,
+            'mb_kgon_id', 'mb_kgon_uid', 'mb_kgon_money' ];
         
     
     protected $validationRules = [
@@ -323,10 +328,10 @@ class Member_Model extends Model
 
     public function calcMemberMoney($strMemFid, $upLevel)
     {
-        $arrTotalMoney = [0, 0, 0, 0];
+        $arrTotalMoney = [0, 0, 0, 0, 0];
 
-        $strTbColum = ' mb_fid, mb_uid, mb_level, mb_emp_fid, mb_money, mb_live_money, mb_slot_money, mb_fslot_money ';
-        $strTbRColum = ' r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid , r.mb_money, r.mb_live_money, r.mb_slot_money, r.mb_fslot_money ';
+        $strTbColum = ' mb_fid, mb_uid, mb_level, mb_emp_fid, mb_money, mb_live_money, mb_slot_money, mb_fslot_money, mb_kgon_money ';
+        $strTbRColum = ' r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid , r.mb_money, r.mb_live_money, r.mb_slot_money, r.mb_fslot_money, r.mb_kgon_money ';
 
         $strSQL = 'WITH RECURSIVE tbmember ('.$strTbColum.') AS';
         $strSQL .= ' ( SELECT '.$strTbColum.' FROM '.$this->table." WHERE "; 
@@ -338,7 +343,7 @@ class Member_Model extends Model
         $strSQL .= ' UNION ALL SELECT '.$strTbRColum.' FROM '.$this->table.' r ';
         $strSQL .= ' INNER JOIN tbmember ON r.mb_emp_fid = tbmember.mb_fid )';
 
-        $strSQL .= ' SELECT SUM(mb_money) AS mb_money, SUM(mb_live_money) AS mb_live_money, SUM(mb_slot_money) AS mb_slot_money, SUM(mb_fslot_money) AS mb_fslot_money FROM tbmember WHERE ';
+        $strSQL .= ' SELECT SUM(mb_money) AS mb_money, SUM(mb_live_money) AS mb_live_money, SUM(mb_slot_money) AS mb_slot_money, SUM(mb_fslot_money) AS mb_fslot_money, SUM(mb_kgon_money) AS mb_kgon_money FROM tbmember WHERE ';
         if ($upLevel) {
             $strSQL .= " mb_level >= '".LEVEL_EMPLOYEE."' ";
         } else {
@@ -359,7 +364,9 @@ class Member_Model extends Model
         if (!is_null($objResult->mb_fslot_money)) {
             $arrTotalMoney[3] = $objResult->mb_fslot_money;
         }
-        
+        if (!is_null($objResult->mb_kgon_money)) {
+            $arrTotalMoney[4] = $objResult->mb_kgon_money;
+        }
         return $arrTotalMoney;
     }
 
@@ -549,6 +556,13 @@ class Member_Model extends Model
 
     }
     
+    public function updateKgonMoney($member){
+        $data = [
+            'mb_kgon_money' => $member->mb_kgon_money,
+        ];
+        return $this->update($member->mb_fid, $data);
+
+    }
     public function updateSlotMoney($member){
         $data = [
             'mb_slot_money' => $member->mb_slot_money,
@@ -596,12 +610,12 @@ class Member_Model extends Model
             $strTbColum = ' mb_fid, mb_uid, mb_level, mb_emp_fid, mb_emp_permit, mb_nickname, mb_email, mb_phone, mb_money, mb_point, ';
             $strTbColum .= ' mb_money_charge, mb_money_exchange, mb_color, mb_state_active, mb_state_bet, mb_state_alarm, ';
             $strTbColum .= ' mb_game_pb, mb_game_ps, mb_game_bb, mb_game_bs, mb_game_cs, mb_game_sl, mb_game_pb_ratio, mb_game_pb2_ratio, mb_game_ps_ratio, ';
-            $strTbColum .= ' mb_game_bb_ratio, mb_game_bb2_ratio, mb_game_bs_ratio, mb_game_cs_ratio, mb_game_sl_ratio, mb_live_money, mb_slot_money, mb_fslot_money';
+            $strTbColum .= ' mb_game_bb_ratio, mb_game_bb2_ratio, mb_game_bs_ratio, mb_game_cs_ratio, mb_game_sl_ratio, mb_live_money, mb_slot_money, mb_fslot_money, mb_kgon_money';
 
             $strTbRColum = ' r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid, r.mb_emp_permit, r.mb_nickname, r.mb_email, r.mb_phone, r.mb_money, r.mb_point, ';
             $strTbRColum .= ' r.mb_money_charge, r.mb_money_exchange, r.mb_color, r.mb_state_active, r.mb_state_bet, r.mb_state_alarm, ';
             $strTbRColum .= ' r.mb_game_pb, r.mb_game_ps, r.mb_game_bb, r.mb_game_bs, r.mb_game_cs, r.mb_game_sl, r.mb_game_pb_ratio, r.mb_game_pb2_ratio, r.mb_game_ps_ratio, ';
-            $strTbRColum .= ' r.mb_game_bb_ratio, r.mb_game_bb2_ratio, r.mb_game_bs_ratio, r.mb_game_cs_ratio, r.mb_game_sl_ratio, r.mb_live_money, r.mb_slot_money, r.mb_fslot_money ';
+            $strTbRColum .= ' r.mb_game_bb_ratio, r.mb_game_bb2_ratio, r.mb_game_bs_ratio, r.mb_game_cs_ratio, r.mb_game_sl_ratio, r.mb_live_money, r.mb_slot_money, r.mb_fslot_money, r.mb_kgon_money ';
 
             $strSQL = 'WITH RECURSIVE tbmember ('.$strTbColum.') AS';
             $strSQL .= ' ( SELECT '.$strTbColum.' FROM '.$this->table." WHERE mb_emp_fid = '".$nEmpFid."'";
@@ -955,7 +969,7 @@ class Member_Model extends Model
     // 관리자 보유금
     public function calcAdminMoney()
     {
-        $strSQL = 'SELECT SUM(mb_money+mb_live_money+mb_slot_money+mb_fslot_money) AS emp_money, SUM(mb_point) AS emp_point FROM '.$this->table;
+        $strSQL = 'SELECT SUM(mb_money+mb_live_money+mb_slot_money+mb_fslot_money+mb_kgon_money) AS emp_money, SUM(mb_point) AS emp_point FROM '.$this->table;
         $strSQL .= ' WHERE mb_level < '.LEVEL_ADMIN;
 
         $objResult = $this->db->query($strSQL)->getRow();

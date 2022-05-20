@@ -121,16 +121,14 @@ class Api extends BaseController{
 			
 			$agConf = null;
 			if($gameId == GAME_CASINO_EVOL){
-				$libApicas = new ApiCas_Lib();
-				$balance = $libApicas->getAgentInfo();
+				$balance = $this->libApicas->getAgentInfo();
 				if($balance >= 0){
 					$confsiteModel->setConfActive(CONF_CASINO_EVOL, $balance);
 				}
 				writeLog("<CASINO> Agent Egg = ".$balance);
 				$agConf = $confsiteModel->getConf(CONF_CASINO_EVOL);
 			} else if($gameId == GAME_SLOT_1){
-				$libApislot = new ApiSlot_Lib();
-				$balance = $libApislot->getAgentInfo();
+				$balance = $this->libApislot->getAgentInfo();
 				if($balance >= 0){
 					$confsiteModel->setConfActive(CONF_SLOT_1, $balance);
 				}
@@ -138,14 +136,21 @@ class Api extends BaseController{
 
 				$agConf = $confsiteModel->getConf(CONF_SLOT_1);
 			} else if($gameId == GAME_SLOT_2){
-				$libApifslot = new ApiFslot_Lib();
-				$balance = $libApifslot->getAgentInfo();
+				$balance = $this->libApifslot->getAgentInfo();
 				if($balance >= 0){
 					$confsiteModel->setConfActive(CONF_SLOT_2, $balance);
 				}
 				writeLog("<FSLOT> AGENT Egg = ".$balance);
 
 				$agConf = $confsiteModel->getConf(CONF_SLOT_2);
+			} else if($gameId == GAME_CASINO_KGON){
+				$balance = $this->libApikgon->getAgentInfo();
+				if($balance >= 0){
+					$confsiteModel->setConfActive(GAME_CASINO_KGON, $balance);
+				}
+				writeLog("<FSLOT> AGENT Egg = ".$balance);
+
+				$agConf = $confsiteModel->getConf(GAME_CASINO_KGON);
 			}
 			
 			$agInfo = null;
@@ -1483,6 +1488,90 @@ public function withdrawlist(){
 		echo json_encode($objResult);
 	}
 	
+	public function kcaslist(){
+		$jsonData = $_REQUEST['json_'];
+		$arrReqData = json_decode($jsonData, true);
+
+		$objResult = new \StdClass;
+		if(is_login()) {
+			//model
+			$slprdModel = new SlotPrd_Model();
+			$memberModel  = new Member_Model();
+			
+			$strUid = $this->session->user_id;
+			$objAdmin = $memberModel->getInfo($strUid);
+			if($objAdmin->mb_level < LEVEL_ADMIN){
+				$objResult->status = "fail";
+			} else {
+				$objResult->status = "success";
+				$objResult->data = $slprdModel->search($arrReqData);
+			}
+		
+		}
+		else{
+			$objResult->status = "logout";
+
+		}
+		echo json_encode($objResult);
+
+	}
+
+	public function kcascnt(){ 
+		$jsonData = $_REQUEST['json_'];
+		$arrReqData = json_decode($jsonData, true);
+
+		$objResult = new \StdClass;
+		if(is_login()) {
+			//model
+			$slprdModel = new SlotPrd_Model();
+			$memberModel  = new Member_Model();
+			
+			$strUid = $this->session->user_id;
+			$objAdmin = $memberModel->getInfo($strUid);
+			if($objAdmin->mb_level < LEVEL_ADMIN){
+				$objResult->status = "fail";
+			} else {
+				$objResult->status = "success";
+				$objResult->data = $slprdModel->searchCount($arrReqData);
+			}
+		
+		}
+		else{
+			$objResult->status = "logout";
+
+		}
+		echo json_encode($objResult);
+	}
+
+	public function kcasset(){ 
+		$jsonData = $_REQUEST['json_'];
+		$arrReqData = json_decode($jsonData, true);
+
+		$objResult = new \StdClass;
+		if(is_login()) {
+			//model
+			$slprdModel = new SlotPrd_Model();
+			$memberModel  = new Member_Model();
+			
+			$strUid = $this->session->user_id;
+			$objAdmin = $memberModel->getInfo($strUid);
+			if($objAdmin->mb_level < LEVEL_ADMIN){
+				$objResult->status = "fail";
+			} else {
+				$slprdModel->changeAct($arrReqData);
+
+				$objResult->status = "success";
+			}
+		
+		}
+		else{
+			$objResult->status = "logout";
+
+		}
+		echo json_encode($objResult);
+	}
+	
+
 	//DB 정리
 	public function cleanDb(){ 
 		$jsonData = $_REQUEST['json_'];

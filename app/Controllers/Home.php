@@ -85,6 +85,14 @@ class Home extends StdController
 		$this->load_view_page('home/conf_evol', 'conf_game', LEVEL_ADMIN, $param);	
 	}
 
+	public function conf_casino(){
+		$param = [
+			'game_name' => "에볼루션",
+			'game_id' => GAME_CASINO_KGON
+		];
+		$this->load_view_page('home/conf_casino', 'conf_game', LEVEL_ADMIN, $param);	
+	}
+
 	public function conf_slot_1(){
 		$param = [
 			'game_name' => "슬롯",

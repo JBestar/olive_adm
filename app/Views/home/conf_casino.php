@@ -14,12 +14,13 @@
 		<?php if(!$cas_deny) :?>
 			<a href="<?php echo siteFurl().'home/conf_evol';?>" class="sub-navbar-a " >에볼루션</a>
 			<?php if($kgon_enable) :?>
-				<a href="<?php echo siteFurl().'home/conf_casino';?>" class="sub-navbar-a" >호텔카지노</a>
+				<a href="<?php echo siteFurl().'home/conf_casino';?>" class="sub-navbar-a active" >호텔카지노</a>
 			<?php endif ?>  
 		<?php endif ?>   
+		
 		<?php if(!$slot_deny) :?>
 			<?php if($_ENV['app.type'] != APPTYPE_2) :?>
-			<a href="<?php echo siteFurl().'home/conf_slot_1';?>" class="sub-navbar-a active">정품슬롯</a>
+			<a href="<?php echo siteFurl().'home/conf_slot_1';?>" class="sub-navbar-a">정품슬롯</a>
 			<?php endif ?>
 			<?php if($_ENV['app.type'] == APPTYPE_0 || $_ENV['app.type'] == APPTYPE_1) :?>
 			<a href="<?php echo siteFurl().'home/conf_slot_2';?>" class="sub-navbar-a">네츄럴슬롯</a>
@@ -110,10 +111,10 @@
 <?php if(array_key_exists("app.produce", $_ENV)) :?>
     <script src="<?php echo site_furl('/assets/js/confcs-script.js?t='.time());?>"></script>
     <script src="<?php echo site_furl('/assets/js/page.js?t='.time());?>"></script>
-    <script src="<?php echo site_furl('/assets/js/confxsl-script.js?t='.time());?>"></script>
+    <script src="<?php echo site_furl('/assets/js/confkgon-script.js?t='.time());?>"></script>
 <?php else : ?>
     <script src="<?php echo site_furl('/assets/js/confcs-script.js?v=1');?>"></script>
     <script src="<?php echo site_furl('/assets/js/page.js?v=1');?>"></script>
-    <script src="<?php echo site_furl('/assets/js/confxsl-script.js?v=1');?>"></script>
+    <script src="<?php echo site_furl('/assets/js/confkgon-script.js?v=1');?>"></script>
 <?php endif ?>
 <?= $this->endSection() ?>
