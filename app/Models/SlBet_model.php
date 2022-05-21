@@ -117,7 +117,7 @@ class SlBet_model extends Model
             $strWhere.="  AND bet_game_type = '".$arrReqData['mode']."' ";
         }
         $nStartRow = ($arrReqData['page']-1) * $arrReqData['count'] ;
-        $strWhere.=" ORDER BY bet_fid DESC LIMIT ".$nStartRow.", ".$arrReqData['count'];
+        $strWhere.=" ORDER BY bet_time DESC LIMIT ".$nStartRow.", ".$arrReqData['count'];
 
         $strSql = "SELECT bet_fid, bet_idx, bet_mb_uid, bet_round_no, bet_time, bet_money, bet_win_money, bet_player_id, bet_game_type, ";
         $strSql .= " bet_table_code, bet_choice, mb_uid, mb_nickname, rw_mb_uid, rw_point,  ";

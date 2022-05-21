@@ -249,6 +249,7 @@ class ApiKgon_Lib  {
                 // "amount": 10000         //출금금액
             } else { //
                 $arrResult['status'] = 0;
+                writeLog($arrResult['msg']);
                 //"code": -1,
                 //"msg": "XXX"
             }
@@ -256,7 +257,6 @@ class ApiKgon_Lib  {
             $arrResult['status'] = 0;
             $arrResult['msg'] = INTERNAL_ERROR;
         }
-        writeLog($arrResult['msg']);
         return $arrResult;
     }
 

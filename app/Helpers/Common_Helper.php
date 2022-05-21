@@ -260,7 +260,7 @@
       if(is_null($member))
         return $nMoney;
 
-      $nMoney = $member->mb_money + $member->mb_live_money + $member->mb_slot_money + $member->mb_fslot_money;
+      $nMoney = $member->mb_money + $member->mb_live_money + $member->mb_slot_money + $member->mb_fslot_money + $member->mb_kgon_money;
       return $nMoney;
     }
     

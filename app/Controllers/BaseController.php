@@ -296,7 +296,8 @@ class BaseController extends Controller
 	protected function kgtoMb(&$objMember){
 		$iResult = 0;
 		$logHead = "<KgtoMb> ";
-		$confs = $this->getSiteConf();
+		$confsiteModel = new ConfSite_Model();
+		$confs = $this->getSiteConf($confsiteModel);
 		if(!$confs["kgon_enable"]){
 			return 1;
 		}

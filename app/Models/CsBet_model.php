@@ -115,7 +115,7 @@ class CsBet_model extends Model
             $strWhere.=" bet_game_id = '".$arrReqData['mode']."' ";
         }
         $nStartRow = ($arrReqData['page']-1) * $arrReqData['count'] ;
-        $strWhere.=" ORDER BY bet_fid DESC LIMIT ".$nStartRow.", ".$arrReqData['count'];
+        $strWhere.=" ORDER BY bet_time DESC LIMIT ".$nStartRow.", ".$arrReqData['count'];
         
         $strSql = "";
         $strSql .= "SELECT bet_fid, bet_idx, bet_mb_uid, bet_round_no, bet_time, bet_money, bet_win_money, bet_player_id, bet_game_id, bet_game_type, bet_table_code, ";
@@ -202,10 +202,10 @@ class CsBet_model extends Model
             $strSql.=" bet_mb_uid = '".$arrReqData['user']."' ";
             $bWhere = true;
         }
-        if(intval($arrReqData['mode']) > 0){
+        if(intval($arrReqData['mode']) >= 0){
             if($bWhere) $strSql.= " AND ";
             else $strSql.= " WHERE ";    
-            $strSql.=" bet_game_type = '".$arrReqData['mode']."' ";
+            $strSql.=" bet_game_id = '".$arrReqData['mode']."' ";
             $bWhere = true;
         }
 

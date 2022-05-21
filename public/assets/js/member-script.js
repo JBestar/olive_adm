@@ -67,7 +67,7 @@ function showMember(arrMember, confs) {
         strBuf += "</td> <td>";
         strBuf += parseInt(arrMember[nRow].mb_grade).toLocaleString() + "레벨";
         strBuf += "</td><td> <span id='mm_" + arrMember[nRow].mb_fid + "'>";
-        strBuf += (parseInt(arrMember[nRow].mb_money) + parseInt(arrMember[nRow].mb_slot_money) + parseInt(arrMember[nRow].mb_fslot_money)).toLocaleString() + "원</span>";
+        strBuf += (parseInt(arrMember[nRow].mb_money) + parseInt(arrMember[nRow].mb_slot_money) + parseInt(arrMember[nRow].mb_fslot_money) + parseInt(arrMember[nRow].mb_kgon_money)).toLocaleString() + "원</span>";
         strBuf += '<button class="refresh_btn" onclick="refreshEv(' + arrMember[nRow].mb_fid + ', this);"></button>';
         strBuf += "</td> <td id='mp_" + arrMember[nRow].mb_fid + "'>";
         strBuf += parseInt(arrMember[nRow].mb_point).toLocaleString();
