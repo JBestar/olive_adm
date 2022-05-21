@@ -114,7 +114,7 @@ class CsBet_model extends Model
             $strWhere.=" bet_game_type = '".$arrReqData['mode']."' ";
         }
         $nStartRow = ($arrReqData['page']-1) * $arrReqData['count'] ;
-        $strWhere.=" ORDER BY bet_fid DESC LIMIT ".$nStartRow.", ".$arrReqData['count'];
+        $strWhere.=" ORDER BY bet_time DESC LIMIT ".$nStartRow.", ".$arrReqData['count'];
         
         $strSql = "";
         $strSql .= "SELECT bet_fid, bet_idx, bet_mb_uid, bet_round_no, bet_time, bet_money, bet_win_money, bet_player_id, bet_game_type, bet_table_code, ";
@@ -154,7 +154,7 @@ class CsBet_model extends Model
             
         }
         $strSql .= " LEFT JOIN ".$this->mGameTable." ON ".$tbBetSearch.".bet_table_code = ".$this->mGameTable.".tid ";
-        $strSql .= " ORDER BY bet_fid DESC";
+        $strSql .= " ORDER BY bet_time DESC";
 
         $query = $this -> db -> query($strSql);
         $result = $query -> getResult();
