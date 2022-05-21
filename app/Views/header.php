@@ -18,7 +18,7 @@
             <link rel="shortcut icon" href="<?php echo site_furl('/favicon_k.ico');?>">
         <?php break; 
         case APP_MAX :?>
-            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_x.ico');?>">
+            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_x.ico?v=1');?>">
         <?php break; 
         case APP_THUNDER :?>
             <link rel="shortcut icon" href="<?php echo site_furl('/favicon_t.ico');?>">

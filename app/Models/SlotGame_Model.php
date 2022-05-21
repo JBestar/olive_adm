@@ -71,10 +71,10 @@ class SlotGame_Model extends Model {
         $strSql = " SELECT fslot_game.*, rslot_game.name as rname, rslot_game.name_ko AS rname_ko, rslot_game.fid AS rfid, ";
         $strSql.= " rslot_game.hidden AS rhidden, rslot_game.maintain AS rmaintain "; 
             $strSql.= " FROM ( SELECT * FROM ".$this->table;
-            $strSql.= " WHERE cat = '".GAME_SLOT_2."' AND open = '1' ".$where;
+            $strSql.= " WHERE cat = '".GAME_SLOT_2."' AND open = '1' ";
             $strSql.= " ) AS fslot_game";
         $strSql.= " JOIN (SELECT * FROM ".$this->table;
-            $strSql.= " WHERE cat = '".GAME_SLOT_1."' AND open = '1' ) AS rslot_game ";
+            $strSql.= " WHERE cat = '".GAME_SLOT_1."' AND open = '1' ".$where.") AS rslot_game ";
             $strSql.= " ON fslot_game.name = rslot_game.name ";
         // $strSql.= " LEFT JOIN ".$this->prdTable." ON ".$this->prdTable.".code = fslot_game.prd_code ";  
         
@@ -99,10 +99,10 @@ class SlotGame_Model extends Model {
         $strSql = "SELECT count(*) as count FROM ";
             $strSql.= "( SELECT fslot_game.fid  FROM ";
                 $strSql.= "( SELECT * FROM ".$this->table;
-                $strSql.= " WHERE cat = '".GAME_SLOT_2."' AND open = '1' ".$where;
+                $strSql.= " WHERE cat = '".GAME_SLOT_2."' AND open = '1' ";
                 $strSql.= " ) AS fslot_game";
             $strSql.= " JOIN (SELECT * FROM ".$this->table;
-                $strSql.= " WHERE cat = '".GAME_SLOT_1."' AND open = '1' ) AS rslot_game ";
+                $strSql.= " WHERE cat = '".GAME_SLOT_1."' AND open = '1' ".$where.") AS rslot_game ";
                 $strSql.= " ON fslot_game.name = rslot_game.name group by fslot_game.fid )";
         $strSql.= " AS tb_result";
 

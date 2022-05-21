@@ -157,7 +157,7 @@ class CsBet_model extends Model
         $strSql .= " LEFT JOIN ".$this->mPrdTable." ON ".$tbBetSearch.".bet_game_id = ".$this->mPrdTable.".vendor_id ";
 
         $strSql .= " LEFT JOIN ".$this->mGameTable." ON ".$tbBetSearch.".bet_table_code = ".$this->mGameTable.".tid ";
-        $strSql .= " ORDER BY bet_fid DESC";
+        $strSql .= " ORDER BY bet_time DESC";
 
         $query = $this -> db -> query($strSql);
         $result = $query -> getResult();
