@@ -7,6 +7,7 @@ class CasPrd_Model extends Model {
 
     protected $table      = 'casino_prd';
     protected $primaryKey = 'fid';
+    protected $allowedFields = ['hidden', 'maintain']; 
 
     protected $returnType = 'object'; 
     
