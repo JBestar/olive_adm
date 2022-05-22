@@ -698,6 +698,32 @@ class Member_Model extends Model
         if (strlen($arrRegData['mb_game_bs_ratio']) < 1) {
             $arrRegData['mb_game_bs_ratio'] = 0;
         }
+
+
+        if (floatval($arrRegData['mb_game_pb_ratio']) < 0) {
+            $arrRegData['mb_game_pb_ratio'] = 0;
+        }
+        if (floatval($arrRegData['mb_game_pb2_ratio']) < 0) {
+            $arrRegData['mb_game_pb2_ratio'] = 0;
+        }
+        if (floatval($arrRegData['mb_game_ps_ratio']) < 0) {
+            $arrRegData['mb_game_ps_ratio'] = 0;
+        }
+        if (floatval($arrRegData['mb_game_cs_ratio']) < 0) {
+            $arrRegData['mb_game_cs_ratio'] = 0;
+        }
+        if (floatval($arrRegData['mb_game_sl_ratio']) < 0) {
+            $arrRegData['mb_game_sl_ratio'] = 0;
+        }
+        if (floatval($arrRegData['mb_game_bb_ratio']) < 0) {
+            $arrRegData['mb_game_bb_ratio'] = 0;
+        }
+        if (floatval($arrRegData['mb_game_bb2_ratio']) < 0) {
+            $arrRegData['mb_game_bb2_ratio'] = 0;
+        }
+        if (floatval($arrRegData['mb_game_bs_ratio']) < 0) {
+            $arrRegData['mb_game_bs_ratio'] = 0;
+        }
     }
 
     private function BuilderSetGameRatioAndPercent($arrRegData)
