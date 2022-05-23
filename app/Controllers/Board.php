@@ -2,7 +2,6 @@
 namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\ConfSite_Model;
-use App\Models\Member_Model;
 use App\Models\Notice_Model;
 
 class Board extends StdController {
@@ -59,10 +58,10 @@ class Board extends StdController {
 				$noticeModel->setNoticeRead($objNotice);
 		}
 		$strUserId = '*';
-		$memberModel  = new Member_Model();
+		
 		$objUser = null;
 		if($strUserFid > 0)
-			$objUser = $memberModel->getInfoByFid($strUserFid);
+			$objUser = $this->modelMember->getInfoByFid($strUserFid);
 		if(!is_null($objUser)) $strUserId = $objUser->mb_uid;
 		$this->load_view_page('board/message_edit', 'board_message', LEVEL_ADMIN, [
 			'objNotice' => $objNotice, 

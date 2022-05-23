@@ -8,7 +8,6 @@ use App\Models\Charge_Model;
 use App\Models\ConfGame_model;
 use App\Models\ConfSite_Model;
 use App\Models\Exchange_Model;
-use App\Models\Member_Model;
 use App\Models\Notice_Model;
 use App\Models\PbBet_model;
 use App\Models\PsBet_model;
@@ -38,13 +37,13 @@ class UserApi extends BaseController
         $arrData = json_decode($jsonData, true);
         if (is_login()) {
             $bPermit = false;
-            $memberModel = new Member_Model();
+            
             $strUid = $this->session->user_id;
-            $objUser = $memberModel->getInfo($strUid);
+            $objUser = $this->modelMember->getInfo($strUid);
             $arrData['mb_level'] = LEVEL_COMPANY;
             $arrData['mb_emp_fid'] = 0;
             if (strlen($arrData['mb_emp_uid']) > 0){
-                $objEmp = $memberModel->getInfo($arrData['mb_emp_uid']);
+                $objEmp = $this->modelMember->getInfo($arrData['mb_emp_uid']);
                 if ($objEmp == null || $objEmp->mb_level <= LEVEL_MIN){
                     $arrResult['status'] = 'employee_error';
                     echo json_encode($arrResult);
@@ -62,7 +61,7 @@ class UserApi extends BaseController
             if ($bPermit) {
                 $strError = '';
 
-                $iResult = $memberModel->register($arrData, $strError);
+                $iResult = $this->modelMember->register($arrData, $strError);
                 if (1 == $iResult) {
                     $arrResult['status'] = 'success';
                 } elseif (4 == $iResult) {
@@ -110,13 +109,13 @@ class UserApi extends BaseController
 
         if (is_login()) {
             $bPermit = false;
-            $memberModel = new Member_Model();
+            
             $strUid = $this->session->user_id;
-            $objAdmin = $memberModel->getInfo($strUid);
-            $objReqUser = $memberModel->getInfoByFid($arrData['mb_fid']);
+            $objAdmin = $this->modelMember->getInfo($strUid);
+            $objReqUser = $this->modelMember->getInfoByFid($arrData['mb_fid']);
             $arrData['mb_emp_fid'] = 0;
             if ($objAdmin->mb_level >= LEVEL_ADMIN && strlen($arrData['mb_emp_uid']) > 0){
-                $objEmp = $memberModel->getInfo($arrData['mb_emp_uid']);
+                $objEmp = $this->modelMember->getInfo($arrData['mb_emp_uid']);
                 if ($objEmp == null){
                     $arrResult['status'] = 'employee_error';
                     echo json_encode($arrResult);
@@ -133,14 +132,16 @@ class UserApi extends BaseController
             }
             if ($bPermit) {
                 $strError = '';
+                $query = "";
                 $iResult = 0;
                 if ($objAdmin->mb_level >= LEVEL_ADMIN) {
-                    $iResult = $memberModel->modifyMember($arrData, $strError);
+                    $iResult = $this->modelMember->modifyMember($arrData, $strError, $query);
                 } else {
-                    $iResult = $memberModel->modifyMemberRatio($arrData, $strError);
+                    $iResult = $this->modelMember->modifyMemberRatio($arrData, $strError,  $query);
                 }
 
                 if (1 == $iResult) {
+				    $this->modelModify->add($this->session->user_id, MOD_MB_INFO, $query, $this->request->getIPAddress());
                     $arrResult['status'] = 'success';
                 } elseif (4 == $iResult) {
                     $arrResult['status'] = 'pb_ratio_error';
@@ -187,10 +188,10 @@ class UserApi extends BaseController
 
         if (is_login()) {
             $bPermit = false;
-            $memberModel = new Member_Model();
+            
             $strUid = $this->session->user_id;
-            $objUser = $memberModel->getInfo($strUid);
-            $objReqUser = $memberModel->getInfoByFid($arrData['mb_fid']);
+            $objUser = $this->modelMember->getInfo($strUid);
+            $objReqUser = $this->modelMember->getInfoByFid($arrData['mb_fid']);
 
             // 현재 가입한 유저가 요청한 유저보다 레벨이 높은 경우에 변경이 가능하다.
             if (!is_null($objUser) && !is_null($objReqUser)) {
@@ -199,8 +200,10 @@ class UserApi extends BaseController
                 }
             }
             if ($bPermit) {
-                $bResult = $memberModel->updateMemberByFid($arrData);
+                $query = "";
+                $bResult = $this->modelMember->updateMemberByFid($arrData, $query);
                 if ($bResult) {
+                    $this->modelModify->add($this->session->user_id, MOD_MB_STATE, $query, $this->request->getIPAddress());
                     $arrResult['status'] = 'success';
                 } else {
                     $arrResult['status'] = 'fail';
@@ -222,10 +225,10 @@ class UserApi extends BaseController
 
         if (is_login()) {
             $bPermit = false;
-            $memberModel = new Member_Model();
+            
             $strUid = $this->session->user_id;
-            $objUser = $memberModel->getInfo($strUid);
-            $objReqUser = $memberModel->getInfoByFid($arrData['mb_fid']);
+            $objUser = $this->modelMember->getInfo($strUid);
+            $objReqUser = $this->modelMember->getInfoByFid($arrData['mb_fid']);
 
             // 현재 가입한 유저가 요청한 유저보다 레벨이 높은 경우에 삭제가 가능하다.
             if (!is_null($objUser) && !is_null($objReqUser)) {
@@ -234,7 +237,7 @@ class UserApi extends BaseController
                 }
             }
             if ($bPermit) {
-                $bResult = $memberModel->deleteMemberByFid($arrData);
+                $bResult = $this->modelMember->deleteMemberByFid($arrData);
 
                 if ($bResult) {
                     $arrResult['status'] = 'success';
@@ -257,11 +260,11 @@ class UserApi extends BaseController
         $arrData = json_decode($jsonData, true);
 
         if (is_login()) {
-            $memberModel = new Member_Model();
+            
 
             $strUid = $this->session->user_id;
-            $objUser = $memberModel->getInfo($strUid);
-            $objReqUser = $memberModel->getMemberByFid($arrData['mb_fid']);
+            $objUser = $this->modelMember->getInfo($strUid);
+            $objReqUser = $this->modelMember->getMemberByFid($arrData['mb_fid']);
 
             $bPermit = false;
             $bResult = false;
@@ -278,9 +281,12 @@ class UserApi extends BaseController
 
             if ($bPermit) {
                 1 == $iCreated;
-                $bResult = $memberModel->updateMemberByFid($arrData);
+			    $query = "";
+                $bResult = $this->modelMember->updateMemberByFid($arrData, $query);
 
                 if ($bResult) {
+                    $this->modelModify->add($this->session->user_id, MOD_MB_PWD, $query, $this->request->getIPAddress());
+
                     $arrResult['status'] = 'success';
                 } elseif (0 == $iCreated) {
                     $arrResult['status'] = 'usererror';
@@ -302,9 +308,9 @@ class UserApi extends BaseController
         if (is_login()) {
             $strUid = $this->session->user_id;
             // model
-            $memberModel = new Member_Model();
+            
             $modelConfsite = new ConfSite_Model();
-            $objUser = $memberModel->getInfoByUid($strUid);
+            $objUser = $this->modelMember->getInfoByUid($strUid);
             $sess_id = $this->session->session_id;
 			$this->modelSess->deleteLast();
 
@@ -316,7 +322,7 @@ class UserApi extends BaseController
             }
             else if($objUser->mb_level < LEVEL_ADMIN && $modelConfsite->IsMaintain())
 				$bPermit = false;
-            else if( !$memberModel->isPermitMember($objUser) )
+            else if( !$this->modelMember->isPermitMember($objUser) )
 				$bPermit = false;
             else if( is_null($this->modelSess->getBySess($sess_id)) )
 				$bPermit = false;
@@ -344,23 +350,23 @@ class UserApi extends BaseController
         if (is_login()) {
             $strUid = $this->session->user_id;
             // model
-            $memberModel = new Member_Model();
+            
             $chargeModel = new Charge_Model();
             $exchangeModel = new Exchange_Model();
             $noticeModel = new Notice_Model();
             $confsiteModel = new ConfSite_Model();
 
-            $objUser = $memberModel->getInfo($strUid);
+            $objUser = $this->modelMember->getInfo($strUid);
 
             $objResult = new \stdClass();
             if ($objUser->mb_level >= LEVEL_ADMIN) {
-                $arrEmpInfo = $memberModel->getEmpUserCnt($objUser);
+                $arrEmpInfo = $this->modelMember->getEmpUserCnt($objUser);
                 $arrEmpInfo['wait_charge'] = $chargeModel->getWaitCnt();
                 $arrEmpInfo['moment_charge'] = $chargeModel->getMomentCnt();
                 $arrEmpInfo['wait_exchange'] = $exchangeModel->getWaitCnt();
                 $arrEmpInfo['moment_exchange'] = $exchangeModel->getMomentCnt();
                 $arrEmpInfo['new_message'] = $noticeModel->getNewMessageCnt();
-                $objAdminMoney = $memberModel->calcAdminMoney();
+                $objAdminMoney = $this->modelMember->calcAdminMoney();
                 $arrEmpInfo['emp_money'] = $objAdminMoney->emp_money;
                 $arrEmpInfo['emp_point'] = $objAdminMoney->emp_point;
 
@@ -391,14 +397,14 @@ class UserApi extends BaseController
         if (is_login()) {
             $strUid = $this->session->user_id;
             // model
-            $memberModel = new Member_Model();
+            
             $confgameModel = new ConfGame_model();
             $pbbetModel = new PbBet_model();
             $psbetModel = new PsBet_model();
             $bbbetModel = new BbBet_Model();
             $bsbetModel = new BsBet_model();
 
-            $objUser = $memberModel->getInfo($strUid);
+            $objUser = $this->modelMember->getInfo($strUid);
 
             $objResult = new \stdClass();
             if ($objUser->mb_level >= LEVEL_ADMIN) {
@@ -440,27 +446,27 @@ class UserApi extends BaseController
 
         if (is_login()) {
             // model
-            $memberModel = new Member_Model();
+            
 			$confsiteModel = new ConfSite_Model();
 
 			$objResult = new \stdClass();
             $strUid = $this->session->user_id;
-            $objUser = $memberModel->getInfo($strUid);
+            $objUser = $this->modelMember->getInfo($strUid);
 			$empFid = 0;
             if (strlen($arrData['mb_emp_uid']) > 0){
-                $objEmp = $memberModel->getInfo($arrData['mb_emp_uid']);
+                $objEmp = $this->modelMember->getInfo($arrData['mb_emp_uid']);
                 if (!is_null($objEmp)){
                     $empFid = $objEmp->mb_fid;
                 } else $empFid = -1;
             } 
             
             if($empFid >= 0){
-                $arrMember = $memberModel->searchMemberByEmpFid($objUser, $arrData, $empFid);
+                $arrMember = $this->modelMember->searchMemberByEmpFid($objUser, $arrData, $empFid);
                 if (is_null($arrMember)) {
                     $arrMember = [];
                 }
                 foreach ($arrMember as $objMember) {
-                    $arrEmpInfo = $memberModel->find($objMember->mb_emp_fid);
+                    $arrEmpInfo = $this->modelMember->find($objMember->mb_emp_fid);
                     if ($arrEmpInfo != null){
                         $objMember->mb_empname = $arrEmpInfo['mb_uid'];
                     }
@@ -494,19 +500,19 @@ class UserApi extends BaseController
 
         if (is_login()) {
             // model
-            $memberModel = new Member_Model();
+            
 			$objResult = new \stdClass();
             $strUid = $this->session->user_id;
-            $objUser = $memberModel->getInfo($strUid);
+            $objUser = $this->modelMember->getInfo($strUid);
 			$empFid = 0;
             if (strlen($arrData['mb_emp_uid']) > 0){
-                $objEmp = $memberModel->getInfo($arrData['mb_emp_uid']);
+                $objEmp = $this->modelMember->getInfo($arrData['mb_emp_uid']);
                 if (!is_null($objEmp)){
                     $empFid = $objEmp->mb_fid;
                 } else $empFid = -1;
             } 
             if($empFid >= 0){
-                $objCount = $memberModel->searchCountByEmpFid($objUser, $arrData, $empFid);
+                $objCount = $this->modelMember->searchCountByEmpFid($objUser, $arrData, $empFid);
                 $objResult->status = 'success';
                 $objResult->data = $objCount;
             } else {
@@ -527,15 +533,15 @@ class UserApi extends BaseController
     {
         if (is_login()) {
             // model
-            $memberModel = new Member_Model();
+            
 
             $strUid = $this->session->user_id;
-            $objUser = $memberModel->getInfo($strUid);
+            $objUser = $this->modelMember->getInfo($strUid);
 
             $objResult = new \stdClass();
 
             if ($objUser->mb_level >= LEVEL_ADMIN) {
-                $arrMember = $memberModel->getMemberByLevel(LEVEL_ADMIN, true);
+                $arrMember = $this->modelMember->getMemberByLevel(LEVEL_ADMIN, true);
 
                 if (is_null($arrMember)) {
                     $arrMember = [];
@@ -560,10 +566,10 @@ class UserApi extends BaseController
 		$arrReqData = json_decode($jsonData, true);
 		if(is_login())
 		{
-            $memberModel = new Member_Model();
+            
 
             $strUid = $this->session->user_id;
-            $objUser = $memberModel->getInfo($strUid);
+            $objUser = $this->modelMember->getInfo($strUid);
 
             if($objUser->mb_level  >= LEVEL_ADMIN) {
                 $modelSesslog = new SessLog_Model();
@@ -588,10 +594,10 @@ class UserApi extends BaseController
 		$arrReqData = json_decode($jsonData, true);
 		if(is_login())
 		{
-            $memberModel = new Member_Model();
+            
          
             $strUid = $this->session->user_id;
-            $objUser = $memberModel->getInfo($strUid);
+            $objUser = $this->modelMember->getInfo($strUid);
 
             if($objUser->mb_level  >= LEVEL_ADMIN) {
                 $modelSesslog = new SessLog_Model();
@@ -614,10 +620,10 @@ class UserApi extends BaseController
 		$arrReqData = json_decode($jsonData, true);
 		if(is_login())
 		{
-            $memberModel = new Member_Model();
+            
 
             $strUid = $this->session->user_id;
-            $objUser = $memberModel->getInfo($strUid);
+            $objUser = $this->modelMember->getInfo($strUid);
 
             if($objUser->mb_level  >= LEVEL_ADMIN) {
 
@@ -641,10 +647,10 @@ class UserApi extends BaseController
 		$arrReqData = json_decode($jsonData, true);
 		if(is_login())
 		{
-            $memberModel = new Member_Model();
+            
          
             $strUid = $this->session->user_id;
-            $objUser = $memberModel->getInfo($strUid);
+            $objUser = $this->modelMember->getInfo($strUid);
 
             if($objUser->mb_level  >= LEVEL_ADMIN) {
                 $objCount = $this->modelSess->searchCount($arrReqData);
@@ -666,10 +672,10 @@ class UserApi extends BaseController
 		$arrReqData = json_decode($jsonData, true);
 		if(is_login())
 		{
-            $memberModel = new Member_Model();
+            
             
             $strUid = $this->session->user_id;
-            $objUser = $memberModel->getInfo($strUid);
+            $objUser = $this->modelMember->getInfo($strUid);
 
             if($objUser->mb_level  >= LEVEL_ADMIN) {
 
@@ -694,10 +700,10 @@ class UserApi extends BaseController
 		$arrReqData = json_decode($jsonData, true);
 		if(is_login())
 		{
-            $memberModel = new Member_Model();
+            
 
             $strUid = $this->session->user_id;
-            $objUser = $memberModel->getInfo($strUid);
+            $objUser = $this->modelMember->getInfo($strUid);
 
             if($objUser->mb_level  >= LEVEL_ADMIN) {
 
@@ -725,9 +731,9 @@ class UserApi extends BaseController
 
         if (is_login()) {
             $bPermit = false;
-            $memberModel = new Member_Model();
+            
             $strUid = $this->session->user_id;
-            $objUser = $memberModel->getInfo($strUid);
+            $objUser = $this->modelMember->getInfo($strUid);
 
             if($objUser->mb_level  >= LEVEL_ADMIN) {
                 $modelBlock = new Block_Model();
@@ -758,9 +764,9 @@ class UserApi extends BaseController
 
         if (is_login()) {
             $bPermit = false;
-            $memberModel = new Member_Model();
+            
             $strUid = $this->session->user_id;
-            $objUser = $memberModel->getInfo($strUid);
+            $objUser = $this->modelMember->getInfo($strUid);
 
             if($objUser->mb_level  >= LEVEL_ADMIN) {
                 $modelBlock = new Block_Model();
@@ -789,9 +795,9 @@ class UserApi extends BaseController
 
         if (is_login()) {
             $bPermit = false;
-            $memberModel = new Member_Model();
+            
             $strUid = $this->session->user_id;
-            $objUser = $memberModel->getInfo($strUid);
+            $objUser = $this->modelMember->getInfo($strUid);
 
             if($objUser->mb_level  >= LEVEL_ADMIN) {
                 $modelBlock = new Block_Model();
@@ -819,12 +825,12 @@ class UserApi extends BaseController
 
         if (is_login()) {
             // model
-            $memberModel = new Member_Model();
+            
             $moneyhistoryModel = new MoneyHistory_Model();
 
             $strUid = $this->session->user_id;
-            $objEmp = $memberModel->getInfo($strUid);
-            $objMember = $memberModel->getInfoByFid($arrData['mb_fid']);
+            $objEmp = $this->modelMember->getInfo($strUid);
+            $objMember = $this->modelMember->getInfoByFid($arrData['mb_fid']);
 
             $objResult = new \stdClass();
 
@@ -838,7 +844,7 @@ class UserApi extends BaseController
                 
                 if($arrData['type'] == 0){
                     //직충전
-                    if($memberModel->moneyProc($objMember, $arrData['amount']))
+                    if($this->modelMember->moneyProc($objMember, $arrData['amount']))
                     {
                         $chargeModel = new Charge_Model();
 
@@ -871,7 +877,7 @@ class UserApi extends BaseController
                         if(intval($objMember->mb_money) < $arrData['amount']){
                             $arrData['amount'] = $objMember->mb_money;
                         }
-                        if($arrData['amount'] > 0 && $memberModel->moneyProc($objMember, 0-$arrData['amount']))
+                        if($arrData['amount'] > 0 && $this->modelMember->moneyProc($objMember, 0-$arrData['amount']))
                         {
                             $exchangeModel = new Exchange_Model();
 
@@ -920,7 +926,7 @@ class UserApi extends BaseController
                     if($iResult == 1){
                         if($arrData['amount'] > $objEmp->mb_money){
                             $objResult->msg = '이송금액이 보유금액을 초과하셧습니다.';
-                        } else if($memberModel->trasferMoney($objEmp, $objMember, $arrData['amount'])){
+                        } else if($this->modelMember->trasferMoney($objEmp, $objMember, $arrData['amount'])){
 
                             $moneyhistoryModel->registerTransfer($objEmp, $objMember->mb_uid, 0-$arrData['amount'], MONEYCHANGE_TRANS_DEC);
                             $moneyhistoryModel->registerTransfer($objMember, $objEmp->mb_uid, $arrData['amount'], MONEYCHANGE_TRANS_INC);
@@ -940,7 +946,7 @@ class UserApi extends BaseController
                         if($arrData['amount'] > $objMember->mb_money){
                             $arrData['amount'] = $objMember->mb_money;
                         }
-                        if($arrData['amount'] > 0 && $memberModel->trasferMoney($objMember, $objEmp, $arrData['amount'])){
+                        if($arrData['amount'] > 0 && $this->modelMember->trasferMoney($objMember, $objEmp, $arrData['amount'])){
 
                             $moneyhistoryModel->registerTransfer($objEmp, $objMember->mb_uid, $arrData['amount'], MONEYCHANGE_EXCHANGE_INC);
                             $moneyhistoryModel->registerTransfer($objMember, $objEmp->mb_uid, 0-$arrData['amount'], MONEYCHANGE_EXCHANGE_DEC);
@@ -970,12 +976,12 @@ class UserApi extends BaseController
 
         if (is_login()) {
             // model
-            $memberModel = new Member_Model();
+            
             $moneyhistoryModel = new MoneyHistory_Model();
 
             $strUid = $this->session->user_id;
-            $objEmp = $memberModel->getInfo($strUid);
-            $objMember = $memberModel->getInfoByFid($arrData['mb_fid']);
+            $objEmp = $this->modelMember->getInfo($strUid);
+            $objMember = $this->modelMember->getInfoByFid($arrData['mb_fid']);
 
             $objResult = new \stdClass();
 
@@ -989,7 +995,7 @@ class UserApi extends BaseController
                     if($iResult == 1){
                         $nAmount = $objMember->mb_money;
                         $objMember->mb_money = 0;
-                        if($memberModel->updateMoney($objMember))
+                        if($this->modelMember->updateMoney($objMember))
                             $moneyhistoryModel->registerWithdraw($objMember, $objEmp->mb_uid, $nAmount, MONEYCHANGE_WITHDRAW);
                         $objResult->status = 'success';
                     } else {
@@ -1001,7 +1007,7 @@ class UserApi extends BaseController
                 else if($arrData['type'] == 1 && $objMember->mb_point > 0){
                     $nAmount = $objMember->mb_point;
                     $objMember->mb_point = 0;
-                    if($memberModel->updateMoney($objMember))
+                    if($this->modelMember->updateMoney($objMember))
                         $moneyhistoryModel->registerWithdraw($objMember, $objEmp->mb_uid, $nAmount, POINTHANGE_WITHDRAW);
                     $objResult->status = 'success';
                 } else {
@@ -1021,9 +1027,9 @@ class UserApi extends BaseController
     {
         if (is_login()) {
             // model
-            $memberModel = new Member_Model();
+            
             $strUid = $this->session->user_id;
-            $objEmp = $memberModel->getInfo($strUid);
+            $objEmp = $this->modelMember->getInfo($strUid);
 
             if(is_null($objEmp) || $objEmp->mb_level < LEVEL_ADMIN){
                 $arrResult['status'] = 'fail';
@@ -1043,203 +1049,7 @@ class UserApi extends BaseController
         echo json_encode($arrResult);
     }
 
-    /*
-    public function egg_ev(){
-		$jsonData = $_REQUEST['json_'];
-		$arrReqData = json_decode($jsonData, true);
-
-        $result = new \StdClass;
-        
-        if(!is_login())
-		{
-			$result->msg = "세션이 만료되었습니다. 다시 로그인하세요.";
-            $result->status = STATUS_LOGOUT;		
-
-        } else {
-            $libApicas = new ApiCas_Lib();
-			$modelMember  = new Member_Model();
-
-			$objMember = $modelMember->getInfoByFid($arrReqData['mb_fid']);
-
-            $iCreated = 0;
-            if(is_null($objMember))
-				$iCreated = 0;
-			else if($objMember->mb_live_id == 0) {
-                $iCreated = 2;								//회원창조실패
-            } else {
-                $iCreated = 1;
-            }
-			if($iCreated == 0){
-                $result->msg = '준비중입니다.';
-                $result->status = "fail";
-            } else if($iCreated == 2){
-				$result->msg = '계정이 존재하지 않습니다.';
-                $result->status = "fail";
-			} else if($iCreated == 5){
-				$result->msg = '중복된 사용자입니다. 관리자에게 문의해주세요.';
-                $result->status = "fail";
-			} else if($iCreated == 1){
-				$arrResult = $libApicas->getUserInfo($objMember->mb_live_uid);
-				writeLog("<Casino>".$objMember->mb_uid."-UserInfo Status=".$arrResult['status']);
-                if($arrResult['status'] == 1)
-                {
-                    writeLog("<Casino>".$objMember->mb_uid."-UserInfo Balance=".$arrResult['balance']);
-
-                    $objMember->mb_live_money = $arrResult['balance'];
-                    $modelMember->updateLiveMoney($objMember);   
-                    
-                    $result->live_money = $objMember->mb_live_money;
-                    $result->money = $objMember->mb_money;
-                    $result->point = $objMember->mb_point;
-
-                    $result->status = "success";
-                }else {
-                    if(array_key_exists('error', $arrResult) && $arrResult['error'] == INVALID_USER){
-                        $result->msg = '존재하지 않는 사용자입니다. 관리자에게 문의해주세요.';
-                        $result->status = "fail";
-                    }
-                    else {
-                        $result->msg = '오류가 발생하였습니다. 관리자에게 문의해주세요.';
-                        $result->status = "fail";
-                    } 
-                }
-			}
-
-        }
-        echo json_encode($result);
-    }
-	
-    public function egg_sl(){
-        $jsonData = $_REQUEST['json_'];
-		$arrReqData = json_decode($jsonData, true);
-
-        $result = new \StdClass;
-        
-        if(!is_login())
-		{
-			$result->msg = "세션이 만료되었습니다. 다시 로그인하세요.";
-            $result->status = STATUS_LOGOUT;		
-
-        } else {
-            $libApislot = new ApiSlot_Lib();
-            $modelMember  = new Member_Model();
-
-			$objMember = $modelMember->getInfoByFid($arrReqData['mb_fid']);
-
-            $iCreated = 0;
-			if(is_null($objMember))
-				$iCreated = 0;
-			else if($objMember->mb_slot_uid == ""){
-                //플레이어 창조
-                $iCreated = 2;								//회원창조실패
-            } else {
-                $iCreated = 1;
-            }
-
-			if($iCreated == 0){
-				$result->msg = '준비중입니다.';
-                $result->status = "fail";
-			} else if($iCreated == 2){
-				$result->msg = '계정이 존재하지 않습니다.';
-                $result->status = "fail";
-			} else if($iCreated == 5){
-				$result->msg = '중복된 사용자입니다. 관리자에게 문의해주세요.';
-                $result->status = "fail";
-			} else if($iCreated == 1){
-				$arrResult =  $libApislot->getUserInfo($objMember->mb_slot_uid);
-				writeLog("<XSLOT>".$objMember->mb_uid."-UserInfo resultCode=".$arrResult['resultCode']);
-                if($arrResult['status'] == 1)
-                {
-                    writeLog("<XSLOT>".$objMember->mb_uid."-UserInfo Balance=".$arrResult['balance']);
-
-                    $objMember->mb_slot_money = $arrResult['balance'];
-                    $modelMember->updateSlotMoney($objMember);   
-                    
-                    $result->slot_money = $objMember->mb_slot_money;
-                    $result->fslot_money = $objMember->mb_fslot_money;
-                    $result->status = "success";
-                }else {
-                    if(array_key_exists('resultCode', $arrResult) ){
-                        $result->msg = '요청실패. 코드='.$arrResult['resultCode'];
-                        $result->status = "fail";
-                    }
-                    else {
-                        $result->msg = '오류가 발생하였습니다. 관리자에게 문의해주세요.';
-                        $result->status = "fail";
-                    } 
-                }
-			}
-
-        }
-        echo json_encode($result);
-    }
-
-    public function egg_fsl(){
-        $jsonData = $_REQUEST['json_'];
-		$arrReqData = json_decode($jsonData, true);
-
-        $result = new \StdClass;
-        
-        if(!is_login())
-		{
-			$result->msg = "세션이 만료되었습니다. 다시 로그인하세요.";
-            $result->status = STATUS_LOGOUT;		
-
-        } else {
-			$libApifslot = new ApiFslot_Lib();
-            $modelMember  = new Member_Model();
-
-            $objMember = $modelMember->getInfoByFid($arrReqData['mb_fid']);
-
-            $iCreated = 0;
-			if(is_null($objMember))
-				$iCreated = 0;
-			else if($objMember->mb_fslot_id == 0){
-                $iCreated = 2;								//회원창조실패
-            } else {
-                $iCreated = 1;
-            }
-
-			if($iCreated == 0){
-				$result->msg = '준비중입니다.';
-                $result->status = "fail";
-			} else if($iCreated == 0 || $iCreated == 2){
-				$result->msg = '계정이 존재하지 않습니다.';
-                $result->status = "fail";
-			} else if($iCreated == 5){
-				$result->msg = '중복된 사용자입니다. 관리자에게 문의해주세요.';
-                $result->status = "fail";
-			} else if($iCreated == 1){
-				$arrResult = $libApifslot->getUserInfo($objMember->mb_fslot_uid);
-				writeLog("<FSlot>".$objMember->mb_uid."-UserInfo Status=".$arrResult['status']);
-                if($arrResult['status'] == 1)
-                {
-                    writeLog("<FSlot>".$objMember->mb_uid."-UserInfo Balance=".$arrResult['balance']);
-
-                    $objMember->mb_fslot_money = $arrResult['balance'];
-                    $modelMember->updateFslotMoney($objMember);   
-                    
-					$result->slot_money = $objMember->mb_slot_money;
-					$result->fslot_money = $objMember->mb_fslot_money;
-                    $result->status = "success";
-                } else {
-                    if(array_key_exists('error', $arrResult) && $arrResult['error'] == INVALID_USER){
-                        $result->msg = '존재하지 않는 사용자입니다. 관리자에게 문의해주세요.';
-                        $result->status = "fail";
-                    }
-                    else {
-                        $result->msg = '오류가 발생하였습니다. 관리자에게 문의해주세요.';
-                        $result->status = "fail";
-                    } 
-                }
-			}
-
-        }
-        echo json_encode($result);
-    }
-    */
-
-    
+      
 	public function egginfo(){
         $jsonData = $_REQUEST['json_'];
 		$arrReqData = json_decode($jsonData, true);
@@ -1249,9 +1059,8 @@ class UserApi extends BaseController
 		{
             $result->status = STATUS_LOGOUT;
 		} else {
-			$modelMember  = new Member_Model();
 
-            $objMember = $modelMember->getInfoByFid($arrReqData['mb_fid']);
+            $objMember = $this->modelMember->getInfoByFid($arrReqData['mb_fid']);
 			if(!is_null($objMember)){
 				$this->allEgg($objMember);
                 $result->money = allMoney($objMember);

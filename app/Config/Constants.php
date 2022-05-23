@@ -268,3 +268,21 @@ defined('SLOTCODE_SESSION_NO')      || define('SLOTCODE_SESSION_NO', 97);     //
 defined('SLOTCODE_USER_NONE')       || define('SLOTCODE_USER_NONE', 98);     //찾을 수 없는 회원 ID 
 defined('SLOTCODE_PARAMETER_NO')    || define('SLOTCODE_PARAMETER_NO', 99);    //API 호출을 위한 매개변수 부족 
 defined('SLOTCODE_API_FAIL')        || define('SLOTCODE_API_FAIL', 100);    //API 요청 실패 - 시스템 관리자 문의 
+
+
+defined('MOD_MB_PWD')        || define('MOD_MB_PWD', 1);     
+defined('MOD_MB_INFO')        || define('MOD_MB_INFO', 2);     
+defined('MOD_MB_STATE')        || define('MOD_MB_STATE', 3);     
+
+
+
+defined('TRYLOG_SUCCESS')           || define('TRYLOG_SUCCESS', "Success");    
+defined('TRYLOG_FAIL')              || define('TRYLOG_FAIL', "Fail");    
+defined('TRYLOG_MAINTAIN')          || define('TRYLOG_MAINTAIN', "Maintain");    
+defined('TRYLOG_WAIT')              || define('TRYLOG_WAIT', "Waiting");    
+defined('TRYLOG_IDBLOCK')           || define('TRYLOG_IDBLOCK', "Id-Block");    
+defined('TRYLOG_IPBLOCK')           || define('TRYLOG_IPBLOCK', "Ip-Block");    
+defined('TRYLOG_IPDENIED')          || define('TRYLOG_IPDENIED', "Ip-denied");    
+defined('TRYLOG_LOGINING')          || define('TRYLOG_LOGINING', "Logining");    
+
+

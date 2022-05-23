@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Controllers;
-use App\Models\Member_Model;
 
 class User extends StdController
 {
@@ -14,18 +13,17 @@ class User extends StdController
 			return $this->response->redirect( $_ENV['app.furl'].'/pages/login');
 		}
 		
-		$memberModel = new Member_Model();
 		$strUid = $this->session->user_id;
-		$objAdmin = $memberModel->getInfo($strUid);
+		$objAdmin = $this->modelMember->getInfo($strUid);
 		$objMember = null;
 		if($memberFid > 0)
 		{
-			$objMember = $memberModel->getMemberByFid($memberFid, true);					
+			$objMember = $this->modelMember->getMemberByFid($memberFid, true);					
 		}
 		$empUid = '';
 		$bChild = false;
 		if ($objMember != null){
-			$arrEmpMember = $memberModel->find($objMember->mb_emp_fid);
+			$arrEmpMember = $this->modelMember->find($objMember->mb_emp_fid);
 			if ($arrEmpMember != null)
 				$empUid = $arrEmpMember['mb_uid'];
 			$bChild = $objMember->mb_emp_fid == $objAdmin->mb_fid;
@@ -83,8 +81,7 @@ class User extends StdController
 		if (is_login() === false){
 			return $this->response->redirect($_ENV['app.furl'].'/pages/login');
 		}
-		$memberModel = new Member_Model();
-		$objEmp = $memberModel->find($strEmpFid);
+		$objEmp = $this->modelMember->find($strEmpFid);
 		$strEmpUid = "";
 		if ($objEmp != null){
 			$strEmpUid = $objEmp['mb_uid'];

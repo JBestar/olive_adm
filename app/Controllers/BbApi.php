@@ -4,7 +4,6 @@ use App\Controllers\BaseController;
 use App\Models\BbBet_Model;
 use App\Models\BbRound_model;
 use App\Models\ConfGame_model;
-use App\Models\Member_Model;
 use App\Models\MoneyHistory_Model;
 
 class BbApi extends BaseController {
@@ -80,15 +79,15 @@ class BbApi extends BaseController {
 		if(is_login()) {
 			//model
 			$bbbetModel = new BbBet_Model();
-			$memberModel  = new Member_Model();
+			
 			
 			$strUid = $this->session->user_id;
-			$objAdmin = $memberModel->getInfo($strUid);
+			$objAdmin = $this->modelMember->getInfo($strUid);
 			
 			$arrBetAccount = null;
 			if($objAdmin->mb_level >= LEVEL_ADMIN){
 				if(strlen(trim($arrGetData['emp'])) > 0){
-					$objAdmin = $memberModel->getInfo(trim($arrGetData['emp']));
+					$objAdmin = $this->modelMember->getInfo(trim($arrGetData['emp']));
 				}
 				else 	
 					$arrBetAccount = $bbbetModel->getBetAccount($arrGetData);
@@ -121,12 +120,12 @@ class BbApi extends BaseController {
 		if(is_login()) {
 			//model
 			$bbbetModel = new BbBet_Model();
-			$memberModel  = new Member_Model();
+			
 			
 			$strUid = $this->session->user_id;
-			$objAdmin = $memberModel->getInfo($strUid);
+			$objAdmin = $this->modelMember->getInfo($strUid);
 			if($objAdmin->mb_level >= LEVEL_ADMIN && strlen(trim($arrGetData['emp'])) > 0){
-				$objAdmin = $memberModel->getInfo(trim($arrGetData['emp']));
+				$objAdmin = $this->modelMember->getInfo(trim($arrGetData['emp']));
 			}
 			$objCount = $bbbetModel->searchCount($objAdmin, $arrGetData);
 			
@@ -191,10 +190,10 @@ class BbApi extends BaseController {
 		if(is_login()) {
 
 			//model
-			$memberModel  = new Member_Model();
+			
 			$bbroundModel = new BbRound_model();
 			$strUid = $this->session->user_id;
-			$objUser = $memberModel->getInfo($strUid);
+			$objUser = $this->modelMember->getInfo($strUid);
 			$iResult = 0;
 			if($objUser->mb_level >=  LEVEL_ADMIN){
 				if(isEnableRound($arrGetData, ROUND_2MIN)){
@@ -230,10 +229,10 @@ class BbApi extends BaseController {
 		if(is_login()) {
 
 			//model
-			$memberModel  = new Member_Model();
+			
 			$bbroundModel = new BbRound_model();
 			$strUid = $this->session->user_id;
-			$objUser = $memberModel->getInfo($strUid);
+			$objUser = $this->modelMember->getInfo($strUid);
 			$bResult = false;
 			if($objUser->mb_level >=  LEVEL_ADMIN)
 				$bResult = $bbroundModel->modify($arrGetData);
@@ -256,12 +255,12 @@ class BbApi extends BaseController {
 		if(is_login()) {
 
 			//model
-			$memberModel  = new Member_Model();
+			
 			$bbbetModel = new BbBet_Model();
 			$moneyhistoryModel = new MoneyHistory_Model();
 
 			$strUid = $this->session->user_id;
-			$objUser = $memberModel->getInfo($strUid);
+			$objUser = $this->modelMember->getInfo($strUid);
 			$bResult = false;
 			if($objUser->mb_level >=  LEVEL_ADMIN){
 				for($i = 0; $i < count($arrGetData); $i++) {
@@ -269,7 +268,7 @@ class BbApi extends BaseController {
 					if(!is_null($objBet) && $objBet->bet_state != 4){
 						$bResult = $bbbetModel->ignore($objBet); 
 						if($bResult){
-							$objBetUser = $memberModel->getInfo($objBet->bet_mb_uid);
+							$objBetUser = $this->modelMember->getInfo($objBet->bet_mb_uid);
 							if($objBet->bet_state == 2 || $objBet->bet_state == 1){		//미적중 혹은 대기중
 								$dtMoney = $objBet->bet_money;
 							}
@@ -277,7 +276,7 @@ class BbApi extends BaseController {
 								$dtMoney = $objBet->bet_money - $objBet->bet_win_money;
 							}
 							$dtPoint = 0 - $objBet->point_amount;
-							$bResult = $memberModel->moneyProc($objBetUser, $dtMoney, $dtPoint, 0, 0);
+							$bResult = $this->modelMember->moneyProc($objBetUser, $dtMoney, $dtPoint, 0, 0);
 							if($bResult)
 				            	$moneyhistoryModel->registerAccountBet($objBetUser, $objBet, $dtMoney, MONEYCHANGE_WIN_BB);
 
@@ -308,13 +307,13 @@ class BbApi extends BaseController {
 		if(is_login()) {
 
 			//model
-			$memberModel  = new Member_Model();
+			
 			$bbroundModel = new BbRound_model();
 			$bbbetModel = new BbBet_Model();
 			$moneyhistoryModel = new MoneyHistory_Model();
 
 			$strUid = $this->session->user_id;
-			$objUser = $memberModel->getInfo($strUid);
+			$objUser = $this->modelMember->getInfo($strUid);
 			$bResult = false;
 			if($objUser->mb_level >=  LEVEL_ADMIN){
 				for($i = 0; $i < count($arrGetData); $i++) {
@@ -328,10 +327,10 @@ class BbApi extends BaseController {
 						$bResult = $bbbetModel->updateBetRound($objRoundInfo, $objBet);
  
 						if($bResult){
-							$objBetUser = $memberModel->getInfo($objBet->bet_mb_uid);
+							$objBetUser = $this->modelMember->getInfo($objBet->bet_mb_uid);
 							if($objBet->bet_win_money > 0){		//적중
 					      		$dtMoney = $objBet->bet_win_money;
-					            $bResult = $memberModel->moneyProc($objBetUser, $dtMoney, 0, 0, 0);
+					            $bResult = $this->modelMember->moneyProc($objBetUser, $dtMoney, 0, 0, 0);
 					            if($bResult){
 					            	$moneyhistoryModel->registerAccountBet($objBetUser, $objBet, $dtMoney, MONEYCHANGE_WIN_BB);
 					            }
@@ -343,14 +342,14 @@ class BbApi extends BaseController {
 						$bResult = $bbbetModel->updateBetRound($objRoundInfo, $objBet);
 
 						if($bResult){
-							$objBetUser = $memberModel->getInfo($objBet->bet_mb_uid);
+							$objBetUser = $this->modelMember->getInfo($objBet->bet_mb_uid);
 							if($objBet->bet_win_money > 0){		//적중
 					      		$dtMoney = $objBet->bet_win_money - $objBet->bet_money;
 							} else {
 								$dtMoney = 0 - $objBet->bet_money;								
 							}
 							$dtPont = $objBet->point_amount;
-							$bResult = $memberModel->moneyProc($objBetUser, $dtMoney, $dtPont, 0, 0);
+							$bResult = $this->modelMember->moneyProc($objBetUser, $dtMoney, $dtPont, 0, 0);
 							if($bResult){
 
 					            $moneyhistoryModel->registerAccountBet($objBetUser, $objBet, $dtMoney, MONEYCHANGE_WIN_BB);

@@ -3,7 +3,6 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\BbRound_model;
 use App\Models\BsRound_model;
-use App\Models\Member_Model;
 use App\Models\ConfSite_Model;
 use App\Models\PbRound_model;
 use App\Models\PsRound_Model;
@@ -24,9 +23,9 @@ class Result extends StdController {
 			return $this->response->redirect( $_ENV['app.furl'].'/pages/login');
 		}
 		$objRound = null;
-		$memberModel  = new Member_Model();
+		
 		$strUid = $this->session->user_id;
-		$objUser = $memberModel->getInfo($strUid);
+		$objUser = $this->modelMember->getInfo($strUid);
 		if($objUser->mb_level >= $userLevel)
 		{
 			$objRound = null;

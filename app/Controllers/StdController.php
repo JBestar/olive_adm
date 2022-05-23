@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Models\ConfSite_Model;
-use App\Models\Member_Model;
 
 class StdController extends BaseController
 {
@@ -16,12 +15,10 @@ class StdController extends BaseController
 			$arrData['confdropdown'] = "style=\"display:block\"";
 			$arrData[$activePage] = " sidebar-a-active";
 			
-			
-			$memberModel = new Member_Model();
 			$confsiteModel = new ConfSite_Model();
 
 			$strUid = $this->session->user_id;
-			$objUser = $memberModel->getInfo($strUid);
+			$objUser = $this->modelMember->getInfo($strUid);
 			$arrData['mb_level'] = $objUser->mb_level;
 			$arrData += $this->getSiteConf($confsiteModel);
 			

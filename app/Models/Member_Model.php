@@ -73,7 +73,7 @@ class Member_Model extends Model
     private $getFields = ['mb_fid', 'mb_uid', 'mb_level','mb_emp_fid', 'mb_emp_permit', 'mb_nickname', 
         'mb_email', 'mb_phone', 'mb_bank_name', 'mb_bank_own', 'mb_bank_num', 'mb_bank_pwd',
         'mb_ip_join', 'mb_ip_last',
-        'mb_money', 'mb_point', 'mb_money_charge', 'mb_money_exchange', 'mb_grade', 
+        'mb_money', 'mb_point', 'mb_money_charge', 'mb_money_exchange', 'mb_grade', 'mb_color',
         'mb_state_active', 'mb_state_delete', 'mb_state_alarm', 'mb_state_view',
         'mb_game_pb', 'mb_game_ps', 'mb_game_bb', 'mb_game_bs', 'mb_game_cs', 'mb_game_sl', 
         'mb_game_pb_ratio', 'mb_game_pb2_ratio','mb_game_ps_ratio', 'mb_game_bb_ratio', 'mb_game_bb2_ratio', 
@@ -164,11 +164,10 @@ class Member_Model extends Model
 
     public function login($strUserId, $strPwd)
     {
-        return $this->builder()
-            ->where([
+        return $this->where([
             'mb_uid' => $strUserId,
             'mb_pwd' => $strPwd ])
-            ->get()->getRow();
+            ->first();
     }
 
     public function deleteMemberByFid($arrDeleteData)
@@ -176,7 +175,7 @@ class Member_Model extends Model
         return $this->delete($arrDeleteData['mb_fid']);
     }
 
-    public function changePassword($strUserId, $arrPwd)
+    public function changePassword($strUserId, $arrPwd, &$query)
     {
         if (null == $arrPwd) {
             return 0;
@@ -215,9 +214,10 @@ class Member_Model extends Model
         }
 
         $this->builder()->set($data)
-        ->where('mb_fid', $objUser->mb_fid)
+        ->where('mb_fid', $objUser['mb_fid'])
         ->update();
 
+        $query = $this->db->getLastQuery();
         return 1;
     }
 
@@ -800,7 +800,7 @@ class Member_Model extends Model
         return 1;
     }
 
-    public function modifyMember($arrData, &$strError)
+    public function modifyMember($arrData, &$strError, &$query)
     {
         // 결과 0:오유 1:성공 2:아이디중복 3:추천인 오유 4:파워볼 배당율오유 5:파워사다리 배당율오유 6:키노사다리 배당율 오유, 11 중복닉네임
 
@@ -873,6 +873,7 @@ class Member_Model extends Model
         $bResult = $this->update($arrData['mb_fid'], $arrData);
         
         if ($bResult) {
+            $query = $this->db->getLastQuery();
             return 1;
         }
         $strError = $this->errors();
@@ -880,7 +881,7 @@ class Member_Model extends Model
         return -1;
     }
 
-    public function modifyMemberRatio($arrData, &$strError)
+    public function modifyMemberRatio($arrData, &$strError, &$query)
     {
         // 결과 0:오유 1:성공 2:아이디중복 3:추천인 오유 4:파워볼 배당율오유 5:파워사다리 배당율오유 6:키노사다리 배당율 오유
 
@@ -935,11 +936,12 @@ class Member_Model extends Model
 
         $this->builder()->where('mb_fid', $arrData['mb_fid']);
         $bResult = $this->builder()->update();
+        $query = $this->db->getLastQuery();
 
         return 1;
     }
 
-    public function updateMemberByFid($arrData)
+    public function updateMemberByFid($arrData, &$query)
     {
         if (array_key_exists('mb_state_active', $arrData)) {
             $this->builder()->set('mb_state_active', $arrData['mb_state_active']);
@@ -963,7 +965,8 @@ class Member_Model extends Model
 
         $this->builder()->where('mb_fid', $arrData['mb_fid']);
         $bResult = $this->builder()->update();
-
+        $query = $this->db->getLastQuery();
+        
         return $bResult;
     }
 

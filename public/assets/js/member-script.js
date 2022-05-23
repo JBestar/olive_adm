@@ -31,7 +31,7 @@ function showMember(arrMember, confs) {
     for (var nRow in arrMember) {
         strBuf += "<tr id ='" + arrMember[nRow].mb_fid + "'";
         if (arrMember[nRow].mb_color != null)
-            strBuf += " bgcolor='" + arrMember[nRow].mb_color + "'";
+            strBuf += "bgcolor='" + arrMember[nRow].mb_color + "' ";
         strBuf += ">";
         strBuf += "<td>";
         strBuf += (parseInt(nRow) + firstIdx + 1);
@@ -216,7 +216,7 @@ function requestMember() {
         data: { json_: jsonData },
         success: function(jResult) {
             $(".loading").hide();
-            //console.log(jResult);
+            // console.log(jResult);
             if (jResult.status == "success") {
                 showMember(jResult.data, jResult.confs);
             } else if (jResult.status == "fail") {

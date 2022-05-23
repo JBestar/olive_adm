@@ -2,7 +2,6 @@
 namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\ConfGame_model;
-use App\Models\Member_Model;
 use App\Models\MoneyHistory_Model;
 use App\Models\PsBet_model;
 use App\Models\PsRound_Model;
@@ -121,15 +120,15 @@ class PsApi extends BaseController {
 		if(is_login()) {
 			//model
 			$psbetModel = new PsBet_model();
-			$memberModel  = new Member_Model();
+			
 			
 			$strUid = $this->session->user_id;
-			$objAdmin = $memberModel->getInfo($strUid);
+			$objAdmin = $this->modelMember->getInfo($strUid);
 
 			$arrBetAccount = null;
 			if($objAdmin->mb_level >= LEVEL_ADMIN){
 				if(strlen(trim($arrGetData['emp'])) > 0){
-					$objAdmin = $memberModel->getInfo(trim($arrGetData['emp']));
+					$objAdmin = $this->modelMember->getInfo(trim($arrGetData['emp']));
 				}
 				else 	
 					$arrBetAccount = $psbetModel->getBetAccount($arrGetData);
@@ -162,12 +161,12 @@ class PsApi extends BaseController {
 		if(is_login()) {
 			//model
 			$psbetModel = new PsBet_model();
-			$memberModel  = new Member_Model();
+			
 			
 			$strUid = $this->session->user_id;
-			$objAdmin = $memberModel->getInfo($strUid);
+			$objAdmin = $this->modelMember->getInfo($strUid);
 			if($objAdmin->mb_level >= LEVEL_ADMIN && strlen(trim($arrGetData['emp'])) > 0){
-				$objAdmin = $memberModel->getInfo(trim($arrGetData['emp']));
+				$objAdmin = $this->modelMember->getInfo(trim($arrGetData['emp']));
 			}
 			$objCount = $psbetModel->searchCount($objAdmin, $arrGetData);
 			
@@ -192,10 +191,10 @@ class PsApi extends BaseController {
 		if(is_login()) {
 
 			//model
-			$memberModel  = new Member_Model();
+			
 			$psroundModel = new PsRound_Model();;
 			$strUid = $this->session->user_id;
-			$objUser = $memberModel->getInfo($strUid);
+			$objUser = $this->modelMember->getInfo($strUid);
 			$iResult = 0;
 			if($objUser->mb_level >=  LEVEL_ADMIN){
 				if(isEnableRound($arrGetData, ROUND_5MIN)){
@@ -231,10 +230,10 @@ class PsApi extends BaseController {
 		if(is_login()) {
 
 			//model
-			$memberModel  = new Member_Model();
+			
 			$psroundModel = new PsRound_Model();;
 			$strUid = $this->session->user_id;
-			$objUser = $memberModel->getInfo($strUid);
+			$objUser = $this->modelMember->getInfo($strUid);
 			$bResult = false;
 			if($objUser->mb_level >=  LEVEL_ADMIN)
 				$bResult = $psroundModel->modify($arrGetData);
@@ -260,12 +259,12 @@ class PsApi extends BaseController {
 		if(is_login()) {
 
 			//model
-			$memberModel  = new Member_Model();
+			
 			$psbetModel = new PsBet_model();
 			$moneyhistoryModel = new MoneyHistory_Model();
 			
 			$strUid = $this->session->user_id;
-			$objUser = $memberModel->getInfo($strUid);
+			$objUser = $this->modelMember->getInfo($strUid);
 			$bResult = false;
 			if($objUser->mb_level >=  LEVEL_ADMIN){
 				for($i = 0; $i < count($arrGetData); $i++) {
@@ -273,7 +272,7 @@ class PsApi extends BaseController {
 					if(!is_null($objBet) && $objBet->bet_state != 4){
 						$bResult = $psbetModel->ignore($objBet); 
 						if($bResult){
-							$objBetUser = $memberModel->getInfo($objBet->bet_mb_uid);
+							$objBetUser = $this->modelMember->getInfo($objBet->bet_mb_uid);
 							if($objBet->bet_state == 2 || $objBet->bet_state == 1){		//미적중 혹은 대기중
 								$dtMoney = $objBet->bet_money;
 							}
@@ -281,7 +280,7 @@ class PsApi extends BaseController {
 								$dtMoney = $objBet->bet_money - $objBet->bet_win_money;
 							}
 							$dtPoint = 0 - $objBet->point_amount;
-							$bResult = $memberModel->moneyProc($objBetUser, $dtMoney, $dtPoint, 0, 0);
+							$bResult = $this->modelMember->moneyProc($objBetUser, $dtMoney, $dtPoint, 0, 0);
 							if($bResult)
 				            	$moneyhistoryModel->registerAccountBet($objBetUser, $objBet, $dtMoney, MONEYCHANGE_WIN_PS);
 
@@ -312,13 +311,13 @@ class PsApi extends BaseController {
 		if(is_login()) {
 
 			//model
-			$memberModel  = new Member_Model();
+			
 			$psroundModel = new PsRound_Model();;
 			$psbetModel = new PsBet_model();
 			$moneyhistoryModel = new MoneyHistory_Model();
 
 			$strUid = $this->session->user_id;
-			$objUser = $memberModel->getInfo($strUid);
+			$objUser = $this->modelMember->getInfo($strUid);
 			$bResult = false;
 			if($objUser->mb_level >=  LEVEL_ADMIN){
 				for($i = 0; $i < count($arrGetData); $i++) {
@@ -331,10 +330,10 @@ class PsApi extends BaseController {
 						
 						$bResult = $psbetModel->updateBetRound($objRoundInfo, $objBet); 
 						if($bResult){
-							$objBetUser = $memberModel->getInfo($objBet->bet_mb_uid);
+							$objBetUser = $this->modelMember->getInfo($objBet->bet_mb_uid);
 							if($objBet->bet_win_money > 0){		//적중
 					      		$dtMoney = $objBet->bet_win_money;
-					            $bResult = $memberModel->moneyProc($objBetUser, $dtMoney, 0, 0, 0);
+					            $bResult = $this->modelMember->moneyProc($objBetUser, $dtMoney, 0, 0, 0);
 					            if($bResult){
 					            	$moneyhistoryModel->registerAccountBet($objBetUser, $objBet, $dtMoney, MONEYCHANGE_WIN_PS);
 					            }
@@ -347,14 +346,14 @@ class PsApi extends BaseController {
 						
 						$bResult = $psbetModel->updateBetRound($objRoundInfo, $objBet); 
 						if($bResult){
-							$objBetUser = $memberModel->getInfo($objBet->bet_mb_uid);
+							$objBetUser = $this->modelMember->getInfo($objBet->bet_mb_uid);
 							if($objBet->bet_win_money > 0){		//적중
 					      		$dtMoney = $objBet->bet_win_money - $objBet->bet_money;
 							} else {
 								$dtMoney = 0 - $objBet->bet_money;								
 							}
 							$dtPont = $objBet->point_amount;
-							$bResult = $memberModel->moneyProc($objBetUser, $dtMoney, $dtPont, 0, 0);
+							$bResult = $this->modelMember->moneyProc($objBetUser, $dtMoney, $dtPont, 0, 0);
 							if($bResult){
 
 					            $moneyhistoryModel->registerAccountBet($objBetUser, $objBet, $dtMoney, MONEYCHANGE_WIN_PS);
