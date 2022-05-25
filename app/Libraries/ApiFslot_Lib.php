@@ -15,7 +15,7 @@ class ApiFslot_Lib {
       
         $objConf = $modelConfsite->find(CONF_SLOT_2);
         if(!is_null($objConf)){
-            $arrInfo = explode("#", $objConf['conf_content']);
+            $arrInfo = explode("#", $objConf->conf_content);
             if(count($arrInfo) >= 3){	//0-host, 1-ag_code, 2-ag_token
                 $this->mHost = $arrInfo[0];
                 $this->mAgCode = $arrInfo[1];

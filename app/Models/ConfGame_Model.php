@@ -5,6 +5,7 @@ use CodeIgniter\Model;
 class ConfGame_model extends Model {
 	
 	protected $table = 'conf_game';
+    protected $returnType = 'object'; 
     protected $allowedFields = [
         'game_name', 
         'game_bet_permit', 
@@ -48,7 +49,7 @@ class ConfGame_model extends Model {
     protected $primaryKey = 'game_index';
 
     public function getByIndex($strIndex){
-        return $this->asObject()->where(array('game_index'=>$strIndex))->first();
+        return $this->where(array('game_index'=>$strIndex))->first();
     }
 
     public function saveData($arrData){

@@ -4,9 +4,10 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class BbRound_model extends Model
+class BbRound_Model extends Model
 {
     protected $table = 'round_bogleball';
+    protected $returnType = 'object'; 
     protected $allowedFields = [
         'round_date',
         'round_num',
@@ -34,7 +35,7 @@ class BbRound_model extends Model
 
     public function get($nRoundFid)
     {
-        return $this->asObject()->where(['round_fid' => $nRoundFid])->first();
+        return $this->where(['round_fid' => $nRoundFid])->first();
     }
 
     public function getByDate($strDate, $nRoundNo)
@@ -43,7 +44,7 @@ class BbRound_model extends Model
             return null;
         }
 
-        return $this->asObject()->where(['round_num' => $nRoundNo, 'round_date' => $strDate])->first();
+        return $this->where(['round_num' => $nRoundNo, 'round_date' => $strDate])->first();
     }
 
     public function register($arrReqData)

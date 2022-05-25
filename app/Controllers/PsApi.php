@@ -3,7 +3,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\ConfGame_model;
 use App\Models\MoneyHistory_Model;
-use App\Models\PsBet_model;
+use App\Models\PsBet_Model;
 use App\Models\PsRound_Model;
 
 class PsApi extends BaseController {
@@ -74,7 +74,7 @@ class PsApi extends BaseController {
 	//실시간베팅결과 합을 Ajax로 전송
 	public function betrealtime(){ 
 		if(is_login()) {
-			$psbetModel = new PsBet_model();
+			$psbetModel = new PsBet_Model();
 			$confgameModel = new ConfGame_model();
 			
 
@@ -119,7 +119,7 @@ class PsApi extends BaseController {
 		//var_dump($arrBetData);
 		if(is_login()) {
 			//model
-			$psbetModel = new PsBet_model();
+			$psbetModel = new PsBet_Model();
 			
 			
 			$strUid = $this->session->user_id;
@@ -160,7 +160,7 @@ class PsApi extends BaseController {
 		//var_dump($arrBetData);
 		if(is_login()) {
 			//model
-			$psbetModel = new PsBet_model();
+			$psbetModel = new PsBet_Model();
 			
 			
 			$strUid = $this->session->user_id;
@@ -260,7 +260,7 @@ class PsApi extends BaseController {
 
 			//model
 			
-			$psbetModel = new PsBet_model();
+			$psbetModel = new PsBet_Model();
 			$moneyhistoryModel = new MoneyHistory_Model();
 			
 			$strUid = $this->session->user_id;
@@ -313,7 +313,7 @@ class PsApi extends BaseController {
 			//model
 			
 			$psroundModel = new PsRound_Model();;
-			$psbetModel = new PsBet_model();
+			$psbetModel = new PsBet_Model();
 			$moneyhistoryModel = new MoneyHistory_Model();
 
 			$strUid = $this->session->user_id;

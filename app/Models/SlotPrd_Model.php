@@ -9,9 +9,7 @@ class SlotPrd_Model extends Model {
     protected $primaryKey = 'id';
 
     protected $returnType = 'object'; 
-    protected $allowedFields = [
-        'hidden',
-    ];
+    protected $allowedFields = ['hidden'];
 
     public function gets($cat){
         return $this->where('cat', $cat)

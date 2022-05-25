@@ -5,6 +5,7 @@ use CodeIgniter\Model;
 class MoneyHistory_Model extends Model 
 {
     protected $table = 'money_history';
+    protected $returnType = 'object'; 
     protected $allowedFields = [
         'money_mb_fid', 
         'money_mb_uid', 
@@ -20,9 +21,6 @@ class MoneyHistory_Model extends Model
     ];
     protected $primaryKey = 'money_fid';
     private $mMemberTable = 'member';
-
-    
-
 
     function registerCharge($objUser, $nChargeMoney)
     {
@@ -120,12 +118,12 @@ class MoneyHistory_Model extends Model
         $this->builder()->set('money_amount', $nAmount);
         if($type == MONEYCHANGE_WITHDRAW)
         {
-            $this->builder()->set('money_before', allMoney($objUser)+$nAmount);
-            $this->builder()->set('money_after', allMoney($objUser));
+            $this->builder()->set('money_before', allMoney($objUser));
+            $this->builder()->set('money_after', allMoney($objUser)+$nAmount);
         } else if($type == POINTHANGE_WITHDRAW)
         {
-            $this->builder()->set('money_before', $objUser->mb_point+$nAmount);
-            $this->builder()->set('money_after', $objUser->mb_point);
+            $this->builder()->set('money_before', $objUser->mb_point);
+            $this->builder()->set('money_after', $objUser->mb_point+$nAmount);
         } else return false;
         
         $this->builder()->set('money_change_type', $type);   

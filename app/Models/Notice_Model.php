@@ -5,6 +5,7 @@ use CodeIgniter\Model;
 class Notice_Model extends Model {
 	
 	protected $table ='board_notice';
+    protected $returnType = 'object'; 
     protected $allowedFields = [
         'notice_type', 
         'notice_title', 
@@ -20,33 +21,17 @@ class Notice_Model extends Model {
     ];
     protected $primaryKey = 'notice_fid';
 
-    //notice_type 0:ÂÊÁö 1: °øÁö»çÇ×, 2:ÀÌº¥Æ® 3:¹®ÀÇ 4:ÀüÃ¼¹ß¼Û
     public function getNotices(){
-        return $this->asObject()->where([
-            'notice_type' => 1,
-            'notice_state_delete' => 0,
+        return $this->where([
+            'notice_type' => NOTICE_BOARD,
+            'notice_state_delete' => STATE_DISABLE,
         ])->findAll();
     }
 
-	 public function getEvents(){
-         return $this->asObject()->where([
-            'notice_type '=>2, 
-            'notice_state_delete'=>0
-         ])->first();
-    }
-
     public function getNoticeByFid($strNoticeFid){
-        return $this->asObject()->where([
-            'notice_type '=>1, 
-            'notice_state_delete'=>0, 
-            'notice_fid'=>$strNoticeFid
-        ])->first();
-    }
-
-    public function getEventByFid($strNoticeFid){
-        return $this->asObject()->where([
-            'notice_type '=>2,
-            'notice_state_delete'=>0, 
+        return $this->where([
+            'notice_type '=> NOTICE_BOARD, 
+            'notice_state_delete'=> STATE_DISABLE, 
             'notice_fid'=>$strNoticeFid
         ])->first();
     }
@@ -62,7 +47,7 @@ class Notice_Model extends Model {
 
         if(is_null($objMessage)) return false;
 
-        if($objMessage->notice_mb_uid != '*' || $objMessage->notice_type != 0)
+        if($objMessage->notice_mb_uid != '*' || $objMessage->notice_type != NOTICE_MSG)
           return false;
 
         if (array_key_exists("notice_title", $arrData))
@@ -79,7 +64,7 @@ class Notice_Model extends Model {
 
 
         $this->builder()->where('notice_emp_fid', $objMessage->notice_fid);
-        $this->builder()->where('notice_type', 4);
+        $this->builder()->where('notice_type', NOTICE_MSG_ALL);
         
         return $this->builder()->update();
 
@@ -113,8 +98,8 @@ class Notice_Model extends Model {
 
 
     public function getMessageByFid($strNoticeFid){
-        return $this->asObject()->where([
-            'notice_state_delete'=>0, 
+        return $this->where([
+            'notice_state_delete'=>STATE_DISABLE, 
             'notice_fid'=>$strNoticeFid,
         ])->first();
     }
@@ -124,7 +109,7 @@ class Notice_Model extends Model {
         $this->builder()->set('notice_read_count', 1);
 
         $this->builder()->where('notice_fid', $objNotice->notice_fid);
-        $this->builder()->where('notice_type', 3);
+        $this->builder()->where('notice_type', NOTICE_CUSTOMER);
         
         return $this->builder()->update();
     }
@@ -137,24 +122,24 @@ class Notice_Model extends Model {
 
         if($arrReqData['notice_type'] == 1 ){                           //수신쪽지
 
-          $strSql.=" WHERE notice_state_delete = '0' AND notice_type = '3'  ";
+          $strSql.=" WHERE notice_state_delete = '".STATE_DISABLE."' AND notice_type = '".NOTICE_CUSTOMER."'  ";
 
           if(strlen($arrReqData['notice_mb_uid']) > 0 )
               $strSql.=" AND notice_mb_uid = '".$arrReqData['notice_mb_uid']."' ";            
 
         } else if($arrReqData['notice_type'] == 2 ){                    //발송쪽지
-          $strSql.=" WHERE notice_state_delete = '0' AND notice_type = '0'  ";
+          $strSql.=" WHERE notice_state_delete = '".STATE_DISABLE."' AND notice_type = '".NOTICE_MSG."'  ";
 
           if(strlen($arrReqData['notice_mb_uid']) > 0 )
               $strSql.=" AND notice_mb_uid = '".$arrReqData['notice_mb_uid']."' ";
 
         } else {                                                        //전체
-          $strSql.=" WHERE (notice_state_delete = '0' AND notice_type = '3'  ";
+          $strSql.=" WHERE (notice_state_delete = '".STATE_DISABLE."' AND notice_type = '".NOTICE_CUSTOMER."'  ";
 
           if(strlen($arrReqData['notice_mb_uid']) > 0 )
               $strSql.=" AND notice_mb_uid = '".$arrReqData['notice_mb_uid']."' ";
 
-          $strSql.=") OR (notice_state_delete = '0' AND notice_type = '0' ";            
+          $strSql.=") OR (notice_state_delete = '".STATE_DISABLE."' AND notice_type = '".NOTICE_MSG."' ";            
           if(strlen($arrReqData['notice_mb_uid']) > 0 )
               $strSql.=" AND notice_mb_uid = '".$arrReqData['notice_mb_uid']."' ";
           $strSql.=") ";
@@ -178,24 +163,24 @@ class Notice_Model extends Model {
 
         if($arrReqData['notice_type'] == 1 ){
 
-          $strSql.=" WHERE notice_state_delete = '0' AND notice_type = '3'  ";
+          $strSql.=" WHERE notice_state_delete = '".STATE_DISABLE."' AND notice_type = '".NOTICE_CUSTOMER."'  ";
 
           if(strlen($arrReqData['notice_mb_uid']) > 0 )
               $strSql.=" AND notice_mb_uid = '".$arrReqData['notice_mb_uid']."' ";            
 
         } else if($arrReqData['notice_type'] == 2 ){
-          $strSql.=" WHERE notice_state_delete = '0' AND notice_type = '0'  ";
+          $strSql.=" WHERE notice_state_delete = '".STATE_DISABLE."' AND notice_type = '".NOTICE_MSG."'  ";
 
           if(strlen($arrReqData['notice_mb_uid']) > 0 )
               $strSql.=" AND notice_mb_uid = '".$arrReqData['notice_mb_uid']."' ";
 
         } else {
-          $strSql.=" WHERE (notice_state_delete = '0' AND notice_type = '3'  ";
+          $strSql.=" WHERE (notice_state_delete = '".STATE_DISABLE."' AND notice_type = '".NOTICE_CUSTOMER."'  ";
 
           if(strlen($arrReqData['notice_mb_uid']) > 0 )
               $strSql.=" AND notice_mb_uid = '".$arrReqData['notice_mb_uid']."' ";
 
-          $strSql.=") OR (notice_state_delete = '0' AND notice_type = '0' ";            
+          $strSql.=") OR (notice_state_delete = '".STATE_DISABLE."' AND notice_type = '".NOTICE_MSG."' ";            
           if(strlen($arrReqData['notice_mb_uid']) > 0 )
               $strSql.=" AND notice_mb_uid = '".$arrReqData['notice_mb_uid']."' ";
           $strSql.=") ";
@@ -209,7 +194,7 @@ class Notice_Model extends Model {
 
     function getNewMessageCnt(){
         $strSql = "SELECT count(*) as count  FROM ".$this->table;
-        $strSql.=" WHERE notice_state_delete = '0' AND notice_type = '3'  ";
+        $strSql.=" WHERE notice_state_delete = '".STATE_DISABLE."' AND notice_type = '".NOTICE_CUSTOMER."'  ";
         $strSql.=" AND notice_read_count = '0' ";  
      
         $query = $this -> db -> query($strSql);

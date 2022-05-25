@@ -3,8 +3,8 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\ConfGame_model;
 use App\Models\MoneyHistory_Model;
-use App\Models\PbBet_model;
-use App\Models\PbRound_model;
+use App\Models\PbBet_Model;
+use App\Models\PbRound_Model;
 
 class PbApi extends BaseController {
 
@@ -32,7 +32,7 @@ class PbApi extends BaseController {
 		if(is_login()) {
 
 			//model
-			$pbroundModel = new PbRound_model();
+			$pbroundModel = new PbRound_Model();
 			$objResults = $pbroundModel->search($arrGetData);
 
 			$arrResult['data'] = $objResults;
@@ -56,7 +56,7 @@ class PbApi extends BaseController {
 		if(is_login()) {
 
 			//model
-			$pbroundModel = new PbRound_model();
+			$pbroundModel = new PbRound_Model();
 			$objCount = $pbroundModel->searchCount($arrGetData);
 			
 			$arrResult['data'] = $objCount;
@@ -78,7 +78,7 @@ class PbApi extends BaseController {
 		//var_dump($arrBetData);
 		if(is_login()) {
 			//model
-			$pbbetModel = new PbBet_model();
+			$pbbetModel = new PbBet_Model();
 			
 			
 			$strUid = $this->session->user_id;
@@ -120,7 +120,7 @@ class PbApi extends BaseController {
 		//var_dump($arrBetData);
 		if(is_login()) {
 			//model
-			$pbbetModel = new PbBet_model();
+			$pbbetModel = new PbBet_Model();
 			
 			
 			$strUid = $this->session->user_id;
@@ -147,7 +147,7 @@ class PbApi extends BaseController {
 	//실시간베팅결과 합을 Ajax로 전송
 	public function betrealtime(){ 
 		if(is_login()) {
-			$pbbetModel = new PbBet_model();
+			$pbbetModel = new PbBet_Model();
 			$confgameModel = new ConfGame_model();
 			
 			$arrRoundInfo = getPbRoundInfo();
@@ -192,7 +192,7 @@ class PbApi extends BaseController {
 
 			//model
 			
-			$pbroundModel = new PbRound_model();
+			$pbroundModel = new PbRound_Model();
 			$strUid = $this->session->user_id;
 			$objUser = $this->modelMember->getInfo($strUid);
 			$iResult = 0;
@@ -231,7 +231,7 @@ class PbApi extends BaseController {
 
 			//model
 			
-			$pbroundModel = new PbRound_model();
+			$pbroundModel = new PbRound_Model();
 			$strUid = $this->session->user_id;
 			$objUser = $this->modelMember->getInfo($strUid);
 			$bResult = false;
@@ -257,7 +257,7 @@ class PbApi extends BaseController {
 
 			//model
 			
-			$pbbetModel = new PbBet_model();
+			$pbbetModel = new PbBet_Model();
 			$moneyhistoryModel = new MoneyHistory_Model();
 
 			$strUid = $this->session->user_id;
@@ -309,8 +309,8 @@ class PbApi extends BaseController {
 
 			//model
 			
-			$pbroundModel = new PbRound_model();
-			$pbbetModel = new PbBet_model();
+			$pbroundModel = new PbRound_Model();
+			$pbbetModel = new PbBet_Model();
 			$moneyhistoryModel = new MoneyHistory_Model();
 
 			$strUid = $this->session->user_id;

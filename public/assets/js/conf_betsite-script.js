@@ -16,7 +16,6 @@ function showConfSite(arrData) {
     $("#conf-userpwd-input-id").val(arrData[2]);
     $("#confpb-bet-check-id").prop('checked', arrData[3] > 0 ? true : false);
     $("#conf-bettype-select-id").val(arrData[4]);
-    // $("#conf-money-input-id").val(arrData[5]);
     changeBetType();
 
 }
@@ -31,26 +30,25 @@ function addBtnEvent() {
         objData.site = "";
         if ($("#conf-betsite-input-id").length > 0) {
             objData.site = $("#conf-betsite-input-id").val();
-            if (objData.site.length < 1) {
-                alert("사이트명을 입력하세요.");
-                return;
-            }
+            // if (objData.site.length < 1) {
+            //     alert("사이트명을 입력하세요.");
+            //     return;
+            // }
         }
         objData.userid = $("#conf-userid-input-id").val();
-        if (objData.userid.length < 1) {
-            alert("계정 아이디를 입력하세요.");
-            return;
-        }
+        // if (objData.userid.length < 1) {
+        //     alert("계정 아이디를 입력하세요.");
+        //     return;
+        // }
         objData.userpwd = $("#conf-userpwd-input-id").val();
-        if (objData.userpwd.length < 1) {
-            alert("계정 비밀번호를 입력하세요.");
-            return;
-        }
+        // if (objData.userpwd.length < 1) {
+        //     alert("계정 비밀번호를 입력하세요.");
+        //     return;
+        // }
         objData.active = $("#confpb-bet-check-id").prop('checked') ? 1 : 0;
         objData.type = $("#conf-bettype-select-id").val();
         
         var jsonData = JSON.stringify(objData);
-
 
         if (!confirm("저장하시겠습니까?"))
             return;
@@ -108,7 +106,7 @@ function requestConfBetSite() {
         dataType: "json",
         url: FURL + "/api/getBetSite",
         success: function(jResult) {
-            console.log(jResult);
+            // console.log(jResult);
             if (jResult.status == "success") {
                 showConfSite(jResult.data);
             } else if (jResult.status == "logout") {

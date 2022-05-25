@@ -141,8 +141,8 @@ function requestUpdateNotice(jsData) {
 function requestNotice() {
 
     var nPage = getActivePage();
-    var strNoticeType = document.getElementById("message-type-select-id").value;
-    var strMbUid = document.getElementById("message-userid-input-id").value;
+    var strNoticeType = $("#message-type-select-id").val();
+    var strMbUid = $("#message-userid-input-id").val();
     var jsonData = { "count": CountPerPage, "page": nPage, "notice_type": strNoticeType, "notice_mb_uid": strMbUid };
 
     jsonData = JSON.stringify(jsonData);

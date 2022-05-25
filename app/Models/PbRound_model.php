@@ -2,10 +2,10 @@
 namespace App\Models;
 use CodeIgniter\Model;
 
-class PbRound_model extends Model {
+class PbRound_Model extends Model {
 	
-	private $mStrPowballRoundURL ;
     protected $table = 'round_powerball';
+    protected $returnType = 'object'; 
     protected $allowedFields = [
         'round_date', 
         'round_num', 
@@ -34,14 +34,14 @@ class PbRound_model extends Model {
 
     public function get($nRoundFid){
 
-        return $this->asObject()->where(array('round_fid'=>$nRoundFid))->first();
+        return $this->where(array('round_fid'=>$nRoundFid))->first();
     }
 
 
     public function getByDate($strDate, $nRoundNo){
         if(strlen($strDate) < 1 || $nRoundNo < 1)
             return null;
-        return $this->asObject()->where(array('round_num'=>$nRoundNo, 'round_date'=>$strDate))->first();
+        return $this->where(array('round_num'=>$nRoundNo, 'round_date'=>$strDate))->first();
     }
     
     public function register($arrReqData){

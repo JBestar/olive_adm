@@ -38,7 +38,6 @@ function readConfigToObject() {
     jsonData.urgentnotice_ok = $("#confsite-urgentnotice-check-id").prop('checked') ? 1 : 0;
     jsonData.bankmacro = $("#confsite-bankmacro-text-id").summernote('code');
     jsonData.multilog_ok = $("#confsite-multilog-check-id").prop('checked') ? 1 : 0;
-    // jsonData.gameper_full = $("#confsite-gameper-check-id").prop('checked') ? 1 : 0;
 
     return jsonData;
 
@@ -99,8 +98,9 @@ function cleanDb(iType) {
 function requestCleanDb(objData) {
     if (objData == null)
         return;
-
+    $("#cleanDb-but").attr("disabled", true);
     var jsonData = JSON.stringify(objData);
+    $(".loading").show();
 
     $.ajax({
         type: "POST",
@@ -108,7 +108,9 @@ function requestCleanDb(objData) {
         data: { json_: jsonData },
         url: FURL + "/api/cleanDb",
         success: function(jResult) {
-            //console.log(jResult);
+            $(".loading").hide();
+            $("#cleanDb-but").attr("disabled", false);
+            // console.log(jResult);
             if (jResult.status == "success") {
                 alert("디비정리가 완료되었습니다.!");
                 location.reload();
@@ -121,7 +123,9 @@ function requestCleanDb(objData) {
             }
         },
         error: function(request, status, error) {
-            //console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            $(".loading").hide();
+            $("#cleanDb-but").attr("disabled", false);
+            // console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
         }
     });
 

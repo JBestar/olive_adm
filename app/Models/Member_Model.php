@@ -7,6 +7,8 @@ use CodeIgniter\Model;
 class Member_Model extends Model
 {
     protected $table = 'member';
+    protected $returnType = 'object'; 
+
     protected $allowedFields = [
         'mb_uid',
         'mb_pwd',
@@ -136,25 +138,26 @@ class Member_Model extends Model
     ];
 
     
-    
-    public function getInfoByFid($strFid)
+    public function getInfoByFid($strFid, $bAll = false)
     {
-        return $this->asObject()->select($this->getFields)->find($strFid);
+        if($bAll)
+            return $this->find($strFid);
+        else return $this->select($this->getFields)->find($strFid);
     }
-
+    
     public function getInfo($strId)
     {
-        return $this->asObject()->select($this->getFields)->where('mb_uid', $strId)->first();
+        return $this->select($this->getFields)->where('mb_uid', $strId)->first();
     }
 
     public function getInfoByUid($strId)
     {
-        return $this->asObject()->select($this->fields)->where('mb_uid', $strId)->first();
+        return $this->select($this->fields)->where('mb_uid', $strId)->first();
     }
 
     public function getByNickname($strName)
     {
-        return $this->asObject()->select($this->getFields)->where('mb_nickname', $strName)->first();
+        return $this->select($this->getFields)->where('mb_nickname', $strName)->first();
     }
 
     public function login($strUserId, $strPwd)
@@ -165,10 +168,10 @@ class Member_Model extends Model
             ->first();
     }
 
-    public function deleteMemberByFid($arrDeleteData)
-    {
-        return $this->delete($arrDeleteData['mb_fid']);
-    }
+    // public function deleteMemberByFid($arrDeleteData)
+    // {
+    //     return $this->delete($arrDeleteData['mb_fid']);
+    // }
 
     public function changePassword($strUserId, $arrPwd, &$query)
     {
@@ -209,7 +212,7 @@ class Member_Model extends Model
         }
 
         $this->builder()->set($data)
-        ->where('mb_fid', $objUser['mb_fid'])
+        ->where('mb_fid', $objUser->mb_fid)
         ->update();
 
         $query = $this->db->getLastQuery();
@@ -325,8 +328,8 @@ class Member_Model extends Model
     {
         $arrTotalMoney = [0, 0, 0, 0];
 
-        $strTbColum = ' mb_fid, mb_uid, mb_level, mb_emp_fid, mb_money, mb_live_money, mb_slot_money, mb_fslot_money ';
-        $strTbRColum = ' r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid , r.mb_money, r.mb_live_money, r.mb_slot_money, r.mb_fslot_money ';
+        $strTbColum = ' mb_fid, mb_uid, mb_level, mb_emp_fid, mb_state_active, mb_money, mb_live_money, mb_slot_money, mb_fslot_money ';
+        $strTbRColum = ' r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid , r.mb_state_active, r.mb_money, r.mb_live_money, r.mb_slot_money, r.mb_fslot_money ';
 
         $strSQL = 'WITH RECURSIVE tbmember ('.$strTbColum.') AS';
         $strSQL .= ' ( SELECT '.$strTbColum.' FROM '.$this->table." WHERE "; 
@@ -338,11 +341,12 @@ class Member_Model extends Model
         $strSQL .= ' UNION ALL SELECT '.$strTbRColum.' FROM '.$this->table.' r ';
         $strSQL .= ' INNER JOIN tbmember ON r.mb_emp_fid = tbmember.mb_fid )';
 
-        $strSQL .= ' SELECT SUM(mb_money) AS mb_money, SUM(mb_live_money) AS mb_live_money, SUM(mb_slot_money) AS mb_slot_money, SUM(mb_fslot_money) AS mb_fslot_money FROM tbmember WHERE ';
+        $strSQL .= ' SELECT SUM(mb_money) AS mb_money, SUM(mb_live_money) AS mb_live_money, SUM(mb_slot_money) AS mb_slot_money, SUM(mb_fslot_money) AS mb_fslot_money FROM tbmember ';
+        $strSQL .=" WHERE mb_state_active != '".PERMIT_DELETE."' ";
         if ($upLevel) {
-            $strSQL .= " mb_level >= '".LEVEL_EMPLOYEE."' ";
+            $strSQL .= " AND mb_level >= '".LEVEL_EMPLOYEE."' ";
         } else {
-            $strSQL .= " mb_level < '".LEVEL_EMPLOYEE."' ";
+            $strSQL .= " AND mb_level < '".LEVEL_EMPLOYEE."' ";
         }
 
         $objResult = $this->db->query($strSQL)->getRow();
@@ -480,8 +484,6 @@ class Member_Model extends Model
             $strSQL .= ' bet_powerball ';
         } elseif ($arrReqData['type'] == GAME_POWER_LADDER ) {
             $strSQL .= ' bet_powerladder ';
-        } elseif ($arrReqData['type'] == GAME_KENO_LADDER ) {
-            $strSQL .= ' bet_kenoladder ';
         } elseif ($arrReqData['type'] == GAME_CASINO_EVOL ) {
             $strSQL .= ' bet_casino ';
         } elseif ($arrReqData['type'] == GAME_BOGLE_BALL ) {
@@ -524,20 +526,13 @@ class Member_Model extends Model
         return $arrBetData;
     }
 
-    public function updateLogin($userData)
+    public function updateLogin($member)
     {
         $this->builder()->set('mb_time_last', 'NOW()', false);
-        $this->builder()->set('mb_ip_last', $userData['mb_ip_last']);
-        $this->builder()->where('mb_fid', $userData['mb_fid']);
+        $this->builder()->set('mb_ip_last', $member->mb_ip_last);
+        $this->builder()->where('mb_fid', $member->mb_fid);
 
         return $this->builder()->update();
-    }
-
-    public function getUserData($user_id)
-    {
-        $userData = $this->where('mb_uid', $user_id)->first();
-
-        return $userData;
     }
 
     
@@ -569,10 +564,15 @@ class Member_Model extends Model
     public function getMemberByLevel($strLevel, $bLowLev = false)
     {
         $query = null;
+
+        $where =" mb_state_active != '".PERMIT_DELETE."' ";
+
         if ($bLowLev) {
-            $query = $this->asObject()->where('mb_level <', $strLevel);
+            $where .= 'AND mb_level < '.$strLevel;
+            $query = $this->where($where);
         } else {
-            $query = $this->asObject()->where('mb_level', $strLevel);
+            $where .= 'AND mb_level = '.$strLevel;
+            $query = $this->where($where);
         }
         if (null == $query) {
             return [];
@@ -581,12 +581,6 @@ class Member_Model extends Model
         return $query->findAll();
     }
 
-    public function getMemberByFid($strFid, $bAll = false)
-    {
-        if($bAll)
-            return $this->asObject()->find($strFid);
-        else return $this->asObject()->select($this->getFields)->find($strFid);
-    }
 
     public function getMemberByEmpFid($nEmpFid, $nReqLevel, $nEmpLev = LEVEL_AGENCY, $bLowLev = false)
     {
@@ -607,11 +601,12 @@ class Member_Model extends Model
             $strSQL .= ' ( SELECT '.$strTbColum.' FROM '.$this->table." WHERE mb_emp_fid = '".$nEmpFid."'";
             $strSQL .= ' UNION ALL SELECT '.$strTbRColum.' FROM '.$this->table.' r ';
             $strSQL .= ' INNER JOIN tbmember ON r.mb_emp_fid = tbmember.mb_fid )';
-            $strSQL .= ' SELECT * FROM tbmember where ';
+            $strSQL .= ' SELECT * FROM tbmember ';
+            $strSQL .=" WHERE mb_state_active != '".PERMIT_DELETE."' ";
             if ($bLowLev) {
-                $strSQL .= "mb_level < '".$nReqLevel."' ";
+                $strSQL .= " AND mb_level < '".$nReqLevel."' ";
             } else {
-                $strSQL .= "mb_level = '".$nReqLevel."' ";
+                $strSQL .= " AND mb_level = '".$nReqLevel."' ";
             }
 
             return $this->db->query($strSQL)->getResult();
@@ -736,7 +731,7 @@ class Member_Model extends Model
             $arrRegData['mb_emp_fid'] = 0;
         } elseif ($arrRegData['mb_emp_fid'] > 0) {
             // 추천인 검사
-            $objEmployee = $this->getMemberByFid($arrRegData['mb_emp_fid']);
+            $objEmployee = $this->getInfoByFid($arrRegData['mb_emp_fid']);
             if (is_null($objEmployee)) {
                 return 3;
             }
@@ -792,7 +787,7 @@ class Member_Model extends Model
         // 결과 0:오유 1:성공 2:아이디중복 3:추천인 오유 4:파워볼 배당율오유 5:파워사다리 배당율오유 6:키노사다리 배당율 오유, 11 중복닉네임
 
         // 아이디검사
-        $objMember = $this->getMemberByFid($arrData['mb_fid']);
+        $objMember = $this->getInfoByFid($arrData['mb_fid']);
         if (is_null($objMember)) {
             return 0;
         }
@@ -806,7 +801,7 @@ class Member_Model extends Model
             }
         } elseif ($arrData['mb_emp_fid'] > 0) {
             // 추천인 검사
-            $objEmployee = $this->getMemberByFid($arrData['mb_emp_fid']);
+            $objEmployee = $this->getInfoByFid($arrData['mb_emp_fid']);
             if (is_null($objEmployee) || $objEmployee->mb_level < LEVEL_MIN) {
                 return 3;
             }
@@ -873,14 +868,14 @@ class Member_Model extends Model
         // 결과 0:오유 1:성공 2:아이디중복 3:추천인 오유 4:파워볼 배당율오유 5:파워사다리 배당율오유 6:키노사다리 배당율 오유
 
         // 아이디검사
-        $objMember = $this->getMemberByFid($arrData['mb_fid']);
+        $objMember = $this->getInfoByFid($arrData['mb_fid']);
         if (is_null($objMember)) {
             return 0;
         }
 
         if ($objMember->mb_level < LEVEL_ADMIN) {
             // 추천인 검사
-            $objEmployee = $this->getMemberByFid($objMember->mb_emp_fid);
+            $objEmployee = $this->getInfoByFid($objMember->mb_emp_fid);
             if (null == $objEmployee) {
                 return 0;
             }
@@ -970,7 +965,7 @@ class Member_Model extends Model
             
             // 대기중인 회원수
             $strSQL = ' SELECT  COUNT(*) AS mb_count FROM '.$this->table." WHERE mb_level < '".LEVEL_ADMIN."'";
-            $strSQL .= " AND mb_state_active = '2'";
+            $strSQL .= " AND mb_state_active = '".PERMIT_WAIT."'";
             $objResult = $this->db->query($strSQL)->getRow();
             if (!is_null($objResult->mb_count)) {
                 $arrEmpUserInfo['waituser'] = $objResult->mb_count;
@@ -986,6 +981,7 @@ class Member_Model extends Model
     {
         $strSQL = 'SELECT SUM(mb_money+mb_live_money+mb_slot_money+mb_fslot_money) AS emp_money, SUM(mb_point) AS emp_point FROM '.$this->table;
         $strSQL .= ' WHERE mb_level < '.LEVEL_ADMIN;
+        $strSQL .=" AND mb_state_active != '".PERMIT_DELETE."' ";
 
         $objResult = $this->db->query($strSQL)->getRow();
 
@@ -997,6 +993,7 @@ class Member_Model extends Model
     {
         $sqlBuilder = $this->builder()->selectCount('*', 'count');
         $sqlBuilder = $sqlBuilder->where('mb_level <', LEVEL_ADMIN);
+        $sqlBuilder = $sqlBuilder->where('mb_state_active !=', PERMIT_DELETE);
         if ($iEmpFid != 0)
             $sqlBuilder->where('mb_emp_fid', $iEmpFid);
 
@@ -1027,6 +1024,7 @@ class Member_Model extends Model
             $strSQL .= " INNER JOIN tbmember ON r.mb_emp_fid = tbmember.mb_fid )";
             $strSQL .= " SELECT COUNT(*) as count FROM tbmember WHERE ";
             $strSQL .= " mb_level < '".$objUser->mb_level."' ";
+            $strSQL .=" AND mb_state_active != '".PERMIT_DELETE."' ";
 
             if ($iEmpFid != 0)
                 $strSQL.=" AND mb_emp_fid = '".$iEmpFid."' ";
@@ -1075,6 +1073,7 @@ class Member_Model extends Model
         $strQuery = "SELECT ".$strTbColum." FROM ".$this->table;
         $strQuery.= ' LEFT JOIN '.$tbBlock.' ON '.$this->table.'.mb_ip_last = '.$tbBlock.'.block_ip ';
         $strQuery.= " WHERE mb_level < '".LEVEL_ADMIN."' ";
+        $strQuery .=" AND mb_state_active != '".PERMIT_DELETE."' ";
         $strQuery.= $where;
 
         $strQuery .= " ORDER BY (CASE WHEN mb_state_active = 2 THEN 0 ELSE 1 END) ";
@@ -1102,8 +1101,9 @@ class Member_Model extends Model
             $strSQL .= " ( SELECT ".$strTbColum." FROM ".$this->table." WHERE mb_emp_fid = '".$objUser->mb_fid."'";
             $strSQL .= " UNION ALL SELECT ".$strTbRColum." FROM ".$this->table." r ";
             $strSQL .= " INNER JOIN tbmember ON r.mb_emp_fid = tbmember.mb_fid )";
-            $strSQL .= " SELECT * FROM tbmember where ";
-            $strSQL .= " mb_level < '".$objUser->mb_level."' ";
+            $strSQL .= " SELECT * FROM tbmember ";
+            $strSQL .= " WHERE mb_level < '".$objUser->mb_level."' ";
+            $strSQL .=" AND mb_state_active != '".PERMIT_DELETE."' ";
 
             if ($iEmpFid != 0){
                 $strSQL .= " AND mb_emp_fid = '".$iEmpFid."'";

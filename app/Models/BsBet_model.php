@@ -2,10 +2,11 @@
 namespace App\Models;
 use CodeIgniter\Model;
 
-class BsBet_model extends Model {
+class BsBet_Model extends Model {
 	
 
     protected $table = 'bet_bogleladder';
+    protected $returnType = 'object'; 
     protected $allowedFields = [
         'bet_state', 
         'bet_emp_fid', 
@@ -47,12 +48,12 @@ class BsBet_model extends Model {
     }
 
     function get($nRoundFid){        
-        return $this->asObject()->where(array('bet_round_fid'=>$nRoundFid))->findAll();
+        return $this->where(array('bet_round_fid'=>$nRoundFid))->findAll();
     }
 
 
     function getByFid($nBetFid){        
-        return $this->asObject()->where($this->table, array('bet_fid'=>$nBetFid))->first();
+        return $this->where($this->table, array('bet_fid'=>$nBetFid))->first();
     }
 
     function getByUserId($strUserId, $nCount)

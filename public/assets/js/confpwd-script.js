@@ -30,11 +30,6 @@ function addBtnEvent() {
             return;
         }
 
-        // if (jsonData.password_new.length < 1) {
-        //     alert("새 비밀번호를 입력하세요.");
-        //     return;
-        // }
-
         if (jsonData.password_new.length > 0 && jsonData.password_new != jsonData.password_newok) {
             alert("새 비밀번호를 정확히 입력하세요.");
             return;
@@ -85,7 +80,7 @@ function requestJoinIp() {
         dataType: "json",
         url: FURL + "/userapi/empIp",
         success: function(jResult) {
-            console.log(jResult);
+            // console.log(jResult);
             if (jResult.status == "success") {
                 setJoinIp(jResult.data);
             } else if (jResult.status == "logout") {
@@ -93,7 +88,7 @@ function requestJoinIp() {
             }
         },
         error: function(request, status, error) {
-            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
         }
 
     });

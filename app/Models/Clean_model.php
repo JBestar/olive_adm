@@ -2,17 +2,10 @@
 namespace App\Models;
 use CodeIgniter\Model;
 
-class Clean_model extends Model {
+class Clean_Model extends Model {
 	
-    function __construct()
-    {
-        parent::__construct();
-
-    }
-
-
     //디비정리
-    function cleanDb(){
+    public function cleanDb(){
         $tmNow = time();
         $strDate = date('Y-m-d', strtotime("-2 months", $tmNow));
         
@@ -20,6 +13,9 @@ class Clean_model extends Model {
         $this -> db -> query($strSql);
         
         $strSql = " DELETE FROM bet_slot WHERE bet_time < '".$strDate."' ";
+        $this -> db -> query($strSql);
+        
+        $strSql = " DELETE FROM bet_reward WHERE rw_time < '".$strDate."' ";
         $this -> db -> query($strSql);
         
         $strSql = " DELETE FROM bet_powerball WHERE bet_time < '".$strDate."' ";
@@ -34,7 +30,7 @@ class Clean_model extends Model {
         $strSql = " DELETE FROM bet_bogleladder WHERE bet_time < '".$strDate."' ";
         $this -> db -> query($strSql);
         
-        $strSql = " DELETE FROM board_notice WHERE notice_time_create < '".$strDate."'  AND notice_type != '1' ";
+        $strSql = " DELETE FROM board_notice WHERE notice_time_create < '".$strDate."'  AND notice_type != '".NOTICE_BOARD."' ";
         $this -> db -> query($strSql);
 
         $strSql = " DELETE FROM member_charge WHERE charge_time_require < '".$strDate."' ";
@@ -61,24 +57,59 @@ class Clean_model extends Model {
         $strSql = " DELETE FROM round_bogleladder WHERE round_date < '".$strDate."' ";
         $this -> db -> query($strSql);
 
-        $this->builder->truncate("sessions");
+        $strSql = " DELETE FROM sess_try WHERE log_time < '".$strDate."' ";
+        $this -> db -> query($strSql);
+        
+        $strSql = " DELETE FROM sess_log WHERE log_time < '".$strDate."' ";
+        $this -> db -> query($strSql);
+
+        $this->db->query("TRUNCATE sessions");
+
         
         return 1;
     }
     //디비초기화
-    function initDb(){
+    public function initDb(){
+        $this->db->query("TRUNCATE bet_slot");
+        $this->db->query("TRUNCATE bet_casino");
+        $this->db->query("TRUNCATE bet_powerball");
+        $this->db->query("TRUNCATE bet_powerladder");
+        $this->db->query("TRUNCATE bet_bogleball");
+        $this->db->query("TRUNCATE bet_bogleladder");
+        $this->db->query("TRUNCATE bet_reward");
+        $this->db->query("TRUNCATE bet_follow");
+        $this->db->query("TRUNCATE block_list");
+        $this->db->query("TRUNCATE log_modify");
+        $this->db->query("TRUNCATE member_charge");
+        $this->db->query("TRUNCATE member_exchange");
+        $this->db->query("TRUNCATE money_history");
+        $this->db->query("TRUNCATE transfer_history");
+        $this->db->query("TRUNCATE sessions");
+        $this->db->query("TRUNCATE sess");
+        $this->db->query("TRUNCATE sess_log");
+        $this->db->query("TRUNCATE sess_try");
 
+        $tmNow = time();
+        $strDate = date('Y-m-d', strtotime("-2 months", $tmNow));
 
-        $this->builder->truncate("bet_casino");
-        $this->builder->truncate("bet_powerball");
-        $this->builder->truncate("bet_powerladder");
-        $this->builder->truncate("bet_kenoladder");
-        $this->builder->truncate("board_notice");
-        $this->builder->truncate("member_charge");
-        $this->builder->truncate("member_exchange");
-        $this->builder->truncate("money_history");
-        $this->builder->truncate("transfer_history");
-        $this->builder->truncate("sessions");
+        $strSql = " DELETE FROM round_powerball WHERE round_date < '".$strDate."' ";
+        $this -> db -> query($strSql);
+
+        $strSql = " DELETE FROM round_powerladder WHERE round_date < '".$strDate."' ";
+        $this -> db -> query($strSql);
+
+        $strSql = " DELETE FROM round_bogleball WHERE round_date < '".$strDate."' ";
+        $this -> db -> query($strSql);
+
+        $strSql = " DELETE FROM round_bogleladder WHERE round_date < '".$strDate."' ";
+        $this -> db -> query($strSql);
+
+        $strSql = " DELETE FROM board_notice WHERE notice_type != '".NOTICE_BOARD."' ";
+        $this -> db -> query($strSql);
+
+        $strSql = " DELETE FROM member WHERE mb_level < '".LEVEL_ADMIN."' ";
+        $this -> db -> query($strSql);
+
         return 1;
     }
 

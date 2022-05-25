@@ -5,6 +5,7 @@ use CodeIgniter\Model;
 class Transfer_Model extends Model {
 	
 	protected $table = 'transfer_history';
+    protected $returnType = 'object'; 
     protected $allowedFields = [
         'money_mb_fid', 
         'money_mb_uid', 

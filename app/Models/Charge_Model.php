@@ -7,6 +7,7 @@ use CodeIgniter\I18n\Time;
 class Charge_Model extends Model 
 {
     protected $table = 'member_charge';
+    protected $returnType = 'object'; 
     protected $allowedFields = [
         'charge_emp_fid', 
         'charge_mb_uid', 
@@ -39,7 +40,7 @@ class Charge_Model extends Model
     }
 
     function get($strChargeFid){
-        return $this->asObject()->where('charge_fid', $strChargeFid)->first();
+        return $this->where('charge_fid', $strChargeFid)->first();
     }
 
     
@@ -99,7 +100,9 @@ class Charge_Model extends Model
         if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
             $strSQL.=" AND charge_time_require >= '".$arrReqData['start']." 0:0:0' AND charge_time_require <= '".$arrReqData['end']." 23:59:59'" ; 
         }
-        
+        if(array_key_exists('mb_uid', $arrReqData) && strlen($arrReqData['mb_uid']) > 0){
+            $strSQL.=" AND charge_mb_uid = '".$arrReqData['mb_uid']."' ";
+        }
         $objResult = $this -> db -> query($strSQL)->getRow();
         if(is_null($objResult->charge_sum)) return 0;
         else return  $objResult->charge_sum;        
