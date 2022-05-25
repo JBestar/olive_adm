@@ -1707,7 +1707,7 @@ Style - powerball
     transition-property: opacity;
     -webkit-transition-timing-function: ease-out;
     transition-timing-function: ease-out;
-    z-index: 99999;
+    z-index: 999;
 }
 
 .load {

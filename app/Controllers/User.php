@@ -101,4 +101,20 @@ class User extends StdController
 			LEVEL_MIN,
 			LEVEL_MIN);		
 	}
+	
+	function member_ctrl($strEmpFid){
+		if (is_login() === false){
+			return $this->response->redirect($_ENV['app.furl'].'/pages/login');
+		}
+		$objEmp = $this->modelMember->find($strEmpFid);
+		$strEmpUid = "";
+		if ($objEmp != null){
+			$strEmpUid = $objEmp->mb_uid;
+		}
+		$this->load_view_page(
+			'user/member_ctrl', 
+			'user_ctrl', 
+			LEVEL_ADMIN, 
+			['emp_uid' => $strEmpUid]);
+	}
 }

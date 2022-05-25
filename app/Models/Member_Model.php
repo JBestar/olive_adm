@@ -1070,18 +1070,18 @@ class Member_Model extends Model
         }
 
 
-        $strQuery = "SELECT ".$strTbColum." FROM ".$this->table;
-        $strQuery.= ' LEFT JOIN '.$tbBlock.' ON '.$this->table.'.mb_ip_last = '.$tbBlock.'.block_ip ';
-        $strQuery.= " WHERE mb_level < '".LEVEL_ADMIN."' ";
-        $strQuery .=" AND mb_state_active != '".PERMIT_DELETE."' ";
-        $strQuery.= $where;
+        $strSQL = "SELECT ".$strTbColum." FROM ".$this->table;
+        $strSQL.= ' LEFT JOIN '.$tbBlock.' ON '.$this->table.'.mb_ip_last = '.$tbBlock.'.block_ip ';
+        $strSQL.= " WHERE mb_level < '".LEVEL_ADMIN."' ";
+        $strSQL .=" AND mb_state_active != '".PERMIT_DELETE."' ";
+        $strSQL.= $where;
 
-        $strQuery .= " ORDER BY (CASE WHEN mb_state_active = 2 THEN 0 ELSE 1 END) ";
-        $strQuery .= " , mb_uid ASC ";
+        $strSQL .= " ORDER BY (CASE WHEN mb_state_active = 2 THEN 0 ELSE 1 END) ";
+        $strSQL .= " , mb_uid ASC ";
         
         $nStartRow = ($arrReqData['page'] - 1) * $arrReqData['count'];
-        $strQuery .= ' LIMIT '.$nStartRow.', '.$arrReqData['count'];
-        return $this->db->query($strQuery)->getResult();
+        $strSQL .= ' LIMIT '.$nStartRow.', '.$arrReqData['count'];
+        return $this->db->query($strSQL)->getResult();
     }
 
     public function searchMemberByEmpFid($objUser, $arrReqData, $iEmpFid)
@@ -1130,6 +1130,7 @@ class Member_Model extends Model
     }
 
     
+    
     public function getEmpMemberByFid($fid)
     {
         $strTbColum = " ".implode(", ", $this->getFields);
@@ -1167,5 +1168,84 @@ class Member_Model extends Model
         
         return true;
     }
+
+
+    public function searchUserByLevel($arrReqData, $iEmpFid, $confs)
+    {
+        $strTbColum = ' mb_fid, mb_uid, mb_level, mb_emp_fid, mb_nickname, mb_phone, mb_time_join, ';
+        $strTbColum.= ' (mb_money + mb_live_money + mb_slot_money + mb_fslot_money) as mb_money, ';
+        $strTbColum.= ' mb_point, mb_grade, mb_color, mb_state_active, ' ;
+        
+        $strBetM = " ( bet_sl.bet_m ";
+        $strBetW = " ( bet_sl.bet_w ";
+        if(!$confs['npg_deny']){
+            $strBetM.= " + bet_pb.bet_m + bet_pl.bet_m "; 
+            $strBetW.= " + bet_pb.bet_w + bet_pl.bet_w "; 
+        }
+        if(!$confs['bpg_deny']){
+            $strBetM.= " + bet_bb.bet_m + bet_bl.bet_m "; 
+            $strBetW.= " + bet_bb.bet_w + bet_bl.bet_w "; 
+        }
+        if(!$confs['cas_deny']){
+            $strBetM.= " + bet_cs.bet_m "; 
+            $strBetW.= " + bet_cs.bet_w "; 
+        }
+        $strBetM.= " ) bet_sum, ";
+        $strBetW.= " ) win_sum, ";
+
+        $strTbColum.=$strBetM.$strBetW; 
+        $strTbColum.= " rw_point, chg_point ";
+
+        $where = "";
+        if ($iEmpFid != 0){
+            $where .= " AND mb_emp_fid = '".$iEmpFid."'";
+        }
+        if (strlen($arrReqData['mb_uid']) > 0) {
+            $where .= " AND mb_uid LIKE '%".$arrReqData['mb_uid']."%'";
+        }
+        if ($arrReqData['mb_grade'] != 0){
+            $where .= " AND mb_grade = '".$arrReqData['mb_grade']."'";
+        }
+        if ($arrReqData['mb_state'] >= 0){
+            $where .= " AND mb_state_active = '".$arrReqData['mb_state']."' ";
+        }
+
+
+        $strSQL = "SELECT ".$strTbColum." FROM ".$this->table;
+        $strSQL.= " LEFT JOIN ( select bet_mb_uid, sum(bet_money) AS bet_m, sum(bet_win_money) AS bet_w from bet_slot group by bet_mb_uid ) bet_sl ON bet_sl.bet_mb_uid = member.mb_uid";
+
+        if(!$confs['npg_deny']){
+            $strSQL.= " LEFT JOIN ( select bet_mb_uid, sum(bet_money) AS bet_m, sum(bet_win_money) AS bet_w from bet_powerball group by bet_mb_uid ) bet_pb ON bet_pb.bet_mb_uid = member.mb_uid";
+            $strSQL.= " LEFT JOIN ( select bet_mb_uid, sum(bet_money) AS bet_m, sum(bet_win_money) AS bet_w from bet_powerladder group by bet_mb_uid ) bet_pl ON bet_pl.bet_mb_uid = member.mb_uid";
+        }
+        if(!$confs['bpg_deny']){
+            $strSQL.= " LEFT JOIN ( select bet_mb_uid, sum(bet_money) AS bet_m, sum(bet_win_money) AS bet_w from bet_bogleball group by bet_mb_uid ) bet_bb ON bet_bb.bet_mb_uid = member.mb_uid";
+            $strSQL.= " LEFT JOIN ( select bet_mb_uid, sum(bet_money) AS bet_m, sum(bet_win_money) AS bet_w from bet_bogleladder group by bet_mb_uid ) bet_bl ON bet_bl.bet_mb_uid = member.mb_uid";
+        }
+        if(!$confs['cas_deny']){
+            $strSQL.= " LEFT JOIN ( select bet_mb_uid, sum(bet_money) AS bet_m, sum(bet_win_money) AS bet_w from bet_casino group by bet_mb_uid ) bet_cs ON bet_cs.bet_mb_uid = member.mb_uid";
+        }
+	    $strSQL.= " LEFT JOIN ( select rw_mb_fid, sum(rw_point) AS rw_point from bet_reward group by rw_mb_fid ) sum_reward ON sum_reward.rw_mb_fid = member.mb_fid";
+	    $strSQL.= " LEFT JOIN ( select money_mb_fid, sum(money_amount) AS chg_point from money_history where money_change_type = ".POINTCHANGE_EXCHANGE." group by money_mb_fid ) chg_point ON chg_point.money_mb_fid = member.mb_fid";
+
+        $strSQL.= " WHERE mb_level < '".LEVEL_ADMIN."' ";
+        $strSQL .=" AND mb_state_active != '".PERMIT_DELETE."' ";
+        $strSQL.= $where;
+
+        $strSQL .= " ORDER BY (CASE WHEN mb_state_active = 2 THEN 0 ELSE 1 END) ";
+        if (strlen($arrReqData['order']) > 0 && strlen($arrReqData['dir']) > 0) {
+            $strSQL .= " , ".$arrReqData['order']." ".$arrReqData['dir']." ";
+        }
+        else $strSQL .= " , mb_uid ASC ";
+        
+        $nStartRow = ($arrReqData['page'] - 1) * $arrReqData['count'];
+        $strSQL .= ' LIMIT '.$nStartRow.', '.$arrReqData['count'];
+
+        writeLog($strSQL);
+
+        return $this->db->query($strSQL)->getResult();
+    }
+
+
 
 }

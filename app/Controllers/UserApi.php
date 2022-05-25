@@ -532,6 +532,59 @@ class UserApi extends BaseController
         }
     }
 
+    
+    public function getmemberlist()
+    {
+        $jsonData = $_REQUEST['json_'];
+        $arrData = json_decode($jsonData, true);
+
+        if (is_login()) {
+            // model
+            
+			$confsiteModel = new ConfSite_Model();
+            $confs = $this->getSiteConf($confsiteModel);
+
+			$objResult = new \stdClass();
+            $strUid = $this->session->user_id;
+            $objUser = $this->modelMember->getInfo($strUid);
+			$empFid = 0;
+            if (strlen($arrData['mb_emp_uid']) > 0){
+                $objEmp = $this->modelMember->getInfo($arrData['mb_emp_uid']);
+                if (!is_null($objEmp)){
+                    $empFid = $objEmp->mb_fid;
+                } else $empFid = -1;
+            } 
+            
+            if($empFid >= 0 && $objUser->mb_level >= LEVEL_ADMIN){
+                $arrMember = $this->modelMember->searchUserByLevel($arrData, $empFid, $confs);
+                if (is_null($arrMember)) {
+                    $arrMember = [];
+                }
+                foreach ($arrMember as $objMember) {
+                    $objEmpInfo = $this->modelMember->find($objMember->mb_emp_fid);
+                    if ($objEmpInfo != null){
+                        $objMember->mb_empname = $objEmpInfo->mb_uid;
+                    }
+                    else {
+                        $objMember->mb_empname = '';
+                    }
+                }
+                
+            } else {
+                $arrMember = [];
+            }
+
+            $objResult->status = 'success';
+            $objResult->confs = $confs;
+            $objResult->data = $arrMember;
+
+            echo json_encode($objResult);
+        } else {
+            $arrResult['status'] = 'logout';
+            echo json_encode($arrResult);
+        }
+    }
+
     public function allmember()
     {
         if (is_login()) {
