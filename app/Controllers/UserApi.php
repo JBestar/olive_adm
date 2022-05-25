@@ -3,14 +3,14 @@
 namespace App\Controllers;
 
 use App\Models\BbBet_Model;
-use App\Models\BsBet_model;
+use App\Models\BsBet_Model;
 use App\Models\Charge_Model;
 use App\Models\ConfGame_model;
 use App\Models\ConfSite_Model;
 use App\Models\Exchange_Model;
 use App\Models\Notice_Model;
-use App\Models\PbBet_model;
-use App\Models\PsBet_model;
+use App\Models\PbBet_Model;
+use App\Models\PsBet_Model;
 use App\Models\MoneyHistory_Model;
 use App\Models\SessLog_Model;
 use App\Models\Block_Model;
@@ -237,9 +237,12 @@ class UserApi extends BaseController
                 }
             }
             if ($bPermit) {
-                $bResult = $this->modelMember->deleteMemberByFid($arrData);
-
+                $arrData['mb_state_active'] = PERMIT_DELETE;
+                $query = '';
+                $bResult = $this->modelMember->updateMemberByFid($arrData, $query);
+                
                 if ($bResult) {
+                    $this->modelModify->add($this->session->user_id, MOD_MB_STATE, $query, $this->request->getIPAddress());
                     $arrResult['status'] = 'success';
                 } else {
                     $arrResult['status'] = 'fail';
@@ -264,7 +267,7 @@ class UserApi extends BaseController
 
             $strUid = $this->session->user_id;
             $objUser = $this->modelMember->getInfo($strUid);
-            $objReqUser = $this->modelMember->getMemberByFid($arrData['mb_fid']);
+            $objReqUser = $this->modelMember->getInfoByFid($arrData['mb_fid']);
 
             $bPermit = false;
             $bResult = false;
@@ -399,10 +402,10 @@ class UserApi extends BaseController
             // model
             
             $confgameModel = new ConfGame_model();
-            $pbbetModel = new PbBet_model();
-            $psbetModel = new PsBet_model();
+            $pbbetModel = new PbBet_Model();
+            $psbetModel = new PsBet_Model();
             $bbbetModel = new BbBet_Model();
-            $bsbetModel = new BsBet_model();
+            $bsbetModel = new BsBet_Model();
 
             $objUser = $this->modelMember->getInfo($strUid);
 
@@ -466,9 +469,9 @@ class UserApi extends BaseController
                     $arrMember = [];
                 }
                 foreach ($arrMember as $objMember) {
-                    $arrEmpInfo = $this->modelMember->find($objMember->mb_emp_fid);
-                    if ($arrEmpInfo != null){
-                        $objMember->mb_empname = $arrEmpInfo['mb_uid'];
+                    $objEmpInfo = $this->modelMember->find($objMember->mb_emp_fid);
+                    if ($objEmpInfo != null){
+                        $objMember->mb_empname = $objEmpInfo->mb_uid;
                     }
                     else {
                         $objMember->mb_empname = '';
@@ -993,11 +996,11 @@ class UserApi extends BaseController
                 if($arrData['type'] == 0){
                     $iResult = $this->alltoGame($objMember);
                     if($iResult == 1){
-                        $nAmount = $objMember->mb_money;
-                        $objMember->mb_money = 0;
-                        if($this->modelMember->updateMoney($objMember))
+                        $nAmount = 0-$objMember->mb_money;
+                        if($this->modelMember->moneyProc($objMember, $nAmount)){
                             $moneyhistoryModel->registerWithdraw($objMember, $objEmp->mb_uid, $nAmount, MONEYCHANGE_WITHDRAW);
-                        $objResult->status = 'success';
+                            $objResult->status = 'success';
+                        }
                     } else {
                         $objResult->status = 'fail';
                         $objResult->msg = '게임서버가 응답하지 않습니다. 잠시후 다시 시도해주세요..';
@@ -1005,11 +1008,11 @@ class UserApi extends BaseController
                     
                 }
                 else if($arrData['type'] == 1 && $objMember->mb_point > 0){
-                    $nAmount = $objMember->mb_point;
-                    $objMember->mb_point = 0;
-                    if($this->modelMember->updateMoney($objMember))
+                    $nAmount = 0-$objMember->mb_point;
+                    if($this->modelMember->moneyProc($objMember, 0, $nAmount)){
                         $moneyhistoryModel->registerWithdraw($objMember, $objEmp->mb_uid, $nAmount, POINTHANGE_WITHDRAW);
-                    $objResult->status = 'success';
+                        $objResult->status = 'success';
+                    }
                 } else {
                     $objResult->status = 'fail';
                 }

@@ -8,25 +8,20 @@ class ConfSite_Model extends Model
     protected $table = 'conf_site';
     protected $allowedFields = ['conf_memo', 'conf_content', 'conf_active', 'conf_update', 'conf_idx'];
     protected $primaryKey = 'conf_id';
+    protected $returnType = 'object'; 
 
     public function getConf($conf_id)
     {
-        try { 
-            $data = $this->find($conf_id);
-            return $data;       
-        } catch (\Exception $e) {  
-            return NULL;
-        }
-        return NULL;
+        return $this->find($conf_id);
     }
 
-    public function getSiteName():string
+    public function getSiteName()
     {
 
         $objConf = $this->getConf(CONF_SITENAME);
         $strSiteName = "";
         if(!is_null($objConf)){
-            $strSiteName = $objConf['conf_content'];
+            $strSiteName = $objConf->conf_content;
         }
         return $strSiteName;
     }
@@ -42,7 +37,7 @@ class ConfSite_Model extends Model
         $nConfigId = CONF_BETSITE;
         $arrSiteInfo = ["", "", "", 0, 0 ];
 
-        $objConfig = $this->asObject()->where(array('conf_id'=>$nConfigId))->first();
+        $objConfig = $this->where(array('conf_id'=>$nConfigId))->first();
         if(!is_null($objConfig) && $nLevel >= LEVEL_ADMIN){
             $strSite = $objConfig->conf_content;
             $arrSiteInfo = explode('#', $strSite);
@@ -64,13 +59,16 @@ class ConfSite_Model extends Model
             return false;
 
         $strContent = "";
-        if(strlen($arrReqData['site'])<1) return false;
+        if(strlen($arrReqData['site'])<1) 
+            $arrReqData['site']=" ";
         $strContent .= $arrReqData['site']."#";
         
-        if(strlen($arrReqData['userid'])<1) return false;
+        if(strlen($arrReqData['userid'])<1) 
+            $arrReqData['userid']=" ";    
         $strContent .= $arrReqData['userid']."#";
         
-        if(strlen($arrReqData['userpwd'])<1) return false;
+        if(strlen($arrReqData['userpwd'])<1) 
+            $arrReqData['userpwd']=" "; 
         $strContent .= $arrReqData['userpwd'];
         
         $this->builder()->set('conf_content', $strContent);
@@ -123,11 +121,6 @@ class ConfSite_Model extends Model
         $updateData['conf_active'] = $arrData['depositenotice_ok'];
         $arrBatch[] = $updateData;
 
-        // $updateData = array();
-        // $updateData['conf_id'] = 7;
-        // $updateData['conf_content'] = $arrData['withdrawnotice'];
-        // $arrBatch[] = $updateData;
-
         $updateData = array();
         $updateData['conf_id'] = CONF_CHARGEINFO;
         $updateData['conf_content'] = $arrData['bank'];
@@ -148,11 +141,6 @@ class ConfSite_Model extends Model
         $updateData['conf_id'] = CONF_MULTI_LOGIN;
         $updateData['conf_active'] = $arrData['multilog_ok'];
         $arrBatch[] = $updateData;
-
-        // $updateData = array();
-        // $updateData['conf_id'] = CONF_GAMEPER_FULL;
-        // $updateData['conf_active'] = $arrData['gameper_full'];
-        // $arrBatch[] = $updateData;
 
         return  $this->builder()->updateBatch($arrBatch, 'conf_id');
 
@@ -235,9 +223,8 @@ class ConfSite_Model extends Model
     
     public function IsMultiLogin(){
 
-        $objConf = (object)$this->find(CONF_MULTI_LOGIN);
-        if(!is_null($objConf))
-            $objConf = (object)$objConf;
+        $objConf = $this->find(CONF_MULTI_LOGIN);
+        
         if(!is_null($objConf) && $objConf->conf_active == STATE_ACTIVE) {
             return true;
         }
@@ -248,9 +235,7 @@ class ConfSite_Model extends Model
     public function IsMaintain(){
 
         $objConf = $this->find(CONF_MAINTAIN);
-        if(!is_null($objConf))
-            $objConf = (object)$objConf;
-
+        
         if(!is_null($objConf) && $objConf->conf_active == STATE_ACTIVE) {
             return true;
         }

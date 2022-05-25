@@ -2,7 +2,7 @@
 namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\BbBet_Model;
-use App\Models\BbRound_model;
+use App\Models\BbRound_Model;
 use App\Models\ConfGame_model;
 use App\Models\MoneyHistory_Model;
 
@@ -32,7 +32,7 @@ class BbApi extends BaseController {
 		if(is_login()) {
 
 			//model
-			$bbroundModel = new BbRound_model();
+			$bbroundModel = new BbRound_Model();
 			$objResults = $bbroundModel->search($arrGetData);
 
 			$arrResult['data'] = $objResults;
@@ -56,7 +56,7 @@ class BbApi extends BaseController {
 		if(is_login()) {
 
 			//model
-			$bbroundModel = new BbRound_model();
+			$bbroundModel = new BbRound_Model();
 			$objCount = $bbroundModel->searchCount($arrGetData);
 			
 			$arrResult['data'] = $objCount;
@@ -191,7 +191,7 @@ class BbApi extends BaseController {
 
 			//model
 			
-			$bbroundModel = new BbRound_model();
+			$bbroundModel = new BbRound_Model();
 			$strUid = $this->session->user_id;
 			$objUser = $this->modelMember->getInfo($strUid);
 			$iResult = 0;
@@ -230,7 +230,7 @@ class BbApi extends BaseController {
 
 			//model
 			
-			$bbroundModel = new BbRound_model();
+			$bbroundModel = new BbRound_Model();
 			$strUid = $this->session->user_id;
 			$objUser = $this->modelMember->getInfo($strUid);
 			$bResult = false;
@@ -308,7 +308,7 @@ class BbApi extends BaseController {
 
 			//model
 			
-			$bbroundModel = new BbRound_model();
+			$bbroundModel = new BbRound_Model();
 			$bbbetModel = new BbBet_Model();
 			$moneyhistoryModel = new MoneyHistory_Model();
 

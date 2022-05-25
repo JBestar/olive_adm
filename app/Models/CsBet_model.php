@@ -2,9 +2,10 @@
 namespace App\Models;
 use CodeIgniter\Model;
 
-class CsBet_model extends Model 
+class CsBet_Model extends Model 
 {
     protected $table = 'bet_casino';
+    protected $returnType = 'object'; 
     protected $allowedFields = [
         'bet_idx', 
         'bet_emp_fid', 

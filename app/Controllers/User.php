@@ -18,14 +18,14 @@ class User extends StdController
 		$objMember = null;
 		if($memberFid > 0)
 		{
-			$objMember = $this->modelMember->getMemberByFid($memberFid, true);					
+			$objMember = $this->modelMember->getInfoByFid($memberFid, true);					
 		}
 		$empUid = '';
 		$bChild = false;
 		if ($objMember != null){
-			$arrEmpMember = $this->modelMember->find($objMember->mb_emp_fid);
-			if ($arrEmpMember != null)
-				$empUid = $arrEmpMember['mb_uid'];
+			$objEmpMember = $this->modelMember->find($objMember->mb_emp_fid);
+			if ($objEmpMember != null)
+				$empUid = $objEmpMember->mb_uid;
 			$bChild = $objMember->mb_emp_fid == $objAdmin->mb_fid;
 			
 		}
@@ -84,7 +84,7 @@ class User extends StdController
 		$objEmp = $this->modelMember->find($strEmpFid);
 		$strEmpUid = "";
 		if ($objEmp != null){
-			$strEmpUid = $objEmp['mb_uid'];
+			$strEmpUid = $objEmp->mb_uid;
 		}
 		$this->load_view_page(
 			'user/member', 

@@ -165,6 +165,7 @@ defined('STATE_HOT')          || define('STATE_HOT', 5);
 defined('PERMIT_CANCEL')       || define('PERMIT_CANCEL', 0);
 defined('PERMIT_OK')           || define('PERMIT_OK', 1);
 defined('PERMIT_WAIT')         || define('PERMIT_WAIT', 2);
+defined('PERMIT_DELETE')       || define('PERMIT_DELETE', 4);
 
 //
 defined('RESULT_OK')           || define('RESULT_OK', 1);
@@ -238,6 +239,11 @@ defined('TRANS_SLOT_SITE')      || define('TRANS_SLOT_SITE', 4);
 defined('TRANS_SITE_FSLOT')     || define('TRANS_SITE_FSLOT', 5); 
 defined('TRANS_FSLOT_SITE')     || define('TRANS_FSLOT_SITE', 6); 
 
+defined('NOTICE_MSG')            || define('NOTICE_MSG', 0);
+defined('NOTICE_BOARD')          || define('NOTICE_BOARD', 1);   
+defined('NOTICE_EVENT')          || define('NOTICE_EVENT', 2);   
+defined('NOTICE_CUSTOMER')       || define('NOTICE_CUSTOMER', 3);   
+defined('NOTICE_MSG_ALL')        || define('NOTICE_MSG_ALL', 4);
 
 // AAS 요청오류
 defined('INVALID_ACCESS_TOKEN') || define('INVALID_ACCESS_TOKEN', "INVALID_ACCESS_TOKEN");  //증명서 불일치(code/token)
@@ -267,9 +273,12 @@ defined('SLOTCODE_PARAMETER_NO')    || define('SLOTCODE_PARAMETER_NO', 99);    /
 defined('SLOTCODE_API_FAIL')        || define('SLOTCODE_API_FAIL', 100);    //API 요청 실패 - 시스템 관리자 문의 
 
 
-defined('MOD_MB_PWD')        || define('MOD_MB_PWD', 1);     
-defined('MOD_MB_INFO')        || define('MOD_MB_INFO', 2);     
-defined('MOD_MB_STATE')        || define('MOD_MB_STATE', 3);     
+defined('MOD_MB_PWD')           || define('MOD_MB_PWD', 1);     
+defined('MOD_MB_INFO')          || define('MOD_MB_INFO', 2);     
+defined('MOD_MB_STATE')         || define('MOD_MB_STATE', 3); 
+
+defined('MOD_DB_DELETE')        || define('MOD_DB_DELETE', 11);     
+defined('MOD_DB_CLEAR')         || define('MOD_DB_CLEAR', 12);     
 
 
 

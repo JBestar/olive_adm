@@ -1,10 +1,9 @@
 <?php
 namespace App\Controllers;
 use App\Controllers\BaseController;
-use App\Models\BbRound_model;
-use App\Models\BsRound_model;
-use App\Models\ConfSite_Model;
-use App\Models\PbRound_model;
+use App\Models\BbRound_Model;
+use App\Models\BsRound_Model;
+use App\Models\PbRound_Model;
 use App\Models\PsRound_Model;
 
 class Result extends StdController {
@@ -55,7 +54,7 @@ class Result extends StdController {
 
 	public function pbresult_edit($strRoundFid)
 	{
-		$pbroundModel = new PbRound_model();
+		$pbroundModel = new PbRound_Model();
 		$this->result_edit_page(
 			$pbroundModel, 
 			$strRoundFid, 
@@ -89,7 +88,7 @@ class Result extends StdController {
 
 	public function bbresult_edit($strRoundFid)
 	{
-		$bbroundModel = new BbRound_model();
+		$bbroundModel = new BbRound_Model();
 		$this->result_edit_page(
 			$bbroundModel, 
 			$strRoundFid, 
@@ -106,7 +105,7 @@ class Result extends StdController {
 
 	public function bsresult_edit($strRoundFid)
 	{
-		$bsroundModel = new BsRound_model();
+		$bsroundModel = new BsRound_Model();
 		$this->result_edit_page(
 			$bsroundModel, 
 			$strRoundFid, 

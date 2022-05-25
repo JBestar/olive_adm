@@ -25,8 +25,8 @@ class Home extends StdController
 	
 	public function conf_maintain(){
 		$confsiteModel = new ConfSite_Model();
-		$arrConfig = $confsiteModel->getMaintainConfig();	
-		$this->load_view_page('home/conf_maintain', 'conf_site', LEVEL_ADMIN, ['arrConfig' => $arrConfig]);
+		$objConfig = $confsiteModel->getMaintainConfig();	
+		$this->load_view_page('home/conf_maintain', 'conf_site', LEVEL_ADMIN, ['objConfig' => $objConfig]);
 	}
 
 	// 보험설정
@@ -102,9 +102,7 @@ class Home extends StdController
 	}
 
 	public function conf_sound(){
-		$confsiteModel = new ConfSite_Model();
-		$arrConfig = $confsiteModel->gets();
-		$this->load_view_page('home/conf_sound', 'conf_other', LEVEL_ADMIN, ['arrConfig', $arrConfig]);	
+		$this->load_view_page('home/conf_sound', 'conf_other', LEVEL_ADMIN);	
 	}
 	
 	public function conf_password(){

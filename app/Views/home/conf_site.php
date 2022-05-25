@@ -12,8 +12,8 @@
 	<a href="<?php echo siteFurl().'home/conf_betsite';?>" class="sub-navbar-a">보험설정</a>
 	<a href="<?php echo siteFurl().'home/conf_maintain';?>" class="sub-navbar-a">점검설정</a>
 	<?php if($mb_level > LEVEL_ADMIN) {  ?>
-	<button class="sub-navbar-but" style="display: none;" onclick="cleanDb(1);">디비초기화</button>
-	<button class="sub-navbar-but" style="display: none;" onclick="cleanDb(0);">디비정리</button>
+	<button class="sub-navbar-but" style="display: block;" id="cleanDb-but" onclick="cleanDb(1);">디비초기화</button>
+	<button class="sub-navbar-but" style="display: none;" id="deleteDb-but" onclick="cleanDb(0);">디비정리</button>
 	<?php } ?>
 </div>
 
@@ -26,7 +26,7 @@
 		<?php if(is_null($arrConfig)) {  ?>
 		<input type="text" id="confsite-sitename-input-id">
 		<?php } else {?>
-		<input type="text" id="confsite-sitename-input-id" value="<?=$arrConfig[CONF_SITENAME-1]['conf_content']?>">
+		<input type="text" id="confsite-sitename-input-id" value="<?=$arrConfig[CONF_SITENAME-1]->conf_content?>">
 		<?php } ?>
 	</div>
 	<div class="confsite-site-text-div">
@@ -34,7 +34,7 @@
 		<?php if(is_null($arrConfig)) {  ?>
 		<input type="text" id="confsite-domainname-input-id">
 		<?php } else {?>
-		<input type="text" id="confsite-domainname-input-id" value="<?=$arrConfig[CONF_DOMAIN-1]['conf_content']?>">
+		<input type="text" id="confsite-domainname-input-id" value="<?=$arrConfig[CONF_DOMAIN-1]->conf_content?>">
 		<?php } ?>
 	</div>
 	<div class="confsite-site-text-div">
@@ -42,7 +42,7 @@
 		<?php if(is_null($arrConfig)) {  ?>
 		<input type="text" id="confsite-homepage-input-id">
 		<?php } else {?>
-		<input type="text" id="confsite-homepage-input-id" value="<?=$arrConfig[CONF_USERPAGE-1]['conf_content']?>">
+		<input type="text" id="confsite-homepage-input-id" value="<?=$arrConfig[CONF_USERPAGE-1]->conf_content?>">
 		<?php } ?>
 	</div>
 	<div class="confsite-site-text-div">
@@ -50,7 +50,7 @@
 		<?php if(is_null($arrConfig)) {  ?>
 		<input type="text" id="confsite-adminpage-input-id">
 		<?php } else {?>
-		<input type="text" id="confsite-adminpage-input-id" value="<?=$arrConfig[CONF_ADMINPAGE-1]['conf_content']?>">
+		<input type="text" id="confsite-adminpage-input-id" value="<?=$arrConfig[CONF_ADMINPAGE-1]->conf_content?>">
 		<?php } ?>
 	</div>
 	<div class="confsite-site-text-div">
@@ -61,16 +61,16 @@
 		<input type="text" placeholder="계좌번호" id="confsite-banknum-input-id">
 
 		<?php } else {?>
-		<input type="text" style="width:20%; margin-right:1px;" placeholder="은행명" id="confsite-bankname-input-id" value="<?=explode("#", trim($arrConfig[CONF_CHARGEINFO-1]['conf_content']))[0]?>">
-		<input type="text" style="width:25%; margin-right:1px;" placeholder="예금주" id="confsite-bankown-input-id" value="<?=explode("#", trim($arrConfig[CONF_CHARGEINFO-1]['conf_content']))[1]?>">
-		<input type="text" style="width:25%; " placeholder="계좌번호" id="confsite-banknum-input-id" value="<?=explode("#", trim($arrConfig[CONF_CHARGEINFO-1]['conf_content']))[2]?>">
+		<input type="text" style="width:20%; margin-right:1px;" placeholder="은행명" id="confsite-bankname-input-id" value="<?=explode("#", trim($arrConfig[CONF_CHARGEINFO-1]->conf_content))[0]?>">
+		<input type="text" style="width:25%; margin-right:1px;" placeholder="예금주" id="confsite-bankown-input-id" value="<?=explode("#", trim($arrConfig[CONF_CHARGEINFO-1]->conf_content))[1]?>">
+		<input type="text" style="width:25%; " placeholder="계좌번호" id="confsite-banknum-input-id" value="<?=explode("#", trim($arrConfig[CONF_CHARGEINFO-1]->conf_content))[2]?>">
 		<?php } ?>
 	</div>
 	
 	<h4><i class="glyphicon glyphicon-hand-right"></i> 충환전안내 </h4>
 
 	<div class="confsite-site-check-div">
-		<?php if (is_null($arrConfig) || $arrConfig[5]['conf_active'] != 1) {?>
+		<?php if (is_null($arrConfig) || $arrConfig[CONF_NOTICE_BANK-1]->conf_active != 1) {?>
 		<input type="checkbox" id="confsite-deposite-check-id">
 		<?php } else {?>
 		<input type="checkbox" id="confsite-deposite-check-id" checked>
@@ -80,13 +80,13 @@
 
 	<div class="width:100%; clear:both; ">
 		<form method="post" style="width:80%; margin-left:20px; background-color:white;">
-			<textarea id="confsite-deposite-text-id" name="editordata"><?php if(!is_null($arrConfig)) {  ?><?=$arrConfig[CONF_NOTICE_BANK-1]['conf_content']?><?php } ?></textarea>
+			<textarea id="confsite-deposite-text-id" name="editordata"><?php if(!is_null($arrConfig)) {  ?><?=$arrConfig[CONF_NOTICE_BANK-1]->conf_content?><?php } ?></textarea>
 		</form>
 	</div>
 
 	<h4><i class="glyphicon glyphicon-hand-right"></i> 메인공지사항</h4>						
 	<div class="confsite-site-check-div">
-		<?php if(is_null($arrConfig) || $arrConfig[4]['conf_active'] != 1) {  ?>
+		<?php if(is_null($arrConfig) || $arrConfig[CONF_NOTICE_MAIN-1]->conf_active != 1) {  ?>
 		<input type="checkbox" id="confsite-mainnotice-check-id">
 		<?php } else {?>
 		<input type="checkbox" id="confsite-mainnotice-check-id" checked>				
@@ -95,12 +95,12 @@
 		<label for="confsite-mainnotice-check-id"> 회원로그인시 메인공지사항 현시</label>			
 	</div>
 	<div class="confsite-site-text-div">
-		<textarea rows="" id="confsite-mainnotice-text-id"><?php if(!is_null($arrConfig)) {  ?><?=$arrConfig[CONF_NOTICE_MAIN-1]['conf_content']?><?php } ?></textarea>					
+		<textarea rows="" id="confsite-mainnotice-text-id"><?php if(!is_null($arrConfig)) {  ?><?=$arrConfig[CONF_NOTICE_MAIN-1]->conf_content?><?php } ?></textarea>					
 	</div>
 	<!---->
 	<h4><i class="glyphicon glyphicon-hand-right"></i> 긴급공지</h4>
 	<div class="confsite-site-check-div">
-		<?php if (is_null($arrConfig) || $arrConfig[11]['conf_active'] != 1){ ?>
+		<?php if (is_null($arrConfig) || $arrConfig[CONF_NOTICE_URGENT-1]->conf_active != 1){ ?>
 			<input type="checkbox" id="confsite-urgentnotice-check-id">
 		<?php } else {?>
 			<input type="checkbox" id="confsite-urgentnotice-check-id" checked>
@@ -109,19 +109,19 @@
 	</div>
 	<div class="width:100%; clear:both; ">
 		<form method="post" style="width:80%; margin-left:20px; background-color:white;">
-			<textarea id="confsite-urgentnotice-text-id" name="editordata"><?php if(!is_null($arrConfig)) {  ?><?=$arrConfig[CONF_NOTICE_URGENT-1]['conf_content']?><?php } ?></textarea>
+			<textarea id="confsite-urgentnotice-text-id" name="editordata"><?php if(!is_null($arrConfig)) {  ?><?=$arrConfig[CONF_NOTICE_URGENT-1]->conf_content?><?php } ?></textarea>
 		</form>
 	</div>
 	<!---->
 	<h4><i class="glyphicon glyphicon-hand-right"></i> 계좌문의 매크로</h4>
 	<div class="width:100%; clear:both; ">
 		<form method="post" style="width:80%; margin-left:20px; background-color:white;">
-			<textarea id="confsite-bankmacro-text-id" name="editordata"><?php if(!is_null($arrConfig)) {  ?><?=$arrConfig[CONF_CHARGEMACRO-1]['conf_content']?><?php } ?></textarea>
+			<textarea id="confsite-bankmacro-text-id" name="editordata"><?php if(!is_null($arrConfig)) {  ?><?=$arrConfig[CONF_CHARGEMACRO-1]->conf_content?><?php } ?></textarea>
 		</form>
 	</div>
 	<h4><i class="glyphicon glyphicon-hand-right"></i> 회원가입정책</h4>
 	<div class="confsite-site-check-div">
-		<?php if (is_null($arrConfig) || $arrConfig[CONF_MULTI_LOGIN-1]['conf_active'] != 1){ ?>
+		<?php if (is_null($arrConfig) || $arrConfig[CONF_MULTI_LOGIN-1]->conf_active != 1){ ?>
 			<input type="checkbox" id="confsite-multilog-check-id">
 		<?php } else {?>
 			<input type="checkbox" id="confsite-multilog-check-id" checked>

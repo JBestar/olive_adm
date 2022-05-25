@@ -75,20 +75,20 @@ class BaseController extends Controller
 		$arrConf = $confsiteModel->getSiteConf();  
 		
 		foreach($arrConf as $objConf){
-			switch($objConf['conf_id']){
-				case CONF_SITENAME:	$confs['site_name'] = $objConf['conf_content'];
+			switch($objConf->conf_id){
+				case CONF_SITENAME:	$confs['site_name'] = $objConf->conf_content;
 					break;
-				case CONF_NPG_DENY:	$confs['npg_deny'] = $objConf['conf_active'] == STATE_ACTIVE?true:false;
+				case CONF_NPG_DENY:	$confs['npg_deny'] = $objConf->conf_active == STATE_ACTIVE?true:false;
 					break;
-				case CONF_BPG_DENY:	$confs['bpg_deny'] = $objConf['conf_active'] == STATE_ACTIVE?true:false;
+				case CONF_BPG_DENY:	$confs['bpg_deny'] = $objConf->conf_active == STATE_ACTIVE?true:false;
 					break;
-				case CONF_CAS_DENY:	$confs['cas_deny'] = $objConf['conf_active'] == STATE_ACTIVE?true:false;
+				case CONF_CAS_DENY:	$confs['cas_deny'] = $objConf->conf_active == STATE_ACTIVE?true:false;
 					break;
-				case CONF_SLOT_DENY: $confs['slot_deny'] = $objConf['conf_active'] == STATE_ACTIVE?true:false;
+				case CONF_SLOT_DENY: $confs['slot_deny'] = $objConf->conf_active == STATE_ACTIVE?true:false;
 					break;
-				case CONF_IMG_TYPE:	$confs['img_type'] = $objConf['conf_active'];
+				case CONF_IMG_TYPE:	$confs['img_type'] = $objConf->conf_active;
 					break;
-				case CONF_GAMEPER_FULL:	$confs['gameper_full'] = $objConf['conf_active'] == STATE_ACTIVE?true:false;
+				case CONF_GAMEPER_FULL:	$confs['gameper_full'] = $objConf->conf_active == STATE_ACTIVE?true:false;
 					break;
 				default:break;
 			}

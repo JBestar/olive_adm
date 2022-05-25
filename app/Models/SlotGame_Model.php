@@ -14,7 +14,7 @@ class SlotGame_Model extends Model {
         'hidden',
         'maintain',
     ];
-    protected $prdTable      = 'slot_prd';
+    protected $prdTable = 'slot_prd';
 
     public function getById($cat, $prd, $uuid){
         $where = [

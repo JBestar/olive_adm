@@ -15,22 +15,22 @@
 		<div class="confsite-site-check-div">
 			<label> 운영상태</label>			
 			<select name="pbresult-number" class="pbresult-number-select" id="confsite-maintain-select-id" style="width: 200px;">
-				<?php if(is_null($arrConfig) || $arrConfig['conf_active'] != 1) {  ?>
-				<option value="0" selected>정상운영중</option>
+				<?php if(is_null($objConfig) || $objConfig->conf_active != 1) {  ?>
+				<option value="0" selected>정상운영</option>
 				<?php } else {?>
-				<option value="0">정상운영중</option>
+				<option value="0">정상운영</option>
 				<?php } ?>
-				<?php if(is_null($arrConfig) || $arrConfig['conf_active'] == 1) {  ?>
-				<option value="1" selected>점검중</option>
+				<?php if(is_null($objConfig) || $objConfig->conf_active == 1) {  ?>
+				<option value="1" selected>점검</option>
 				<?php } else {?>
-				<option value="1">점검중</option>
+				<option value="1">점검</option>
 				<?php } ?>
 			</select>
 		</div>
 		<div class="confsite-site-text-div" style="margin-top: 10px;">
 			<p style="font-size: 14px; padding:5px 0px;"> 점검내용</p>
 			<textarea rows="16" id="confsite-maintain-text-id" style="width: 350px;"
-			 ><?php if(!is_null($arrConfig)) {  ?><?=$arrConfig['conf_content']?><?php } ?></textarea>					
+			 ><?php if(!is_null($objConfig)) {  ?><?=$objConfig->conf_content?><?php } ?></textarea>					
 		</div>
 		
 

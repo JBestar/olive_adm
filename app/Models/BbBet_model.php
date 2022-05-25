@@ -7,6 +7,7 @@ use CodeIgniter\Model;
 class BbBet_Model extends Model
 {
     protected $table = 'bet_bogleball';
+    protected $returnType = 'object'; 
     protected $allowedFields = [
         'bet_state',
         'bet_emp_fid',
@@ -48,12 +49,12 @@ class BbBet_Model extends Model
 
     public function get($nRoundFid)
     {
-        return $this->asObject()->where(['bet_round_fid' => $nRoundFid])->findAll();
+        return $this->where(['bet_round_fid' => $nRoundFid])->findAll();
     }
 
     public function getByFid($nBetFid)
     {
-        return $this->asObject()->where(['bet_fid' => $nBetFid])->first();
+        return $this->where(['bet_fid' => $nBetFid])->first();
     }
 
     public function getByUserId($strUserId, $nCount)
@@ -542,6 +543,7 @@ class BbBet_Model extends Model
                 if($objRoundInfo->round_result_3 == 'P' && $objRoundInfo->round_result_4 == 'P' ){
                     $isWin = true;
                 }
+                break;
             case 10:
                 $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_4;
                 if($objRoundInfo->round_result_3 == 'P' && $objRoundInfo->round_result_4 == 'B' ){

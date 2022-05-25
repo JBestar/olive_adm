@@ -5,6 +5,7 @@ use CodeIgniter\Model;
 class Exchange_Model extends Model {
 	
 	protected $table = 'member_exchange';
+    protected $returnType = 'object'; 
     protected $allowedFields = [
         'exchange_emp_fid',
         'exchange_mb_uid', 
@@ -38,7 +39,7 @@ class Exchange_Model extends Model {
     }
 
     function get($strExchangeFid){
-        return $this->asObject()->where('exchange_fid', $strExchangeFid)->first();
+        return $this->where('exchange_fid', $strExchangeFid)->first();
     }
 
     
@@ -101,7 +102,9 @@ class Exchange_Model extends Model {
         $strSQL.=" WHERE (exchange_action_state = '".STATE_VERIFY."' OR exchange_action_state = '".STATE_HOT."') ";
         if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 )
             $strSQL.=" AND exchange_time_require >= '".$arrReqData['start']." 0:0:0' AND exchange_time_require <= '".$arrReqData['end']." 23:59:59' " ;
-        
+        if(array_key_exists('mb_uid', $arrReqData) && strlen($arrReqData['mb_uid']) > 0){
+            $strSQL.=" AND exchange_mb_uid = '".$arrReqData['mb_uid']."' ";
+        }
         $objResult = $this -> db -> query($strSQL)->getRow();
         if(is_null($objResult->exchange_sum)) return 0;
         else return  $objResult->exchange_sum;        

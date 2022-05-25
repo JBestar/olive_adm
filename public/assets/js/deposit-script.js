@@ -99,12 +99,6 @@ function addButtonEvent() {
 
         elemTableBtns[i].addEventListener("click", function() {
 
-            /*if(this.innerHTML.search("삭제") >=0){
-	      	if (confirm("삭제하시겠습니까?")){
-				    var jsonData = { "charge_fid":this.name, "process":0};
-		      	requestProcDeposit(jsonData);
-	      	}
-	      }  else*/
             if (this.innerHTML.search("취소") >= 0) {
                 if (confirm("취소하시겠습니까?")) {
                     var jsonData = { "charge_fid": this.name, "process": 0 };

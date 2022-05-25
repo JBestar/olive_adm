@@ -1,8 +1,8 @@
 <?php
 namespace App\Controllers;
 use App\Controllers\BaseController;
-use App\Models\BsBet_model;
-use App\Models\BsRound_model;
+use App\Models\BsBet_Model;
+use App\Models\BsRound_Model;
 use App\Models\ConfGame_model;
 use App\Models\MoneyHistory_Model;
 
@@ -32,7 +32,7 @@ class BsApi extends BaseController {
 		if(is_login()) {
 
 			//model
-			$bsroundModel = new BsRound_model();
+			$bsroundModel = new BsRound_Model();
 			$objResults = $bsroundModel->search($arrGetData);
 
 			$arrResult['data'] = $objResults;
@@ -55,7 +55,7 @@ class BsApi extends BaseController {
 		if(is_login()) {
 
 			//model
-			$bsroundModel = new BsRound_model();
+			$bsroundModel = new BsRound_Model();
 			$objCount = $bsroundModel->searchCount($arrGetData);
 			
 			$arrResult['data'] = $objCount;
@@ -74,7 +74,7 @@ class BsApi extends BaseController {
 	//실시간베팅결과 합을 Ajax로 전송
 	public function betrealtime(){ 
 		if(is_login()) {
-			$bsbetModel = new BsBet_model();
+			$bsbetModel = new BsBet_Model();
 			$confgameModel = new ConfGame_model();
 			
 
@@ -119,7 +119,7 @@ class BsApi extends BaseController {
 		//var_dump($arrBetData);
 		if(is_login()) {
 			//model
-			$bsbetModel = new BsBet_model();
+			$bsbetModel = new BsBet_Model();
 			
 			
 			$strUid = $this->session->user_id;
@@ -160,7 +160,7 @@ class BsApi extends BaseController {
 		//var_dump($arrBetData);
 		if(is_login()) {
 			//model
-			$bsbetModel = new BsBet_model();
+			$bsbetModel = new BsBet_Model();
 			
 			
 			$strUid = $this->session->user_id;
@@ -192,7 +192,7 @@ class BsApi extends BaseController {
 
 			//model
 			
-			$bsroundModel = new BsRound_model();
+			$bsroundModel = new BsRound_Model();
 			$strUid = $this->session->user_id;
 			$objUser = $this->modelMember->getInfo($strUid);
 			$iResult = 0;
@@ -231,7 +231,7 @@ class BsApi extends BaseController {
 
 			//model
 			
-			$bsroundModel = new BsRound_model();
+			$bsroundModel = new BsRound_Model();
 			$strUid = $this->session->user_id;
 			$objUser = $this->modelMember->getInfo($strUid);
 			$bResult = false;
@@ -260,7 +260,7 @@ class BsApi extends BaseController {
 
 			//model
 			
-			$bsbetModel = new BsBet_model();
+			$bsbetModel = new BsBet_Model();
 			$moneyhistoryModel = new MoneyHistory_Model();
 			
 			$strUid = $this->session->user_id;
@@ -312,8 +312,8 @@ class BsApi extends BaseController {
 
 			//model
 			
-			$bsroundModel = new BsRound_model();
-			$bsbetModel = new BsBet_model();
+			$bsroundModel = new BsRound_Model();
+			$bsbetModel = new BsBet_Model();
 			$moneyhistoryModel = new MoneyHistory_Model();
 
 			$strUid = $this->session->user_id;

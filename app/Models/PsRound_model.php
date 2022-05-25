@@ -5,6 +5,7 @@ use CodeIgniter\Model;
 class PsRound_Model extends Model {
 
     protected $table = 'round_powerladder';
+    protected $returnType = 'object'; 
     protected $allowedFields = [
         'round_date', 
         'round_num', 
@@ -28,13 +29,13 @@ class PsRound_Model extends Model {
 
     public function get($nRoundFid)
     {
-        return $this->asObject()->where('round_fid', $nRoundFid)->first();
+        return $this->where('round_fid', $nRoundFid)->first();
     }
 
     public function getByDate($strDate, $nRoundNo){
         if(strlen($strDate) < 1 || $nRoundNo < 1)
             return null;
-        return $this->asObject()->where([
+        return $this->where([
             'round_num'=>$nRoundNo, 
             'round_date'=>$strDate,
         ])->first();

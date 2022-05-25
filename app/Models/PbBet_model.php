@@ -2,10 +2,11 @@
 namespace App\Models;
 use CodeIgniter\Model;
 
-class PbBet_model extends Model {
+class PbBet_Model extends Model {
 	
 
     protected $table = 'bet_powerball';
+    protected $returnType = 'object'; 
     protected $allowedFields = [
         'bet_state', 
         'bet_emp_fid', 
@@ -47,12 +48,12 @@ class PbBet_model extends Model {
     }
 
     function get($nRoundFid){        
-        return $this->asObject()->where(array('bet_round_fid'=>$nRoundFid))->findAll();
+        return $this->where(array('bet_round_fid'=>$nRoundFid))->findAll();
     }
 
 
     function getByFid($nBetFid){        
-        return $this->asObject()->where(array('bet_fid'=>$nBetFid))->first();
+        return $this->where(array('bet_fid'=>$nBetFid))->first();
     }
 
     function getByUserId($strUserId, $nCount)
@@ -536,6 +537,7 @@ class PbBet_model extends Model {
                 if($objRoundInfo->round_result_3 == 'P' && $objRoundInfo->round_result_4 == 'P' ){
                     $isWin = true;
                 }
+                break;
             case 10:
                 $objBetInfo->bet_result = $objRoundInfo->round_result_3.$objRoundInfo->round_result_4;
                 if($objRoundInfo->round_result_3 == 'P' && $objRoundInfo->round_result_4 == 'B' ){
