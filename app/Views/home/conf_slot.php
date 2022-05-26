@@ -92,11 +92,7 @@
 			<input type = "text" class="conf-text-input" style="min-width:200px;" id="confpb-agent-egg-id"  disabled>
 			<button class="refresh_btn" id="refresh_btn" style="margin-left:5px; margin-top:5px;"></button>
 		</div>
-		<div class="confsite-game-text-div">
-			<p>에이젼트 페이지:</p>
-			<button class="confsite-cancel-button" id="confsite-agent-btn-id" style="margin-bottom:20px; width:200px;">바로 가기</button>
-
-		</div>
+		
 		<div class = "confsite-button-group" style="margin-top:20px;">
 			<button class="confsite-cancel-button" id="confsite-cancel-btn-id">취소</button>
 			<button class="confsite-ok-button"  id="confsite-ok-btn-id">저장</button>
