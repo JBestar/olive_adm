@@ -142,7 +142,6 @@ defined('CONF_NPG_DENY')        || define('CONF_NPG_DENY', 26);
 defined('CONF_BPG_DENY')        || define('CONF_BPG_DENY', 27);
 defined('CONF_CAS_DENY')        || define('CONF_CAS_DENY', 28);
 defined('CONF_SLOT_DENY')       || define('CONF_SLOT_DENY', 29);
-defined('CONF_IMG_TYPE')        || define('CONF_IMG_TYPE', 30);
 
 defined('LEVEL_MAX')           || define('LEVEL_MAX', 100);
 defined('LEVEL_ADMIN')         || define('LEVEL_ADMIN', 100);
