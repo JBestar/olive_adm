@@ -144,7 +144,6 @@ defined('CONF_NPG_DENY')        || define('CONF_NPG_DENY', 26);
 defined('CONF_BPG_DENY')        || define('CONF_BPG_DENY', 27);
 defined('CONF_CAS_DENY')        || define('CONF_CAS_DENY', 28);
 defined('CONF_SLOT_DENY')       || define('CONF_SLOT_DENY', 29);
-defined('CONF_IMG_TYPE')        || define('CONF_IMG_TYPE', 30);
 defined('CONF_KGON_ENABLE')     || define('CONF_KGON_ENABLE', 31);
 
 defined('LEVEL_MAX')           || define('LEVEL_MAX', 100);
