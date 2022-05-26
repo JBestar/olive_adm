@@ -42,7 +42,7 @@
             <link rel="shortcut icon" href="<?php echo site_furl('/favicon_ch.ico');?>">
         <?php break; 
         case APP_APPLE :?>
-            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_a.ico');?>">
+            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_a.ico?v=1');?>">
         <?php break; 
         case APP_BMW :?>
             <link rel="shortcut icon" href="<?php echo site_furl('/favicon_b.ico');?>">

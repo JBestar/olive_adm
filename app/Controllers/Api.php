@@ -788,11 +788,11 @@ public function withdrawlist(){
 			}			
 
 			if($bPermit){
+				$bResult = false;
 				if($arrData['notice_mb_uid'] === '*'){
 					$arrData['notice_read_count'] = 1;
 					$iInsFid = $noticeModel->addNotice($arrData);
 					if($iInsFid > 0){
-						//date_default_timezone_set('Asia/Seoul');
 
 						$arrMember = $this->modelMember->getMemberByLevel(LEVEL_ADMIN, true);
 						//회원들에게 쪽지작성
