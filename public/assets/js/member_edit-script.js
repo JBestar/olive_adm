@@ -150,7 +150,7 @@ function addBtnEvent() {
                 url: FURL + "/userapi/modifymember",
                 data: { json_: jsonData },
                 success: function(jResult) {
-                    // console.log(jResult);
+                    console.log(jResult);
                     if (jResult.status == "success") {
                         window.location.replace( FURL +'/user/member/0');
                     } else if (jResult.status == "logout") {

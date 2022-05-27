@@ -561,19 +561,21 @@ class Member_Model extends Model
 
     }
 
-    public function getMemberByLevel($strLevel, $bLowLev = false)
+    public function getMemberByLevel($strLevel, $bLowLev = false, $mbFid = 0)
     {
         $query = null;
 
         $where =" mb_state_active != '".PERMIT_DELETE."' ";
 
         if ($bLowLev) {
-            $where .= 'AND mb_level < '.$strLevel;
-            $query = $this->where($where);
+            $where .= 'AND mb_level <= '.$strLevel;
         } else {
             $where .= 'AND mb_level = '.$strLevel;
-            $query = $this->where($where);
         }
+        if($mbFid > 0)
+            $where .= " AND mb_fid = '".$mbFid."' ";
+        
+        $query = $this->where($where);
         if (null == $query) {
             return [];
         }
@@ -582,20 +584,24 @@ class Member_Model extends Model
     }
 
 
-    public function getMemberByEmpFid($nEmpFid, $nReqLevel, $nEmpLev = LEVEL_AGENCY, $bLowLev = false)
+    public function getMemberByEmpFid($nEmpFid, $nReqLevel, $nEmpLev = LEVEL_AGENCY, $bLowLev = false, $mbFid=0)
     {
         if ($nEmpLev > LEVEL_COMPANY) {
-            return $this->getMemberByLevel($nReqLevel, $bLowLev);
+            return $this->getMemberByLevel($nReqLevel, $bLowLev, $mbFid);
         } else {
-            $strTbColum = ' mb_fid, mb_uid, mb_level, mb_emp_fid, mb_emp_permit, mb_nickname, mb_email, mb_phone, mb_money, mb_point, ';
-            $strTbColum .= ' mb_money_charge, mb_money_exchange, mb_color, mb_state_active, mb_state_bet, mb_state_alarm, ';
-            $strTbColum .= ' mb_game_pb, mb_game_ps, mb_game_bb, mb_game_bs, mb_game_cs, mb_game_sl, mb_game_pb_ratio, mb_game_pb2_ratio, mb_game_ps_ratio, ';
-            $strTbColum .= ' mb_game_bb_ratio, mb_game_bb2_ratio, mb_game_bs_ratio, mb_game_cs_ratio, mb_game_sl_ratio, mb_live_money, mb_slot_money, mb_fslot_money';
+            $strTbColum = ' mb_fid, mb_uid, mb_level, mb_emp_fid, mb_emp_permit, mb_nickname, mb_phone, mb_money, mb_point, ';
+            $strTbColum .= ' mb_grade, mb_color, mb_state_active, mb_state_delete, ';
+            $strTbColum .= ' mb_game_pb_ratio, mb_game_pb2_ratio, mb_game_ps_ratio, mb_game_bb_ratio, mb_game_bb2_ratio, ';
+            $strTbColum .= ' mb_game_bs_ratio, mb_game_cs_ratio, mb_game_sl_ratio, ';
+            $strTbColum .= ' mb_game_pb_percent, mb_game_pb2_percent, mb_game_ps_percent, mb_game_bb_percent, mb_game_bb2_percent, mb_game_bs_percent, ';
+            $strTbColum .= ' mb_live_money, mb_slot_money, mb_fslot_money';
 
-            $strTbRColum = ' r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid, r.mb_emp_permit, r.mb_nickname, r.mb_email, r.mb_phone, r.mb_money, r.mb_point, ';
-            $strTbRColum .= ' r.mb_money_charge, r.mb_money_exchange, r.mb_color, r.mb_state_active, r.mb_state_bet, r.mb_state_alarm, ';
-            $strTbRColum .= ' r.mb_game_pb, r.mb_game_ps, r.mb_game_bb, r.mb_game_bs, r.mb_game_cs, r.mb_game_sl, r.mb_game_pb_ratio, r.mb_game_pb2_ratio, r.mb_game_ps_ratio, ';
-            $strTbRColum .= ' r.mb_game_bb_ratio, r.mb_game_bb2_ratio, r.mb_game_bs_ratio, r.mb_game_cs_ratio, r.mb_game_sl_ratio, r.mb_live_money, r.mb_slot_money, r.mb_fslot_money ';
+            $strTbRColum = ' r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid, r.mb_emp_permit, r.mb_nickname, r.mb_phone, r.mb_money, r.mb_point, ';
+            $strTbRColum .= ' r.mb_grade, r.mb_color, r.mb_state_active, r.mb_state_delete, ';
+            $strTbRColum .= ' r.mb_game_pb_ratio, r.mb_game_pb2_ratio, r.mb_game_ps_ratio, r.mb_game_bb_ratio, r.mb_game_bb2_ratio,';
+            $strTbRColum .= ' r.mb_game_bs_ratio, r.mb_game_cs_ratio, r.mb_game_sl_ratio, ';
+            $strTbRColum .= ' r.mb_game_pb_percent, r.mb_game_pb2_percent, r.mb_game_ps_percent, r.mb_game_bb_percent, r.mb_game_bb2_percent, r.mb_game_bs_percent, ';
+            $strTbRColum .= ' r.mb_live_money, r.mb_slot_money, r.mb_fslot_money ';
 
             $strSQL = 'WITH RECURSIVE tbmember ('.$strTbColum.') AS';
             $strSQL .= ' ( SELECT '.$strTbColum.' FROM '.$this->table." WHERE mb_emp_fid = '".$nEmpFid."'";
@@ -608,6 +614,9 @@ class Member_Model extends Model
             } else {
                 $strSQL .= " AND mb_level = '".$nReqLevel."' ";
             }
+            if($mbFid > 0)
+                $strSQL .= " AND mb_fid = '".$mbFid."' ";
+
 
             return $this->db->query($strSQL)->getResult();
         }
