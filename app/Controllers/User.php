@@ -102,6 +102,7 @@ class User extends StdController
 			LEVEL_MIN);		
 	}
 	
+
 	function member_ctrl($strEmpFid){
 		if (is_login() === false){
 			return $this->response->redirect($_ENV['app.furl'].'/pages/login');
@@ -116,5 +117,14 @@ class User extends StdController
 			'user_ctrl', 
 			LEVEL_ADMIN, 
 			['emp_uid' => $strEmpUid]);
+	}
+
+	public function member_detail($strMemberFid){
+		$this->user_edit_page(
+			'user/member_detail', 
+			'user_ctrl', 
+			$strMemberFid, 
+			LEVEL_ADMIN,
+			LEVEL_MIN);		
 	}
 }

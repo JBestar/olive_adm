@@ -95,7 +95,7 @@ function showMember(arrMember, confs) {
         strBuf += "</td> <td>";
         strBuf += arrMember[nRow].mb_time_join;
         strBuf += "</td> <td>";
-        strBuf += "<button name='" + arrMember[nRow].mb_fid + "' >상세</button>";
+        strBuf += "<a href='"+FURL+"/user/member_detail/" + arrMember[nRow].mb_fid + "' >상세</a>";
         strBuf += "</td> <td>";
         strBuf += "<button name='" + nRow + "' data-fid='" + arrMember[nRow].mb_fid + "' >수정</button>";
         strBuf += "</td> <td>";
@@ -207,7 +207,6 @@ function addEventListner() {
             }
             mOrdItem = item;
             mOrdDir = dir;
-            console.log(item + ", " + dir);
             requestMember();
         }
 
@@ -248,7 +247,7 @@ function requestMember() {
         data: { json_: jsonData },
         success: function(jResult) {
             $(".loading").hide();
-            console.log(jResult);
+            // console.log(jResult);
             if (jResult.status == "success") {
                 showMember(jResult.data, jResult.confs);
             } else if (jResult.status == "fail") {
@@ -256,7 +255,7 @@ function requestMember() {
             }
         },
         error: function(request, status, error) {
-            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            // console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
             $(".loading").hide();
         }
 
@@ -330,7 +329,7 @@ function addButtonElementListener(buttonElement) {
         } else if (tHtml.search("환전") >= 0) {
             showMemDischarge(this.name, $(this).data('fid'));
         } else if (tHtml.search("수정") >= 0) {
-            showMemEditDlg(this.name);
+            showMemEdit(this.name, $(this).data('fid'));
         } else if (tHtml.search("강제아웃") >= 0) {
             let nickname  = $(this).data('nickname');
             if(nickname.length > 0){
@@ -458,7 +457,7 @@ function reqMemDischarge(){
 }
 
 
-function showMemEditDlg(mbFid){
+function showMemEditDlg(){
     $('#edit_member_modal').slideDown(200);
 
 }
@@ -467,3 +466,179 @@ function closeMemEditDlg(){
     $('#edit_member_modal').slideUp(100);
 
 }
+
+function showMemCreate(){
+
+    initMemEditDlg();
+    $("#btn-mem-apply").text("추가 ");
+    $("#edit_member_modal #type").text("회원정보 추가");
+    showMemEditDlg();
+}
+
+function showMemEdit(idx, mbFid){
+    if(mArrMember == null)
+        return;
+    let member = mArrMember[idx];
+    if(member == undefined || parseInt(member.mb_fid) != mbFid )
+        return;
+        
+    $("#partner_id").val(member.mb_empname);
+    $("#partner_id").attr("disabled", true);
+
+    $("#offline_user").prop('checked', member.mb_state_delete == 1);
+    $("#user_fid").val(member.mb_fid);
+    $("#user_uid").val(member.mb_uid);
+    $("#user_uid").attr("disabled", true);
+    
+    $("#user_name").val(member.mb_nickname);
+    $("#user_name").attr("disabled", true);
+    
+    $("#user_password").val(member.mb_pwd);
+    $("#user_phone").val(member.mb_phone);
+    $("#user_status").val(member.mb_state_active);
+    $("#user_level").val(member.mb_grade);
+    if(member.mb_color != "")
+        $("#user_color").val(member.mb_color);
+    $("#pb_ratio").val(member.mb_game_pb_ratio);
+    $("#pb2_ratio").val(member.mb_game_pb2_ratio);
+    $("#ps_ratio").val(member.mb_game_ps_ratio);
+    $("#bb_ratio").val(member.mb_game_bb_ratio);
+    $("#bb2_ratio").val(member.mb_game_bb2_ratio);
+    $("#bs_ratio").val(member.mb_game_bs_ratio);
+    $("#cs_ratio").val(member.mb_game_cs_ratio);
+    $("#sl_ratio").val(member.mb_game_sl_ratio);
+
+    $("#pb_percent").val(member.mb_game_pb_percent);
+    $("#pb2_percent").val(member.mb_game_pb2_percent);
+    $("#ps_percent").val(member.mb_game_ps_percent);
+    $("#bb_percent").val(member.mb_game_bb_percent);
+    $("#bb2_percent").val(member.mb_game_bb2_percent);
+    $("#bs_percent").val(member.mb_game_bs_percent);
+    
+    $("#bank_name").val(member.mb_bank_name);
+    $("#bank_owner").val(member.mb_bank_own);
+    $("#bank_number").val(member.mb_bank_num);
+    $("#bank_password").val(member.mb_bank_pwd);
+
+    $("#btn-mem-apply").text("수정 ");
+    $("#edit_member_modal #type").text("회원정보 수정");
+    showMemEditDlg();
+}
+
+function memSaveApply(){
+
+    var objMember = readConfigToObject();
+    reqMemSave(objMember, closeMemEditDlg);
+}
+
+function initMemEditDlg(){
+    $("#partner_id").val('');
+    $("#partner_id").attr("disabled", false);
+    $("#offline_user").prop('checked', false);
+    $("#user_fid").val('0');
+    $("#user_uid").val('');
+    $("#user_uid").attr("disabled", false);
+    $("#user_name").val('');
+    $("#user_name").attr("disabled", false);
+    $("#user_password").val('');
+    $("#user_phone").val('');
+    $("#user_status").val(2);
+    $("#user_level").val(1);
+    $("#user_color").val("#ffffff");
+
+    $("#pb_ratio").val("0.00");
+    $("#pb2_ratio").val("0.00");
+    $("#ps_ratio").val("0.00");
+
+    $("#pb_percent").val("100");
+    $("#pb2_percent").val("100");
+    $("#ps_percent").val("100");
+
+    $("#bb_ratio").val("0.00");
+    $("#bb2_ratio").val("0.00");
+    $("#bs_ratio").val("0.00");
+    
+    $("#bb_percent").val("100");
+    $("#bb2_percent").val("100");
+    $("#bs_percent").val("100");
+    
+    $("#cs_ratio").val("0.00");
+    $("#sl_ratio").val("0.00");
+
+    $("#bank_name").val('');
+    $("#bank_owner").val('');
+    $("#bank_number").val('');
+    $("#bank_password").val('');
+
+}
+
+
+function readConfigToObject() {
+
+    var objMember = new Object();
+    objMember.admin_level = LEVEL_ADMIN;
+
+    objMember.mb_fid = $("#user_fid").val();
+    objMember.mb_uid = $("#user_uid").val();
+    objMember.mb_grade = $("#user_level").val();
+    objMember.mb_nickname = $("#user_name").val();
+    objMember.mb_color = $("#user_color").val();
+    objMember.mb_state_active = $("#user_status").val();
+    objMember.mb_pwd = $("#user_password").val();
+    objMember.mb_emp_uid = $("#partner_id").val();
+    objMember.mb_phone = $("#user_phone").val();
+    objMember.mb_bank_name = $("#bank_name").val();
+    objMember.mb_bank_own = $("#bank_owner").val();
+    objMember.mb_bank_num = $("#bank_number").val();
+    objMember.mb_bank_pwd = $("#bank_password").val();
+    
+
+    if($("#pb_ratio").length > 0){
+        objMember.mb_game_pb_ratio = $("#pb_ratio").val();
+        objMember.mb_game_pb2_ratio = $("#pb2_ratio").val();
+        objMember.mb_game_ps_ratio = $("#ps_ratio").val();
+    }
+    else{
+        objMember.mb_game_pb_ratio = 0;
+        objMember.mb_game_pb2_ratio = 0;
+        objMember.mb_game_ps_ratio = 0;
+    }  
+
+    if($("#pb_percent").length > 0){
+        objMember.mb_game_pb_percent = $("#pb_percent").val();
+        objMember.mb_game_pb2_percent = $("#pb2_percent").val();
+        objMember.mb_game_ps_percent = $("#ps_percent").val();
+    }
+    
+    if($("#bb_ratio").length > 0){
+        objMember.mb_game_bb_ratio = $("#bb_ratio").val();
+        objMember.mb_game_bb2_ratio = $("#bb2_ratio").val();
+        objMember.mb_game_bs_ratio = $("#bs_ratio").val();
+    } else {
+        objMember.mb_game_bb_ratio = 0;
+        objMember.mb_game_bb2_ratio = 0;
+        objMember.mb_game_bs_ratio = 0;
+    }
+
+    if($("#bb_percent").length > 0){
+        objMember.mb_game_bb_percent = $("#bb_percent").val();
+        objMember.mb_game_bb2_percent = $("#bb2_percent").val();
+        objMember.mb_game_bs_percent = $("#bs_percent").val();
+    } 
+
+    if($("#cs_ratio").length > 0){
+        objMember.mb_game_cs_ratio = $("#cs_ratio").val();
+    } else objMember.mb_game_cs_ratio = 0;
+
+    if($("#sl_ratio").length > 0){
+        objMember.mb_game_sl_ratio = $("#sl_ratio").val();
+    } else objMember.mb_game_sl_ratio = 0;
+    
+    if ($("#offline_user").length > 0){
+        objMember.mb_state_delete = $("#offline_user").prop('checked') ? 1 : 0;
+    } else objMember.mb_state_delete = 0;
+
+    return objMember;
+
+}
+

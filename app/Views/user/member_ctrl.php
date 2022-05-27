@@ -62,7 +62,7 @@
 	<div class="user-panel">	
 		<div>
 			<?php if($mb_level >= LEVEL_ADMIN) {  ?>
-			<a href="javascript:showMemEditDlg('');" class="user-panel-add-a" >회원 등록</a>
+			<a href="javascript:showMemCreate();" class="user-panel-add-a" >회원 등록</a>
 			<?php } ?>
 			<label>추천인</label>
             <input type="text" class="pbresult-text-input" id="userpanel-empid-input-id" value= "<?=$emp_uid ?>">
@@ -175,11 +175,26 @@
 					<div class="row">
 						<form name="create_member_form" id="member_form">
 							<div class="row" style="margin-bottom: 10px;">일반정보 :</div>
+							
+							<div class="col-md-12">
+								<div class="row">
+									
+									<div class="col-md-2">추천인 :</div>
+									<div class="col-md-4">
+										<input id="partner_id" type="text" value="" class="form-control" />
+										<input id="user_fid" type="hidden" class="form-control" disabled="" value="" />
+									</div>
+									<div class="col-md-2">
+										<input type="checkbox" id="offline_user" style="zoom:110%; width 20px; margin-top:10px;"/>
+										오플라인유저
+									</div>
+								</div>
+							</div>
 							<div class="col-md-12">
 								<div class="row">
 									<div class="col-md-2">회원 ID:</div>
 									<div class="col-md-4">
-										<input id="user_id" type="text" placeholder="" class="form-control" />
+										<input id="user_uid" type="text" placeholder="" class="form-control" />
 									</div>
 									<div class="col-md-2">닉네임 :</div>
 									<div class="col-md-4">
@@ -191,11 +206,11 @@
 								<div class="row">
 									<div class="col-md-2">비밀번호 :</div>
 									<div class="col-md-4">
-										<input id="password" type="text" placeholder="" class="form-control" />
+										<input id="user_password" type="text" placeholder="" class="form-control" />
 									</div>
 									<div class="col-md-2">연락처 :</div>
 									<div class="col-md-4">
-										<input id="phone" type="text" placeholder="" class="form-control" />
+										<input id="user_phone" type="text" placeholder="" class="form-control" />
 									</div>
 								</div>
 							</div>
@@ -203,84 +218,166 @@
 							<div class="col-md-12">
 								<div class="row">
 									<div class="col-md-2">상태</div>
-									<div class="col-md-4">
-										<select id="status">
+									<div class="col-md-2">
+										<select id="user_status">
 											<option value="2">대기 </option>
 											<option value="0">차단 </option>
 											<option value="1">승인 </option>
 										</select>
 									</div>
-
-									<div class="col-md-2">파트너아이디 :</div>
-									<div class="col-md-4">
-										<input id="partner_id" type="text" value="admincode" class="form-control" disabled="" />
+									<div class="col-md-2">레벨</div>
+									<div class="col-md-2">
+										<select id="user_level">
+											<?php for ($lv = 1; $lv <= 10 ; $lv ++) { ?>
+												<option value="<?=$lv?>"><?=$lv?>레벨 </option>
+											<?php }?>
+										</select>
+									</div>
+									<div class="col-md-2">색깔 :</div>
+									<div class="col-md-2">
+										<input id="user_color" type="color" value="0" class="form-control" style="padding:2px ;"/>
 									</div>
 								</div>
 							</div>
+					<?php if(!$npg_deny) :?>
 							<div class="col-md-12">
 								<div class="row">
-									<div class="col-md-2">슬롯 롤링요율 (%)</div>
-									<div class="col-md-4">
-										<input type="number" id="slot_rolling_percent" step="0.01" class="form-control" value="0.00" min="0" />
+									<div class="col-md-2">파워볼 단폴 배당율 (%)</div>
+									<div class="col-md-2">
+										<input type="number" id="pb_ratio" step="0.01" class="form-control" value="0.00" min="0" />
 									</div>
-
-									<div class="col-md-2">바카라 롤링 요율 (%)</div>
-									<div class="col-md-4">
-										<input type="number" id="baccart_rolling_percent" step="0.01" class="form-control" value="0.00" min="0" />
+									
+									<div class="col-md-2">파워볼 조합 배당율 (%)</div>
+									<div class="col-md-2">
+										<input type="number" id="pb2_ratio" step="0.01" class="form-control" value="0.00" min="0" />
 									</div>
+								
+									<div class="col-md-2">파워사다리 배당율 (%)</div>
+									<div class="col-md-2">
+										<input type="number" id="ps_ratio" step="0.01" class="form-control" value="0.00" min="0" />
+									</div>
+									
 								</div>
 							</div>
+						<?php if(!$gameper_full) :?>
 							<div class="col-md-12">
 								<div class="row">
-									<div class="col-md-2">메모</div>
-									<div class="col-md-10">
-										<input type="text" id="memo" class="form-control" />
+									<div class="col-md-2">파워볼 단폴 누름율 (%)</div>
+									<div class="col-md-2">
+										<input type="number" id="pb_percent" class="form-control" value="100" min="0" />
 									</div>
+									
+									<div class="col-md-2">파워볼 조합 누름율 (%)</div>
+									<div class="col-md-2">
+										<input type="number" id="pb2_percent" class="form-control" value="100" min="0" />
+									</div>
+								
+									<div class="col-md-2">파워사다리 누름율 (%)</div>
+									<div class="col-md-2">
+										<input type="number" id="ps_percent" class="form-control" value="100" min="0" />
+									</div>
+									
 								</div>
 							</div>
+						<?php endif ?>
+					<?php endif ?>
+					<?php if(!$bpg_deny) :?>
+							<div class="col-md-12">
+								<div class="row">
+									<div class="col-md-2">보글볼 단폴 배당율 (%)</div>
+									<div class="col-md-2">
+										<input type="number" id="bb_ratio" step="0.01" class="form-control" value="0.00" min="0" />
+									</div>
+									
+									<div class="col-md-2">보글볼 조합 배당율 (%)</div>
+									<div class="col-md-2">
+										<input type="number" id="bb2_ratio" step="0.01" class="form-control" value="0.00" min="0" />
+									</div>
+
+									<div class="col-md-2">보글사다리 배당율 (%)</div>
+									<div class="col-md-2">
+										<input type="number" id="bs_ratio" step="0.01" class="form-control" value="0.00" min="0" />
+									</div>
+
+								</div>
+							</div>
+						<?php if(!$gameper_full) :?>
+							<div class="col-md-12">
+								<div class="row">
+									<div class="col-md-2">보글볼 단폴 누름율 (%)</div>
+									<div class="col-md-2">
+										<input type="number" id="bb_percent" class="form-control" value="100" min="0" />
+									</div>
+									
+									<div class="col-md-2">보글볼 조합 누름율 (%)</div>
+									<div class="col-md-2">
+										<input type="number" id="bb2_percent" class="form-control" value="100" min="0" />
+									</div>
+								
+									<div class="col-md-2">보글사다리 누름율 (%)</div>
+									<div class="col-md-2">
+										<input type="number" id="bs_percent" class="form-control" value="100" min="0" />
+									</div>
+									
+								</div>
+							</div>
+						<?php endif ?>
+					<?php endif ?>
+							<div class="col-md-12">
+								<div class="row">
+								<?php if(!$cas_deny) :?>
+									<div class="col-md-2">카지노 배당율 (%)</div>
+									<div class="col-md-2">
+										<input type="number" id="cs_ratio" step="0.01" class="form-control" value="0.00" min="0" />
+									</div>
+								<?php endif ?>
+								<?php if(!$slot_deny) :?>
+									<div class="col-md-2">슬롯 배당율 (%)</div>
+									<div class="col-md-2">
+										<input type="number" id="sl_ratio" step="0.01" class="form-control" value="0.00" min="0" />
+									</div>
+								<?php endif ?>
+								</div>
+							</div>
+								
 
 							<div class="row">은행정보 :</div>
 							<div class="col-md-12">
 								<div class="row">
 									<div class="col-md-12">
 										<div class="row">
-											<div class="col-md-3">환전은행명 :</div>
-											<div class="col-md-9">
+											<div class="col-md-2">은행명 :</div>
+											<div class="col-md-4">
 												<input id="bank_name" type="text" placeholder="" class="form-control" />
 											</div>
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="row">
-											<div class="col-md-3">예금주 :</div>
-											<div class="col-md-9">
-												<input id="bank_master" type="text" placeholder="" class="form-control" />
+
+											<div class="col-md-2">예금주 :</div>
+											<div class="col-md-4">
+												<input id="bank_owner" type="text" placeholder="" class="form-control" />
 											</div>
 										</div>
 									</div>
 									<div class="col-md-12">
 										<div class="row">
-											<div class="col-md-3">계좌번호 :</div>
-											<div class="col-md-9">
+											<div class="col-md-2">계좌번호 :</div>
+											<div class="col-md-4">
 												<input id="bank_number" type="text" placeholder="" class="form-control" />
 											</div>
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="row">
-											<div class="col-md-3">환전비번 :</div>
-											<div class="col-md-9">
-												<input id="withdraw_password" type="text" placeholder="" class="form-control" />
+
+											<div class="col-md-2">출금비번 :</div>
+											<div class="col-md-4">
+												<input id="bank_password" type="text" placeholder="" class="form-control" />
 											</div>
 										</div>
 									</div>
+									
 								</div>
 							</div>
 						</form>
 					</div>
 				</div>
 				<div class="modal-footer" style="padding: 10px !important;">
-					<a id="btn-apply" onclick="onApply()" class="btn btn-primary">추가 </a>
+					<a id="btn-mem-apply" onclick="memSaveApply();" class="btn btn-primary">추가 </a>
 					<a data-dismiss="modal" class="btn btn-warning"  onclick="closeMemEditDlg();">취소 </a>
 				</div>
 			</div>

@@ -231,7 +231,7 @@ function requestTrasnfer(jsonData, bReload = true){
         data: { json_: jsonData },
         success: function(jResult) {
             $(".loading").hide();
-            console.log(jResult);
+            // console.log(jResult);
             if (jResult.status == "success") {
                 if(bReload)
                     location.reload();
@@ -250,5 +250,157 @@ function requestTrasnfer(jsonData, bReload = true){
         }
 
     });
+
+}
+
+function reqMemSave(objMember, closeDlg = null){
+
+    if (objMember.mb_uid.length < 1) {
+        alert("아이디는 필수정보입니다.");
+        return;
+    }
+
+    if (objMember.admin_level > LEVEL_COMPANY) {
+        if (objMember.mb_pwd.length < 1) {
+            alert("비밀번호는 필수정보입니다.");
+            return;
+        }
+
+        if (objMember.mb_nickname.length < 1) {
+            alert("닉네임은 필수정보입니다.");
+            return;
+        }
+
+        if (objMember.mb_nickname.length < 3 || objMember.mb_nickname.length > 20) {
+            alert("닉네임길이는 3~20자리입니다.");
+            return;
+        }
+
+
+        if (objMember.mb_phone.length < 1) {
+            alert("핸드폰번호는 필수정보입니다.");
+            return;
+        }
+
+        if (objMember.mb_bank_pwd.length < 1) {
+            alert("출금비번은 필수정보입니다.");
+            return;
+        }
+
+        if (objMember.mb_bank_name.length < 1 || objMember.mb_bank_own.length < 1 || objMember.mb_bank_num.length < 1) {
+            alert("계좌정보를 입력해주세요.");
+            return;
+        }
+    }
+    if (!confirm("저장하시겠습니까?"))
+        return;
+
+    if (parseInt(objMember.mb_fid) > 0) {
+
+        jsonData = JSON.stringify(objMember);
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: FURL + "/userapi/modifymember",
+            data: { json_: jsonData },
+            success: function(jResult) {
+                // console.log(jResult);
+                if (jResult.status == "success") {
+                    if(closeDlg != null){
+                        closeDlg();
+                        requestMember();
+                    }
+                    else window.location.replace( FURL +'/user/member/0');
+                } else if (jResult.status == "logout") {
+                    window.location.replace( FURL +'/');
+                } else if (jResult.status == "fail") {
+                    if (jResult.error == 2)
+                        alert("중복된 아이디입니다.");
+                    else if (jResult.error == 3)
+                        alert("등록된 매장이 아닙니다.");
+                    else if (jResult.error == 11)
+                        alert("중복된 닉네임입니다.");
+                    else alert("수정이 실패되었습니다.");
+                } else if (jResult.status == "val_error") {
+                    var errString = '';
+                    for (property in jResult.error) {
+                        errString += `${jResult.error[property]}\n`;
+                    }
+                    alert(errString);
+                } else if (jResult.status == "pb_ratio_error") {
+                    alert("파워볼 배당율이 추천인설정값 " + jResult.error + "보다 클수 없습니다.");
+                } else if (jResult.status == "ps_ratio_error") {
+                    alert("파워사다리 배당율이 추천인설정값 " + jResult.error + "보다 클수 없습니다.");
+                } else if (jResult.status == "ev_ratio_error") {
+                    alert("카지노 배당율이 추천인설정값 " + jResult.error + "보다 클수 없습니다.");
+                } else if (jResult.status == "sl_ratio_error") {
+                    alert("슬롯 배당율이 추천인설정값 " + jResult.error + "보다 클수 없습니다.");
+                } else if (jResult.status == "bb_ratio_error") {
+                    alert("보글볼 배당율이 추천인설정값 " + jResult.error + "보다 클수 없습니다.");
+                } else if (jResult.status == "bs_ratio_error") {
+                    alert("보글사다리 배당율이 추천인설정값 " + jResult.error + "보다 클수 없습니다.");
+                } else if (jResult.status == "employee_error") {
+                    alert("추천인 아이디가 존재하지 않습니다.");
+                }
+            },
+            error: function(request, status, error) {
+                // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            }
+
+        });
+    } else if (parseInt(objMember.mb_fid) == 0) {
+
+        jsonData = JSON.stringify(objMember);
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: FURL + "/userapi/addmember",
+            data: { json_: jsonData },
+            success: function(jResult) {
+                // console.log(jResult);
+                if (jResult.status == "success") {
+                    if(closeDlg != null){
+                        closeDlg();
+                        requestMember();
+                    }
+                    else window.location.replace( FURL +'/user/member/0');
+                } else if (jResult.status == "logout") {
+                    window.location.replace( FURL +'/');
+                } else if (jResult.status == "val_error") {
+                    var errorString = '';
+                    for (property in jResult.error) {
+                        errorString += `${jResult.error[property]}\n`;
+                    }
+                    alert(errorString);
+                } else if (jResult.status == "fail") {
+                    if (jResult.error == 2)
+                        alert("중복된 아이디입니다.");
+                    else if (jResult.error == 11)
+                        alert("중복된 닉네임입니다.");
+                    else if (jResult.error == 3)
+                        alert("등록된 추천인이 아닙니다.");
+                    else alert("등록이 실패되었습니다.");
+                } else if (jResult.status == "pb_ratio_error") {
+                    alert("파워볼 배당율이 추천인설정값 " + jResult.error + "보다 클수 없습니다.");
+                } else if (jResult.status == "ps_ratio_error") {
+                    alert("파워사다리 배당율이 추천인설정값 " + jResult.error + "보다 클수 없습니다.");
+                } else if (jResult.status == "ev_ratio_error") {
+                    alert("카지노 배당율이 추천인설정값 " + jResult.error + "보다 클수 없습니다.");
+                } else if (jResult.status == "sl_ratio_error") {
+                    alert("슬롯 배당율이 추천인설정값 " + jResult.error + "보다 클수 없습니다.");
+                } else if (jResult.status == "bb_ratio_error") {
+                    alert("보글볼 배당율이 추천인설정값 " + jResult.error + "보다 클수 없습니다.");
+                } else if (jResult.status == "bs_ratio_error") {
+                    alert("보글사다리 배당율이 추천인설정값 " + jResult.error + "보다 클수 없습니다.");
+                } else if (jResult.status == "employee_error") {
+                    alert("추천인 아이디가 존재하지 않습니다.");
+                }
+            },
+            error: function(request, status, error) {
+                // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            }
+
+        });
+    }
 
 }
