@@ -8,39 +8,54 @@ class User extends StdController
 	/**
 
 	 */
-	private function user_edit_page($url, $activePage, $memberFid, $employeeLevel, $userLevel){
+	private function user_edit_page($url, $activePage, $mbFid, $userLevel){
 		if (is_login() === false){
 			return $this->response->redirect( $_ENV['app.furl'].'/pages/login');
 		}
-		
-		$strUid = $this->session->user_id;
-		$objAdmin = $this->modelMember->getInfo($strUid);
+
 		$objMember = null;
-		if($memberFid > 0)
-		{
-			$objMember = $this->modelMember->getInfoByFid($memberFid, true);					
-		}
-		$empUid = '';
-		$bChild = false;
-		if ($objMember != null){
-			$objEmpMember = $this->modelMember->find($objMember->mb_emp_fid);
-			if ($objEmpMember != null)
-				$empUid = $objEmpMember->mb_uid;
-			$bChild = $objMember->mb_emp_fid == $objAdmin->mb_fid;
+		$bPermit = false;
+		
+		if(!is_numeric($mbFid)){
+			$bPermit = false;
+		} else if($mbFid == 0){
+			$bPermit = true;
+		} else {
+			$strUid = $this->session->user_id;
+			$objAdmin = $this->modelMember->getInfo($strUid);
+
+			$arrEmp = $this->modelMember->getMemberByEmpFid($objAdmin->mb_fid, $objAdmin->mb_level,  $objAdmin->mb_level, true, $mbFid);
+			if(count($arrEmp) > 0)
+				$objMember = reset($arrEmp);					
 			
+			$empUid = '';
+			$bChild = false;
+			if ($objMember != null){
+				$objEmpMember = $this->modelMember->find($objMember->mb_emp_fid);
+				if ($objEmpMember != null)
+					$empUid = $objEmpMember->mb_uid;
+				$bChild = $objMember->mb_emp_fid == $objAdmin->mb_fid;
+				$bPermit = true;
+			}
 		}
-			
-		$this->load_view_page(
-			$url, 
-			$activePage, 
-			$userLevel, 
-			[
-				'objMember' => $objMember, 
-				'emp_uid' => $empUid,
-				'isChild' => $bChild,
-		]);	
+		
+		if (!$bPermit){
+			$this->response->redirect( $_ENV['app.furl'].'/pages/nopermit');
+		}
+		else {
+			$this->load_view_page(
+				$url, 
+				$activePage, 
+				$userLevel, 
+				[
+					'objMember' => $objMember, 
+					'emp_uid' => $empUid,
+					'isChild' => $bChild,
+			]);  
+		}
 		
 	}
+
 	public function index()
 	{
 		if(is_login())
@@ -77,28 +92,27 @@ class User extends StdController
 			LEVEL_ADMIN);
 	}
 
-	function member($strEmpFid){
+	function member($empFid){
 		if (is_login() === false){
 			return $this->response->redirect($_ENV['app.furl'].'/pages/login');
 		}
-		$objEmp = $this->modelMember->find($strEmpFid);
-		$strEmpUid = "";
+		$objEmp = $this->modelMember->find($empFid);
+		$empUid = "";
 		if ($objEmp != null){
-			$strEmpUid = $objEmp->mb_uid;
+			$empUid = $objEmp->mb_uid;
 		}
 		$this->load_view_page(
 			'user/member', 
 			'user_member', 
 			LEVEL_MIN, 
-			['emp_uid' => $strEmpUid]);
+			['emp_uid' => $empUid]);
 	}
 
-	public function member_edit($strMemberFid){
+	public function member_edit($mbFid){
 		$this->user_edit_page(
 			'user/member_edit', 
 			'user_member', 
-			$strMemberFid, 
-			LEVEL_MIN,
+			$mbFid,
 			LEVEL_MIN);		
 	}
 }
