@@ -97,7 +97,7 @@ class Charge_Model extends Model
     function calcAdminCharge($arrReqData){
         $strSQL = "SELECT SUM(charge_money) AS charge_sum FROM ".$this->table;
         $strSQL.=" WHERE (charge_action_state = '".STATE_VERIFY."' OR charge_action_state = '".STATE_HOT."') ";
-        if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
+        if(array_key_exists('start', $arrReqData) && strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
             $strSQL.=" AND charge_time_require >= '".$arrReqData['start']." 0:0:0' AND charge_time_require <= '".$arrReqData['end']." 23:59:59'" ; 
         }
         if(array_key_exists('mb_uid', $arrReqData) && strlen($arrReqData['mb_uid']) > 0){
@@ -155,7 +155,7 @@ class Charge_Model extends Model
         $strSql = "SELECT ".$this->table.".*, member.mb_nickname, (member.mb_money+member.mb_live_money+member.mb_slot_money+member.mb_fslot_money) AS mb_money FROM ".$this->table;
         $strSql .= " JOIN member ON ".$this->table.".charge_mb_uid = member.mb_uid ";
         $strSql .= " WHERE charge_state_delete = '0' ";
-        if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
+        if(array_key_exists('start', $arrReqData) && strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
             $strSql.=" AND charge_time_require >= '".$arrReqData['start']." 0:0:0' AND charge_time_require <= '".$arrReqData['end']." 23:59:59'" ; 
         }
         if(strlen($arrReqData['mb_uid']) > 0){

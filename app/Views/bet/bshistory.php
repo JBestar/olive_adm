@@ -2,6 +2,7 @@
 <?= $this->section('history-active') ?>"보글사다리"<?= $this->endSection() ?>
 <?= $this->section('history-title') ?>보글사다리 배팅내역<?= $this->endSection() ?>
 <?= $this->section('history_game_options') ?>		
+	<option value="0">::배팅선택::</option>	
 	<option value="1">좌우</option>
 	<option value="2">줄수</option>
 	<option value="3">홀짝</option>

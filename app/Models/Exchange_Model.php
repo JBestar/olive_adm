@@ -100,7 +100,7 @@ class Exchange_Model extends Model {
         
         $strSQL = "SELECT SUM(exchange_money) AS exchange_sum FROM ".$this->table;
         $strSQL.=" WHERE (exchange_action_state = '".STATE_VERIFY."' OR exchange_action_state = '".STATE_HOT."') ";
-        if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 )
+        if(array_key_exists('start', $arrReqData) && strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 )
             $strSQL.=" AND exchange_time_require >= '".$arrReqData['start']." 0:0:0' AND exchange_time_require <= '".$arrReqData['end']." 23:59:59' " ;
         if(array_key_exists('mb_uid', $arrReqData) && strlen($arrReqData['mb_uid']) > 0){
             $strSQL.=" AND exchange_mb_uid = '".$arrReqData['mb_uid']."' ";
@@ -156,7 +156,7 @@ class Exchange_Model extends Model {
         $strSql = "SELECT ".$this->table.".*, member.mb_nickname, (member.mb_money+member.mb_live_money+member.mb_slot_money+member.mb_fslot_money) AS mb_money FROM ".$this->table;
         $strSql .= " JOIN member ON ".$this->table.".exchange_mb_uid = member.mb_uid ";
         $strSql .= " WHERE exchange_state_delete = '0' ";
-        if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
+        if(array_key_exists('start', $arrReqData) && strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
             $strSql.=" AND exchange_time_require >= '".$arrReqData['start']." 0:0:0' AND exchange_time_require <= '".$arrReqData['end']." 23:59:59'" ; 
         }
         if(strlen($arrReqData['mb_uid']) > 0){

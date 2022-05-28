@@ -91,7 +91,7 @@
 		</div>
 		<!---->
 		<div class="useredit-text-div">
-			<p>은행번호:</p> 
+			<p>계좌번호:</p> 
 			<?php if(is_null($objMember) || is_null($objMember->mb_bank_num)) {  ?>						
 			<input type = "text" id="useredit-bankserial-input-id">
 			<?php } else {?>

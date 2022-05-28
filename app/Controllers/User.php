@@ -34,7 +34,6 @@ class User extends StdController
 				$objEmpMember = $this->modelMember->find($objMember->mb_emp_fid);
 				if ($objEmpMember != null)
 					$empUid = $objEmpMember->mb_uid;
-				$bChild = $objMember->mb_emp_fid == $objAdmin->mb_fid;
 				$bPermit = true;
 			}
 		}
@@ -47,11 +46,10 @@ class User extends StdController
 				$url, 
 				$activePage, 
 				$userLevel, 
-				[
-					'objMember' => $objMember, 
-					'emp_uid' => $empUid,
-					'isChild' => $bChild,
-			]);  
+				[ 'objMember' => $objMember,
+				'emp_uid' => $empUid,
+				'isChild' => $bChild, ]
+			);  
 		}
 		
 	}
@@ -114,5 +112,63 @@ class User extends StdController
 			'user_member', 
 			$mbFid,
 			LEVEL_MIN);		
+	}
+	
+
+	function member_ctrl($strEmpFid){
+		if (is_login() === false){
+			return $this->response->redirect($_ENV['app.furl'].'/pages/login');
+		}
+		$objEmp = $this->modelMember->find($strEmpFid);
+		$strEmpUid = "";
+		if ($objEmp != null){
+			$strEmpUid = $objEmp->mb_uid;
+		}
+		$this->load_view_page(
+			'user/member_ctrl', 
+			'user_ctrl', 
+			LEVEL_ADMIN, 
+			['emp_uid' => $strEmpUid]);
+	}
+
+	public function member_detail($mbFid){
+			
+		$objMember = null;
+		$bPermit = false;
+		
+		if(!is_numeric($mbFid)){
+			$bPermit = false;
+		} else {
+			$strUid = $this->session->user_id;
+			$objAdmin = $this->modelMember->getInfo($strUid);
+
+			$arrEmp = $this->modelMember->getMemberByEmpFid($objAdmin->mb_fid, $objAdmin->mb_level,  $objAdmin->mb_level, true, $mbFid);
+			if(count($arrEmp) > 0)
+				$objMember = reset($arrEmp);					
+			
+			$empUid = '';
+			$bChild = false;
+			if ($objMember != null) {
+				$objEmpMember = $this->modelMember->find($objMember->mb_emp_fid);
+				$objMember->mb_emp_uid = "";
+				if ($objEmpMember != null)
+					$objMember->mb_emp_uid = $objEmpMember->mb_uid;
+				$bPermit = true;
+			}
+		}
+		
+		if (!$bPermit){
+			$this->response->redirect( $_ENV['app.furl'].'/pages/nopermit');
+		}
+		else {
+			$this->load_view_page(
+				'user/member_detail', 
+				'user_ctrl',
+				LEVEL_MIN, 
+				[
+					'objMember' => $objMember, 
+					
+			]);  
+		}
 	}
 }

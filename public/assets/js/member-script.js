@@ -24,10 +24,8 @@ function getMemberLevelString(nLevel) {
 function showMember(arrMember, confs) {
 
     var strBuf = "";
-
     var curPage = getActivePage();
     var firstIdx = (curPage - 1) * CountPerPage;
-    var strApp = $("#main-container-id").data('app');
     for (var nRow in arrMember) {
         strBuf += "<tr id ='" + arrMember[nRow].mb_fid + "'";
         if (arrMember[nRow].mb_color != null)
@@ -36,18 +34,13 @@ function showMember(arrMember, confs) {
         strBuf += "<td>";
         strBuf += (parseInt(nRow) + firstIdx + 1);
         strBuf += "</td> <td>";
-        // if (confs.emp_level >= LEVEL_ADMIN) {
         strBuf += "<a href='"+FURL+"/user/member/";
         strBuf += arrMember[nRow].mb_emp_fid;
         strBuf += "' class='link-member'>"
         strBuf += arrMember[nRow].mb_empname;
         strBuf += "</a>";
-        // } else {
-        //     strBuf += arrMember[nRow].mb_empname;
-        // }
 
         strBuf += "</td> <td>";
-        // if (confs.emp_level >= LEVEL_ADMIN) {
         strBuf += "<a href='"+FURL+"/user/member/";
         strBuf += arrMember[nRow].mb_fid;
         strBuf += "' class='link-member'>"
@@ -55,9 +48,6 @@ function showMember(arrMember, confs) {
         if (getMemberLevelString(arrMember[nRow].mb_level) != null)
             strBuf += " | " + getMemberLevelString(arrMember[nRow].mb_level);
         strBuf += "</a>";
-        // } else {
-        //     strBuf += arrMember[nRow].mb_uid;
-        // }
 
         strBuf += "</td> <td>";
         strBuf += arrMember[nRow].mb_nickname;
@@ -72,17 +62,6 @@ function showMember(arrMember, confs) {
         strBuf += "</td> <td id='mp_" + arrMember[nRow].mb_fid + "'>";
         strBuf += parseInt(arrMember[nRow].mb_point).toLocaleString();
         strBuf += "</td> <td>";
-        // strBuf += "<span id='ev_" + arrMember[nRow].mb_fid + "'>에볼: " + parseInt(arrMember[nRow].mb_live_money).toLocaleString() + "</span><br>";
-        // if (strApp == APPTYPE_0)
-        //     strBuf += "<span id='sl_" + arrMember[nRow].mb_fid + "'>슬롯: " + parseInt(arrMember[nRow].mb_slot_money).toLocaleString() + "</span><br>";
-        // if (strApp == APPTYPE_0)
-        //     strBuf += "<span id='fsl_" + arrMember[nRow].mb_fid + "'>네츄럴슬롯: " + parseInt(arrMember[nRow].mb_fslot_money).toLocaleString() + "</span>";
-        // else if (strApp == APPTYPE_2)
-        //     strBuf += "<span id='fsl_" + arrMember[nRow].mb_fid + "'>슬롯: " + parseInt(arrMember[nRow].mb_fslot_money).toLocaleString() + "</span>";
-        // else if (strApp == APPTYPE_1)
-        //     strBuf += "<span id='tsl_" + arrMember[nRow].mb_fid + "'>슬롯: " + (parseInt(arrMember[nRow].mb_slot_money) + parseInt(arrMember[nRow].mb_fslot_money)).toLocaleString() + "</span>";
-        // strBuf += '<br><button class="refresh_btn" onclick="refreshEv(' + arrMember[nRow].mb_fid + ', this);"></button>';
-        // strBuf += "</td> <td>";
         if (confs.emp_level >= LEVEL_ADMIN) {
             strBuf += arrMember[nRow].mb_ip_last;
             if (arrMember[nRow].block_state == 1) {
@@ -282,7 +261,7 @@ function addButtonElementListener(buttonElement) {
             if (!confirm("삭제하시겠습니까?"))
                 return;
             var jsonData = { "mb_fid": this.name };
-            requestDeleteCompany(jsonData);
+            requestDeleteMember(jsonData);
         } else if (this.innerHTML.search("IP차단") >= 0) {
             var jsonData = { "block_ip": this.name, "block_state": 1 };
             requestAddBlock(jsonData);
@@ -291,60 +270,60 @@ function addButtonElementListener(buttonElement) {
             requestAddBlock(jsonData);
         } else if (this.innerHTML.search("승인") >= 0) {
             var jsonData = { "mb_fid": this.name, "mb_state_active": 0 };
-            requestUpdateCompany(jsonData);
+            requestUpdateMember(jsonData);
         } else if (this.innerHTML.search("차단") >= 0) {
             var jsonData = { "mb_fid": this.name, "mb_state_active": 1 };
-            requestUpdateCompany(jsonData);
+            requestUpdateMember(jsonData);
         } else if (this.innerHTML.search("대기") >= 0) {
             var jsonData = { "mb_fid": this.name, "mb_state_active": 1 };
             requestWaitToPermit(this, jsonData);
         } else if (this.innerHTML.search("파워볼") >= 0) {
             if (this.className.search("button-active") >= 0) {
                 var jsonData = { "mb_fid": this.name, "mb_game_pb": 0 };
-                requestUpdateCompany(jsonData);
+                requestUpdateMember(jsonData);
             } else {
                 var jsonData = { "mb_fid": this.name, "mb_game_pb": 1 };
-                requestUpdateCompany(jsonData);
+                requestUpdateMember(jsonData);
             }
         } else if (this.innerHTML.search("파워사다리") >= 0) {
             if (this.className.search("button-active") >= 0) {
                 var jsonData = { "mb_fid": this.name, "mb_game_ps": 0 };
-                requestUpdateCompany(jsonData);
+                requestUpdateMember(jsonData);
             } else {
                 var jsonData = { "mb_fid": this.name, "mb_game_ps": 1 };
-                requestUpdateCompany(jsonData);
+                requestUpdateMember(jsonData);
             }
         } else if (this.innerHTML.search("보글볼") >= 0) {
             if (this.className.search("button-active") >= 0) {
                 var jsonData = { "mb_fid": this.name, "mb_game_bb": 0 };
-                requestUpdateCompany(jsonData);
+                requestUpdateMember(jsonData);
             } else {
                 var jsonData = { "mb_fid": this.name, "mb_game_bb": 1 };
-                requestUpdateCompany(jsonData);
+                requestUpdateMember(jsonData);
             }
         } else if (this.innerHTML.search("보글사다리") >= 0) {
             if (this.className.search("button-active") >= 0) {
                 var jsonData = { "mb_fid": this.name, "mb_game_bs": 0 };
-                requestUpdateCompany(jsonData);
+                requestUpdateMember(jsonData);
             } else {
                 var jsonData = { "mb_fid": this.name, "mb_game_bs": 1 };
-                requestUpdateCompany(jsonData);
+                requestUpdateMember(jsonData);
             }
         } else if (this.innerHTML.search("카지노") >= 0) {
             if (this.className.search("button-active") >= 0) {
                 var jsonData = { "mb_fid": this.name, "mb_game_cs": 0 };
-                requestUpdateCompany(jsonData);
+                requestUpdateMember(jsonData);
             } else {
                 var jsonData = { "mb_fid": this.name, "mb_game_cs": 1 };
-                requestUpdateCompany(jsonData);
+                requestUpdateMember(jsonData);
             }
         } else if (this.innerHTML.search("슬롯") >= 0) {
             if (this.className.search("button-active") >= 0) {
                 var jsonData = { "mb_fid": this.name, "mb_game_sl": 0 };
-                requestUpdateCompany(jsonData);
+                requestUpdateMember(jsonData);
             } else {
                 var jsonData = { "mb_fid": this.name, "mb_game_sl": 1 };
-                requestUpdateCompany(jsonData);
+                requestUpdateMember(jsonData);
             }
         }
     });
@@ -364,242 +343,3 @@ function addBtnEvent() {
     }
 }
 
-function requestWaitToPermit(elemBut, jsData) {
-
-    if (mAudio != undefined && mAudio != null) {
-        mAudio.pause();
-    }
-
-    $(elemBut).attr('disabled', true);
-    jsonData = JSON.stringify(jsData);
-
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: FURL + "/userapi/wait_permit",
-        data: { json_: jsonData },
-        success: function(jResult) {
-            //console.log(jResult);
-            $(elemBut).attr('disabled', false);
-
-            if (jResult.status == "success") {
-                requestEmployeeInfo();
-                requestMember();
-
-            } else if (jResult.status == "usererror") {
-                alert('회원정보가 정확하지 않습니다.\n 다시 확인해주세요');
-            } else if (jResult.status == "fail") {
-                alert('회원승인이 실패되었습니다.');
-            } else if (jResult.status == "nopermit") {
-                alert('변경권한이 없습니다.');
-                window.location.replace( FURL +'/pages/nopermit');
-            } else if (jResult.status == "logout") {
-                window.location.replace( FURL +'/');
-            }
-        },
-        error: function(request, status, error) {
-            //console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-        }
-
-    });
-}
-
-
-function requestUpdateCompany(jsData) {
-
-    var jsonData = JSON.stringify(jsData);
-
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: FURL + "/userapi/updatemember",
-        data: { json_: jsonData },
-        success: function(jResult) {
-            // console.log(jResult);
-
-            if (jResult.status == "success") {
-                requestMember();
-                // updateMember(jResult.data, jResult.level);
-            } else if (jResult.status == "fail") {
-
-            } else if (jResult.status == "nopermit") {
-                alert('변경권한이 없습니다.');
-                location.replace( FURL +'/pages/nopermit');
-            } else if (jResult.status == "logout") {
-                location.replace( FURL +'/');
-            }
-        },
-        error: function(request, status, error) {
-            //console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-        }
-
-    });
-
-}
-
-function requestAddBlock(jsData) {
-
-    var jsonData = JSON.stringify(jsData);
-
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: FURL + "/userapi/add_block",
-        data: { json_: jsonData },
-        success: function(jResult) {
-            // console.log(jResult);
-
-            if (jResult.status == "success") {
-                location.replace( FURL +'/user/member_block');
-                // updateMember(jResult.data, jResult.level);
-            } else if (jResult.status == "fail") {
-
-            } else if (jResult.status == "nopermit") {
-                alert('변경권한이 없습니다.');
-                location.replace( FURL +'/pages/nopermit');
-            } else if (jResult.status == "logout") {
-                location.replace( FURL +'/');
-            }
-        },
-        error: function(request, status, error) {
-            // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-        }
-
-    });
-
-}
-
-
-function requestDeleteCompany(jsData) {
-
-    var jsonData = JSON.stringify(jsData);
-
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: FURL + "/userapi/deletemember",
-        data: { json_: jsonData },
-        success: function(jResult) {
-            //console.log(jResult);
-
-            if (jResult.status == "success") {
-                requestMember();
-                //window.location.reload();
-            } else if (jResult.status == "fail") {
-
-            } else if (jResult.status == "nopermit") {
-                alert('변경권한이 없습니다.');
-                window.location.replace( FURL +'/pages/nopermit');
-            } else if (jResult.status == "logout") {
-                window.location.replace( FURL +'/');
-            }
-        },
-        error: function(request, status, error) {
-            //console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-        }
-
-    });
-
-}
-
-function refreshEv(mbFid, elBtn) {
-    var jsonData = { "mb_fid": mbFid };
-    jsonData = JSON.stringify(jsonData);
-    $(elBtn).addClass("refresh");
-
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: FURL + "/userapi/egginfo",
-        data: { json_: jsonData },
-        success: function(jResult) {
-            // console.log(jResult);
-            $(elBtn).removeClass("refresh");
-
-            if (jResult.status == "success") {
-                $("#mm_" + mbFid).text(parseInt(jResult.money).toLocaleString() + "원");
-                $("#mp_" + mbFid).text(parseInt(jResult.point).toLocaleString());
-
-            } else if (jResult.status == "fail") {
-
-            } else if (jResult.status == "logout") {
-                window.location.replace( FURL +'/');
-            }
-        },
-        error: function(request, status, error) {
-            $(elBtn).removeClass("refresh");
-            // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-        }
-
-    });
-
-    // setTimeout(function() {
-    //     refreshSl(mbFid);
-    // }, 500);
-
-    // setTimeout(function() {
-    //     refreshFsl(mbFid, elBtn);
-    // }, 1000);
-}
-
-
-// function refreshSl(mbFid) {
-//     var jsonData = { "mb_fid": mbFid };
-//     jsonData = JSON.stringify(jsonData);
-
-//     $.ajax({
-//         type: "POST",
-//         dataType: "json",
-//         url: FURL + "/userapi/egg_sl",
-//         data: { json_: jsonData },
-//         success: function(jResult) {
-//             // console.log(jResult);
-
-//             if (jResult.status == "success") {
-//                 $("#sl_" + mbFid).text("슬롯: " + parseInt(jResult.slot_money).toLocaleString());
-//                 $("#tsl_" + mbFid).text("슬롯: " + (parseInt(jResult.slot_money) + parseInt(jResult.fslot_money)).toLocaleString());
-
-//             } else if (jResult.status == "fail") {
-
-//             } else if (jResult.status == "logout") {
-//                 window.location.replace( FURL +'/');
-//             }
-//         },
-//         error: function(request, status, error) {
-//             // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-//         }
-
-//     });
-// }
-
-
-// function refreshFsl(mbFid, elBtn) {
-//     var jsonData = { "mb_fid": mbFid };
-//     jsonData = JSON.stringify(jsonData);
-
-//     $.ajax({
-//         type: "POST",
-//         dataType: "json",
-//         url: FURL + "/userapi/egg_fsl",
-//         data: { json_: jsonData },
-//         success: function(jResult) {
-//             // console.log(jResult);
-//             $(elBtn).removeClass("refresh");
-
-//             if (jResult.status == "success") {
-//                 $("#fsl_" + mbFid).text("슬롯: " + parseInt(jResult.fslot_money).toLocaleString());
-//                 $("#tsl_" + mbFid).text("슬롯: " + (parseInt(jResult.slot_money) + parseInt(jResult.fslot_money)).toLocaleString());
-
-//             } else if (jResult.status == "fail") {
-
-//             } else if (jResult.status == "logout") {
-//                 window.location.replace( FURL +'/');
-//             }
-//         },
-//         error: function(request, status, error) {
-//             $(elBtn).removeClass("refresh");
-//             // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-//         }
-
-//     });
-// }

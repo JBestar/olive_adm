@@ -25,8 +25,9 @@
     <i class="glyphicon glyphicon-chevron-right" style = "float:right; padding-right: 10px; font-size: 10px"></i>
   </button>
   <div class="main-dropdown-container" <?=$userdropdown?>>
-    <a href="<?php echo siteFurl().'user/member/0';?>" class="<?=$user_member?>"><i class="glyphicon glyphicon-cd"></i> 회원</a>
+    <a href="<?php echo siteFurl().'user/member/0';?>" class="<?=$user_member?>"><i class="glyphicon glyphicon-cd"></i> 회원관리</a>
     <?php if($mb_level >= LEVEL_ADMIN) {  ?>
+    <a href="<?php echo siteFurl().'user/member_ctrl/0';?>" class="<?=$user_ctrl?>"><i class="glyphicon glyphicon-cd"></i> 매장전용</a>
     <a href="<?php echo siteFurl().'user/member_connect';?>" class="<?=$user_log?>"><i class="glyphicon glyphicon-time"></i> 실시간접속</a>
     <a href="<?php echo siteFurl().'user/member_block';?>" class="<?=$user_block?>"><i class="glyphicon glyphicon-ban-circle"></i> 블록아이피</a>
     <?php }  ?>

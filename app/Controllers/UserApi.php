@@ -256,6 +256,43 @@ class UserApi extends BaseController
         echo json_encode($arrResult);
     }
 
+    // 사용자 강제아웃
+    public function logoutmember()
+    {
+        $jsonData = $_REQUEST['json_'];
+        $arrData = json_decode($jsonData, true);
+
+        if (is_login()) {
+            $bPermit = false;
+            
+            $strUid = $this->session->user_id;
+            $objUser = $this->modelMember->getInfo($strUid);
+            $objReqUser = $this->modelMember->getInfoByFid($arrData['mb_fid']);
+
+            // 현재 가입한 유저가 요청한 유저보다 레벨이 높은 경우에 삭제가 가능하다.
+            if (!is_null($objUser) && !is_null($objReqUser)) {
+                if ($objUser->mb_level >= LEVEL_ADMIN) {
+                    $bPermit = true;
+                }
+            }
+            if ($bPermit) {
+                
+                $bResult = $this->modelSess->deleteByMember($objReqUser->mb_fid);
+                
+                if ($bResult) {
+                    $arrResult['status'] = 'success';
+                } else {
+                    $arrResult['status'] = 'fail';
+                }
+            } else {
+                $arrResult['status'] = 'nopermit';
+            }
+        } else {
+            $arrResult['status'] = 'logout';
+        }
+        echo json_encode($arrResult);
+    }
+
     // 회원정보  대기 승인 라이브게임아이디 생성한다.
     public function wait_permit()
     {
@@ -442,6 +479,85 @@ class UserApi extends BaseController
         }
     }
 
+    // 유저의 충환전, 배팅총액
+    public function userinfo()
+    {
+        $jsonData = $_REQUEST['json_'];
+		$arrReqData = json_decode($jsonData, true);
+        if (is_login()) {
+            $strUid = $this->session->user_id;
+            // model
+            
+            $chargeModel = new Charge_Model();
+            $exchangeModel = new Exchange_Model();
+            $confsiteModel = new ConfSite_Model();
+            $siteConfs = $this->getSiteConf($confsiteModel);
+
+            $objUser = $this->modelMember->getInfo($strUid);
+
+            $objResult = new \stdClass();
+            if ($objUser->mb_level >= LEVEL_ADMIN) {
+                
+                $arrInfo['charge_total'] = $chargeModel->calcAdminCharge($arrReqData);
+                $arrInfo['discharge_total'] = $exchangeModel->calcAdminExchange($arrReqData);
+                $arrBet = $this->modelMember->calcUserBet($arrReqData, $siteConfs);
+                $arrInfo['bet_total'] = $arrBet['bet_money'];
+                $arrInfo['win_total'] = $arrBet['bet_win_money'];
+
+                $arrReqData['start'] = date('Y-m-d');
+                $arrReqData['end'] = $arrReqData['start'];
+                $arrInfo['charge_today'] = $chargeModel->calcAdminCharge($arrReqData);
+                $arrInfo['discharge_today'] = $exchangeModel->calcAdminExchange($arrReqData);
+                $arrBet = $this->modelMember->calcUserBet($arrReqData, $siteConfs);
+                $arrInfo['bet_today'] = $arrBet['bet_money'];
+                $arrInfo['win_today'] = $arrBet['bet_win_money'];
+
+                $objResult->data = $arrInfo;
+                $objResult->status = 'success';
+            } else {
+                $objResult->status = 'fail';
+            }
+
+            echo json_encode($objResult);
+        } else {
+            $arrResult['status'] = 'logout';
+            echo json_encode($arrResult);
+        }
+    }
+
+    
+    // 유저의 충환전, 배팅총액
+    public function userbet()
+    {
+        $jsonData = $_REQUEST['json_'];
+		$arrReqData = json_decode($jsonData, true);
+        if (is_login()) {
+            $strUid = $this->session->user_id;
+            // model
+            $confsiteModel = new ConfSite_Model();
+            $siteConfs = $this->getSiteConf($confsiteModel);
+
+            $objUser = $this->modelMember->getInfo($strUid);
+
+            $objResult = new \stdClass();
+            if ($objUser->mb_level >= LEVEL_ADMIN) {
+                
+                $arrReqData['start'] = date('Y-m-d');
+                $arrReqData['end'] = $arrReqData['start'];
+                $objResult->date = $arrReqData['start'];
+                $objResult->data = $this->modelMember->statistUserBet($arrReqData, $siteConfs);
+                $objResult->status = 'success';
+            } else {
+                $objResult->status = 'fail';
+            }
+
+            echo json_encode($objResult);
+        } else {
+            $arrResult['status'] = 'logout';
+            echo json_encode($arrResult);
+        }
+    }
+
     public function getmembers()
     {
         $jsonData = $_REQUEST['json_'];
@@ -525,6 +641,60 @@ class UserApi extends BaseController
                 $objResult->data = $objCount;
             }
 			
+            echo json_encode($objResult);
+        } else {
+            $arrResult['status'] = 'logout';
+            echo json_encode($arrResult);
+        }
+    }
+
+    
+    public function getmemberlist()
+    {
+        $jsonData = $_REQUEST['json_'];
+        $arrData = json_decode($jsonData, true);
+
+        if (is_login()) {
+            // model
+            
+			$confsiteModel = new ConfSite_Model();
+            $confs = $this->getSiteConf($confsiteModel);
+
+			$objResult = new \stdClass();
+            $strUid = $this->session->user_id;
+            $objUser = $this->modelMember->getInfo($strUid);
+			$empFid = 0;
+            if (strlen($arrData['mb_emp_uid']) > 0){
+                $objEmp = $this->modelMember->getInfo($arrData['mb_emp_uid']);
+                if (!is_null($objEmp)){
+                    $empFid = $objEmp->mb_fid;
+                } else $empFid = -1;
+            } 
+            
+            if($empFid >= 0 && $objUser->mb_level >= LEVEL_ADMIN){
+                $arrMember = $this->modelMember->searchUserByLevel($arrData, $empFid, $confs);
+                if (is_null($arrMember)) {
+                    $arrMember = [];
+                }
+                foreach ($arrMember as $objMember) {
+                    $objEmpInfo = $this->modelMember->find($objMember->mb_emp_fid);
+                    if ($objEmpInfo != null){
+                        $objMember->mb_empname = $objEmpInfo->mb_uid;
+                    }
+                    else {
+                        $objMember->mb_empname = '';
+                    }
+                }
+                
+            } else {
+                $arrMember = [];
+            }
+            
+            $confs['emp_level'] = $objUser->mb_level; 
+            $objResult->status = 'success';
+            $objResult->confs = $confs;
+            $objResult->data = $arrMember;
+
             echo json_encode($objResult);
         } else {
             $arrResult['status'] = 'logout';

@@ -18,7 +18,9 @@
             <select class="pbresult-game-select" id="exchange-game-select-id">
 				<option value="0">::분류::</option>
 				<option value="1">충전</option>
+				<option value="23">직충전</option>
 				<option value="2">환전</option>
+				<option value="26">직환전</option>
 				<option value="3">포인트전환</option>
 				<?php if(!$npg_deny) :?>
 					<option value="4">파워볼배팅</option>				
@@ -32,8 +34,12 @@
 					<option value="16">보글사다리배팅</option>
 					<option value="18">보글사다리정산</option>
 				<?php endif ?>   
-				<option value="19">머니충전</option>
-				<option value="20">머니이송</option>
+				<option value="19">하부이송</option>
+				<option value="20">상부이송</option>
+				<option value="27">하부환수</option>
+				<option value="28">상부환수</option>
+				<option value="24">머니회수</option>
+				<option value="25">포인트회수</option>
 			</select>
 
 			<select name="pbresult-number" class="pbresult-number-select" id="exchange-number-select-id">

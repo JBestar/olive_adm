@@ -3,7 +3,7 @@
 	
 	<!--Sub Navbar-->
 	<div class = "sub-navbar">
-		<p><i class="glyphicon glyphicon-user"></i> 회원관리::회원</p>
+		<p><i class="glyphicon glyphicon-user"></i> 회원관리</p>
 	</div>
 	<!--Site Setting-->
 	<div class="user-panel">	
@@ -93,9 +93,11 @@
 </div>
 <?php if(array_key_exists("app.produce", $_ENV)) :?>
     <script src="<?php echo site_furl('/assets/js/page.js?t='.time());?>"></script>
+    <script src="<?php echo site_furl('/assets/js/member_common-script.js?t='.time());?>"></script>
     <script src="<?php echo site_furl('/assets/js/member-script.js?t='.time());?>"></script>
 <?php else : ?>
     <script src="<?php echo site_furl('/assets/js/page.js?v=1');?>"></script>
+    <script src="<?php echo site_furl('/assets/js/member_common-script.js?v=1');?>"></script>
     <script src="<?php echo site_furl('/assets/js/member-script.js?v=1');?>"></script>
 <?php endif ?>
 

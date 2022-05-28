@@ -62,6 +62,17 @@ class Sess_Model extends Model {
 
     }
 
+    public function deleteByMember($mb_fid){
+        
+        $data = [
+            'sess_mb_fid' => $mb_fid,
+        ];
+        
+        return $this->where($data)
+                    ->delete();
+
+    }
+
     public function deleteLast(){
         $tmLast = strtotime("-2 minutes", time());
 
