@@ -117,6 +117,13 @@ function showMember(arrMember, confs) {
                     strBuf += "<button name='" + arrMember[nRow].mb_fid + "' >보글사다리</button>";
                 }
             }
+            if(confs.eos5_enable || confs.eos3_enable){
+                if (arrMember[nRow].mb_game_eo == 1) {
+                    strBuf += "<button name='" + arrMember[nRow].mb_fid + "'  class='button-active'>EOS파워볼</button>";
+                } else {
+                    strBuf += "<button name='" + arrMember[nRow].mb_fid + "' >EOS파워볼</button>";
+                }
+            }
             if(!confs.cas_deny || confs.kgon_enable){
                 if (arrMember[nRow].mb_game_cs == 1) {
                     strBuf += "<button name='" + arrMember[nRow].mb_fid + "'  class='button-active'>카지노</button>";
@@ -239,7 +246,7 @@ function requestTotalPage() {
         dataType: 'json',
         type: 'post',
         success: function(jResult) {
-            console.log(jResult);
+            // console.log(jResult);
             if (jResult.status == "success") {
                 TotalCount = jResult.data.count;
                 setFirstPage();
@@ -277,7 +284,7 @@ function addButtonElementListener(buttonElement) {
         } else if (this.innerHTML.search("대기") >= 0) {
             var jsonData = { "mb_fid": this.name, "mb_state_active": 1 };
             requestWaitToPermit(this, jsonData);
-        } else if (this.innerHTML.search("파워볼") >= 0) {
+        } else if (this.innerHTML == "파워볼") {
             if (this.className.search("button-active") >= 0) {
                 var jsonData = { "mb_fid": this.name, "mb_game_pb": 0 };
                 requestUpdateMember(jsonData);
@@ -325,7 +332,15 @@ function addButtonElementListener(buttonElement) {
                 var jsonData = { "mb_fid": this.name, "mb_game_sl": 1 };
                 requestUpdateMember(jsonData);
             }
-        }
+        } else if (this.innerHTML === "EOS파워볼") {
+            if (this.className.search("button-active") >= 0) {
+                var jsonData = { "mb_fid": this.name, "mb_game_eo": 0 };
+                requestUpdateMember(jsonData);
+            } else {
+                var jsonData = { "mb_fid": this.name, "mb_game_eo": 1 };
+                requestUpdateMember(jsonData);
+            }
+        } 
     });
 }
 

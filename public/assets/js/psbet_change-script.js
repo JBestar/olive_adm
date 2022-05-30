@@ -123,10 +123,10 @@ function addTableBtnEvent() {
         elemTableBtns[i].addEventListener("click", function() {
 
             if (this.innerHTML.search("결과처리") >= 0 || this.innerHTML.search("복구처리") >= 0) {
-                var jsData = [this.name];
+                var jsData = {"data":this.name, "game":mGameId};
                 requestBetProcess(jsData);
             } else if (this.innerHTML.search("무효처리") >= 0) {
-                var jsData = [this.name];
+                var jsData = {"data":this.name, "game":mGameId};
                 requestBetIgnore(jsData);
             }
         });
@@ -167,10 +167,11 @@ function addEventListner() {
         if (mBetData == null) return;
         if (mBetData.length < 1) return;
 
-        var jsData = new Array();
+        var arrData = new Array();
         for (nRow in mBetData)
-            jsData[nRow] = mBetData[nRow].bet_fid;
-
+            arrData[nRow] = mBetData[nRow].bet_fid;
+            
+        var jsData = {"data":arrData, "game":mGameId};
         requestBetIgnore(jsData);
     });
 
@@ -179,10 +180,11 @@ function addEventListner() {
         if (mBetData == null) return;
         if (mBetData.length < 1) return;
 
-        var jsData = new Array();
+        var arrData = new Array();
         for (nRow in mBetData)
-            jsData[nRow] = mBetData[nRow].bet_fid;
-
+            arrData[nRow] = mBetData[nRow].bet_fid;
+        
+        var jsData = {"data":arrData, "game":mGameId};
         requestBetProcess(jsData);
     });
 }
@@ -205,12 +207,13 @@ function requestBetHistory() {
         "user": "",
         "round": strRound,
         "mode": 0,
-        "emp": ""
+        "emp": "",
+        "game":mGameId
     };
     jsonData = JSON.stringify(jsonData);
     $(".loading").show();
     $.ajax({
-        url: FURL + mPath + '/betlist',
+        url: FURL + '/pbapi/betlist',
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",
@@ -235,7 +238,7 @@ function requestBetIgnore(jsData) {
     var jsonData = JSON.stringify(jsData);
 
     $.ajax({
-        url: FURL + mPath + '/betignore',
+        url: FURL + '/pbapi/betignore',
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",
@@ -257,7 +260,7 @@ function requestBetProcess(jsData) {
     var jsonData = JSON.stringify(jsData);
 
     $.ajax({
-        url: FURL + mPath + '/betprocess',
+        url: FURL + '/pbapi/betprocess',
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",

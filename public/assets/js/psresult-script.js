@@ -37,8 +37,13 @@ function ShowGameResult(jsonRoundResults) {
             strBuf += "<span class='pbresult-rule-even-span'>짝</span>";
 
         strBuf += "</td><td>";
-        strBuf += "<a href='"+FURL+"/result/psresult_edit/" + jsonRoundResults[nRow].round_fid + "' >수정</a>";
-        strBuf += "<a href='"+FURL+"/result/psbetchange/" + jsonRoundResults[nRow].round_date + "/" + jsonRoundResults[nRow].round_num + "' >적특</a>";
+        if(mGameId == 2){
+            strBuf += "<a href='"+FURL+"/result/psresult_edit/" + jsonRoundResults[nRow].round_fid + "' >수정</a>";
+            strBuf += "<a href='"+FURL+"/result/psbetchange/" + jsonRoundResults[nRow].round_date + "/" + jsonRoundResults[nRow].round_num + "' >적특</a>";
+        } else if(mGameId == 6){
+            strBuf += "<a href='"+FURL+"/result/bsresult_edit/" + jsonRoundResults[nRow].round_fid + "' >수정</a>";
+            strBuf += "<a href='"+FURL+"/result/bsbetchange/" + jsonRoundResults[nRow].round_date + "/" + jsonRoundResults[nRow].round_num + "' >적특</a>";
+        }
         strBuf += "</td></tr>";
 
     }
@@ -69,11 +74,11 @@ function requestGameResult() {
     var nRound = $("#pbresult-round-input-id").val();
     var nPage = getActivePage();
 
-    var jsonData = { "count": CountPerPage, "page": nPage, "start": dtStart, "end": dtEnd, "round": nRound };
+    var jsonData = { "game":mGameId, "count": CountPerPage, "page": nPage, "start": dtStart, "end": dtEnd, "round": nRound };
     jsonData = JSON.stringify(jsonData);
     $(".loading").show();
     $.ajax({
-        url: FURL + '/psapi/result',
+        url: FURL + '/pbapi/result',
         data: { json_: jsonData },
         dataType: 'json',
         type: 'post',
@@ -101,11 +106,11 @@ function requestTotalPage() {
     CountPerPage = $("#pbresult-number-select-id").val();
     var nRound = $("#pbresult-round-input-id").val();
 
-    var jsonData = { "count": CountPerPage, "start": dtStart, "end": dtEnd, "round": nRound };
+    var jsonData = { "game":mGameId, "count": CountPerPage, "start": dtStart, "end": dtEnd, "round": nRound };
     jsonData = JSON.stringify(jsonData);
 
     $.ajax({
-        url: FURL + '/psapi/resultcnt',
+        url: FURL + '/pbapi/resultcnt',
         data: { json_: jsonData },
         dataType: 'json',
         type: 'post',

@@ -14,7 +14,11 @@ function showConfPowerball(objConfig) {
     $("#confpb-minmoney-input-id").val(objConfig.game_min_bet_money);
     $("#confpb-maxmoney-input-id").val(objConfig.game_max_bet_money);
     $("#confpb-winmoney-input-id").val(objConfig.game_max_win_money);
+    $("#confpb-min2money-input-id").val(objConfig.game_min2_bet_money);
+    $("#confpb-max2money-input-id").val(objConfig.game_max2_bet_money);
+    $("#confpb-win2money-input-id").val(objConfig.game_max2_win_money);
     $("#confpb-percent-input-id").val(objConfig.game_percent_1);
+    $("#confpb-percent2-input-id").val(objConfig.game_percent_2);
     $("#confpb-ratio1-input-id").val(objConfig.game_ratio_1);
     $("#confpb-ratio2-input-id").val(objConfig.game_ratio_2);
     $("#confpb-ratio3-input-id").val(objConfig.game_ratio_3);
@@ -63,8 +67,13 @@ function readConfigToObject() {
     jsonData.game_min_bet_money = $("#confpb-minmoney-input-id").val();
     jsonData.game_max_bet_money = $("#confpb-maxmoney-input-id").val();
     jsonData.game_max_win_money = $("#confpb-winmoney-input-id").val();
+    jsonData.game_min2_bet_money = $("#confpb-min2money-input-id").val();
+    jsonData.game_max2_bet_money = $("#confpb-max2money-input-id").val();
+    jsonData.game_max2_win_money = $("#confpb-win2money-input-id").val();
     if($("#confpb-percent-input-id").length > 0)
         jsonData.game_percent_1 = $("#confpb-percent-input-id").val();
+    if($("#confpb-percent2-input-id").length > 0)
+        jsonData.game_percent_2 = $("#confpb-percent2-input-id").val();
     jsonData.game_ratio_1 = $("#confpb-ratio1-input-id").val();
     jsonData.game_ratio_2 = $("#confpb-ratio2-input-id").val();
     jsonData.game_ratio_3 = $("#confpb-ratio3-input-id").val();

@@ -44,54 +44,40 @@ function showMoneyHistory(jsonBetData) {
         strBuf += "</td><td>";
         strBuf += jsonBetData[nRow].money_update_time;
         strBuf += "</td><td>";
-        if (jsonBetData[nRow].money_change_type == 1) {
-            strBuf += "충전";
-        } else if (jsonBetData[nRow].money_change_type == 2) {
-            strBuf += "환전";
-        } else if (jsonBetData[nRow].money_change_type == 3) {
-            strBuf += "포인트 전환";
-        } else if (jsonBetData[nRow].money_change_type == 4) {
-            strBuf += "파워볼 배팅";
-        } else if (jsonBetData[nRow].money_change_type == 5) {
-            strBuf += "파워볼 자동배팅";
-        } else if (jsonBetData[nRow].money_change_type == 6) {
-            strBuf += "파워볼 정산";
-        } else if (jsonBetData[nRow].money_change_type == 7) {
-            strBuf += "파워사다리 배팅";
-        } else if (jsonBetData[nRow].money_change_type == 8) {
-            strBuf += "파워사다리 자동배팅";
-        } else if (jsonBetData[nRow].money_change_type == 9) {
-            strBuf += "파워사다리 정산";
-        } else if (jsonBetData[nRow].money_change_type == 10) {
-            strBuf += "키노사다리 배팅";
-        } else if (jsonBetData[nRow].money_change_type == 11) {
-            strBuf += "키노사다리 자동배팅";
-        } else if (jsonBetData[nRow].money_change_type == 12) {
-            strBuf += "키노사다리 정산";
-        } else if (jsonBetData[nRow].money_change_type == 13) {
-            strBuf += "보글볼 배팅";
-        } else if (jsonBetData[nRow].money_change_type == 15) {
-            strBuf += "보글볼 정산";
-        } else if (jsonBetData[nRow].money_change_type == 16) {
-            strBuf += "보글사다리 배팅";
-        } else if (jsonBetData[nRow].money_change_type == 18) {
-            strBuf += "보글사다리 정산";
-        } else if (jsonBetData[nRow].money_change_type == 19) {
-            strBuf += "하부이송";
-        } else if (jsonBetData[nRow].money_change_type == 20) {
-            strBuf += "상부이송";
-        } else if (jsonBetData[nRow].money_change_type == 27) {
-            strBuf += "하부환수";
-        } else if (jsonBetData[nRow].money_change_type == 28) {
-            strBuf += "상부환수";
-        } else if (jsonBetData[nRow].money_change_type == 23) {
-            strBuf += "직충전";
-        } else if (jsonBetData[nRow].money_change_type == 26) {
-            strBuf += "직환전";
-        } else if (jsonBetData[nRow].money_change_type == 24) {
-            strBuf += "머니회수";
-        } else if (jsonBetData[nRow].money_change_type == 25) {
-            strBuf += "포인트회수";
+        switch (parseInt(jsonBetData[nRow].money_change_type)) {
+            case 1 : strBuf += "충전"; break;
+            case 2: strBuf += "환전"; break;
+            case 3: strBuf += "포인트 전환"; break;
+            case 4: strBuf += "파워볼 배팅"; break;
+            case 5: strBuf += "파워볼 배팅취소"; break;
+            case 6: strBuf += "파워볼 정산"; break;
+            case 7: strBuf += "파워사다리 배팅"; break;
+            case 8: strBuf += "파워사다리 배팅취소"; break;
+            case 9: strBuf += "파워사다리 정산"; break;
+            case 10: strBuf += "키노사다리 배팅"; break;
+            case 11: strBuf += "키노사다리 배팅취소"; break;
+            case 12: strBuf += "키노사다리 정산"; break;
+            case 13: strBuf += "보글볼 배팅"; break;
+            case 14: strBuf += "보글볼 배팅취소"; break;
+            case 15: strBuf += "보글볼 정산"; break;
+            case 16: strBuf += "보글사다리 배팅"; break;
+            case 17: strBuf += "보글사다리 배팅취소"; break;
+            case 18: strBuf += "보글사다리 정산"; break;
+            case 19: strBuf += "하부이송"; break;
+            case 20: strBuf += "상부이송"; break;
+            case 27: strBuf += "하부환수"; break;
+            case 28: strBuf += "상부환수"; break;
+            case 23: strBuf += "직충전"; break;
+            case 26: strBuf += "직환전"; break;
+            case 24: strBuf += "머니회수"; break;
+            case 25: strBuf += "포인트회수"; break;
+            case 31: strBuf += "EOS5분파워볼 배팅"; break;
+            case 32: strBuf += "EOS5분파워볼 배팅취소"; break;
+            case 33: strBuf += "EOS5분파워볼 정산"; break;
+            case 34: strBuf += "EOS3분파워볼 배팅"; break;
+            case 35: strBuf += "EOS3분파워볼 배팅취소"; break;
+            case 36: strBuf += "EOS3분파워볼 정산"; break;
+            default:break;
         } 
         strBuf += "</td><td>";
         if (jsonBetData[nRow].money_change_type == 19 || jsonBetData[nRow].money_change_type == 20 ||

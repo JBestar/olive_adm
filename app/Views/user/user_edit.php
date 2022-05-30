@@ -229,6 +229,45 @@
 				<?php endif?>
 			</div>	
 		<?php endif ?>   
+		<?php if($eos5_enable || $eos3_enable) :?>
+			<div class="useredit-percent-div">
+				<p>EOS파워볼 단폴:</p> 
+				<label> 배당율(%)</label>
+				<?php if(is_null($objMember)) {  ?>
+				<input type = "number" min="0" step="0.1" id="useredit-eobetrate-input-id" value="0" >
+				<?php } else {?>
+				<input type = "number" min="0" step="0.1" id="useredit-eobetrate-input-id" value="<?=$objMember->mb_game_eo_ratio?>">
+				<?php } ?>
+
+				<?php if(!$gameper_full) :?>
+					<label> 누르기율(%)</label>
+					<?php if(is_null($objMember)) {  ?>
+					<input type = "number" min="0" step="1" id="useredit-eobetpercent-input-id" value="100">
+					<?php } else {?>
+					<input type = "number" min="0" step="1" id="useredit-eobetpercent-input-id" value="<?=$objMember->mb_game_eo_percent?>">
+					<?php } ?>
+				<?php endif?>
+			</div>
+			<div class="useredit-percent-div">
+				<p>EOS파워볼 조합:</p> 
+				
+				<label> 배당율(%)</label>
+				<?php if(is_null($objMember)) {  ?>
+				<input type = "number" min="0" step="0.1" id="useredit-eobetrate2-input-id" value="0">
+				<?php } else {?>
+				<input type = "number" min="0" step="0.1" id="useredit-eobetrate2-input-id" value="<?=$objMember->mb_game_eo2_ratio?>">
+				<?php } ?>
+
+				<?php if(!$gameper_full) :?>
+					<label> 누르기율(%)</label>
+					<?php if(is_null($objMember)) {  ?>
+					<input type = "number" min="0" step="1" id="useredit-eobetpercent2-input-id" value="100">
+					<?php } else {?>
+					<input type = "number" min="0" step="1" id="useredit-eobetpercent2-input-id" value="<?=$objMember->mb_game_eo2_percent?>">
+					<?php } ?>
+				<?php endif?>
+			</div>
+		<?php endif ?>   
 		<?php if(!$cas_deny || $kgon_enable) :?>
 			<div class="useredit-percent-div">
 				<p>카지노:</p>			 

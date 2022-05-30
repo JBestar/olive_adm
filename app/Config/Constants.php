@@ -145,6 +145,8 @@ defined('CONF_BPG_DENY')        || define('CONF_BPG_DENY', 27);
 defined('CONF_CAS_DENY')        || define('CONF_CAS_DENY', 28);
 defined('CONF_SLOT_DENY')       || define('CONF_SLOT_DENY', 29);
 defined('CONF_KGON_ENABLE')     || define('CONF_KGON_ENABLE', 31);
+defined('CONF_EOS5_ENABLE')     || define('CONF_EOS5_ENABLE', 32);
+defined('CONF_EOS3_ENABLE')     || define('CONF_EOS3_ENABLE', 33);
 
 defined('LEVEL_MAX')           || define('LEVEL_MAX', 100);
 defined('LEVEL_ADMIN')         || define('LEVEL_ADMIN', 100);
@@ -199,6 +201,9 @@ defined('GAME_BOGLE_LADDER')   || define('GAME_BOGLE_LADDER', 6);
 defined('GAME_SLOT_1')         || define('GAME_SLOT_1', 7);
 defined('GAME_SLOT_2')         || define('GAME_SLOT_2', 8);
 defined('GAME_SLOT_12')        || define('GAME_SLOT_12', 12);
+defined('GAME_EOS5_BALL')      || define('GAME_EOS5_BALL', 9);
+defined('GAME_EOS3_BALL')      || define('GAME_EOS3_BALL', 10);
+
 
 defined('ROUND_5MIN')    || define('ROUND_5MIN', 5);
 defined('ROUND_3MIN')    || define('ROUND_3MIN', 3);
@@ -209,14 +214,19 @@ defined('MONEYCHANGE_CHARGE')    || define('MONEYCHANGE_CHARGE', 1);
 defined('MONEYCHANGE_EXCHANGE')  || define('MONEYCHANGE_EXCHANGE', 2); 
 defined('POINTCHANGE_EXCHANGE')  || define('POINTCHANGE_EXCHANGE', 3); 
 defined('MONEYCHANGE_BET_PB')    || define('MONEYCHANGE_BET_PB', 4);
+defined('MONEYCHANGE_DENY_PB')   || define('MONEYCHANGE_DENY_PB', 5);
 defined('MONEYCHANGE_WIN_PB')    || define('MONEYCHANGE_WIN_PB', 6);
 defined('MONEYCHANGE_BET_PS')    || define('MONEYCHANGE_BET_PS', 7);
+defined('MONEYCHANGE_DENY_PS')    || define('MONEYCHANGE_DENY_PS', 8);
 defined('MONEYCHANGE_WIN_PS')    || define('MONEYCHANGE_WIN_PS', 9);
 defined('MONEYCHANGE_BET_KS')    || define('MONEYCHANGE_BET_KS', 10);
+defined('MONEYCHANGE_DENY_KS')    || define('MONEYCHANGE_DENY_KS', 11);
 defined('MONEYCHANGE_WIN_KS')    || define('MONEYCHANGE_WIN_KS', 12);
 defined('MONEYCHANGE_BET_BB')    || define('MONEYCHANGE_BET_BB', 13);
+defined('MONEYCHANGE_DENY_BB')    || define('MONEYCHANGE_DENY_BB', 14);
 defined('MONEYCHANGE_WIN_BB')    || define('MONEYCHANGE_WIN_BB', 15);
 defined('MONEYCHANGE_BET_BS')    || define('MONEYCHANGE_BET_BS', 16);
+defined('MONEYCHANGE_DENY_BS')    || define('MONEYCHANGE_DENY_BS', 17);
 defined('MONEYCHANGE_WIN_BS')    || define('MONEYCHANGE_WIN_BS', 18);
 
 defined('MONEYCHANGE_CHARGE_DEC')   || define('MONEYCHANGE_TRANS_DEC', 19);     //하부이송
@@ -232,6 +242,12 @@ defined('MONEYCHANGE_DEC')       || define('MONEYCHANGE_DEC', 26);     //직환�
 defined('MONEYCHANGE_WITHDRAW')  || define('MONEYCHANGE_WITHDRAW', 24); //머니회수
 defined('POINTHANGE_WITHDRAW')   || define('POINTHANGE_WITHDRAW', 25);  //포인트회수
 
+defined('MONEYCHANGE_BET_EO5')    || define('MONEYCHANGE_BET_EO5', 31);
+defined('MONEYCHANGE_DENY_EO5')   || define('MONEYCHANGE_DENY_EO5', 32);
+defined('MONEYCHANGE_WIN_EO5')    || define('MONEYCHANGE_WIN_EO5', 33);
+defined('MONEYCHANGE_BET_EO3')    || define('MONEYCHANGE_BET_EO3', 34);
+defined('MONEYCHANGE_DENY_EO3')   || define('MONEYCHANGE_DENY_EO3', 35);
+defined('MONEYCHANGE_WIN_EO3')    || define('MONEYCHANGE_WIN_EO3', 36);
 
 
 defined('TRANS_SITE_EVOL')      || define('TRANS_SITE_EVOL', 1); 

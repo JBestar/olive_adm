@@ -11,6 +11,12 @@
 			<a href="<?php echo siteFurl().'result/bbbetchange/0/0';?>" class="sub-navbar-a" >보글볼</a>
 			<a href="<?php echo siteFurl().'result/bsbetchange/0/0';?>" class="sub-navbar-a" >보글사다리</a>
 		<?php endif ?>   
+		<?php if($eos5_enable) :?>
+			<a href="<?php echo siteFurl().'result/e5betchange/0/0';?>" class="sub-navbar-a" >EOS5분파워볼</a>
+		<?php endif ?>   
+		<?php if($eos3_enable) :?>
+			<a href="<?php echo siteFurl().'result/e3betchange/0/0';?>" class="sub-navbar-a" >EOS3분파워볼</a>
+		<?php endif ?>   
 	</div>
 
 
@@ -48,6 +54,7 @@
 
 <!--main_navbar.php-main-container-->
 </div>
+<script> var mGameId = <?=$game_id?>; </script>
 <?php if(array_key_exists("app.produce", $_ENV)) :?>
     <script src="<?php echo site_furl('/assets/js/page.js?t='.time());?>"></script>
 <?php else : ?>

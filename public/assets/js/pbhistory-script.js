@@ -274,12 +274,13 @@ function requestBetHistory() {
         "user": strUser,
         "emp": strEmp,
         "round": strRound,
-        "mode": nMode
+        "mode": nMode,
+        "game": mGameId,
     };
     jsonData = JSON.stringify(jsonData);
     $(".loading").show();
     $.ajax({
-        url: FURL + mPath + '/betlist',
+        url: FURL + '/pbapi/betlist',
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",
@@ -321,13 +322,14 @@ function requestTotalPage() {
         "user": strUser,
         "emp": strEmp,
         "round": strRound,
-        "mode": nMode
+        "mode": nMode,
+        "game": mGameId,
     };
     jsonData = JSON.stringify(jsonData);
 
 
     $.ajax({
-        url: FURL + mPath + '/betlistcnt',
+        url: FURL + '/pbapi/betlistcnt',
         data: { json_: jsonData },
         dataType: 'json',
         type: 'post',
@@ -352,8 +354,7 @@ function pbhitoryLoop() {
 
     var currentTime = new Date();
 
-    if (currentTime.getSeconds() == 10 && (currentTime.getMinutes() % 10 == 0 ||
-            currentTime.getMinutes() % 10 == 5)) {
+    if (currentTime.getSeconds() == 10 && currentTime.getMinutes() % 5 == 0) {
         requestBetHistory();
     }
 

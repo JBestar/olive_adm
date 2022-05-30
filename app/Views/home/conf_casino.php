@@ -11,6 +11,12 @@
 			<a href="<?php echo siteFurl().'home/conf_bogleball';?>" class="sub-navbar-a" >보글파워볼</a>
 			<a href="<?php echo siteFurl().'home/conf_bogleladder';?>" class="sub-navbar-a " >보글사다리</a>
 		<?php endif ?>   
+		<?php if($eos5_enable) :?>
+			<a href="<?php echo site_furl('home/conf_eos5ball');?>" class="sub-navbar-a" >EOS5분파워볼</a>
+   		<?php endif ?>  
+		<?php if($eos3_enable) :?>
+			<a href="<?php echo site_furl('home/conf_eos3ball');?>" class="sub-navbar-a" >EOS3분파워볼</a>
+   		<?php endif ?>  
 		<?php if(!$cas_deny ) :?>
 			<a href="<?php echo siteFurl().'home/conf_evol';?>" class="sub-navbar-a " >에볼루션</a>
 		<?php endif ?>   

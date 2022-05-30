@@ -189,12 +189,13 @@ function requestBetHistory() {
         "emp": strEmp,
         "user": strUser,
         "round": strRound,
-        "mode": nMode
+        "mode": nMode,
+        "game": mGameId,
     };
     jsonData = JSON.stringify(jsonData);
     $(".loading").show();
     $.ajax({
-        url: FURL + mPath + '/betlist',
+        url: FURL + '/pbapi/betlist',
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",
@@ -235,12 +236,13 @@ function requestTotalPage() {
         "emp": strEmp,
         "user": strUser,
         "round": strRound,
-        "mode": nMode
+        "mode": nMode,
+        "game": mGameId,
     };
     jsonData = JSON.stringify(jsonData);
 
     $.ajax({
-        url: FURL + mPath + '/betlistcnt',
+        url: FURL + '/pbapi/betlistcnt',
         data: { json_: jsonData },
         dataType: 'json',
         type: 'post',
@@ -265,11 +267,9 @@ function pshitoryLoop() {
 
     var currentTime = new Date();
 
-    if (currentTime.getSeconds() == 10 && (currentTime.getMinutes() % 10 == 1 ||
-            currentTime.getMinutes() % 10 == 3 || currentTime.getMinutes() % 10 == 6 || currentTime.getMinutes() % 10 == 8)) {
+    if (currentTime.getSeconds() == 10 && currentTime.getMinutes() % 5 == 0 ) {
         requestBetHistory();
     }
-
 
     // 1초뒤에 다시 실행
     setTimeout(function() {

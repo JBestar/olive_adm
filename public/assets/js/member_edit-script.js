@@ -65,12 +65,25 @@ function readConfigToObject() {
         objMember.mb_game_bs_ratio = 0;
     }
 
+    if($("#useredit-eobetrate-input-id").length > 0){
+        objMember.mb_game_eo_ratio = $("#useredit-eobetrate-input-id").val();
+        objMember.mb_game_eo2_ratio = $("#useredit-eobetrate2-input-id").val();
+    } else {
+        objMember.mb_game_eo_ratio = 0;
+        objMember.mb_game_eo2_ratio = 0;
+    }
+
     if($("#useredit-bbbetpercent-input-id").length > 0){
         objMember.mb_game_bb_percent = $("#useredit-bbbetpercent-input-id").val();
         objMember.mb_game_bb2_percent = $("#useredit-bbbetpercent2-input-id").val();
         objMember.mb_game_bs_percent = $("#useredit-bsbetpercent-input-id").val();
     } 
     
+    if($("#useredit-eobetpercent-input-id").length > 0){
+        objMember.mb_game_eo_percent = $("#useredit-eobetpercent-input-id").val();
+        objMember.mb_game_eo2_percent = $("#useredit-eobetpercent2-input-id").val();
+    } 
+
     if($("#useredit-evbetrate-input-id").length > 0){
         objMember.mb_game_cs_ratio = $("#useredit-evbetrate-input-id").val();
     } else objMember.mb_game_cs_ratio = 0;

@@ -1,5 +1,5 @@
 <?= $this->extend('bet/realtime') ?>
-<?= $this->section('realtime-title') ?>파워사다리<?= $this->endSection() ?>
+<?= $this->section('realtime-title') ?><?=$game_name?><?= $this->endSection() ?>
 <?= $this->section('realtime-table-header') ?>
 	<th>번호</th>
 	<th>경기시간</th>
@@ -10,10 +10,9 @@
 	<th>밸런스금액</th>		
 <?= $this->endSection() ?>
 <?= $this->section('realtime-script') ?>
-	<script> var mPath = "psapi"; </script>
 	<?php if(array_key_exists("app.produce", $_ENV)) :?>
-		<script src="<?php echo site_furl('/assets/js/bsrealtime-script.js?t='.time());?>"></script>
+		<script src="<?php echo site_furl('/assets/js/psrealtime-script.js?t='.time());?>"></script>
 	<?php else : ?>
-		<script src="<?php echo site_furl('/assets/js/bsrealtime-script.js?v=1');?>"></script>
+		<script src="<?php echo site_furl('/assets/js/psrealtime-script.js?v=1');?>"></script>
 	<?php endif ?>
 <?= $this->endSection() ?>

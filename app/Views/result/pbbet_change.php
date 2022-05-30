@@ -1,5 +1,5 @@
 <?= $this->extend('result/bet_change') ?>
-<?= $this->section('bet-change-title') ?>파워볼<?= $this->endSection() ?>
+<?= $this->section('bet-change-title') ?><?=$game_name?><?= $this->endSection() ?>
 <?= $this->section('bet-change-table-header') ?>
 	<th>번호</th>
 	<th>배팅시간</th>
@@ -15,7 +15,6 @@
 	<th>처리</th>
 <?= $this->endSection() ?>
 <?= $this->section('bet-change-script') ?>
-	<script> var mPath = "/pbapi"; </script>
 	<?php if(array_key_exists("app.produce", $_ENV)) :?>
 		<script src="<?php echo site_furl('/assets/js/pbbet_change-script.js?t='.time());?>"></script>
 	<?php else : ?>

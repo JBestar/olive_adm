@@ -43,6 +43,7 @@ class Member_Model extends Model
         'mb_game_bs',
         'mb_game_cs',
         'mb_game_sl',
+        'mb_game_eo',
         'mb_game_pb_ratio',
         'mb_game_pb2_ratio',
         'mb_game_ps_ratio',
@@ -51,12 +52,16 @@ class Member_Model extends Model
         'mb_game_bs_ratio',
         'mb_game_cs_ratio',
         'mb_game_sl_ratio',
+        'mb_game_eo_ratio',
+        'mb_game_eo2_ratio',
         'mb_game_pb_percent',
         'mb_game_pb2_percent',
         'mb_game_ps_percent',
         'mb_game_bb_percent',
         'mb_game_bb2_percent',
         'mb_game_bs_percent',
+        'mb_game_eo_percent',
+        'mb_game_eo2_percent',
         'mb_live_id',
         'mb_live_uid',
         'mb_live_money',
@@ -77,11 +82,11 @@ class Member_Model extends Model
         'mb_ip_join', 'mb_ip_last',
         'mb_money', 'mb_point', 'mb_money_charge', 'mb_money_exchange', 'mb_grade', 'mb_color',
         'mb_state_active', 'mb_state_delete', 'mb_state_alarm', 'mb_state_view',
-        'mb_game_pb', 'mb_game_ps', 'mb_game_bb', 'mb_game_bs', 'mb_game_cs', 'mb_game_sl', 
+        'mb_game_pb', 'mb_game_ps', 'mb_game_bb', 'mb_game_bs', 'mb_game_cs', 'mb_game_sl', 'mb_game_eo', 
         'mb_game_pb_ratio', 'mb_game_pb2_ratio','mb_game_ps_ratio', 'mb_game_bb_ratio', 'mb_game_bb2_ratio', 
-        'mb_game_bs_ratio', 'mb_game_cs_ratio', 'mb_game_sl_ratio', 
+        'mb_game_bs_ratio', 'mb_game_cs_ratio', 'mb_game_sl_ratio', 'mb_game_eo_ratio', 'mb_game_eo2_ratio', 
         'mb_game_pb_percent', 'mb_game_pb2_percent', 'mb_game_ps_percent', 'mb_game_bb_percent',
-        'mb_game_bb2_percent', 'mb_game_bs_percent',
+        'mb_game_bb2_percent', 'mb_game_bs_percent', 'mb_game_eo_percent', 'mb_game_eo2_percent', 
         'mb_live_id', 'mb_live_uid', 'mb_live_money', 
         'mb_slot_uid', 'mb_slot_money', 
         'mb_fslot_id', 'mb_fslot_uid', 'mb_fslot_money',
@@ -92,11 +97,11 @@ class Member_Model extends Model
             'mb_ip_join', 'mb_ip_last',
             'mb_money', 'mb_point', 'mb_money_charge', 'mb_money_exchange', 'mb_grade', 
             'mb_state_active', 'mb_state_delete', 'mb_state_alarm', 'mb_state_view',
-            'mb_game_pb', 'mb_game_ps', 'mb_game_bb', 'mb_game_bs', 'mb_game_cs', 'mb_game_sl', 
+            'mb_game_pb', 'mb_game_ps', 'mb_game_bb', 'mb_game_bs', 'mb_game_cs', 'mb_game_sl', 'mb_game_eo', 
             'mb_game_pb_ratio', 'mb_game_pb2_ratio','mb_game_ps_ratio', 'mb_game_bb_ratio', 'mb_game_bb2_ratio', 
-            'mb_game_bs_ratio', 'mb_game_cs_ratio', 'mb_game_sl_ratio', 
+            'mb_game_bs_ratio', 'mb_game_cs_ratio', 'mb_game_sl_ratio', 'mb_game_eo_ratio', 'mb_game_eo2_ratio', 
             'mb_game_pb_percent', 'mb_game_pb2_percent', 'mb_game_ps_percent', 'mb_game_bb_percent',
-            'mb_game_bb2_percent', 'mb_game_bs_percent',
+            'mb_game_bb2_percent', 'mb_game_bs_percent', 'mb_game_eo_percent', 'mb_game_eo2_percent', 
             'mb_live_id', 'mb_live_uid', 'mb_live_money', 
             'mb_slot_uid', 'mb_slot_money', 
             'mb_fslot_id', 'mb_fslot_uid', 'mb_fslot_money' ,
@@ -440,6 +445,18 @@ class Member_Model extends Model
             $strSQL .= ' GROUP BY bet_mb_uid) ';
         }
 
+        if($confs['eos5_enable']){
+            $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, bet_emp_fid, bet_mb_uid FROM bet_eos5ball ';
+            $strSQL .= $strCond;
+            $strSQL .= ' GROUP BY bet_mb_uid) ';
+        }
+
+        if($confs['eos3_enable']){
+            $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, bet_emp_fid, bet_mb_uid FROM bet_eos3ball ';
+            $strSQL .= $strCond;
+            $strSQL .= ' GROUP BY bet_mb_uid) ';
+        }
+
         if(!$confs['cas_deny'] || $confs['kgon_enable']){
             $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, bet_emp_fid, bet_mb_uid FROM bet_casino ';
             $strSQL .= $strCond;
@@ -500,6 +517,10 @@ class Member_Model extends Model
             $strSQL .= ' bet_bogleladder ';
         } elseif ($arrReqData['type'] == GAME_SLOT_1 || $arrReqData['type'] == GAME_SLOT_2 || $arrReqData['type'] == GAME_SLOT_12 ) {
             $strSQL .= ' bet_slot ';
+        } elseif ($arrReqData['type'] == GAME_EOS5_BALL ) {
+            $strSQL .= ' bet_eos5ball ';
+        } elseif ($arrReqData['type'] == GAME_EOS3_BALL ) {
+            $strSQL .= ' bet_eos3ball ';
         } else {
             return null;
         }
@@ -563,6 +584,16 @@ class Member_Model extends Model
             $strSQL .= $strCond;
         }
 
+        if($confs['eos5_enable']){
+            $strSQL .= 'UNION ALL SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_eos5ball ';
+            $strSQL .= $strCond;
+        }
+
+        if($confs['eos3_enable']){
+            $strSQL .= 'UNION ALL SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_eos3ball ';
+            $strSQL .= $strCond;
+        }
+
         if(!$confs['cas_deny'] || $confs['kgon_enable']){
             $strSQL .= 'UNION ALL SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_casino ';
             $strSQL .= $strCond;
@@ -613,6 +644,18 @@ class Member_Model extends Model
             $strSQL.= " UNION ALL SELECT bet_money, bet_win_money, bet_count, '보글사다리' AS bet_name, '".GAME_BOGLE_LADDER."' As bet_kind  From ";
             $strSQL.= " (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, COUNT(*) AS bet_count FROM bet_bogleladder  ";
             $strSQL.= $strCond." ) AS bet_bs_g ";
+        }
+
+        if($confs['eos5_enable']){
+            $strSQL.= " UNION ALL SELECT bet_money, bet_win_money, bet_count, 'EOS5분 파워볼' AS bet_name, '".GAME_EOS5_BALL."' As bet_kind  From ";
+            $strSQL.= " (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, COUNT(*) AS bet_count FROM bet_eos5ball  ";
+            $strSQL.= $strCond." ) AS bet_e5_g ";
+        }
+
+        if($confs['eos3_enable']){
+            $strSQL.= " UNION ALL SELECT bet_money, bet_win_money, bet_count, 'EOS3분 파워볼' AS bet_name, '".GAME_EOS3_BALL."' As bet_kind  From ";
+            $strSQL.= " (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, COUNT(*) AS bet_count FROM bet_eos3ball  ";
+            $strSQL.= $strCond." ) AS bet_e3_g ";
         }
 
         if(!$confs['cas_deny'] || $confs['kgon_enable']){
@@ -698,15 +741,15 @@ class Member_Model extends Model
             $strTbColum = ' mb_fid, mb_uid, mb_level, mb_emp_fid, mb_emp_permit, mb_nickname, mb_phone, mb_money, mb_point, ';
             $strTbColum .= ' mb_grade, mb_color, mb_state_active, mb_state_delete, ';
             $strTbColum .= ' mb_game_pb_ratio, mb_game_pb2_ratio, mb_game_ps_ratio, mb_game_bb_ratio, mb_game_bb2_ratio, ';
-            $strTbColum .= ' mb_game_bs_ratio, mb_game_cs_ratio, mb_game_sl_ratio, ';
-            $strTbColum .= ' mb_game_pb_percent, mb_game_pb2_percent, mb_game_ps_percent, mb_game_bb_percent, mb_game_bb2_percent, mb_game_bs_percent, ';
+            $strTbColum .= ' mb_game_bs_ratio, mb_game_cs_ratio, mb_game_sl_ratio, mb_game_eo_ratio, mb_game_eo2_ratio, ';
+            $strTbColum .= ' mb_game_pb_percent, mb_game_pb2_percent, mb_game_ps_percent, mb_game_bb_percent, mb_game_bb2_percent, mb_game_bs_percent, mb_game_eo_percent, mb_game_eo2_percent, ';
             $strTbColum .= ' mb_live_money, mb_slot_money, mb_fslot_money, mb_kgon_money ';
 
             $strTbRColum = ' r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid, r.mb_emp_permit, r.mb_nickname, r.mb_phone, r.mb_money, r.mb_point, ';
             $strTbRColum .= ' r.mb_grade, r.mb_color, r.mb_state_active, r.mb_state_delete, ';
             $strTbRColum .= ' r.mb_game_pb_ratio, r.mb_game_pb2_ratio, r.mb_game_ps_ratio, r.mb_game_bb_ratio, r.mb_game_bb2_ratio,';
-            $strTbRColum .= ' r.mb_game_bs_ratio, r.mb_game_cs_ratio, r.mb_game_sl_ratio, ';
-            $strTbRColum .= ' r.mb_game_pb_percent, r.mb_game_pb2_percent, r.mb_game_ps_percent, r.mb_game_bb_percent, r.mb_game_bb2_percent, r.mb_game_bs_percent, ';
+            $strTbRColum .= ' r.mb_game_bs_ratio, r.mb_game_cs_ratio, r.mb_game_sl_ratio,  r.mb_game_eo_ratio, r.mb_game_eo2_ratio,';
+            $strTbRColum .= ' r.mb_game_pb_percent, r.mb_game_pb2_percent, r.mb_game_ps_percent, r.mb_game_bb_percent, r.mb_game_bb2_percent, r.mb_game_bs_percent,  r.mb_game_eo_percent, r.mb_game_eo2_percent, ';
             $strTbRColum .= ' r.mb_live_money, r.mb_slot_money, r.mb_fslot_money, r.mb_kgon_money ';
 
             $strSQL = 'WITH RECURSIVE tbmember ('.$strTbColum.') AS';
@@ -764,6 +807,14 @@ class Member_Model extends Model
             $strError = $objEmployee->mb_game_bs_ratio;
 
             return 10;
+        } elseif ($objEmployee->mb_game_eo_ratio < $arrRegData['mb_game_eo_ratio']) {
+            $strError = $objEmployee->mb_game_eo_ratio;
+
+            return 11;
+        } elseif ($objEmployee->mb_game_eo2_ratio < $arrRegData['mb_game_eo2_ratio']) {
+            $strError = $objEmployee->mb_game_eo2_ratio;
+
+            return 11;
         }
 
         return 1;
@@ -795,7 +846,12 @@ class Member_Model extends Model
         if (strlen($arrRegData['mb_game_bs_ratio']) < 1) {
             $arrRegData['mb_game_bs_ratio'] = 0;
         }
-        
+        if (strlen($arrRegData['mb_game_eo_ratio']) < 1) {
+            $arrRegData['mb_game_eo_ratio'] = 0;
+        }
+        if (strlen($arrRegData['mb_game_eo2_ratio']) < 1) {
+            $arrRegData['mb_game_eo2_ratio'] = 0;
+        }
 
         if (floatval($arrRegData['mb_game_pb_ratio']) < 0) {
             $arrRegData['mb_game_pb_ratio'] = 0;
@@ -821,21 +877,12 @@ class Member_Model extends Model
         if (floatval($arrRegData['mb_game_bs_ratio']) < 0) {
             $arrRegData['mb_game_bs_ratio'] = 0;
         }
-    }
-
-    private function BuilderSetGameRatioAndPercent($arrRegData)
-    {
-        $this->builder()->set('mb_game_pb_ratio', $arrRegData['mb_game_pb_ratio']);
-        $this->builder()->set('mb_game_pb2_ratio', $arrRegData['mb_game_pb2_ratio']);
-        $this->builder()->set('mb_game_ps_ratio', $arrRegData['mb_game_ps_ratio']);
-        $this->builder()->set('mb_game_cs_ratio', $arrRegData['mb_game_cs_ratio']);
-        $this->builder()->set('mb_game_sl_ratio', $arrRegData['mb_game_sl_ratio']);
-        $this->builder()->set('mb_game_pb_percent', $arrRegData['mb_game_pb_percent']);
-        $this->builder()->set('mb_game_pb2_percent', $arrRegData['mb_game_pb2_percent']);
-        $this->builder()->set('mb_game_ps_percent', $arrRegData['mb_game_ps_percent']);
-        $this->builder()->set('mb_game_bb_percent', $arrRegData['mb_game_bb_percent']);
-        $this->builder()->set('mb_game_bb2_percent', $arrRegData['mb_game_bb2_percent']);
-        $this->builder()->set('mb_game_bs_percent', $arrRegData['mb_game_bs_percent']);
+        if (floatval($arrRegData['mb_game_eo_ratio']) < 0) {
+            $arrRegData['mb_game_eo_ratio'] = 0;
+        }
+        if (floatval($arrRegData['mb_game_eo2_ratio']) < 0) {
+            $arrRegData['mb_game_eo2_ratio'] = 0;
+        }
     }
 
     public function register($arrRegData, &$strError)
@@ -891,6 +938,7 @@ class Member_Model extends Model
         $arrRegData['mb_game_bs'] = 1;
         $arrRegData['mb_game_cs'] = 1;
         $arrRegData['mb_game_sl'] = 1;
+        $arrRegData['mb_game_eo'] = 1;
         $result = $this->insert($arrRegData);
         if (!$result) {
             $strError = $this->errors();
@@ -960,7 +1008,13 @@ class Member_Model extends Model
         if (array_key_exists('mb_game_bs_percent', $arrData) && strlen($arrData['mb_game_bs_percent']) < 1) {
             $arrData['mb_game_bs_percent'] = 0;
         }
-
+        if (array_key_exists('mb_game_eo_percent', $arrData) && strlen($arrData['mb_game_eo_percent']) < 1) {
+            $arrData['mb_game_eo_percent'] = 0;
+        }
+        if (array_key_exists('mb_game_eo2_percent', $arrData) && strlen($arrData['mb_game_eo2_percent']) < 1) {
+            $arrData['mb_game_eo2_percent'] = 0;
+        }
+        
         $arrData['mb_bank_name'] = trim($arrData['mb_bank_name']);
         $arrData['mb_bank_own'] = trim($arrData['mb_bank_own']);
         $arrData['mb_bank_num'] = trim($arrData['mb_bank_num']);
@@ -1029,6 +1083,12 @@ class Member_Model extends Model
         if (array_key_exists('mb_game_bs_percent', $arrData) && strlen($arrData['mb_game_bs_percent']) < 1) {
             $arrData['mb_game_bs_percent'] = 0;
         }
+        if (array_key_exists('mb_game_eo_percent', $arrData) && strlen($arrData['mb_game_eo_percent']) < 1) {
+            $arrData['mb_game_eo_percent'] = 0;
+        }
+        if (array_key_exists('mb_game_eo2_percent', $arrData) && strlen($arrData['mb_game_eo2_percent']) < 1) {
+            $arrData['mb_game_eo2_percent'] = 0;
+        }
 
         $this->builder()->set('mb_color', $arrData['mb_color']);
         if(array_key_exists('mb_state_delete', $arrData)){
@@ -1061,6 +1121,8 @@ class Member_Model extends Model
             $this->builder()->set('mb_game_bs', $arrData['mb_game_bs']);
         } elseif (array_key_exists('mb_game_sl', $arrData)) {
             $this->builder()->set('mb_game_sl', $arrData['mb_game_sl']);
+        } elseif (array_key_exists('mb_game_eo', $arrData)) {
+            $this->builder()->set('mb_game_eo', $arrData['mb_game_eo']);
         } else {
             return false;
         }
@@ -1169,7 +1231,7 @@ class Member_Model extends Model
     {
         $fields = ['mb_fid', 'mb_uid', 'mb_level','mb_emp_fid','mb_nickname', 'mb_ip_last',
             'mb_money', 'mb_point', 'mb_grade', 'mb_color', 'mb_state_active', 
-            'mb_game_pb', 'mb_game_ps', 'mb_game_bb', 'mb_game_bs', 'mb_game_cs', 'mb_game_sl', 
+            'mb_game_pb', 'mb_game_ps', 'mb_game_bb', 'mb_game_bs', 'mb_game_cs', 'mb_game_sl', 'mb_game_eo',
             'mb_live_money', 'mb_slot_money', 'mb_fslot_money', 'mb_kgon_money' ];
 
         $strTbColum = " ".implode(", ", $fields);
@@ -1298,9 +1360,9 @@ class Member_Model extends Model
         $strTbColum.= ' mb_bank_name, mb_bank_own, mb_bank_num, mb_bank_pwd, mb_time_join, ';
         $strTbColum.= ' (mb_money + mb_live_money + mb_slot_money + mb_fslot_money + mb_kgon_money) as mb_money, ';
         $strTbColum.= ' mb_point, mb_grade, mb_color, mb_state_active, mb_state_delete, ' ;
-        $strTbColum .= ' mb_game_pb, mb_game_ps, mb_game_bb, mb_game_bs, mb_game_cs, mb_game_sl, mb_game_pb_ratio, mb_game_pb2_ratio, mb_game_ps_ratio, ';
-        $strTbColum .= ' mb_game_bb_ratio, mb_game_bb2_ratio, mb_game_bs_ratio, mb_game_cs_ratio, mb_game_sl_ratio, ';
-        $strTbColum .= ' mb_game_pb_percent, mb_game_pb2_percent, mb_game_ps_percent, mb_game_bb_percent, mb_game_bb2_percent, mb_game_bs_percent, ';
+        $strTbColum .= ' mb_game_pb, mb_game_ps, mb_game_bb, mb_game_bs, mb_game_cs, mb_game_sl, mb_game_eo, mb_game_pb_ratio, mb_game_pb2_ratio, mb_game_ps_ratio, ';
+        $strTbColum .= ' mb_game_bb_ratio, mb_game_bb2_ratio, mb_game_bs_ratio, mb_game_cs_ratio, mb_game_sl_ratio, mb_game_eo_ratio, mb_game_eo2_ratio, ';
+        $strTbColum .= ' mb_game_pb_percent, mb_game_pb2_percent, mb_game_ps_percent, mb_game_bb_percent, mb_game_bb2_percent, mb_game_bs_percent, mb_game_eo_percent, mb_game_eo2_percent, ';
 
         $strBetM = " ( bet_sl.bet_m ";
         $strBetW = " ( bet_sl.bet_w ";
@@ -1311,6 +1373,14 @@ class Member_Model extends Model
         if(!$confs['bpg_deny']){
             $strBetM.= " + bet_bb.bet_m + bet_bl.bet_m "; 
             $strBetW.= " + bet_bb.bet_w + bet_bl.bet_w "; 
+        }
+        if($confs['eos5_enable']){
+            $strBetM.= " + bet_e5.bet_m "; 
+            $strBetW.= " + bet_e5.bet_w "; 
+        }
+        if($confs['eos3_enable']){
+            $strBetM.= " + bet_e3.bet_m "; 
+            $strBetW.= " + bet_e3.bet_w "; 
         }
         if(!$confs['cas_deny'] || $confs['kgon_enable']){
             $strBetM.= " + bet_cs.bet_m "; 
@@ -1347,6 +1417,12 @@ class Member_Model extends Model
         if(!$confs['bpg_deny']){
             $strSQL.= " LEFT JOIN ( select bet_mb_uid, sum(bet_money) AS bet_m, sum(bet_win_money) AS bet_w from bet_bogleball group by bet_mb_uid ) bet_bb ON bet_bb.bet_mb_uid = member.mb_uid";
             $strSQL.= " LEFT JOIN ( select bet_mb_uid, sum(bet_money) AS bet_m, sum(bet_win_money) AS bet_w from bet_bogleladder group by bet_mb_uid ) bet_bl ON bet_bl.bet_mb_uid = member.mb_uid";
+        }
+        if($confs['eos5_enable']){
+            $strSQL.= " LEFT JOIN ( select bet_mb_uid, sum(bet_money) AS bet_m, sum(bet_win_money) AS bet_w from bet_eos5ball group by bet_mb_uid ) bet_e5 ON bet_e5.bet_mb_uid = member.mb_uid";
+        }
+        if($confs['eos3_enable']){
+            $strSQL.= " LEFT JOIN ( select bet_mb_uid, sum(bet_money) AS bet_m, sum(bet_win_money) AS bet_w from bet_eos3ball group by bet_mb_uid ) bet_e3 ON bet_e3.bet_mb_uid = member.mb_uid";
         }
         if(!$confs['cas_deny'] || $confs['kgon_enable']){
             $strSQL.= " LEFT JOIN ( select bet_mb_uid, sum(bet_money) AS bet_m, sum(bet_win_money) AS bet_w from bet_casino group by bet_mb_uid ) bet_cs ON bet_cs.bet_mb_uid = member.mb_uid";

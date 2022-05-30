@@ -2,7 +2,7 @@
 namespace App\Models;
 use CodeIgniter\Model;
 
-class ConfGame_model extends Model {
+class ConfGame_Model extends Model {
 	
 	protected $table = 'conf_game';
     protected $returnType = 'object'; 
@@ -13,7 +13,11 @@ class ConfGame_model extends Model {
         'game_time_countdown', 
         'game_time_delay', 
         'game_min_bet_money', 
+        'game_min2_bet_money', 
         'game_max_bet_money', 
+        'game_max2_bet_money', 
+        'game_max_win_money', 
+        'game_max2_win_money', 
         'game_ratio', 
         'game_ratio_1', 
         'game_ratio_2', 
@@ -57,10 +61,6 @@ class ConfGame_model extends Model {
         if($arrData == null) return false;
         if (!array_key_exists("game_index", $arrData)) return false;
         if (!array_key_exists("game_bet_permit", $arrData)) return false;
-        // if (!array_key_exists("game_time_countdown", $arrData)) return false;
-        // if (!array_key_exists("game_ratio_1", $arrData)) return false;
-        // if (!array_key_exists("game_ratio_2", $arrData)) return false;
-        // if (!array_key_exists("game_ratio_3", $arrData)) return false;
                 
         $arrBatch = array();
         $arrBatch[0] = $arrData;

@@ -292,13 +292,14 @@ function requestBetHistory() {
         "user": "",
         "round": strRound,
         "mode": 0,
-        "emp": ""
+        "emp": "",
+        "game":mGameId
     };
     jsonData = JSON.stringify(jsonData);
 
     $(".loading").show();
     $.ajax({
-        url: FURL + mPath + '/betlist',
+        url: FURL + '/pbapi/betlist',
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",
@@ -322,7 +323,7 @@ function requestBetHistory() {
 function requestBetIgnore(jsData) {
     var jsonData = JSON.stringify(jsData);
     $.ajax({
-        url: FURL + mPath + '/betignore',
+        url: FURL + '/pbapi/betignore',
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",
@@ -345,7 +346,7 @@ function requestBetProcess(jsData) {
     var jsonData = JSON.stringify(jsData);
 
     $.ajax({
-        url: FURL + mPath + '/betprocess',
+        url: FURL + '/pbapi/betprocess',
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",

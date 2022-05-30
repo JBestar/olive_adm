@@ -3,9 +3,9 @@
 <!--Sub Navbar-->
 	<div class = "sub-navbar">
 	<?php if(is_null($objRound)) {  ?>
-		<p><i class="glyphicon glyphicon-book"></i> 게임결과::보글볼 회차 등록</p>
+		<p><i class="glyphicon glyphicon-book"></i> 게임결과::<?=$game_name?> 회차 등록</p>
 	<?php } else {?>
-		<p><i class="glyphicon glyphicon-book"></i> 게임결과::보글볼 회차 수정</p>
+		<p><i class="glyphicon glyphicon-book"></i> 게임결과::<?=$game_name?> 회차 수정</p>
 	<?php } ?>		
 
 	<?php if(is_null($objRound)) {  ?>
@@ -193,7 +193,7 @@
 	</div>
 <!--main_navbar.php-->
 </div>
-
+<script> var mGameId = <?=$game_id?>; </script>
 <?php if(array_key_exists("app.produce", $_ENV)) :?>
 	<script src="<?php echo site_furl('/assets/js/bbresult_edit-script.js?t='.time());?>"></script>
 <?php else : ?>

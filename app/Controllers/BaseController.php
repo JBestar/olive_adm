@@ -73,8 +73,8 @@ class BaseController extends Controller
 
 	protected function getSiteConf($confsiteModel){
 		
-		$confs = ['site_name'=>"", "gameper_full"=>false, "npg_deny"=>false, "bpg_deny"=>false, 
-			"cas_deny"=>false, "slot_deny"=>false, "kgon_enable"=>false];
+		$confs = ['site_name'=>"", "gameper_full"=>false, "npg_deny"=>false, "bpg_deny"=>false, "cas_deny"=>false, 
+			"slot_deny"=>false, "kgon_enable"=>false, "eos5_enable"=>false, "eos3_enable"=>false];
 		$arrConf = $confsiteModel->getSiteConf();  
 		
 		foreach($arrConf as $objConf){
@@ -92,6 +92,10 @@ class BaseController extends Controller
 				case CONF_GAMEPER_FULL:	$confs['gameper_full'] = $objConf->conf_active == STATE_ACTIVE?true:false;
 					break;
 				case CONF_KGON_ENABLE:	$confs['kgon_enable'] = $objConf->conf_active == STATE_ACTIVE?true:false;
+					break;
+				case CONF_EOS5_ENABLE:	$confs['eos5_enable'] = $objConf->conf_active == STATE_ACTIVE?true:false;
+					break;
+				case CONF_EOS3_ENABLE:	$confs['eos3_enable'] = $objConf->conf_active == STATE_ACTIVE?true:false;
 					break;
 				default:break;
 			}

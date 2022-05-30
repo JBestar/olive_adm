@@ -4,7 +4,7 @@ function readConfigToObject() {
 
     var jsonData = new Object();
 
-
+    jsonData.game = mGameId;
     jsonData.round_fid = $("#subnavbar-fid-p-id").text();
     jsonData.round_date = document.getElementById("pbresult_edit-rounddate-input-id").value;
     jsonData.round_num = document.getElementById("pbresult_edit-roundnum-input-id").value;
@@ -68,7 +68,7 @@ function addBtnEvent() {
                     //console.log(jResult);
                     if (jResult.status == "success") {
                         alert("저장되었습니다.");
-                        window.location.replace( FURL +'/result/pbresult');
+                        goResultPage();
                     } else if (jResult.status == "logout") {
                         window.location.replace( FURL +'/');
                     } else if (jResult.status == "fail") {
@@ -98,6 +98,7 @@ function addBtnEvent() {
                     //console.log(jResult);
                     if (jResult.status == "success") {
                         alert("저장되었습니다.");
+                        goResultPage();
                     } else if (jResult.status == "logout") {
                         window.location.replace( FURL +'/');
                     } else if (jResult.status == "fail") {
@@ -121,7 +122,24 @@ function addBtnEvent() {
 
 
     $("#pbresult_edit-cancel-btn-id").click(function() {
-        window.location.replace( FURL +'/result/pbresult');
+        goResultPage();
     });
 
+}
+
+
+function goResultPage(){
+    if(mGameId == 1){
+        window.location.replace( FURL +'/result/pbresult');
+    } else if(mGameId == 2){
+        window.location.replace( FURL +'/result/psresult');
+    } else if(mGameId == 5){
+        window.location.replace( FURL +'/result/bbresult');
+    } else if(mGameId == 6){
+        window.location.replace( FURL +'/result/bsresult');
+    } else if(mGameId == 9){
+        window.location.replace( FURL +'/result/e5result');
+    } else if(mGameId == 10){
+        window.location.replace( FURL +'/result/e3result');
+    }
 }

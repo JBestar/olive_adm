@@ -164,33 +164,9 @@
       return $arrRoundInfo;
     }
 
-
-    //베팅시간으로부터 정확한 회차날자 얻기
-    function getPbRoundDate($strDateTime){
-      //2021-01-33 23:33:33
-      if(strlen($strDateTime) < 1)
-        return "";
-
-      $tmDate = strtotime($strDateTime);
-      
-      $nHour = date("G",$tmDate);
-      $nMin = date("i",$tmDate);
-      $nSumMinutes = $nHour * 60 + $nMin ;
-
-      $strDate = "";
-      if($nSumMinutes >= 1440){
-        $strDate= date('Y-m-d', strtotime("+1 day", $tmDate)); 
-      }
-      else {
-        $strDate = date("Y-m-d", $tmDate);
-      }
-      return $strDate;
-
-    }
-
     
     //베팅시간으로부터 정확한 회차날자 얻기
-    function getBRoundDate($strDateTime){
+    function getRoundDate($strDateTime){
       //2021-01-33 23:33:33
       if(strlen($strDateTime) < 1)
         return "";

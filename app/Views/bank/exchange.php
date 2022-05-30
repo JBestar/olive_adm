@@ -40,6 +40,14 @@
 				<option value="28">상부환수</option>
 				<option value="24">머니회수</option>
 				<option value="25">포인트회수</option>
+				<?php if($eos5_enable) :?>
+					<option value="31">EOS5분배팅</option>				
+					<option value="33">EOS5분정산</option>
+				<?php endif ?> 
+				<?php if($eos3_enable) :?>
+					<option value="34">EOS3분배팅</option>				
+					<option value="36">EOS3분정산</option>
+				<?php endif ?> 
 			</select>
 
 			<select name="pbresult-number" class="pbresult-number-select" id="exchange-number-select-id">

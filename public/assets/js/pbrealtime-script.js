@@ -419,9 +419,15 @@ function ShowBetRealtime(jRealBet) {
 //Function to Request Betting History to WebServer
 function requestBetRealtime() {
     $(".loading").show();
+    var jsonData = {
+        "game": mGameId,
+    };
+    jsonData = JSON.stringify(jsonData);
+
     $.ajax({
-        url: FURL + '/' + mPath + '/betrealtime',
+        url: FURL + '/pbapi/betrealtime',
         type: 'post',
+        data: { json_: jsonData },
         dataType: "json",
         success: function(jResult) {
             $(".loading").hide();

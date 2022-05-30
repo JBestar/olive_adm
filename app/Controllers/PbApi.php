@@ -1,10 +1,18 @@
 <?php
 namespace App\Controllers;
 use App\Controllers\BaseController;
-use App\Models\ConfGame_model;
+use App\Models\ConfGame_Model;
 use App\Models\MoneyHistory_Model;
 use App\Models\PbBet_Model;
 use App\Models\PbRound_Model;
+use App\Models\PsBet_Model;
+use App\Models\PsRound_Model;
+use App\Models\BbBet_Model;
+use App\Models\BbRound_Model;
+use App\Models\BsBet_Model;
+use App\Models\BsRound_Model;
+use App\Models\EosBet_Model;
+use App\Models\EosRound_Model;
 
 class PbApi extends BaseController {
 
@@ -26,89 +34,158 @@ class PbApi extends BaseController {
 
 	//베팅결과를 Ajax로 전송
 	public function result(){ 
-		$jsonData = $_REQUEST['json_'];
-		$arrGetData = json_decode($jsonData, true);
 		
-		if(is_login()) {
-
-			//model
-			$pbroundModel = new PbRound_Model();
-			$objResults = $pbroundModel->search($arrGetData);
-
-			$arrResult['data'] = $objResults;
-			$arrResult['status'] = "success";
-
-			echo json_encode($arrResult);
-		} else{
-			$arrResult['status'] = "logout";
-
-			echo json_encode($arrResult);	
-		}
-
-	}
-
-	
-	//베팅결과를 검색개수 Ajax로 전송
-	public function resultcnt(){ 
 		$jsonData = $_REQUEST['json_'];
-		$arrGetData = json_decode($jsonData, true);
-		
+		$arrReqData = json_decode($jsonData, true);
+
 		if(is_login()) {
-
-			//model
-			$pbroundModel = new PbRound_Model();
-			$objCount = $pbroundModel->searchCount($arrGetData);
+			$bResult = true;
+			if($arrReqData['game'] == GAME_POWER_BALL){
+				$roundModel = new PbRound_Model();
+				$arrResult = $roundModel->search($arrReqData);
+			} else if($arrReqData['game'] == GAME_POWER_LADDER){
+				$roundModel = new PsRound_Model();
+				$arrResult = $roundModel->search($arrReqData);
+			} else if($arrReqData['game'] == GAME_BOGLE_BALL){
+				$roundModel = new BbRound_Model();
+				$arrResult = $roundModel->search($arrReqData);
+			} else if($arrReqData['game'] == GAME_BOGLE_LADDER){
+				$roundModel = new BsRound_Model();
+				$arrResult = $roundModel->search($arrReqData);
+			}  else if($arrReqData['game'] == GAME_EOS5_BALL || $arrReqData['game'] == GAME_EOS3_BALL){
+				$roundModel = new EosRound_Model();
+				$roundModel->setType($arrReqData['game']);
+				$arrResult = $roundModel->search($arrReqData);
+			}  else $bResult = false;
+				
+			if($bResult){
+				
+				$objResult = new \StdClass;
+				$objResult->data = $arrResult;		
+				$objResult->status = "success";
 			
-			$arrResult['data'] = $objCount;
-			$arrResult['status'] = "success";
-
-			echo json_encode($arrResult);
-		} else{
-			$arrResult['status'] = "logout";
-
-			echo json_encode($arrResult);	
-		}
-
-	}
-
-	//베팅리력결과를 Ajax로 전송
-	public function betlist(){ 
-		$jsonData = $_REQUEST['json_'];
-		$arrGetData = json_decode($jsonData, true);
-		//var_dump($arrBetData);
-		if(is_login()) {
-			//model
-			$pbbetModel = new PbBet_Model();
-			
-			
-			$strUid = $this->session->user_id;
-			$objAdmin = $this->modelMember->getInfo($strUid);
-
-			$arrBetAccount = null;
-			if($objAdmin->mb_level >= LEVEL_ADMIN){
-				if(strlen(trim($arrGetData['emp'])) > 0){
-					$objAdmin = $this->modelMember->getInfo(trim($arrGetData['emp']));
-				}
-				else 	
-					$arrBetAccount = $pbbetModel->getBetAccount($arrGetData);
+				echo json_encode($objResult);
 			} else {
+				$arrResult['status'] = "false";
+				echo json_encode($arrResult);	
 			}
-
-			$arrBetResults = $pbbetModel->search($objAdmin, $arrGetData);
-			
-			$objResult = new \StdClass;
-			$objResult->data = $arrBetResults;
-			$objResult->account = $arrBetAccount;
-			$objResult->status = "success";
-		
-			echo json_encode($objResult);
 		}
 		else{
 		
 			$arrResult['status'] = "logout";
 
 			echo json_encode($arrResult);	
-		} 		
+		} 
+
+	}
+
+	
+	//베팅결과를 검색개수 Ajax로 전송
+	public function resultcnt(){ 
+			
+		$jsonData = $_REQUEST['json_'];
+		$arrReqData = json_decode($jsonData, true);
+
+		if(is_login()) {
+			$bResult = true;
+			if($arrReqData['game'] == GAME_POWER_BALL){
+				$roundModel = new PbRound_Model();
+				$objCount = $roundModel->searchCount($arrReqData);
+			} else if($arrReqData['game'] == GAME_POWER_LADDER){
+				$roundModel = new PsRound_Model();
+				$objCount = $roundModel->searchCount($arrReqData);
+			} else if($arrReqData['game'] == GAME_BOGLE_BALL){
+				$roundModel = new BbRound_Model();
+				$objCount = $roundModel->searchCount($arrReqData);
+			} else if($arrReqData['game'] == GAME_BOGLE_LADDER){
+				$roundModel = new BsRound_Model();
+				$objCount = $roundModel->searchCount($arrReqData);
+			}  else if($arrReqData['game'] == GAME_EOS5_BALL || $arrReqData['game'] == GAME_EOS3_BALL){
+				$roundModel = new EosRound_Model();
+				$roundModel->setType($arrReqData['game']);
+				$objCount = $roundModel->searchCount($arrReqData);
+			} else $bResult = false;
+				
+			if($bResult){
+				
+				$objResult = new \StdClass;
+				$objResult->data = $objCount;		
+				$objResult->status = "success";
+			
+				echo json_encode($objResult);
+			} else {
+				$arrResult['status'] = "false";
+				echo json_encode($arrResult);	
+			}
+		}
+		else{
+		
+			$arrResult['status'] = "logout";
+
+			echo json_encode($arrResult);	
+		} 
+
+	}
+
+	//베팅리력결과를 Ajax로 전송
+	public function betlist(){ 
+		
+		$jsonData = $_REQUEST['json_'];
+		$arrReqData = json_decode($jsonData, true);
+
+		if(is_login()) {
+			$bResult = true;
+			$strUid = $this->session->user_id;
+			$objAdmin = $this->modelMember->getInfo($strUid);
+
+			if($arrReqData['game'] == GAME_POWER_BALL){
+
+				$betModel = new PbBet_Model();
+			} else if($arrReqData['game'] == GAME_POWER_LADDER){
+
+				$betModel = new PsBet_Model();
+			} else if($arrReqData['game'] == GAME_BOGLE_BALL){
+
+				$betModel = new BbBet_Model();
+			} else if($arrReqData['game'] == GAME_BOGLE_LADDER){
+
+				$betModel = new BsBet_Model();
+			}  else if($arrReqData['game'] == GAME_EOS5_BALL || $arrReqData['game'] == GAME_EOS3_BALL){
+
+				$betModel = new EosBet_Model();
+				$betModel->setType($arrReqData['game']);
+			} else $bResult = false;
+				
+			if($bResult){
+				$arrBetAccount = null;
+				if($objAdmin->mb_level >= LEVEL_ADMIN){
+					if(strlen(trim($arrReqData['emp'])) > 0){
+						$objAdmin = $this->modelMember->getInfo(trim($arrReqData['emp']));
+					}
+					else 	
+						$arrBetAccount = $betModel->getBetAccount($arrReqData);
+				} 
+
+				$arrBetResults = $betModel->search($objAdmin, $arrReqData);
+				
+				$objResult = new \StdClass;
+				$objResult->data = $arrBetResults;	
+				$objResult->account = $arrBetAccount;		
+				$objResult->status = "success";
+			
+				echo json_encode($objResult);
+			} else {
+				$arrResult['status'] = "false";
+				echo json_encode($arrResult);	
+			}
+		}
+		else{
+		
+			$arrResult['status'] = "logout";
+
+			echo json_encode($arrResult);	
+		} 
+
 	}
 
 
@@ -116,29 +193,52 @@ class PbApi extends BaseController {
 	//베팅리력결과 개수를 Ajax로 전송
 	public function betlistcnt(){ 
 		$jsonData = $_REQUEST['json_'];
-		$arrGetData = json_decode($jsonData, true);
+		$arrReqData = json_decode($jsonData, true);
 		//var_dump($arrBetData);
 		if(is_login()) {
 			//model
-			$pbbetModel = new PbBet_Model();
-			
-			
+			$bResult = true;
+
 			$strUid = $this->session->user_id;
 			$objAdmin = $this->modelMember->getInfo($strUid);
-			if($objAdmin->mb_level >= LEVEL_ADMIN && strlen(trim($arrGetData['emp'])) > 0){
-				$objAdmin = $this->modelMember->getInfo(trim($arrGetData['emp']));
-			}
-			$objCount = $pbbetModel->searchCount($objAdmin, $arrGetData);
+
+			if($arrReqData['game'] == GAME_POWER_BALL){
+
+				$betModel = new PbBet_Model();
+			} else if($arrReqData['game'] == GAME_POWER_LADDER){
+
+				$betModel = new PsBet_Model();
+			} else if($arrReqData['game'] == GAME_BOGLE_BALL){
+
+				$betModel = new BbBet_Model();
+			} else if($arrReqData['game'] == GAME_BOGLE_LADDER){
+
+				$betModel = new BsBet_Model();
+			}  else if($arrReqData['game'] == GAME_EOS5_BALL || $arrReqData['game'] == GAME_EOS3_BALL){
+
+				$betModel = new EosBet_Model();
+				$betModel->setType($arrReqData['game']);
+			}  else $bResult = false;
 			
-			$arrResult['data'] = $objCount;
-			$arrResult['status'] = "success";
-		
-			echo json_encode($arrResult);
+			if($bResult){
+			
+				if($objAdmin->mb_level >= LEVEL_ADMIN && strlen(trim($arrReqData['emp'])) > 0){
+					$objAdmin = $this->modelMember->getInfo(trim($arrReqData['emp']));
+				}
+				$objCount = $betModel->searchCount($objAdmin, $arrReqData);
+				
+				$arrResult['data'] = $objCount;
+				$arrResult['status'] = "success";
+			
+				echo json_encode($arrResult);
+			} else {
+				$arrResult['status'] = "false";
+				echo json_encode($arrResult);	
+			}
 		}
 		else{
 		
 			$arrResult['status'] = "logout";
-
 			echo json_encode($arrResult);	
 		} 		
 	}
@@ -146,24 +246,57 @@ class PbApi extends BaseController {
 
 	//실시간베팅결과 합을 Ajax로 전송
 	public function betrealtime(){ 
+		$jsonData = $_REQUEST['json_'];
+		$arrReqData = json_decode($jsonData, true);
+
 		if(is_login()) {
-			$pbbetModel = new PbBet_Model();
-			$confgameModel = new ConfGame_model();
-			
-			$arrRoundInfo = getPbRoundInfo();
-
-			$objConfPb = $confgameModel->getByIndex(GAME_POWER_BALL);
-
-			$arrBetSum = $pbbetModel->getBetSumByMode($arrRoundInfo, $objConfPb);
-			
-			$objData = new \StdClass;
-			$objData->roundid = $arrRoundInfo['round_no'];
-			$objData->betend = $arrRoundInfo['round_end'];
-			$objData->betsums = $arrBetSum;
-			$objData->config = $objConfPb;
 			$bResult = true;
+			$confgameModel = new ConfGame_Model();
+
+			if($arrReqData['game'] == GAME_POWER_BALL){
+
+				$objConf = $confgameModel->getByIndex($arrReqData['game']);
+				$betModel = new PbBet_Model();
+				$arrRoundInfo = getPbRoundInfo();
+				$arrBetSum = $betModel->getBetSumByMode($arrRoundInfo, $objConf);
+			} else if($arrReqData['game'] == GAME_POWER_LADDER){
+
+				$objConf = $confgameModel->getByIndex($arrReqData['game']);
+				$betModel = new PsBet_Model();
+				$arrRoundInfo = getPbRoundInfo();
+				$arrBetSum = $betModel->getBetSumByMode($arrRoundInfo, $objConf);
+			} else if($arrReqData['game'] == GAME_BOGLE_BALL){
+				$objConf = $confgameModel->getByIndex($arrReqData['game']);
+
+				$betModel = new BbBet_Model();
+				$arrRoundInfo = getBRoundInfo(ROUND_2MIN);
+				$arrBetSum = $betModel->getBetSumByMode($arrRoundInfo, $objConf);
+			} else if($arrReqData['game'] == GAME_BOGLE_LADDER){
+				$objConf = $confgameModel->getByIndex($arrReqData['game']);
+
+				$betModel = new BsBet_Model();
+				$arrRoundInfo = getBRoundInfo(ROUND_3MIN);
+				$arrBetSum = $betModel->getBetSumByMode($arrRoundInfo, $objConf);
+			}  else if($arrReqData['game'] == GAME_EOS5_BALL || $arrReqData['game'] == GAME_EOS3_BALL){
+				$objConf = $confgameModel->getByIndex($arrReqData['game']);
+
+				$betModel = new EosBet_Model();
+				$betModel->setType($arrReqData['game']);
+				if($arrReqData['game'] == GAME_EOS5_BALL)
+					$arrRoundInfo = getBRoundInfo(ROUND_5MIN);
+				else $arrRoundInfo = getBRoundInfo(ROUND_3MIN);
+				$arrBetSum = $betModel->getBetSumByMode($arrRoundInfo, $objConf);
+			}  else $bResult = false;
+			
 				
 			if($bResult){
+				
+				$objData = new \StdClass;
+				$objData->roundid = $arrRoundInfo['round_no'];
+				$objData->betend = $arrRoundInfo['round_end'];
+				$objData->betsums = $arrBetSum;
+				$objData->config = $objConf;
+				
 				$objResult = new \StdClass;
 				$objResult->data = $objData;		
 				$objResult->status = "success";
@@ -186,30 +319,48 @@ class PbApi extends BaseController {
 	//회차 결과 등록
 	public function registerround(){ 
 		$jsonData = $_REQUEST['json_'];
-		$arrGetData = json_decode($jsonData, true);
+		$arrReqData = json_decode($jsonData, true);
 		
 		if(is_login()) {
-
-			//model
-			
-			$pbroundModel = new PbRound_Model();
+			$bResult = true;
 			$strUid = $this->session->user_id;
 			$objUser = $this->modelMember->getInfo($strUid);
-			$iResult = 0;
-			if($objUser->mb_level >=  LEVEL_ADMIN){
-				if(isEnableRound($arrGetData, ROUND_5MIN)){
-					
-					$iResult = $pbroundModel->register($arrGetData);	
-						
-					//2: 이미 등록된 회차
-				} else $iResult = 3;				//파라메터 오유
+			if($arrReqData['game'] == GAME_POWER_BALL){
+
+				$roundModel = new PbRound_Model();
+			} else if($arrReqData['game'] == GAME_POWER_LADDER){
+
+				$roundModel = new PsRound_Model();
+			} else if($arrReqData['game'] == GAME_BOGLE_BALL){
+
+				$roundModel = new BbRound_Model();
+			} else if($arrReqData['game'] == GAME_BOGLE_LADDER){
+
+				$roundModel = new BsRound_Model();
+			}  else if($arrReqData['game'] == GAME_EOS5_BALL || $arrReqData['game'] == GAME_EOS3_BALL){
+
+				$roundModel = new EosRound_Model();
+				$roundModel->setType($arrReqData['game']);
+			} else $bResult = false;
 				
-			} 
-			if($iResult == 1)
-				$arrResult['status'] = "success";
-			else {
-				$arrResult['status'] = "fail";
-				$arrResult['data'] = $iResult;
+			if($bResult){
+			
+				$iResult = 0;
+				if($objUser->mb_level >=  LEVEL_ADMIN){
+					if(isEnableRound($arrReqData, ROUND_5MIN)){
+						$iResult = $roundModel->register($arrReqData);	
+						//2: 이미 등록된 회차
+					} else $iResult = 3;				//파라메터 오유
+					
+				} 
+				if($iResult == 1)
+					$arrResult['status'] = "success";
+				else {
+					$arrResult['status'] = "fail";
+					$arrResult['data'] = $iResult;
+				}
+			} else {
+				$arrResult['status'] = "false";
 			}
 			
 
@@ -225,22 +376,44 @@ class PbApi extends BaseController {
 	//회차 결과 수정
 	public function modifyround(){ 
 		$jsonData = $_REQUEST['json_'];
-		$arrGetData = json_decode($jsonData, true);
+		$arrReqData = json_decode($jsonData, true);
 		
 		if(is_login()) {
 
-			//model
-			
-			$pbroundModel = new PbRound_Model();
 			$strUid = $this->session->user_id;
 			$objUser = $this->modelMember->getInfo($strUid);
-			$bResult = false;
-			if($objUser->mb_level >=  LEVEL_ADMIN)
-				$bResult = $pbroundModel->modify($arrGetData);
+			
+			$bResult = true;
+			if($arrReqData['game'] == GAME_POWER_BALL){
 
-			$arrResult['status'] = $bResult?"success":"fail";
+				$roundModel = new PbRound_Model();
+			} else if($arrReqData['game'] == GAME_POWER_LADDER){
 
-			echo json_encode($arrResult);
+				$roundModel = new PsRound_Model();
+			} else if($arrReqData['game'] == GAME_BOGLE_BALL){
+
+				$roundModel = new BbRound_Model();
+			} else if($arrReqData['game'] == GAME_BOGLE_LADDER){
+
+				$roundModel = new BsRound_Model();
+			}  else if($arrReqData['game'] == GAME_EOS5_BALL || $arrReqData['game'] == GAME_EOS3_BALL){
+
+				$roundModel = new EosRound_Model();
+				$roundModel->setType($arrReqData['game']);
+			} else $bResult = false;
+			
+			if($bResult){
+
+				$bResult = false;
+				if($objUser->mb_level >=  LEVEL_ADMIN)
+					$bResult = $roundModel->modify($arrReqData);
+
+				$arrResult['status'] = $bResult?"success":"fail";
+				echo json_encode($arrResult);
+			} else {
+				$arrResult['status'] = "false";
+				echo json_encode($arrResult);	
+			}
 		} else{
 			$arrResult['status'] = "logout";
 
@@ -252,45 +425,72 @@ class PbApi extends BaseController {
 //회차 무효 처리
 	public function betignore(){ 
 		$jsonData = $_REQUEST['json_'];
-		$arrGetData = json_decode($jsonData, true);
+		$arrReqData = json_decode($jsonData, true);
 		if(is_login()) {
-
-			//model
-			
-			$pbbetModel = new PbBet_Model();
-			$moneyhistoryModel = new MoneyHistory_Model();
+			$bResult = true;
 
 			$strUid = $this->session->user_id;
 			$objUser = $this->modelMember->getInfo($strUid);
-			$bResult = false;
-			if($objUser->mb_level >=  LEVEL_ADMIN){
-				for($i = 0; $i < count($arrGetData); $i++) {
-					$objBet = $pbbetModel->getByFid($arrGetData[$i]);
-					if(!is_null($objBet) && $objBet->bet_state != 4){
-						$bResult = $pbbetModel->ignore($objBet); 
-						if($bResult){
-							$objBetUser = $this->modelMember->getInfo($objBet->bet_mb_uid);
-							if($objBet->bet_state == 2 || $objBet->bet_state == 1){		//미적중 혹은 대기중
-								$dtMoney = $objBet->bet_money;
-							}
-							else if($objBet->bet_state == 3){	//적중
-								$dtMoney = $objBet->bet_money - $objBet->bet_win_money;
-							}
-							$dtPoint = 0 - $objBet->point_amount;
-							$bResult = $this->modelMember->moneyProc($objBetUser, $dtMoney, $dtPoint, 0, 0);
-							if($bResult)
-				            	$moneyhistoryModel->registerAccountBet($objBetUser, $objBet, $dtMoney, MONEYCHANGE_WIN_PB);
+			//model
+			$moneyhistoryModel = new MoneyHistory_Model();
+			$iChangeType = 0;
+			if($arrReqData['game'] == GAME_POWER_BALL){
+				$iChangeType = MONEYCHANGE_WIN_PB;
 
-						} 	
+				$betModel = new PbBet_Model();
+			} else if($arrReqData['game'] == GAME_POWER_LADDER){
+				$iChangeType = MONEYCHANGE_WIN_PS;
+
+				$betModel = new PsBet_Model();
+			} else if($arrReqData['game'] == GAME_BOGLE_BALL){
+				$iChangeType = MONEYCHANGE_WIN_BB;
+
+				$betModel = new BbBet_Model();
+			} else if($arrReqData['game'] == GAME_BOGLE_LADDER){
+				$iChangeType = MONEYCHANGE_WIN_BS;
+
+				$betModel = new BsBet_Model();
+			}  else if($arrReqData['game'] == GAME_EOS5_BALL || $arrReqData['game'] == GAME_EOS3_BALL){
+				$iChangeType = $arrReqData['game'] == GAME_EOS5_BALL ? MONEYCHANGE_WIN_EO5:MONEYCHANGE_WIN_EO3;
+
+				$betModel = new EosBet_Model();
+				$betModel->setType($arrReqData['game']);
+			} else $bResult = false;
+			
+			if($bResult){
+
+				$bResult = false;
+				if($objUser->mb_level >=  LEVEL_ADMIN){
+					for($i = 0; $i < count($arrReqData['data']); $i++) {
+						$objBet = $betModel->getByFid($arrReqData['data'][$i]);
+						if(!is_null($objBet) && $objBet->bet_state != 4){
+							$bResult = $betModel->ignore($objBet); 
+							if($bResult){
+								$objBetUser = $this->modelMember->getInfo($objBet->bet_mb_uid);
+								if($objBet->bet_state == 2 || $objBet->bet_state == 1){		//미적중 혹은 대기중
+									$dtMoney = $objBet->bet_money;
+								}
+								else if($objBet->bet_state == 3){	//적중
+									$dtMoney = $objBet->bet_money - $objBet->bet_win_money;
+								}
+								$dtPoint = 0 - $objBet->point_amount;
+								$bResult = $this->modelMember->moneyProc($objBetUser, $dtMoney, $dtPoint, 0, 0);
+								if($bResult)
+									$moneyhistoryModel->registerAccountBet($objBetUser, $objBet, $dtMoney, $iChangeType);
+
+							} 	
+						}
+						
 					}
 					
 				}
-				
+
+				$arrResult['status'] = $bResult?"success":"fail";
+				echo json_encode($arrResult);
+			} else {
+				$arrResult['status'] = "false";
+				echo json_encode($arrResult);	
 			}
-
-			$arrResult['status'] = $bResult?"success":"fail";
-
-			echo json_encode($arrResult);
 		} else{
 			$arrResult['status'] = "logout";
 
@@ -301,69 +501,100 @@ class PbApi extends BaseController {
 
 
 
-		//회차 결과 처리
+	//회차 결과 처리
 	public function betprocess(){ 
 		$jsonData = $_REQUEST['json_'];
-		$arrGetData = json_decode($jsonData, true);
+		$arrReqData = json_decode($jsonData, true);
 		if(is_login()) {
-
-			//model
-			
-			$pbroundModel = new PbRound_Model();
-			$pbbetModel = new PbBet_Model();
-			$moneyhistoryModel = new MoneyHistory_Model();
+			$bResult = true;
 
 			$strUid = $this->session->user_id;
 			$objUser = $this->modelMember->getInfo($strUid);
-			$bResult = false;
-			if($objUser->mb_level >=  LEVEL_ADMIN){
-				for($i = 0; $i < count($arrGetData); $i++) {
-					$objBet = $pbbetModel->getByFid($arrGetData[$i]);
-					if(is_null($objBet)) 
-						continue;
-					
-					if($objBet->bet_state == 1){			//대기중이라면
-						$strDate = getPbRoundDate($objBet->bet_time);
-						$objRoundInfo = $pbroundModel->getByDate($strDate, $objBet->bet_round_no);
-						$bResult = $pbbetModel->updateBetRound($objRoundInfo, $objBet);
- 
-						if($bResult){
-							$objBetUser = $this->modelMember->getInfo($objBet->bet_mb_uid);
-							if($objBet->bet_win_money > 0){		//적중
-					      		$dtMoney = $objBet->bet_win_money;
-					            $bResult = $this->modelMember->moneyProc($objBetUser, $dtMoney, 0, 0, 0);
-					            if($bResult){
-					            	$moneyhistoryModel->registerAccountBet($objBetUser, $objBet, $dtMoney, MONEYCHANGE_WIN_PB);
-					            }
-							}
-						} 	
-					} else if($objBet->bet_state == 4){			//무효라면 
-						$strDate = getPbRoundDate($objBet->bet_time);
-						$objRoundInfo = $pbroundModel->getByDate($strDate, $objBet->bet_round_no);
-						$bResult = $pbbetModel->updateBetRound($objRoundInfo, $objBet);
+			$iChangeType = 0;
+			//model
+			$moneyhistoryModel = new MoneyHistory_Model();
+			if($arrReqData['game'] == GAME_POWER_BALL){
+				$iChangeType = MONEYCHANGE_WIN_PB;
 
-						if($bResult){
-							$objBetUser = $this->modelMember->getInfo($objBet->bet_mb_uid);
-							if($objBet->bet_win_money > 0){		//적중
-					      		$dtMoney = $objBet->bet_win_money - $objBet->bet_money;
-							} else {
-								$dtMoney = 0 - $objBet->bet_money;								
-							}
-							$dtPont = $objBet->point_amount;
-							$bResult = $this->modelMember->moneyProc($objBetUser, $dtMoney, $dtPont, 0, 0);
+				$roundModel = new PbRound_Model();
+				$betModel = new PbBet_Model();
+			} else if($arrReqData['game'] == GAME_POWER_LADDER){
+				$iChangeType = MONEYCHANGE_WIN_PS;
+
+				$roundModel = new PsRound_Model();
+				$betModel = new PsBet_Model();
+			} else if($arrReqData['game'] == GAME_BOGLE_BALL){
+				$iChangeType = MONEYCHANGE_WIN_BB;
+
+				$roundModel = new BbRound_Model();
+				$betModel = new BbBet_Model();
+			} else if($arrReqData['game'] == GAME_BOGLE_LADDER){
+				$iChangeType = MONEYCHANGE_WIN_BS;
+
+				$roundModel = new BsRound_Model();
+				$betModel = new BsBet_Model();
+			}  else if($arrReqData['game'] == GAME_EOS5_BALL || $arrReqData['game'] == GAME_EOS3_BALL){
+				$iChangeType = $arrReqData['game'] == GAME_EOS5_BALL ? MONEYCHANGE_WIN_EO5:MONEYCHANGE_WIN_EO3;
+
+				$roundModel = new EosRound_Model();
+				$roundModel->setType($arrReqData['game']);
+				$betModel = new EosBet_Model();
+				$betModel->setType($arrReqData['game']);
+			}  else $bResult = false;
+				
+			if($bResult){
+
+				$bResult = false;
+				if($objUser->mb_level >=  LEVEL_ADMIN){
+					for($i = 0; $i < count($arrReqData['data']); $i++) {
+						$objBet = $betModel->getByFid($arrReqData['data'][$i]);
+						if(is_null($objBet)) 
+							continue;
+						
+						if($objBet->bet_state == 1){			//대기중이라면
+							$strDate = getRoundDate($objBet->bet_time);
+							$objRoundInfo = $roundModel->getByDate($strDate, $objBet->bet_round_no);
+							$bResult = $betModel->updateBetRound($objRoundInfo, $objBet);
+	
 							if($bResult){
+								$objBetUser = $this->modelMember->getInfo($objBet->bet_mb_uid);
+								if($objBet->bet_win_money > 0){		//적중
+									$dtMoney = $objBet->bet_win_money;
+									$bResult = $this->modelMember->moneyProc($objBetUser, $dtMoney, 0, 0, 0);
+									if($bResult){
+										$moneyhistoryModel->registerAccountBet($objBetUser, $objBet, $dtMoney, $iChangeType);
+									}
+								}
+							} 	
+						} else if($objBet->bet_state == 4){			//무효라면 
+							$strDate = getRoundDate($objBet->bet_time);
+							$objRoundInfo = $roundModel->getByDate($strDate, $objBet->bet_round_no);
+							$bResult = $betModel->updateBetRound($objRoundInfo, $objBet);
 
-					            $moneyhistoryModel->registerAccountBet($objBetUser, $objBet, $dtMoney, MONEYCHANGE_WIN_PB);
+							if($bResult){
+								$objBetUser = $this->modelMember->getInfo($objBet->bet_mb_uid);
+								if($objBet->bet_win_money > 0){		//적중
+									$dtMoney = $objBet->bet_win_money - $objBet->bet_money;
+								} else {
+									$dtMoney = 0 - $objBet->bet_money;								
+								}
+								$dtPont = $objBet->point_amount;
+								$bResult = $this->modelMember->moneyProc($objBetUser, $dtMoney, $dtPont, 0, 0);
+								if($bResult){
+
+									$moneyhistoryModel->registerAccountBet($objBetUser, $objBet, $dtMoney, $iChangeType);
+								}
 							}
 						}
+						
 					}
 					
 				}
-				
+
+				$arrResult['status'] = "success";
+			} else {
+				$arrResult['status'] = "false";
 			}
-
-			$arrResult['status'] = "success";
-
 			echo json_encode($arrResult);
 		} else{
 			$arrResult['status'] = "logout";

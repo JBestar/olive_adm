@@ -3,7 +3,7 @@
 use App\Models\Notice_Model;
 use App\Models\Charge_Model;
 use App\Models\Clean_Model;
-use App\Models\ConfGame_model;
+use App\Models\ConfGame_Model;
 use App\Models\Exchange_Model;
 use App\Models\MoneyHistory_Model;
 use App\Models\Transfer_Model;
@@ -145,7 +145,7 @@ class Api extends BaseController{
 		{
 			$gameId = intval($arrData['game_index']);
 			//model
-			$confgameModel = new ConfGame_model();
+			$confgameModel = new ConfGame_Model();
 			$confsiteModel = new ConfSite_Model();
 			$objConfig = $confgameModel->getByIndex($gameId);
 			
@@ -290,7 +290,7 @@ class Api extends BaseController{
 			}
 			if($bPermit){
 				//model
-				$confgameModel = new ConfGame_model();
+				$confgameModel = new ConfGame_Model();
 				$confgameModel->saveData($arrData);
 			
 				$arrResult['status'] = "success";

@@ -1,6 +1,6 @@
 <?= $this->extend('/bet/history') ?>
-<?= $this->section('history-active') ?>"파워볼"<?= $this->endSection() ?>
-<?= $this->section('history-title') ?>파워볼 배팅내역<?= $this->endSection() ?>
+<?= $this->section('history-active') ?><?=$game_name?><?= $this->endSection() ?>
+<?= $this->section('history-title') ?><?=$game_name?> 배팅내역<?= $this->endSection() ?>
 <?= $this->section('history_game_options') ?>		
 	<select class="pbresult-game-select" id="pbhistory-game-select-id">
 		<option value="0">::배팅선택::</option>	
@@ -31,7 +31,6 @@
 	
 <?= $this->endSection() ?>
 <?= $this->section('history_script') ?>
-	<script> var mPath = "/pbapi"; </script>
 	<?php if(array_key_exists("app.produce", $_ENV)) :?>
 		<script src="<?php echo site_furl('/assets/js/pbhistory-script.js?t='.time());?>"></script>
 	<?php else : ?>

@@ -19,7 +19,10 @@
 					<?php endif ?>     
 					<?php if(!$bpg_deny) :?>
 						<td>보글볼<span id="main-navbar-emp_bbrate-id">0 % | 0 %</span></td>
-					<?php endif ?>     
+					<?php endif ?>    
+					<?php if($eos5_enable || $eos3_enable) :?>
+						<td>EOS파워볼<span id="main-navbar-emp_eorate-id">0 % | 0 %</span></td>
+					<?php endif ?>  
 					<?php if(!$cas_deny || $kgon_enable) :?>
 						<td>카지노<span id="main-navbar-emp_evrate-id">0 %</span></td>
 					<?php endif ?>   
@@ -107,6 +110,40 @@
 			</Table>
 			<?php endif ?>     
 
+			<?php if($eos5_enable || $eos3_enable) :?>
+			<Table class="main-navbar-betinfo-table">
+				<?php if($eos5_enable) :?>
+					<tr>
+						<td style="font-weight: bold; color: #0090ff; font-size: 14px;">EOS5분 단폴:</td>
+						<td>배팅<span id="main-navbar-e5bet-id">0 원</span></td>
+						<td>적중<span id="main-navbar-e5betearn-id">0 원</span></td>
+
+					</tr>
+					<tr>
+						<td style="font-weight: bold; color: #0090ff; font-size: 14px;">EOS5분 조합:</td>
+						<td>배팅<span id="main-navbar-e52bet-id">0 원</span></td>
+						<td>적중<span id="main-navbar-e52betearn-id">0 원</span></td>
+
+					</tr>
+				<?php endif ?>
+				<?php if($eos3_enable) :?>
+					<tr>
+						<td style="font-weight: bold; color: #0090ff; font-size: 14px;">EOS3분 단폴:</td>
+						<td>배팅<span id="main-navbar-e3bet-id">0 원</span></td>
+						<td>적중<span id="main-navbar-e3betearn-id">0 원</span></td>
+
+					</tr>
+					<tr>
+						<td style="font-weight: bold; color: #0090ff; font-size: 14px;">EOS5분 조합:</td>
+						<td>배팅<span id="main-navbar-e32bet-id">0 원</span></td>
+						<td>적중<span id="main-navbar-e32betearn-id">0 원</span></td>
+
+					</tr>
+				<?php endif ?> 
+			</Table>
+			<?php endif ?> 
+
+			
 		<?php } ?>
 
 		<div class="main-navbar-user-div">

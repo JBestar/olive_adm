@@ -1,5 +1,5 @@
-<?= $this->extend('result/bet_result')?>
-<?= $this->section('bet-result-title') ?>파워사다리<?= $this->endSection() ?>
+<?= $this->extend('result/game_result')?>
+<?= $this->section('bet-result-title') ?><?=$game_name?><?= $this->endSection() ?>
 <?= $this->section('bet-result-round-name') ?>회차<?= $this->endSection() ?>
 <?= $this->section('bet-result-edit') ?>
 <a href="<?php echo siteFurl().'result/psresult_edit/0';?>" class="user-panel-add-a" >회차등록</a>

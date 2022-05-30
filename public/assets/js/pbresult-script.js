@@ -9,54 +9,67 @@ function requestPageInfo() {
 }
 
 //Function to Show Betting History
-function ShowGameResult(jsonRoundResults) {
+function ShowGameResult(arrResult) {
     var elemResultTb = document.getElementById("pbresult-list-table-id");
 
     var strBuf = "";
 
-    for (nRow in jsonRoundResults) {
+    for (nRow in arrResult) {
 
         strBuf += "<tr><td>";
-        strBuf += jsonRoundResults[nRow].round_date;
+        strBuf += arrResult[nRow].round_date;
+        if(mGameId == 1){
+            strBuf += "</td><td>";
+            strBuf += arrResult[nRow].round_fid;
+        }
         strBuf += "</td><td>";
-        strBuf += jsonRoundResults[nRow].round_fid;
+        strBuf += arrResult[nRow].round_num;
         strBuf += "</td><td>";
-        strBuf += jsonRoundResults[nRow].round_num;
+        strBuf += arrResult[nRow].round_power;
         strBuf += "</td><td>";
-        strBuf += jsonRoundResults[nRow].round_power;
-        strBuf += "</td><td>";
-        if (jsonRoundResults[nRow].round_result_1 == 'P')
+        if (arrResult[nRow].round_result_1 == 'P')
             strBuf += "<span class='pbresult-rule-odd-span'>홀</span>";
-        else if (jsonRoundResults[nRow].round_result_1 == 'B')
+        else if (arrResult[nRow].round_result_1 == 'B')
             strBuf += "<span class='pbresult-rule-even-span'>짝</span>";
         strBuf += "</td><td>";
-        if (jsonRoundResults[nRow].round_result_2 == 'P')
+        if (arrResult[nRow].round_result_2 == 'P')
             strBuf += "<span class='pbresult-rule-odd-span'><i class='glyphicon glyphicon-arrow-down'></i></span>";
-        else if (jsonRoundResults[nRow].round_result_2 == 'B')
+        else if (arrResult[nRow].round_result_2 == 'B')
             strBuf += "<span class='pbresult-rule-even-span'><i class='glyphicon glyphicon-arrow-up'></i></span>";
         strBuf += "</td><td>";
 
-        strBuf += jsonRoundResults[nRow].round_normal;
+        strBuf += arrResult[nRow].round_normal;
         strBuf += "</td><td>";
-        if (jsonRoundResults[nRow].round_result_3 == 'P')
+        if (arrResult[nRow].round_result_3 == 'P')
             strBuf += "<span class='pbresult-rule-odd-span'>홀</span>";
-        else if (jsonRoundResults[nRow].round_result_3 == 'B')
+        else if (arrResult[nRow].round_result_3 == 'B')
             strBuf += "<span class='pbresult-rule-even-span'>짝</span>";
         strBuf += "</td><td>";
-        if (jsonRoundResults[nRow].round_result_4 == 'P')
+        if (arrResult[nRow].round_result_4 == 'P')
             strBuf += "<span class='pbresult-rule-odd-span'><i class='glyphicon glyphicon-arrow-down'></i></span>";
-        else if (jsonRoundResults[nRow].round_result_4 == 'B')
+        else if (arrResult[nRow].round_result_4 == 'B')
             strBuf += "<span class='pbresult-rule-even-span'><i class='glyphicon glyphicon-arrow-up'></i></span>";
         strBuf += "</td><td>";
-        if (jsonRoundResults[nRow].round_result_5 == "S")
+        if (arrResult[nRow].round_result_5 == "S")
             strBuf += "<span class='pbresult-rule-odd-span'>소</span>";
-        else if (jsonRoundResults[nRow].round_result_5 == "M")
+        else if (arrResult[nRow].round_result_5 == "M")
             strBuf += "<span class='pbresult-rule-medium-span'>중</span>";
-        else if (jsonRoundResults[nRow].round_result_5 == "L")
+        else if (arrResult[nRow].round_result_5 == "L")
             strBuf += "<span class='pbresult-rule-even-span'>대</span>";
         strBuf += "</td><td>";
-        strBuf += "<a href='"+FURL+"/result/pbresult_edit/" + jsonRoundResults[nRow].round_fid + "' >수정</a>";
-        strBuf += "<a href='"+FURL+"/result/pbbetchange/" + jsonRoundResults[nRow].round_date + "/" + jsonRoundResults[nRow].round_num + "' >적특</a>";
+        if(mGameId == 1){
+            strBuf += "<a href='"+FURL+"/result/pbresult_edit/" + arrResult[nRow].round_fid + "' >수정</a>";
+            strBuf += "<a href='"+FURL+"/result/pbbetchange/" + arrResult[nRow].round_date + "/" + arrResult[nRow].round_num + "' >적특</a>";
+        } else if(mGameId == 5){
+            strBuf += "<a href='"+FURL+"/result/bbresult_edit/" + arrResult[nRow].round_fid + "' >수정</a>";
+            strBuf += "<a href='"+FURL+"/result/bbbetchange/" + arrResult[nRow].round_date + "/" + arrResult[nRow].round_num + "' >적특</a>";
+        } else if(mGameId == 9){
+            strBuf += "<a href='"+FURL+"/result/e5result_edit/" + arrResult[nRow].round_fid + "' >수정</a>";
+            strBuf += "<a href='"+FURL+"/result/e5betchange/" + arrResult[nRow].round_date + "/" + arrResult[nRow].round_num + "' >적특</a>";
+        } else if(mGameId == 10){
+            strBuf += "<a href='"+FURL+"/result/e3result_edit/" + arrResult[nRow].round_fid + "' >수정</a>";
+            strBuf += "<a href='"+FURL+"/result/e3betchange/" + arrResult[nRow].round_date + "/" + arrResult[nRow].round_num + "' >적특</a>";
+        }
         strBuf += "</td></tr>";
 
     }
@@ -87,7 +100,7 @@ function requestGameResult() {
     var nRound = document.getElementById("pbresult-round-input-id").value;
     var nPage = getActivePage();
 
-    var jsonData = { "count": CountPerPage, "page": nPage, "start": dtStart, "end": dtEnd, "round": nRound };
+    var jsonData = {  "game":mGameId, "count": CountPerPage, "page": nPage, "start": dtStart, "end": dtEnd, "round": nRound };
     jsonData = JSON.stringify(jsonData);
     $(".loading").show();
     $.ajax({
@@ -119,7 +132,7 @@ function requestTotalPage() {
     var dtEnd = document.getElementById("pbresult-dateend-input-id").value;
     CountPerPage = document.getElementById("pbresult-number-select-id").value;
     var nRound = document.getElementById("pbresult-round-input-id").value;
-    var jsonData = { "count": CountPerPage, "start": dtStart, "end": dtEnd, "round": nRound };
+    var jsonData = {  "game":mGameId, "count": CountPerPage, "start": dtStart, "end": dtEnd, "round": nRound };
     jsonData = JSON.stringify(jsonData);
 
 

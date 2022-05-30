@@ -11,6 +11,12 @@
 			<a href="<?php echo site_furl('bet/bbhistory');?>" class="sub-navbar-a" >보글볼</a>
 			<a href="<?php echo site_furl('bet/bshistory');?>" class="sub-navbar-a" >보글사다리</a>
    		<?php endif ?>   
+		<?php if($eos5_enable) :?>
+			<a href="<?php echo site_furl('bet/e5history');?>" class="sub-navbar-a" >EOS5분파워볼</a>
+   		<?php endif ?>  
+		<?php if($eos3_enable) :?>
+			<a href="<?php echo site_furl('bet/e3history');?>" class="sub-navbar-a" >EOS3분파워볼</a>
+   		<?php endif ?>  
 		<?php if(!$cas_deny || $kgon_enable) :?>
 			<a href="<?php echo site_furl('bet/cshistory');?>" class="sub-navbar-a" >카지노</a>
 		<?php endif ?>
@@ -91,6 +97,7 @@
 	
 <!--main_navbar.php-main-container-->
 </div>
+<script> var mGameId = <?=$game_id?>; </script>
 <?php if(array_key_exists("app.produce", $_ENV)) :?>
     <script src="<?php echo site_furl('/assets/js/page.js?t='.time());?>"></script>
 <?php else : ?>

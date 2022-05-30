@@ -10,7 +10,8 @@ function initMainNavbar() {
     addNavbarButtonEvent();
 
     requestMemberInfo();
-    mainNavbarLoop();
+
+    setTimeout(function() { mainNavbarLoop(); }, 1500);
 }
 
 
@@ -26,7 +27,6 @@ function requestMemberInfo() {
             if (jResult.status == "success") {
                 mObjUser = jResult.data;
                 showMemberInfo(jResult.data);
-                requestEmployeeInfo();
                 setTimeout(function() { requestEmployeeInfo(); }, 1000);
 
             } else if (jResult.status == "fail") {
@@ -79,7 +79,7 @@ function requestBetInfo() {
         dataType: "json",
         url: FURL + "/userapi/empbetinfo",
         success: function(jResult) {
-            //console.log(jResult);            
+            // console.log(jResult);            
             if (jResult.status == "success") {
                 showEmpBetInfo(jResult.data);
             } else if (jResult.status == "fail") {
@@ -89,7 +89,7 @@ function requestBetInfo() {
             }
         },
         error: function(request, status, error) {
-            //console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            // console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
         }
     });
 
@@ -304,6 +304,18 @@ function showEmpBetInfo(arrBetInfo) {
 
     $("#main-navbar-bsbet-id").text(parseInt(arrBetInfo[5][0]).toLocaleString() + " 원");
     $("#main-navbar-bsbetearn-id").text(parseInt(arrBetInfo[5][1]).toLocaleString() + " 원");
+
+    $("#main-navbar-e5bet-id").text(parseInt(arrBetInfo[6][0]).toLocaleString() + " 원");
+    $("#main-navbar-e5betearn-id").text(parseInt(arrBetInfo[6][1]).toLocaleString() + " 원");
+
+    $("#main-navbar-e52bet-id").text(parseInt(arrBetInfo[7][0]).toLocaleString() + " 원");
+    $("#main-navbar-e52betearn-id").text(parseInt(arrBetInfo[7][1]).toLocaleString() + " 원");
+
+    $("#main-navbar-e3bet-id").text(parseInt(arrBetInfo[8][0]).toLocaleString() + " 원");
+    $("#main-navbar-e3betearn-id").text(parseInt(arrBetInfo[8][1]).toLocaleString() + " 원");
+
+    $("#main-navbar-e32bet-id").text(parseInt(arrBetInfo[9][0]).toLocaleString() + " 원");
+    $("#main-navbar-e32betearn-id").text(parseInt(arrBetInfo[9][1]).toLocaleString() + " 원");
 
 }
 

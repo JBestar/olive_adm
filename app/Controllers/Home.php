@@ -39,7 +39,9 @@ class Home extends StdController
 			'game_name' => "파워볼",
 			'game_id' => GAME_POWER_BALL,
 			'active_pb' => 'active',
-			'active_bb' => ''
+			'active_bb' => '',
+			'active_e5' => '',
+			'active_e3' => ''
 		];
 		$this->load_view_page('home/conf_powerball', 'conf_game', LEVEL_ADMIN, $param);		
 	}
@@ -60,7 +62,9 @@ class Home extends StdController
 			'game_name' => "보글파워볼",
 			'game_id' => GAME_BOGLE_BALL,
 			'active_pb' => '',
-			'active_bb' => 'active'
+			'active_bb' => 'active',
+			'active_e5' => '',
+			'active_e3' => ''
 		];
 		$this->load_view_page('home/conf_powerball', 'conf_game', LEVEL_ADMIN, $param);
 	}
@@ -76,6 +80,29 @@ class Home extends StdController
 		$this->load_view_page('home/conf_powerladder', 'conf_game', LEVEL_ADMIN, $param);	
 	}
 
+	public function conf_eos5ball(){
+		$param = [
+			'game_name' => "EOS5분파워볼",
+			'game_id' => GAME_EOS5_BALL,
+			'active_pb' => '',
+			'active_bb' => '',
+			'active_e5' => 'active',
+			'active_e3' => ''
+		];
+		$this->load_view_page('home/conf_powerball', 'conf_game', LEVEL_ADMIN, $param);
+	}
+
+	public function conf_eos3ball(){
+		$param = [
+			'game_name' => "EOS3분파워볼",
+			'game_id' => GAME_EOS3_BALL,
+			'active_pb' => '',
+			'active_bb' => '',
+			'active_e5' => '',
+			'active_e3' => 'active'
+		];
+		$this->load_view_page('home/conf_powerball', 'conf_game', LEVEL_ADMIN, $param);
+	}
 	
 	public function conf_evol(){
 		$param = [
