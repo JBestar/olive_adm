@@ -1277,7 +1277,7 @@ class Member_Model extends Model
     public function searchMemberByLevel($arrReqData, $iEmpFid)
     {
         $fields = ['mb_fid', 'mb_uid', 'mb_level','mb_emp_fid','mb_nickname', 'mb_ip_last',
-            'mb_money', 'mb_point', 'mb_grade', 'mb_color', 'mb_state_active', 
+            'mb_money', 'mb_point', 'mb_grade', 'mb_color', 'mb_state_active', 'mb_state_delete', 
             'mb_game_pb', 'mb_game_ps', 'mb_game_bb', 'mb_game_bs', 'mb_game_cs', 'mb_game_sl', 'mb_game_eo', 'mb_blank_count',
             'mb_live_money', 'mb_slot_money', 'mb_fslot_money', 'mb_kgon_money' ];
 
@@ -1322,7 +1322,7 @@ class Member_Model extends Model
             return $this->searchMemberByLevel($arrReqData, $iEmpFid);
         } else {
             $fields = ['mb_fid', 'mb_uid', 'mb_level','mb_emp_fid', 'mb_nickname', 
-            'mb_money', 'mb_point', 'mb_grade', 'mb_color', 'mb_state_active', 'mb_blank_count',
+            'mb_money', 'mb_point', 'mb_grade', 'mb_color', 'mb_state_active', 'mb_state_delete', 'mb_blank_count',
             'mb_live_money', 'mb_slot_money', 'mb_fslot_money', 'mb_kgon_money' ];
 
             $strTbColum = " ".implode(", ", $fields);

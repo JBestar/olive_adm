@@ -1115,13 +1115,16 @@ class UserApi extends BaseController
                     
                 } 
                  
-            }
-            else if($objMember->mb_emp_fid !== $objEmp->mb_fid){
-                $objResult->status = 'fail';
             } else {
-                $objResult->status = 'fail';
+                $objChMember = null;            //하부회원찾기
+                $arrEmp = $this->modelMember->getMemberByEmpFid($objEmp->mb_fid, $objEmp->mb_level,  $objEmp->mb_level, true, $objMember->mb_fid);
+                if(count($arrEmp) > 0)
+                    $objChMember = reset($arrEmp);
 
-                if($arrData['type'] == 2){                      //이송
+                $objResult->status = 'fail';
+                if(is_null($objChMember)){
+                    $objResult->status = 'fail';
+                }else if($arrData['type'] == 2){                      //이송
                     
                     $iResult = 1;
                     if($arrData['amount'] > $objEmp->mb_money){

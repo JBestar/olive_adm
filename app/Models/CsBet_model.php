@@ -186,10 +186,10 @@ class CsBet_Model extends Model
 
             $strSql .="  JOIN (SELECT  * FROM tbmember UNION SELECT ".$strTbColum." FROM ".$this->mMemberTable." where mb_fid='".$objEmp->mb_fid."'";         
             $strSql .=" ) AS mb_table ";
-            $strSql .=" ON ".$this->table.".bet_player_id = mb_table.mb_live_id ";
+            $strSql .=" ON ".$this->table.".bet_mb_uid = mb_table.mb_uid ";
         } else {
             $strSql .= "SELECT count(*) as count  FROM ".$this->table;
-            $strSql .= " JOIN member ON ".$this->table.".bet_player_id = ".$this->mMemberTable.".mb_live_id ";
+            $strSql .= " JOIN member ON ".$this->table.".bet_mb_uid = ".$this->mMemberTable.".mb_uid ";
         }
         
         $bWhere = false;
