@@ -376,7 +376,7 @@ class BbBet_Model extends Model
             $strSql .= '  LEFT JOIN '.$this->mRewardTable.' ON '.$tbBetSearch.'.bet_fid = '.$this->mRewardTable.'.rw_bet_id ';
                 $strSql .= ' AND '.$this->mRewardTable.".rw_game = '".$gameId."' ";
                 $strSql .= ' AND '.$this->mRewardTable.".rw_mb_uid = ".$tbBetSearch.".bet_mb_uid ";
-            
+                
         }
         $strSql .= " ORDER BY bet_fid  DESC";
         

@@ -84,9 +84,14 @@
 	<script src="<?php echo site_furl('assets/js/jquery-1.12.4.min.js'); ?>"></script>
 	<script src="<?php echo site_furl('assets/js/jquery-ui-1.12.1.min.js'); ?>"></script>
 	<script src="<?php echo site_furl('assets/bootstrap/js/bootstrap.min.js'); ?>"></script>
-	<script>const FURL = "<?=$_ENV['app.furl']?>" </script>
-	<script src="<?php echo site_furl('assets/js/util.js?v=1'); ?>"></script>
-	<script src="<?php echo site_furl('assets/js/common.js?v=3'); ?>"></script>
+	<script>
+        const FURL = "<?=$_ENV['app.furl']?>" 
+        var mLevelType = 0;
+        <?php if(array_key_exists('app.level_type', $_ENV,) && $_ENV['app.level_type'] == 1) :  ?>
+            mLevelType = 1;
+        <?php endif ?>
+    </script>
+    <script src="<?php echo site_furl('assets/js/common.js?v=4'); ?>"></script>
 
 </head>
 <?php if($_ENV['CI_ENVIRONMENT'] == ENV_PRODUCTION) :?>

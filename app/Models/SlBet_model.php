@@ -161,6 +161,7 @@ class SlBet_Model extends Model
             $strSql .= " JOIN ".$this->mMemberTable." ON ".$tbBetSearch.".bet_mb_uid = ".$this->mMemberTable.".mb_uid ";
             //Join bet_reward
             $strSql .= '  LEFT JOIN '.$this->mRewardTable.' ON '.$tbBetSearch.'.bet_fid = '.$this->mRewardTable.'.rw_bet_id ';
+            $strSql .= " AND rw_state = '0' ";
             $strSql .= ' AND '.$this->mRewardTable.".rw_game = ".$tbBetSearch.".bet_game_id ";
             $strSql .= ' AND '.$this->mRewardTable.".rw_mb_uid = ".$tbBetSearch.".bet_mb_uid ";
         

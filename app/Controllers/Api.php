@@ -965,7 +965,7 @@ public function withdrawlist(){
 			$arrData = array();
 			
 			if($bResult){
-				
+				$bBlankReward = $objUser->mb_level >= LEVEL_ADMIN;
 				$chargeModel = new Charge_Model();
 				$exchangeModel = new Exchange_Model();
 		        $rewardModel = new Reward_Model();
@@ -989,7 +989,7 @@ public function withdrawlist(){
 			        $objCalc['mb_bet_money'] = $arrBetData['bet_money'] ;          							//베팅머니
 					$objCalc['mb_bet_win_money'] = $arrBetData['bet_win_money'] ;      						//적중머니
          			$objCalc['mb_bet_benefit_money'] = $arrBetData['bet_benefit_money'];  					//베팅손익
-         			$objCalc['mb_rate_money'] = $rewardModel->calcPoint($objEmp, $arrReqData) ;   			//수수료
+         			$objCalc['mb_rate_money'] = $rewardModel->calcPoint($objEmp, $arrReqData, 0, $bBlankReward) ;   			//수수료
          			$objCalc['mb_last_money'] = $arrBetData['bet_benefit_money'] - $objCalc['mb_rate_money'] ; //최종손익
 
 		            $arrData[] = $objCalc;
@@ -1054,6 +1054,7 @@ public function withdrawlist(){
 			$arrData = array();
 			
 			if($bResult){
+				$bBlankReward = $objUser->mb_level >= LEVEL_ADMIN;
 				
 				$chargeModel = new Charge_Model();
 				$exchangeModel = new Exchange_Model();
@@ -1072,31 +1073,14 @@ public function withdrawlist(){
 		            $arrUserMoney = $this->modelMember->calcUserMoney($objEmp->mb_fid);
 					$objCalc['mb_emp_money'] = $arrEmpMoney[0]+$arrEmpMoney[1]+$arrEmpMoney[2]+$arrEmpMoney[3]+$arrEmpMoney[4];                        					//관리자보유금;
 	            	$objCalc['mb_user_money'] = $arrUserMoney[0]+$arrUserMoney[1]+$arrUserMoney[2]+$arrUserMoney[3]+$arrUserMoney[4];
-					// switch($arrReqData['type']){
-					// 	case GAME_CASINO_EVOL:
-					// 		$objCalc['mb_emp_money'] =  $arrEmpMoney[1];                        //관리자보유금;
-		            // 		$objCalc['mb_user_money'] = $arrUserMoney[1];						//유저보유금;
-					// 		break;
-					// 	case GAME_SLOT_1:
-					// 		$objCalc['mb_emp_money'] =  $arrEmpMoney[2];                        //관리자보유금;
-		            // 		$objCalc['mb_user_money'] = $arrUserMoney[2];						//유저보유금;
-					// 		break;
-					// 	case GAME_SLOT_2:
-					// 		$objCalc['mb_emp_money'] =  $arrEmpMoney[3];                        //관리자보유금;
-					// 		$objCalc['mb_user_money'] = $arrUserMoney[3];						//유저보유금;
-					// 		break;
-					// 	default:
-					// 		$objCalc['mb_emp_money'] =  $arrEmpMoney[0];                        //관리자보유금;
-					// 		$objCalc['mb_user_money'] = $arrUserMoney[0];						//유저보유금;
-					// 		break;
-					// }
+
 		            $arrBetData = $this->modelMember->calcBetMoneysByGame($objEmp, $arrReqData);
 					
 		            if(is_null($arrBetData))	break;
 			        $objCalc['mb_bet_money'] = $arrBetData['bet_money'] ;          //베팅머니
 					$objCalc['mb_bet_win_money'] = $arrBetData['bet_win_money'] ;      //적중머니
          			$objCalc['mb_bet_benefit_money'] = $arrBetData['bet_benefit_money'];  //베팅손익
-         			$objCalc['mb_rate_money'] = $rewardModel->calcPoint($objEmp, $arrReqData, $arrReqData['type']) ;          //수수료
+         			$objCalc['mb_rate_money'] = $rewardModel->calcPoint($objEmp, $arrReqData, $arrReqData['type'], $bBlankReward) ;          //수수료
          			$objCalc['mb_last_money'] = $arrBetData['bet_benefit_money'] - $objCalc['mb_rate_money'] ; //최종손익
 
 		            $arrData[] = $objCalc;

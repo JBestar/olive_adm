@@ -7,18 +7,6 @@ function requestPageInfo() {
     requestMember();
 }
 
-function getMemberLevelString(nLevel) {
-    if (nLevel >= LEVEL_ADMIN)
-        return "관리자";
-    else if (nLevel == LEVEL_COMPANY)
-        return "부본";
-    else if (nLevel == LEVEL_AGENCY)
-        return "총판";
-    else if (nLevel == LEVEL_EMPLOYEE)
-        return "매장";
-
-    return null;
-}
 
 
 function showMember(arrMember, confs) {
@@ -94,14 +82,14 @@ function showMember(arrMember, confs) {
         }
         
         strBuf += "<a href='"+FURL+"/user/member_edit/" + arrMember[nRow].mb_fid + "' >수정</a>";
-        if (confs.emp_level > LEVEL_COMPANY) {
+        if (confs.emp_level >= LEVEL_ADMIN) {
             var strEncodeURI = FURL+"/board/message_edit/0/" + arrMember[nRow].mb_fid;
             strBuf += "<a href='" + strEncodeURI + "' >쪽지</a>";
             strBuf += "<button name='" + arrMember[nRow].mb_fid + "'>삭제</button>   ";
         }
         
 
-        if (confs.emp_level > LEVEL_COMPANY) {
+        if (confs.emp_level >= LEVEL_ADMIN) {
             strBuf += "</td> <td>";
             if(!confs.npg_deny){
                 if (arrMember[nRow].mb_game_pb == 1) {

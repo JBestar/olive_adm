@@ -46,7 +46,7 @@ function requestMemberInfo() {
 
 function requestEmployeeInfo() {
     if (mObjUser == null) return;
-    else if (mObjUser.mb_level <= LEVEL_COMPANY) return;
+    else if (mObjUser.mb_level < LEVEL_ADMIN) return;
 
     $.ajax({
         type: "POST",
@@ -72,7 +72,7 @@ function requestEmployeeInfo() {
 
 function requestBetInfo() {
     if (mObjUser == null) return;
-    else if (mObjUser.mb_level <= LEVEL_COMPANY) return;
+    else if (mObjUser.mb_level < LEVEL_ADMIN) return;
 
     $.ajax({
         type: "POST",
@@ -129,14 +129,8 @@ function showMemberInfo(objUser) {
         return;
 
     var strBuf = "";
-    if (objUser.mb_level > LEVEL_COMPANY)
-        strBuf = "관리자";
-    else if (objUser.mb_level == LEVEL_COMPANY)
-        strBuf = "부본사";
-    else if (objUser.mb_level == LEVEL_AGENCY)
-        strBuf = "총판";
-    else if (objUser.mb_level == LEVEL_EMPLOYEE)
-        strBuf = "매장";
+    if (getMemberLevelString(objUser.mb_level) != null)
+        strBuf = getMemberLevelString(objUser.mb_level);
     else
         strBuf = "회원";
 
@@ -331,7 +325,7 @@ function mainNavbarLoop() {
 
 
     if (mObjUser != null) {
-        if (parseInt(mObjUser.mb_level) > LEVEL_COMPANY)
+        if (parseInt(mObjUser.mb_level) >= LEVEL_ADMIN)
             requestBetInfo();
 
     }

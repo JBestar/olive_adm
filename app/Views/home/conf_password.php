@@ -7,7 +7,7 @@
 </div>
 <!--Site Setting-->
 <div class="confsite-password-panel">
-	<?php if ($mb_level > LEVEL_COMPANY) {  ?>
+	<?php if ($mb_level >= LEVEL_ADMIN) {  ?>
 	<div class="confsite-password-text-div" style="margin-top:20px">
 		<p>접속 아이피검사:</p>
 		<input type="checkbox" id="confsite-ip-check-id" style="width:20px; zoom:120%;">

@@ -32,6 +32,6 @@ class Bank extends StdController {
 	}
 
 	// public function transfer(){
-	// 	$this->load_view_page('bank/transfer', 'bank_transfer', LEVEL_EMPLOYEE);
+	// 	$this->load_view_page('bank/transfer', 'bank_transfer');
 	// }
 }

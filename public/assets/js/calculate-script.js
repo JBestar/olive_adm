@@ -35,12 +35,8 @@ function showCalcualte(arrCalcData) {
         strBuf += "</td><td>";
         strBuf += arrCalcData[nRow].mb_nickname; //
         strBuf += "</td><td>";
-        if (arrCalcData[nRow].mb_level == LEVEL_COMPANY) //
-            strBuf += "부본사";
-        else if (arrCalcData[nRow].mb_level == LEVEL_AGENCY) //
-            strBuf += "총판";
-        else if (arrCalcData[nRow].mb_level == LEVEL_EMPLOYEE) //
-            strBuf += "매장";
+        if (getMemberLevelString(arrCalcData[nRow].mb_level) != null)
+            strBuf += getMemberLevelString(arrCalcData[nRow].mb_level);
         strBuf += "</td><td>";
         strBuf += parseInt(arrCalcData[nRow].mb_charge).toLocaleString(); //
         strBuf += "</td><td>";
@@ -171,7 +167,7 @@ function addRow(nTbRow, arrCalcData, level) {
         elemNewRow.className = "tr-level" + colorLv + "-color";
 
         var elemCell0 = elemNewRow.insertCell(0);
-        if (arrCalcData[nRow].mb_level > LEVEL_MIN && level > LEVEL_COMPANY)
+        if (arrCalcData[nRow].mb_level > LEVEL_MIN && level >= LEVEL_ADMIN)
             strBuf = "<i class='glyphicon glyphicon-triangle-right'></i>"
         strBuf += "<p hidden>" + arrCalcData[nRow].mb_fid + "</p>";
         strBuf += "<p hidden>" + arrCalcData[nRow].mb_emp_fid + "</p>";
@@ -185,13 +181,9 @@ function addRow(nTbRow, arrCalcData, level) {
         elemCell2.innerHTML = arrCalcData[nRow].mb_nickname; //
 
         var elemCell3 = elemNewRow.insertCell(3);
-        if (arrCalcData[nRow].mb_level == LEVEL_COMPANY) //
-            elemCell3.innerHTML = "부본사";
-        else if (arrCalcData[nRow].mb_level == LEVEL_AGENCY) //
-            elemCell3.innerHTML = "총판";
-        else if (arrCalcData[nRow].mb_level == LEVEL_EMPLOYEE) //
-            elemCell3.innerHTML = "매장";
-
+        if (getMemberLevelString(arrCalcData[nRow].mb_level) != null)
+            elemCell3.innerHTML = getMemberLevelString(arrCalcData[nRow].mb_level);
+        
         var elemCell4 = elemNewRow.insertCell(4);
         elemCell4.innerHTML = parseInt(arrCalcData[nRow].mb_charge).toLocaleString(); //
 

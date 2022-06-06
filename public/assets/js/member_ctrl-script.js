@@ -12,19 +12,6 @@ function requestPageInfo() {
     requestMember();
 }
 
-function getMemberLevelString(nLevel) {
-    if (nLevel >= LEVEL_ADMIN)
-        return "관리자";
-    else if (nLevel == LEVEL_COMPANY)
-        return "부본";
-    else if (nLevel == LEVEL_AGENCY)
-        return "총판";
-    else if (nLevel == LEVEL_EMPLOYEE)
-        return "매장";
-
-    return "";
-}
-
 
 function showMember(arrMember, confs) {
 
@@ -43,7 +30,8 @@ function showMember(arrMember, confs) {
         strBuf += "<td>";
         strBuf += (parseInt(nRow) + firstIdx + 1);
         strBuf += "</td> <td>";
-        strBuf += getMemberLevelString(arrMember[nRow].mb_level);
+        if (getMemberLevelString(arrMember[nRow].mb_level) != null)
+            strBuf += getMemberLevelString(arrMember[nRow].mb_level);
         strBuf += "</td> <td>";
         strBuf += "<a href='"+FURL+"/user/member_ctrl/";
         strBuf += arrMember[nRow].mb_emp_fid;

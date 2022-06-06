@@ -13,7 +13,7 @@ function readConfigToObject() {
     objMember.mb_nickname = $("#useredit-nickname-input-id").val();
     objMember.mb_color = $("#useredit-color-input-id").val();
 
-    if (objMember.admin_level > LEVEL_COMPANY) {
+    if (objMember.admin_level >= LEVEL_ADMIN) {
         objMember.mb_pwd = $("#useredit-pwd-input-id").val();
         objMember.mb_emp_uid = $("#useredit-sort-select-id").val();
         if ($("#useredit-phone-input-id").length > 0)

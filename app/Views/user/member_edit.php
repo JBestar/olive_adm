@@ -1,9 +1,6 @@
 <?php echo $this->extend('user/user_edit'); ?>
 <?php echo $this->section('user-edit-title'); ?>회원<?php echo $this->endSection(); ?>
 <?php echo $this->section('user-edit-check-level'); ?>
-<?php if ($mb_level > LEVEL_COMPANY) {
-    ;
-} ?>
 <?php echo $this->endSection(); ?>
 <?php echo $this->section('user-edit-form-section0'); ?>
 <div class="useredit-text-div">
@@ -18,7 +15,7 @@
 <?php echo $this->section('user-edit-form-section1'); ?>
 <div class="useredit-text-div">
 	<p>레벨:</p>
-	<?php if ($mb_level > LEVEL_COMPANY) {  ?>
+	<?php if ($mb_level >= LEVEL_ADMIN) {  ?>
 	<select type="text" id="useredit-level-select-id">
 	<?php } else { ?>
 	<select type="text" id="useredit-level-select-id" disabled>

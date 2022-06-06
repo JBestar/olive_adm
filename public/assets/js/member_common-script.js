@@ -291,7 +291,7 @@ function reqMemSave(objMember, closeDlg = null){
         return;
     }
 
-    if (objMember.admin_level > LEVEL_COMPANY) {
+    if (objMember.admin_level >= LEVEL_ADMIN) {
         if (objMember.mb_pwd.length < 1) {
             alert("비밀번호는 필수정보입니다.");
             return;

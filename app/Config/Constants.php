@@ -159,6 +159,7 @@ defined('LEVEL_ADMIN')         || define('LEVEL_ADMIN', 100);
 defined('LEVEL_COMPANY')       || define('LEVEL_COMPANY', 99);
 defined('LEVEL_AGENCY')        || define('LEVEL_AGENCY', 98);
 defined('LEVEL_EMPLOYEE')      || define('LEVEL_EMPLOYEE', 97);
+defined('LEVEL_MARKET')        || define('LEVEL_MARKET', 97);
 defined('LEVEL_MIN')           || define('LEVEL_MIN', 1);
 
 defined('GRADE_1')             || define('GRADE_1', 1);

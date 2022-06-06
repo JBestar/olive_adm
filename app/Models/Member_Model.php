@@ -355,9 +355,9 @@ class Member_Model extends Model
         $strSQL .= ' SELECT SUM(mb_money) AS mb_money, SUM(mb_live_money) AS mb_live_money, SUM(mb_slot_money) AS mb_slot_money, SUM(mb_fslot_money) AS mb_fslot_money, SUM(mb_kgon_money) AS mb_kgon_money FROM tbmember ';
         $strSQL .=" WHERE mb_state_active != '".PERMIT_DELETE."' ";
         if ($upLevel) {
-            $strSQL .= " AND mb_level >= '".LEVEL_EMPLOYEE."' ";
+            $strSQL .= " AND mb_level >= '".getEmpLevel()."' ";
         } else {
-            $strSQL .= " AND mb_level < '".LEVEL_EMPLOYEE."' ";
+            $strSQL .= " AND mb_level < '".getEmpLevel()."' ";
         }
 
         $objResult = $this->db->query($strSQL)->getRow();
@@ -390,7 +390,7 @@ class Member_Model extends Model
     public function calcEmpMoney($objEmp)
     {
         $arrTotalMoney = [0, 0, 0, 0, 0];
-        if ($objEmp->mb_level >= LEVEL_EMPLOYEE) {
+        if ($objEmp->mb_level >= getEmpLevel()) {
             $arrResult = $this->calcMemberMoney($objEmp->mb_fid, true);
             $arrTotalMoney[0] = $arrResult[0] + $objEmp->mb_money;
             $arrTotalMoney[1] = $arrResult[1] + $objEmp->mb_live_money;
@@ -736,9 +736,9 @@ class Member_Model extends Model
     }
 
 
-    public function getMemberByEmpFid($nEmpFid, $nReqLevel, $nEmpLev = LEVEL_AGENCY, $bLowLev = false, $mbFid=0)
+    public function getMemberByEmpFid($nEmpFid, $nReqLevel, $nEmpLev = LEVEL_MIN, $bLowLev = false, $mbFid=0)
     {
-        if ($nEmpLev > LEVEL_COMPANY) {
+        if ($nEmpLev >= LEVEL_ADMIN) {
             return $this->getMemberByLevel($nReqLevel, $bLowLev, $mbFid);
         } else {
             $strTbColum = ' mb_fid, mb_uid, mb_level, mb_emp_fid, mb_emp_permit, mb_nickname, mb_phone, mb_money, mb_point, ';
@@ -922,6 +922,10 @@ class Member_Model extends Model
 
         if (LEVEL_COMPANY == $arrRegData['mb_level']) {
             $arrRegData['mb_emp_fid'] = 0;
+            // $objUser = $this->getByNickname(trim($arrData['mb_nickname']));
+            // if (!is_null($objUser)) {
+            //     return 12;
+            // }
         } elseif ($arrRegData['mb_emp_fid'] > 0) {
             // 추천인 검사
             $objEmployee = $this->getInfoByFid($arrRegData['mb_emp_fid']);
@@ -932,7 +936,10 @@ class Member_Model extends Model
             if ($arrRegData['mb_level'] < LEVEL_MIN){
                 return 3;
             }
-            
+            // $objUser = $this->getByNickname(trim($arrData['mb_nickname']));
+            // if (!is_null($objUser)) {
+            //     return 12;
+            // }
             // 배당율 검사
             $ratioResult = $this->checkGameRatio($objEmployee, $arrRegData, $strError);
             if (1 != $ratioResult) {
@@ -987,10 +994,10 @@ class Member_Model extends Model
         if (LEVEL_COMPANY == $objMember->mb_level) {
             $arrData['mb_emp_fid'] = 0;
 
-            $objUser = $this->getByNickname($arrData['mb_nickname']);
-            if (!is_null($objUser) && $objUser->mb_fid != $arrData['mb_fid']) {
-                return 12;
-            }
+            // $objUser = $this->getByNickname($arrData['mb_nickname']);
+            // if (!is_null($objUser) && $objUser->mb_fid != $arrData['mb_fid']) {
+            //     return 12;
+            // }
         } elseif ($arrData['mb_emp_fid'] > 0) {
             // 추천인 검사
             $objEmployee = $this->getInfoByFid($arrData['mb_emp_fid']);
@@ -999,12 +1006,10 @@ class Member_Model extends Model
             }
 
             // 닉네임 검사
-            if ($objMember->mb_level >= LEVEL_EMPLOYEE) {
-                $objUser = $this->getByNickname($arrData['mb_nickname']);
-                if (!is_null($objUser) && $objUser->mb_fid != $arrData['mb_fid']) {
-                    return 12;
-                }
-            }
+            // $objUser = $this->getByNickname($arrData['mb_nickname']);
+            // if (!is_null($objUser) && $objUser->mb_fid != $arrData['mb_fid']) {
+            //     return 12;
+            // }
             $resultRatio = $this->checkGameRatio($objEmployee, $arrData, $strError);
             if (1 != $resultRatio) {
                 return $resultRatio;
@@ -1242,7 +1247,7 @@ class Member_Model extends Model
 
     public function searchCountByEmpFid($objUser, $arrReqData, $iEmpFid)
     {
-        if($objUser->mb_level > LEVEL_COMPANY)
+        if($objUser->mb_level >= LEVEL_ADMIN)
         {
             return $this->searchCountByLevel($arrReqData, $iEmpFid);
         } else {
@@ -1317,7 +1322,7 @@ class Member_Model extends Model
 
     public function searchMemberByEmpFid($objUser, $arrReqData, $iEmpFid)
     {
-        if($objUser->mb_level > LEVEL_COMPANY)
+        if($objUser->mb_level >= LEVEL_ADMIN)
         {
             return $this->searchMemberByLevel($arrReqData, $iEmpFid);
         } else {
@@ -1382,7 +1387,7 @@ class Member_Model extends Model
         if(is_null($objMember))
             return false;
 
-        if($objMember->mb_level > LEVEL_COMPANY)
+        if($objMember->mb_level >= LEVEL_ADMIN)
             return true;
 
         $arrMember = $this->getEmpMemberByFid($objMember->mb_fid);
