@@ -35,16 +35,20 @@ class Reward_Model extends Model {
 
         $strSQL = ' SELECT SUM(rw_point) AS total_point FROM '.$this->table;
 
-        $strSQL.=" WHERE rw_mb_fid = '".$objEmp->mb_fid."' ";
-        if($gameId > 0)
+        $strSQL .= " WHERE rw_fid >= ".$arrReqData['rw_range'][0]." AND rw_fid <= ".$arrReqData['rw_range'][1];
+
+        $strSQL.=" AND rw_mb_fid = '".$objEmp->mb_fid."' ";
+        if($gameId == GAME_SLOT_12)
+            $strSQL.=" AND (rw_game = '".GAME_SLOT_1."' OR rw_game = '".GAME_SLOT_2."') ";
+        else if($gameId > 0)
             $strSQL.=" AND rw_game = '".$gameId."' ";
         if($bBlank){
             $strSQL.=" AND rw_state = '0' ";
         }
-        if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 )
-            $strSQL.=" AND ".getTimeRange("rw_time", $arrReqData);
-    
+        
+        // writeLog($strSQL);
         $objResult = $this->db->query($strSQL)->getRow();
+        // writeLog("calcPoint END");
         
         $pointTotal = 0;
         if(!is_null($objResult->total_point)) $pointTotal += $objResult->total_point;

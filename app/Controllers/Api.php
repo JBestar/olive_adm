@@ -972,6 +972,7 @@ public function withdrawlist(){
 				$confsiteModel = new ConfSite_Model();
 
 				$siteConfs = $this->getSiteConf($confsiteModel);
+				$this->modelMember->allGameRange($arrReqData, $siteConfs);
 				foreach ($arrEmp as $objEmp) {
             		$objCalc['mb_fid'] = $objEmp->mb_fid;
 		            $objCalc['mb_uid'] = $objEmp->mb_uid;
@@ -989,7 +990,7 @@ public function withdrawlist(){
 			        $objCalc['mb_bet_money'] = $arrBetData['bet_money'] ;          							//베팅머니
 					$objCalc['mb_bet_win_money'] = $arrBetData['bet_win_money'] ;      						//적중머니
          			$objCalc['mb_bet_benefit_money'] = $arrBetData['bet_benefit_money'];  					//베팅손익
-         			$objCalc['mb_rate_money'] = $rewardModel->calcPoint($objEmp, $arrReqData, 0, $bBlankReward) ;   			//수수료
+         			$objCalc['mb_rate_money'] = $rewardModel->calcPoint($objEmp, $arrReqData, 0, $bBlankReward, $siteConfs) ;   			//수수료
          			$objCalc['mb_last_money'] = $arrBetData['bet_benefit_money'] - $objCalc['mb_rate_money'] ; //최종손익
 
 		            $arrData[] = $objCalc;
@@ -1059,6 +1060,8 @@ public function withdrawlist(){
 				$chargeModel = new Charge_Model();
 				$exchangeModel = new Exchange_Model();
 				$rewardModel = new Reward_Model();
+
+				$this->modelMember->gameRange($arrReqData);
 
 				foreach ($arrEmp as $objEmp) {
             		$objCalc['mb_fid'] = $objEmp->mb_fid;

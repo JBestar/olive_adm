@@ -402,13 +402,107 @@ class Member_Model extends Model
         return $arrTotalMoney;
     }
 
-    // 배팅금액 (하부포함)
-    public function calcBetMoneys($objEmp, $arrReqData, $confs)
-    {
-        $strCond = "";
+     // 배팅금액 (하부포함)
+     public function allGameRange(&$arrReqData, $confs)
+     {
+        //  writeLog("allGameRange");
+        if(!$confs['npg_deny']){
+            $arrReqData['npb_range'] = $this->getBetRangeId($arrReqData, "bet_powerball");
+            $arrReqData['nps_range'] = $this->getBetRangeId($arrReqData, "bet_powerladder");
+        }
+        if(!$confs['bpg_deny']){
+            $arrReqData['bpb_range'] = $this->getBetRangeId($arrReqData, "bet_bogleball");
+            $arrReqData['bps_range'] = $this->getBetRangeId($arrReqData, "bet_bogleladder");
+        }
+        if($confs['eos5_enable']){
+            $arrReqData['eos5_range'] = $this->getBetRangeId($arrReqData, "bet_eos5ball");
+        }
+        if($confs['eos3_enable']){
+            $arrReqData['eos3_range'] = $this->getBetRangeId($arrReqData, "bet_eos3ball");
+        }
+        if(!$confs['cas_deny'] || $confs['kgon_enable']){
+            $arrReqData['cas_range'] = $this->getBetRangeId($arrReqData, "bet_casino");
+        }
+        if(!$confs['slot_deny']){
+            $arrReqData['slot_range'] = $this->getBetRangeId($arrReqData, "bet_slot");
+        }
+
+        $arrReqData['rw_range'] = $this->getRwRangeId($arrReqData, "bet_reward");
+        // writeLog("allGameRange END");
+        
+     }
+
+     public function gameRange(&$arrReqData)
+     {
+        if ($arrReqData['type'] == GAME_POWER_BALL ) {
+            $arrReqData['gm_range'] = $this->getBetRangeId($arrReqData, "bet_powerball");
+        } elseif ($arrReqData['type'] == GAME_POWER_LADDER ) {
+            $arrReqData['gm_range'] = $this->getBetRangeId($arrReqData, "bet_powerladder");
+        } elseif ($arrReqData['type'] == GAME_CASINO_EVOL ) {
+            $arrReqData['gm_range'] = $this->getBetRangeId($arrReqData, "bet_casino");
+        } elseif ($arrReqData['type'] == GAME_BOGLE_BALL ) {
+            $arrReqData['gm_range'] = $this->getBetRangeId($arrReqData, "bet_bogleball");
+        } elseif ($arrReqData['type'] == GAME_BOGLE_LADDER ) {
+            $arrReqData['gm_range'] = $this->getBetRangeId($arrReqData, "bet_bogleladder");
+        } elseif ($arrReqData['type'] == GAME_SLOT_1 || $arrReqData['type'] == GAME_SLOT_2 || $arrReqData['type'] == GAME_SLOT_12 ) {
+            $arrReqData['gm_range'] = $this->getBetRangeId($arrReqData, "bet_slot");
+        } elseif ($arrReqData['type'] == GAME_EOS5_BALL ) {
+            $arrReqData['gm_range'] = $this->getBetRangeId($arrReqData, "bet_eos5ball");
+        } elseif ($arrReqData['type'] == GAME_EOS3_BALL ) {
+            $arrReqData['gm_range'] = $this->getBetRangeId($arrReqData, "bet_eos3ball");
+        }
+        $arrReqData['rw_range'] = $this->getRwRangeId($arrReqData, "bet_reward");
+        
+     }
+
+     public function getBetRangeId($arrReqData, $tbName){
+        $range = [-1, -1];
+        
+        $strCond = ""; 
         if (strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0) {
             $strCond = " WHERE ".getBetTimeRange($arrReqData);
         }
+        $strSQL = " SELECT MIN(bet_fid) AS min_fid, MAX(bet_fid) AS max_fid FROM ".$tbName;
+        $strSQL.= $strCond; 
+
+        // writeLog($strSQL);
+        $objResult = $this->db->query($strSQL)->getRow();
+        // writeLog("getBetRangeId END");
+
+        if (!is_null($objResult->min_fid) && !is_null($objResult->max_fid)) {
+            $range[0] = $objResult->min_fid;
+            $range[1] = $objResult->max_fid;
+         }
+         return $range;
+     }
+
+     public function getRwRangeId($arrReqData, $tbName){
+        $range = [-1, -1];
+        
+        $strCond = ""; 
+        if (strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0) {
+            $strCond = " WHERE ".getTimeRange("rw_time", $arrReqData);
+        }
+        $strSQL = " SELECT MIN(rw_fid) AS min_fid, MAX(rw_fid) AS max_fid FROM ".$tbName;
+        $strSQL.= $strCond; 
+
+        // writeLog($strSQL);
+        $objResult = $this->db->query($strSQL)->getRow();
+        // writeLog("getRwRangeId END");
+
+        if (!is_null($objResult->min_fid) && !is_null($objResult->max_fid)) {
+            $range[0] = $objResult->min_fid;
+            $range[1] = $objResult->max_fid;
+         }
+         return $range;
+     }
+    // 배팅금액 (하부포함)
+    public function calcBetMoneys($objEmp, $arrReqData, $confs)
+    {
+        // $strCond = "";
+        // if (strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0) {
+        //     $strCond = " WHERE ".getBetTimeRange($arrReqData);
+        // }
 
         $strTbColum = ' mb_fid, mb_uid, mb_level, mb_emp_fid ';
         $strTbRColum = ' r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid ';
@@ -423,44 +517,44 @@ class Member_Model extends Model
         $strSQL .= ' ) AS mb_table ';
         
         $strSQL .= ' JOIN ( (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, bet_emp_fid, bet_mb_uid FROM bet_slot';
-        $strSQL .= $strCond;
+        $strSQL .= " WHERE bet_fid >= ".$arrReqData['slot_range'][0]." AND bet_fid <= ".$arrReqData['slot_range'][1];
         $strSQL .= ' GROUP BY bet_mb_uid) ';
 
         if(!$confs['npg_deny']){
             $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, bet_emp_fid, bet_mb_uid FROM bet_powerball ';
-            $strSQL .= $strCond;
+            $strSQL .= " WHERE bet_fid >= ".$arrReqData['npb_range'][0]." AND bet_fid <= ".$arrReqData['npb_range'][1];
             $strSQL .= ' GROUP BY bet_mb_uid) ';
 
             $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, bet_emp_fid, bet_mb_uid FROM bet_powerladder ';
-            $strSQL .= $strCond;
+            $strSQL .= " WHERE bet_fid >= ".$arrReqData['nps_range'][0]." AND bet_fid <= ".$arrReqData['nps_range'][1];
             $strSQL .= ' GROUP BY bet_mb_uid) ';
         }
 
         if(!$confs['bpg_deny']){
             $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, bet_emp_fid, bet_mb_uid FROM bet_bogleball ';
-            $strSQL .= $strCond;
+            $strSQL .= " WHERE bet_fid >= ".$arrReqData['bpb_range'][0]." AND bet_fid <= ".$arrReqData['bpb_range'][1];
             $strSQL .= ' GROUP BY bet_mb_uid) ';
 
             $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, bet_emp_fid, bet_mb_uid FROM bet_bogleladder ';
-            $strSQL .= $strCond;
+            $strSQL .= " WHERE bet_fid >= ".$arrReqData['bps_range'][0]." AND bet_fid <= ".$arrReqData['bps_range'][1];
             $strSQL .= ' GROUP BY bet_mb_uid) ';
         }
 
         if($confs['eos5_enable']){
             $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, bet_emp_fid, bet_mb_uid FROM bet_eos5ball ';
-            $strSQL .= $strCond;
+            $strSQL .= " WHERE bet_fid >= ".$arrReqData['eos5_range'][0]." AND bet_fid <= ".$arrReqData['eos5_range'][1];
             $strSQL .= ' GROUP BY bet_mb_uid) ';
         }
 
         if($confs['eos3_enable']){
             $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, bet_emp_fid, bet_mb_uid FROM bet_eos3ball ';
-            $strSQL .= $strCond;
+            $strSQL .= " WHERE bet_fid >= ".$arrReqData['eos3_range'][0]." AND bet_fid <= ".$arrReqData['eos3_range'][1];
             $strSQL .= ' GROUP BY bet_mb_uid) ';
         }
 
         if(!$confs['cas_deny'] || $confs['kgon_enable']){
             $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, bet_emp_fid, bet_mb_uid FROM bet_casino ';
-            $strSQL .= $strCond;
+            $strSQL .= " WHERE bet_fid >= ".$arrReqData['cas_range'][0]." AND bet_fid <= ".$arrReqData['cas_range'][1];
             $strSQL .= ' GROUP BY bet_mb_uid) ';
         }
 
@@ -468,7 +562,7 @@ class Member_Model extends Model
         // writeLog($strSQL);
 
         $objResult = $this->db->query($strSQL)->getRow();
-        // writeLog("calcBetMoneys End");
+        // writeLog("calcBetMoneys END");
 
         $arrBetData['bet_money'] = 0;          // 베팅머니
         $arrBetData['bet_win_money'] = 0;      // 적중머니
@@ -527,14 +621,15 @@ class Member_Model extends Model
         } else {
             return null;
         }
-        $strSQL .= " WHERE ".getBetTimeRange($arrReqData);
+        $strSQL .= " WHERE bet_fid >= ".$arrReqData['gm_range'][0]." AND bet_fid <= ".$arrReqData['gm_range'][1];
         if ($arrReqData['type'] == GAME_SLOT_1 || $arrReqData['type'] == GAME_SLOT_2){
             $strSQL .= " AND bet_game_id = '".$arrReqData['type']."' ";
         }
         $strSQL .= ' GROUP BY bet_mb_uid ';
         $strSQL .= ' )AS bet_table ON bet_table.bet_mb_uid = mb_table.mb_uid ';
-
+        // writeLog($strSQL);
         $objResult = $this->db->query($strSQL)->getRow();
+        // writeLog("calcBetMoneysByGame END");
 
         $arrBetData['bet_money'] = 0;          // 베팅머니
         $arrBetData['bet_win_money'] = 0;      // 적중머니
