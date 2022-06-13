@@ -51,14 +51,14 @@ class SlBet_Model extends Model
         }
         //총배팅금, 적중금
         $arrSum = array();
-        $strSql = " SELECT SUM(bet_money) AS bet_money_sum, SUM(bet_win_money) AS win_money_sum, ";
+        $strSql = " SELECT SUM(bet_money) AS bet_money_sum, SUM(bet_win_money) AS win_money_sum, SUM(company_amount) AS company_amount, ";
         $strSql .= " SUM(CASE WHEN bet_win_money= 0 THEN bet_money ELSE 0 END) AS loss_money_sum, ";
         $strSql .= " SUM(CASE WHEN bet_win_money > 0 THEN bet_win_money-bet_money ELSE 0 END) AS benefit_money_sum ";
         $strSql .= " FROM ".$this->table;
         $strSql .= $strCondition;
-        writeLog($strSql);
+        // writeLog($strSql);
         $objResult = $this -> db -> query($strSql)->getRow();
-        writeLog("getBetAccount End");
+        // writeLog("getBetAccount End");
         $nSum = 0;
         if(!is_null($objResult->bet_money_sum)) {
             $nSum = $objResult->bet_money_sum;
@@ -81,6 +81,12 @@ class SlBet_Model extends Model
             $nSum = $objResult->benefit_money_sum;
         }
         $arrSum[3] = $nSum;
+        //총공배팅금
+        $nSum = 0;
+        if(!is_null($objResult->company_amount)) {
+            $nSum = $objResult->company_amount;
+        }
+        $arrSum[4] = $nSum;
         
         return $arrSum;
     }
@@ -106,6 +112,9 @@ class SlBet_Model extends Model
             $strWhere.="  AND bet_game_type = '".$arrReqData['mode']."' ";
         }
         if($objEmp->mb_level < LEVEL_ADMIN){
+            if(array_key_exists('bet.blank_en', $_ENV) && $_ENV['bet.blank_en']){
+                $strWhere.=" AND point_amount = '0' ";
+            }
             $strWhere.=" AND bet_mb_uid in ( SELECT mb_uid FROM  tbmember UNION ALL SELECT '".$objEmp->mb_uid."' AS mb_uid ) ";
         }
         $nStartRow = ($arrReqData['page']-1) * $arrReqData['count'] ;
@@ -155,11 +164,11 @@ class SlBet_Model extends Model
 
         $strSql .= " LEFT JOIN ".$this->mPrdTable." ON ".$tbBetSearch.".bet_game_type = ".$this->mPrdTable.".code ";
         $strSql .= " ORDER BY bet_time  DESC";
-        writeLog($strSql);
+        // writeLog($strSql);
 
         $query = $this -> db -> query($strSql);
         $result = $query -> getResult();
-        writeLog("search End");
+        // writeLog("search End");
         
         return $result; 
 
@@ -204,6 +213,9 @@ class SlBet_Model extends Model
             $strSql.=" AND bet_game_type = '".$arrReqData['mode']."' ";
         }
         if($objEmp->mb_level < LEVEL_ADMIN){
+            if(array_key_exists('bet.blank_en', $_ENV) && $_ENV['bet.blank_en']){
+                $strSql.=" AND point_amount = '0' ";
+            }
             $strSql.=" AND bet_mb_uid in ( SELECT mb_uid FROM  tbmember UNION ALL SELECT '".$objEmp->mb_uid."' AS mb_uid ) ";
         }
         writeLog($strSql);

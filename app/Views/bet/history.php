@@ -79,6 +79,7 @@
 			<p>적중금: <span id="total-winmoney-id">0</span></p>
 			<p>미적중금: <span id="total-lossmoney-id">0</span></p>
 			<p>당첨금: <span id="total-benefit-id">0</span></p>
+			<?= $this->renderSection('history-bet-sum') ?>
 			<?php } ?>
 			<div class="pagination"  id="list-page"  style="display:none">
 				<button class="list-page-button" id="page-first"  onclick="firstPage()"><<</button>

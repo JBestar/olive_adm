@@ -81,18 +81,20 @@ function ShowBetAccount(arrBetAccount) {
     $("#total-winmoney-id").text("0");
     $("#total-lossmoney-id").text("0");
     $("#total-benefit-id").text("0");
+    $("#total-blank-id").text("0");
 
     if (arrBetAccount == null) {
         $(".pbresult-list-page-div p").css('display', 'none');
         return;
     }
-    if (arrBetAccount.length != 4) return;
+    if (arrBetAccount.length != 5) return;
     $(".pbresult-list-page-div p").css('display', 'block');
 
     $("#total-betmoney-id").text(parseInt(arrBetAccount[0]).toLocaleString() + " 원");
     $("#total-winmoney-id").text(parseInt(arrBetAccount[1]).toLocaleString() + " 원");
     $("#total-lossmoney-id").text(parseInt(arrBetAccount[2]).toLocaleString() + " 원");
     $("#total-benefit-id").text(parseInt(arrBetAccount[3]).toLocaleString() + " 원");
+    $("#total-blank-id").text(parseInt(arrBetAccount[4]).toLocaleString() + " P");
 
 }
 
@@ -176,6 +178,7 @@ function requestTotalPage(bReqPage = true) {
         "game": mGameId
     };
     jsonData = JSON.stringify(jsonData);
+    $(".loading").show();
 
     $.ajax({
         url: FURL + '/api/slbetlistcnt',
@@ -183,6 +186,7 @@ function requestTotalPage(bReqPage = true) {
         dataType: 'json',
         type: 'post',
         success: function(jResult) {
+            $(".loading").hide();
             // console.log(jResult);
             if (jResult.status == "success") {
                 TotalCount = jResult.data.count;
@@ -193,6 +197,7 @@ function requestTotalPage(bReqPage = true) {
             }
         },
         error: function(request, status, error) {
+            $(".loading").hide();
             // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
         }
 

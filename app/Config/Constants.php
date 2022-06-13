@@ -155,6 +155,9 @@ defined('CONF_BET_NP_DENY')     || define('CONF_BET_NP_DENY', 37);
 defined('CONF_BET_N2P_DENY')    || define('CONF_BET_N2P_DENY', 38);
 defined('CONF_BET_PN_DENY')     || define('CONF_BET_PN_DENY', 39);
 
+defined('CONF_BET_BLANK_EN')    || define('CONF_BET_BLANK_EN', 43);
+
+
 defined('LEVEL_MAX')           || define('LEVEL_MAX', 100);
 defined('LEVEL_ADMIN')         || define('LEVEL_ADMIN', 100);
 defined('LEVEL_COMPANY')       || define('LEVEL_COMPANY', 99);

@@ -20,6 +20,9 @@
 	<th>당첨금액</th>
 	<th>포인트</th>
 <?= $this->endSection() ?>
+<?= $this->section('history-bet-sum') ?>		
+	<p>공배팅: <span id="total-blank-id">0</span></p>
+<?= $this->endSection() ?>
 <?= $this->section('history_script') ?>
 <script>var mGameId = <?=$game_id?></script>
 <?php if(array_key_exists("app.produce", $_ENV)) :?>

@@ -241,7 +241,7 @@ class ConfSite_Model extends Model
 
     
     public function readBetConf(){
-        $confIds = [CONF_BET_NL_DENY, CONF_BET_NP_DENY, CONF_BET_N2P_DENY, CONF_BET_PN_DENY];  
+        $confIds = [CONF_BET_NL_DENY, CONF_BET_NP_DENY, CONF_BET_N2P_DENY, CONF_BET_PN_DENY, CONF_BET_BLANK_EN];  
         $arrConf = $this->find($confIds);
 
         foreach($arrConf as $objConf){
@@ -253,6 +253,8 @@ class ConfSite_Model extends Model
 				case CONF_BET_N2P_DENY:	$_ENV['bet.n2p_deny'] = $objConf->conf_active == STATE_ACTIVE?true:false;
 					break;
 				case CONF_BET_PN_DENY: $_ENV['bet.pn_deny'] = $objConf->conf_active == STATE_ACTIVE?true:false;
+					break;
+                case CONF_BET_BLANK_EN: $_ENV['bet.blank_en'] = $objConf->conf_active == STATE_ACTIVE?true:false;
 					break;
 				default:break;
 			}
