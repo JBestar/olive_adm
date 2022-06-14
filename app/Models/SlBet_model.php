@@ -218,11 +218,11 @@ class SlBet_Model extends Model
             }
             $strSql.=" AND bet_mb_uid in ( SELECT mb_uid FROM  tbmember UNION ALL SELECT '".$objEmp->mb_uid."' AS mb_uid ) ";
         }
-        writeLog($strSql);
+        // writeLog($strSql);
 
         $query = $this -> db -> query($strSql);
         $result = $query -> getRow();
-        writeLog("searchCount End");
+        // writeLog("searchCount End");
         
         return $result; 
 
