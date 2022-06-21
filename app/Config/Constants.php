@@ -95,6 +95,7 @@ defined('APP_HI')           || define('APP_HI', 'Hi');
 defined('APP_PRIME')        || define('APP_PRIME', 'Prime');
 defined('APP_ACE')          || define('APP_ACE', 'Ace');
 defined('APP_PRADA')        || define('APP_PRADA', 'Prada');
+defined('APP_MIX')          || define('APP_MIX', 'Mix');
 
 defined('APPTYPE_0')        || define('APPTYPE_0', 0);      //Premier
 defined('APPTYPE_1')        || define('APPTYPE_1', 1);      //Slot Combine
