@@ -139,7 +139,7 @@
 		<?php } else {?>
 			<input type="checkbox" id="confsite-transdeny-check-id" checked>
 		<?php }?>
-		<label for="confsite-transdeny-check-id"> 회원간 이송/환수 금지</label>
+		<label for="confsite-transdeny-check-id"> 회원간 머니 이송/환수 금지</label>
 	</div>
 	<div class="confsite-button-group">
 		<button class="confsite-cancel-button" id="confsite-cancel-btn-id">취소</button>
