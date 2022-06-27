@@ -876,6 +876,16 @@ class Member_Model extends Model
             $strSQL .= $strCond;
         }
 
+        if($confs['coin5_enable']){
+            $strSQL .= 'UNION ALL SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_coin5ball ';
+            $strSQL .= $strCond;
+        }
+
+        if($confs['coin3_enable']){
+            $strSQL .= 'UNION ALL SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_coin3ball ';
+            $strSQL .= $strCond;
+        }
+
         if(!$confs['cas_deny'] || $confs['kgon_enable']){
             $strSQL .= 'UNION ALL SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_casino ';
             $strSQL .= $strCond;
