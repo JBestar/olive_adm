@@ -42,11 +42,6 @@ function readConfigToObject() {
         objMember.mb_game_pb_ratio = $("#useredit-pbbetrate-input-id").val();
         objMember.mb_game_pb2_ratio = $("#useredit-pbbetrate2-input-id").val();
         objMember.mb_game_ps_ratio = $("#useredit-psbetrate-input-id").val();
-    }
-    else{
-        objMember.mb_game_pb_ratio = 0;
-        objMember.mb_game_pb2_ratio = 0;
-        objMember.mb_game_ps_ratio = 0;
     }  
 
     if($("#useredit-pbbetpercent-input-id").length > 0){
@@ -59,27 +54,17 @@ function readConfigToObject() {
         objMember.mb_game_bb_ratio = $("#useredit-bbbetrate-input-id").val();
         objMember.mb_game_bb2_ratio = $("#useredit-bbbetrate2-input-id").val();
         objMember.mb_game_bs_ratio = $("#useredit-bsbetrate-input-id").val();
-    } else {
-        objMember.mb_game_bb_ratio = 0;
-        objMember.mb_game_bb2_ratio = 0;
-        objMember.mb_game_bs_ratio = 0;
-    }
+    } 
 
     if($("#useredit-eobetrate-input-id").length > 0){
         objMember.mb_game_eo_ratio = $("#useredit-eobetrate-input-id").val();
         objMember.mb_game_eo2_ratio = $("#useredit-eobetrate2-input-id").val();
-    } else {
-        objMember.mb_game_eo_ratio = 0;
-        objMember.mb_game_eo2_ratio = 0;
-    }
+    } 
 
     if($("#useredit-cobetrate-input-id").length > 0){
         objMember.mb_game_co_ratio = $("#useredit-cobetrate-input-id").val();
         objMember.mb_game_co2_ratio = $("#useredit-cobetrate2-input-id").val();
-    } else {
-        objMember.mb_game_co_ratio = 0;
-        objMember.mb_game_co2_ratio = 0;
-    }
+    } 
 
     if($("#useredit-bbbetpercent-input-id").length > 0){
         objMember.mb_game_bb_percent = $("#useredit-bbbetpercent-input-id").val();
@@ -99,15 +84,15 @@ function readConfigToObject() {
 
     if($("#useredit-evbetrate-input-id").length > 0){
         objMember.mb_game_cs_ratio = $("#useredit-evbetrate-input-id").val();
-    } else objMember.mb_game_cs_ratio = 0;
+    }
 
     if($("#useredit-slbetrate-input-id").length > 0){
         objMember.mb_game_sl_ratio = $("#useredit-slbetrate-input-id").val();
-    } else objMember.mb_game_sl_ratio = 0;
+    }
     
     if ($("#useredit-offline-check-id").length > 0){
         objMember.mb_state_delete = $("#useredit-offline-check-id").prop('checked') ? 1 : 0;
-    } else objMember.mb_state_delete = 0;
+    } 
 
     return objMember;
 

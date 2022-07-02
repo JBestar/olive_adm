@@ -333,17 +333,17 @@
 		<?php $this->renderSection('user-edit-check-level')  ?>
 		<?php if ($mb_level >= LEVEL_ADMIN) { ?>
         
-		<div class="useredit-text-div">
-			<?php if(!is_null($objMember) && $objMember->mb_state_delete == 1) :  ?>
-				<input type="checkbox" id="useredit-offline-check-id" style="zoom:140%; margin-top:4px; width:20px;" checked>
-			<?php else :  ?>
-				<input type="checkbox" id="useredit-offline-check-id" style="zoom:140%; margin-top:4px; width:20px;" >
-			<?php endif ?>
-			<p>오플라인 유저</p> 
-		</div>
+			<div class="useredit-text-div">
+				<?php if(!is_null($objMember) && $objMember->mb_state_delete == 1) :  ?>
+					<input type="checkbox" id="useredit-offline-check-id" style="zoom:140%; margin-top:4px; width:20px;" checked>
+				<?php else :  ?>
+					<input type="checkbox" id="useredit-offline-check-id" style="zoom:140%; margin-top:4px; width:20px;" >
+				<?php endif ?>
+				<p>오플라인 유저</p> 
+			</div>
 
-		<!---->
-		<p class="useredit-seperate-div"></p>
+			<!---->
+			<p class="useredit-seperate-div"></p>
 					
 			<div class="useredit-text-div">
 				<p>보유금액:</p> 

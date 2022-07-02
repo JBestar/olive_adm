@@ -1089,40 +1089,40 @@ class Member_Model extends Model
     {
         // 배당율 체크
         if(!is_null($objEmployee)){
-            if ($objEmployee->mb_game_pb_ratio < $arrRegData['mb_game_pb_ratio']) {
+            if (array_key_exists('mb_game_pb_ratio', $arrRegData) && $objEmployee->mb_game_pb_ratio < $arrRegData['mb_game_pb_ratio']) {
                 $strError = "파워볼 단폴 배당율이 추천인설정값 ".$objEmployee->mb_game_pb_ratio."보다 클수 없습니다.";
                 return 4;
-            } elseif ($objEmployee->mb_game_pb2_ratio < $arrRegData['mb_game_pb2_ratio']) {
+            } elseif (array_key_exists('mb_game_pb2_ratio', $arrRegData) && $objEmployee->mb_game_pb2_ratio < $arrRegData['mb_game_pb2_ratio']) {
                 $strError = "파워볼 조합 배당율이 추천인설정값 ".$objEmployee->mb_game_pb2_ratio."보다 클수 없습니다.";
                 return 4;
-            } elseif ($objEmployee->mb_game_ps_ratio < $arrRegData['mb_game_ps_ratio']) {
+            } elseif (array_key_exists('mb_game_ps_ratio', $arrRegData) && $objEmployee->mb_game_ps_ratio < $arrRegData['mb_game_ps_ratio']) {
                 $strError = "파워사다리 배당율이 추천인설정값 ".$objEmployee->mb_game_ps_ratio."보다 클수 없습니다.";
                 return 4;
-            } elseif ($objEmployee->mb_game_cs_ratio < $arrRegData['mb_game_cs_ratio']) {
+            } elseif (array_key_exists('mb_game_cs_ratio', $arrRegData) && $objEmployee->mb_game_cs_ratio < $arrRegData['mb_game_cs_ratio']) {
                 $strError = "카지노 배당율이 추천인설정값 ".$objEmployee->mb_game_cs_ratio."보다 클수 없습니다.";
                 return 4;
-            } elseif ($objEmployee->mb_game_sl_ratio < $arrRegData['mb_game_sl_ratio']) {
+            } elseif (array_key_exists('mb_game_sl_ratio', $arrRegData) && $objEmployee->mb_game_sl_ratio < $arrRegData['mb_game_sl_ratio']) {
                 $strError = "슬롯 배당율이 추천인설정값 ".$objEmployee->mb_game_sl_ratio."보다 클수 없습니다.";
                 return 4;
-            } elseif ($objEmployee->mb_game_bb_ratio < $arrRegData['mb_game_bb_ratio']) {
+            } elseif (array_key_exists('mb_game_bb_ratio', $arrRegData) && $objEmployee->mb_game_bb_ratio < $arrRegData['mb_game_bb_ratio']) {
                 $strError = "보글볼 단폴 배당율이 추천인설정값 ".$objEmployee->mb_game_bb_ratio."보다 클수 없습니다.";
                 return 4;
-            } elseif ($objEmployee->mb_game_bb2_ratio < $arrRegData['mb_game_bb2_ratio']) {
+            } elseif (array_key_exists('mb_game_bb2_ratio', $arrRegData) && $objEmployee->mb_game_bb2_ratio < $arrRegData['mb_game_bb2_ratio']) {
                 $strError = "보글볼 조합 배당율이 추천인설정값 ".$objEmployee->mb_game_bb2_ratio."보다 클수 없습니다.";
                 return 4;
-            } elseif ($objEmployee->mb_game_bs_ratio < $arrRegData['mb_game_bs_ratio']) {
+            } elseif (array_key_exists('mb_game_bs_ratio', $arrRegData) && $objEmployee->mb_game_bs_ratio < $arrRegData['mb_game_bs_ratio']) {
                 $strError = "보글사다리 배당율이 추천인설정값 ".$objEmployee->mb_game_bs_ratio."보다 클수 없습니다.";
                 return 4;
-            } elseif ($objEmployee->mb_game_eo_ratio < $arrRegData['mb_game_eo_ratio']) {
+            } elseif (array_key_exists('mb_game_eo_ratio', $arrRegData) && $objEmployee->mb_game_eo_ratio < $arrRegData['mb_game_eo_ratio']) {
                 $strError = "EOS파워볼 단폴 배당율이 추천인설정값 ".$objEmployee->mb_game_eo_ratio."보다 클수 없습니다.";
                 return 4;
-            } elseif ($objEmployee->mb_game_eo2_ratio < $arrRegData['mb_game_eo2_ratio']) {
+            } elseif (array_key_exists('mb_game_eo2_ratio', $arrRegData) && $objEmployee->mb_game_eo2_ratio < $arrRegData['mb_game_eo2_ratio']) {
                 $strError = "EOS파워볼 조합 배당율이 추천인설정값 ".$objEmployee->mb_game_eo2_ratio."보다 클수 없습니다.";
                 return 4;
-            } elseif ($objEmployee->mb_game_co_ratio < $arrRegData['mb_game_co_ratio']) {
+            } elseif (array_key_exists('mb_game_co_ratio', $arrRegData) && $objEmployee->mb_game_co_ratio < $arrRegData['mb_game_co_ratio']) {
                 $strError = "코인파워볼 단폴 배당율이 추천인설정값 ".$objEmployee->mb_game_co_ratio."보다 클수 없습니다.";
                 return 4;
-            } elseif ($objEmployee->mb_game_co2_ratio < $arrRegData['mb_game_co2_ratio']) {
+            } elseif (array_key_exists('mb_game_co2_ratio', $arrRegData) && $objEmployee->mb_game_co2_ratio < $arrRegData['mb_game_co2_ratio']) {
                 $strError = "코인파워볼 조합 배당율이 추천인설정값 ".$objEmployee->mb_game_co2_ratio."보다 클수 없습니다.";
                 return 4;
             }
@@ -1130,40 +1130,40 @@ class Member_Model extends Model
         if(array_key_exists('mb_fid', $arrRegData) && $arrRegData['mb_fid'] > 0 ){
             $chRatio = $this->getChildsRatio($arrRegData['mb_fid']);
 
-            if ($chRatio->mb_game_pb_ratio != null && $chRatio->mb_game_pb_ratio > $arrRegData['mb_game_pb_ratio']) {
+            if (array_key_exists('mb_game_pb_ratio', $arrRegData) && $chRatio->mb_game_pb_ratio != null && $chRatio->mb_game_pb_ratio > $arrRegData['mb_game_pb_ratio']) {
                 $strError = "파워볼 단폴 배당율이 하위설정값 ".$chRatio->mb_game_pb_ratio."보다 작을수 없습니다.";
                 return 5;
-            } elseif ($chRatio->mb_game_pb2_ratio != null && $chRatio->mb_game_pb2_ratio > $arrRegData['mb_game_pb2_ratio']) {
+            } elseif (array_key_exists('mb_game_pb2_ratio', $arrRegData) && $chRatio->mb_game_pb2_ratio != null && $chRatio->mb_game_pb2_ratio > $arrRegData['mb_game_pb2_ratio']) {
                 $strError = "파워볼 조합 배당율이 하위설정값 ".$chRatio->mb_game_pb2_ratio."보다 작을수 없습니다.";
                 return 5;
-            } elseif ($chRatio->mb_game_ps_ratio != null && $chRatio->mb_game_ps_ratio > $arrRegData['mb_game_ps_ratio']) {
+            } elseif (array_key_exists('mb_game_ps_ratio', $arrRegData) && $chRatio->mb_game_ps_ratio != null && $chRatio->mb_game_ps_ratio > $arrRegData['mb_game_ps_ratio']) {
                 $strError = "파워사다리 배당율이 하위설정값 ".$chRatio->mb_game_ps_ratio."보다 작을수 없습니다.";
                 return 5;
-            } elseif ($chRatio->mb_game_cs_ratio != null && $chRatio->mb_game_cs_ratio > $arrRegData['mb_game_cs_ratio']) {
+            } elseif (array_key_exists('mb_game_cs_ratio', $arrRegData) && $chRatio->mb_game_cs_ratio != null && $chRatio->mb_game_cs_ratio > $arrRegData['mb_game_cs_ratio']) {
                 $strError = "카지노 배당율이 하위설정값 ".$chRatio->mb_game_cs_ratio."보다 작을수 없습니다.";
                 return 5;
-            } elseif ($chRatio->mb_game_sl_ratio != null && $chRatio->mb_game_sl_ratio > $arrRegData['mb_game_sl_ratio']) {
+            } elseif (array_key_exists('mb_game_sl_ratio', $arrRegData) && $chRatio->mb_game_sl_ratio != null && $chRatio->mb_game_sl_ratio > $arrRegData['mb_game_sl_ratio']) {
                 $strError = "슬롯 배당율이 하위설정값 ".$chRatio->mb_game_sl_ratio."보다 작을수 없습니다.";
                 return 5;
-            } elseif ($chRatio->mb_game_bb_ratio != null && $chRatio->mb_game_bb_ratio > $arrRegData['mb_game_bb_ratio']) {
+            } elseif (array_key_exists('mb_game_bb_ratio', $arrRegData) && $chRatio->mb_game_bb_ratio != null && $chRatio->mb_game_bb_ratio > $arrRegData['mb_game_bb_ratio']) {
                 $strError = "보글볼 단폴 배당율이 하위설정값 ".$chRatio->mb_game_bb_ratio."보다 작을수 없습니다.";
                 return 5;
-            } elseif ($chRatio->mb_game_bb2_ratio != null && $chRatio->mb_game_bb2_ratio > $arrRegData['mb_game_bb2_ratio']) {
+            } elseif (array_key_exists('mb_game_bb2_ratio', $arrRegData) && $chRatio->mb_game_bb2_ratio != null && $chRatio->mb_game_bb2_ratio > $arrRegData['mb_game_bb2_ratio']) {
                 $strError = "보글볼 조합 배당율이 하위설정값 ".$chRatio->mb_game_bb2_ratio."보다 작을수 없습니다.";
                 return 5;
-            } elseif ($chRatio->mb_game_bs_ratio != null && $chRatio->mb_game_bs_ratio > $arrRegData['mb_game_bs_ratio']) {
+            } elseif (array_key_exists('mb_game_bs_ratio', $arrRegData) && $chRatio->mb_game_bs_ratio != null && $chRatio->mb_game_bs_ratio > $arrRegData['mb_game_bs_ratio']) {
                 $strError = "보글사다리 배당율이 하위설정값 ".$chRatio->mb_game_bs_ratio."보다 작을수 없습니다.";
                 return 5;
-            } elseif ($chRatio->mb_game_eo_ratio != null && $chRatio->mb_game_eo_ratio > $arrRegData['mb_game_eo_ratio']) {
+            } elseif (array_key_exists('mb_game_eo_ratio', $arrRegData) && $chRatio->mb_game_eo_ratio != null && $chRatio->mb_game_eo_ratio > $arrRegData['mb_game_eo_ratio']) {
                 $strError = "EOS파워볼 단폴 배당율이 하위설정값 ".$chRatio->mb_game_eo_ratio."보다 작을수 없습니다.";
                 return 5;
-            } elseif ($chRatio->mb_game_eo2_ratio != null && $chRatio->mb_game_eo2_ratio > $arrRegData['mb_game_eo2_ratio']) {
+            } elseif (array_key_exists('mb_game_eo2_ratio', $arrRegData) && $chRatio->mb_game_eo2_ratio != null && $chRatio->mb_game_eo2_ratio > $arrRegData['mb_game_eo2_ratio']) {
                 $strError = "EOS파워볼 배당율이 하위설정값 ".$chRatio->mb_game_eo2_ratio."보다 작을수 없습니다.";
                 return 5;
-            } elseif ($chRatio->mb_game_co_ratio != null && $chRatio->mb_game_co_ratio > $arrRegData['mb_game_co_ratio']) {
+            } elseif (array_key_exists('mb_game_co_ratio', $arrRegData) && $chRatio->mb_game_co_ratio != null && $chRatio->mb_game_co_ratio > $arrRegData['mb_game_co_ratio']) {
                 $strError = "코인파워볼 단폴 배당율이 하위설정값 ".$chRatio->mb_game_co_ratio."보다 작을수 없습니다.";
                 return 5;
-            } elseif ($chRatio->mb_game_co2_ratio != null && $chRatio->mb_game_co2_ratio > $arrRegData['mb_game_co2_ratio']) {
+            } elseif (array_key_exists('mb_game_co2_ratio', $arrRegData) && $chRatio->mb_game_co2_ratio != null && $chRatio->mb_game_co2_ratio > $arrRegData['mb_game_co2_ratio']) {
                 $strError = "코인파워볼 배당율이 하위설정값 ".$chRatio->mb_game_co2_ratio."보다 작을수 없습니다.";
                 return 5;
             }
@@ -1175,78 +1175,112 @@ class Member_Model extends Model
 
     private function setZeroGameRatio(&$arrRegData)
     {
-        if (strlen($arrRegData['mb_game_pb_ratio']) < 1) {
-            $arrRegData['mb_game_pb_ratio'] = 0;
+        if(array_key_exists('mb_game_pb_ratio', $arrRegData)){
+            if (strlen($arrRegData['mb_game_pb_ratio']) < 1) {
+                $arrRegData['mb_game_pb_ratio'] = 0;
+            }
+            if (floatval($arrRegData['mb_game_pb_ratio']) < 0) {
+                $arrRegData['mb_game_pb_ratio'] = 0;
+            }
         }
-        if (strlen($arrRegData['mb_game_pb2_ratio']) < 1) {
-            $arrRegData['mb_game_pb2_ratio'] = 0;
-        }
-        if (strlen($arrRegData['mb_game_ps_ratio']) < 1) {
-            $arrRegData['mb_game_ps_ratio'] = 0;
-        }
-        if (strlen($arrRegData['mb_game_cs_ratio']) < 1) {
-            $arrRegData['mb_game_cs_ratio'] = 0;
-        }
-        if (strlen($arrRegData['mb_game_sl_ratio']) < 1) {
-            $arrRegData['mb_game_sl_ratio'] = 0;
-        }
-        if (strlen($arrRegData['mb_game_bb_ratio']) < 1) {
-            $arrRegData['mb_game_bb_ratio'] = 0;
-        }
-        if (strlen($arrRegData['mb_game_bb2_ratio']) < 1) {
-            $arrRegData['mb_game_bb2_ratio'] = 0;
-        }
-        if (strlen($arrRegData['mb_game_bs_ratio']) < 1) {
-            $arrRegData['mb_game_bs_ratio'] = 0;
-        }
-        if (strlen($arrRegData['mb_game_eo_ratio']) < 1) {
-            $arrRegData['mb_game_eo_ratio'] = 0;
-        }
-        if (strlen($arrRegData['mb_game_eo2_ratio']) < 1) {
-            $arrRegData['mb_game_eo2_ratio'] = 0;
-        }
-        if (strlen($arrRegData['mb_game_co_ratio']) < 1) {
-            $arrRegData['mb_game_co_ratio'] = 0;
-        }
-        if (strlen($arrRegData['mb_game_co2_ratio']) < 1) {
-            $arrRegData['mb_game_co2_ratio'] = 0;
+        
+        if(array_key_exists('mb_game_pb2_ratio', $arrRegData)){
+            if (strlen($arrRegData['mb_game_pb2_ratio']) < 1) {
+                $arrRegData['mb_game_pb2_ratio'] = 0;
+            }
+            if (floatval($arrRegData['mb_game_pb2_ratio']) < 0) {
+                $arrRegData['mb_game_pb2_ratio'] = 0;
+            }
         }
 
-        if (floatval($arrRegData['mb_game_pb_ratio']) < 0) {
-            $arrRegData['mb_game_pb_ratio'] = 0;
+        if(array_key_exists('mb_game_ps_ratio', $arrRegData)){
+            if (strlen($arrRegData['mb_game_ps_ratio']) < 1) {
+                $arrRegData['mb_game_ps_ratio'] = 0;
+            }
+            if (floatval($arrRegData['mb_game_ps_ratio']) < 0) {
+                $arrRegData['mb_game_ps_ratio'] = 0;
+            }
         }
-        if (floatval($arrRegData['mb_game_pb2_ratio']) < 0) {
-            $arrRegData['mb_game_pb2_ratio'] = 0;
+
+        if(array_key_exists('mb_game_cs_ratio', $arrRegData)){
+            if (strlen($arrRegData['mb_game_cs_ratio']) < 1) {
+                $arrRegData['mb_game_cs_ratio'] = 0;
+            }
+            if (floatval($arrRegData['mb_game_cs_ratio']) < 0) {
+                $arrRegData['mb_game_cs_ratio'] = 0;
+            }
         }
-        if (floatval($arrRegData['mb_game_ps_ratio']) < 0) {
-            $arrRegData['mb_game_ps_ratio'] = 0;
+
+        if(array_key_exists('mb_game_sl_ratio', $arrRegData)){
+            if (strlen($arrRegData['mb_game_sl_ratio']) < 1) {
+                $arrRegData['mb_game_sl_ratio'] = 0;
+            }
+            if (floatval($arrRegData['mb_game_sl_ratio']) < 0) {
+                $arrRegData['mb_game_sl_ratio'] = 0;
+            }
         }
-        if (floatval($arrRegData['mb_game_cs_ratio']) < 0) {
-            $arrRegData['mb_game_cs_ratio'] = 0;
+
+        if(array_key_exists('mb_game_bb_ratio', $arrRegData)){
+            if (strlen($arrRegData['mb_game_bb_ratio']) < 1) {
+                $arrRegData['mb_game_bb_ratio'] = 0;
+            }
+            if (floatval($arrRegData['mb_game_bb_ratio']) < 0) {
+                $arrRegData['mb_game_bb_ratio'] = 0;
+            }
         }
-        if (floatval($arrRegData['mb_game_sl_ratio']) < 0) {
-            $arrRegData['mb_game_sl_ratio'] = 0;
+
+        if(array_key_exists('mb_game_bb2_ratio', $arrRegData)){
+            if (strlen($arrRegData['mb_game_bb2_ratio']) < 1) {
+                $arrRegData['mb_game_bb2_ratio'] = 0;
+            }
+            if (floatval($arrRegData['mb_game_bb2_ratio']) < 0) {
+                $arrRegData['mb_game_bb2_ratio'] = 0;
+            }
         }
-        if (floatval($arrRegData['mb_game_bb_ratio']) < 0) {
-            $arrRegData['mb_game_bb_ratio'] = 0;
+
+        if(array_key_exists('mb_game_bs_ratio', $arrRegData)){
+            if (strlen($arrRegData['mb_game_bs_ratio']) < 1) {
+                $arrRegData['mb_game_bs_ratio'] = 0;
+            }
+            if (floatval($arrRegData['mb_game_bs_ratio']) < 0) {
+                $arrRegData['mb_game_bs_ratio'] = 0;
+            }
         }
-        if (floatval($arrRegData['mb_game_bb2_ratio']) < 0) {
-            $arrRegData['mb_game_bb2_ratio'] = 0;
+
+        if(array_key_exists('mb_game_eo_ratio', $arrRegData)){
+            if (strlen($arrRegData['mb_game_eo_ratio']) < 1) {
+                $arrRegData['mb_game_eo_ratio'] = 0;
+            }
+            if (floatval($arrRegData['mb_game_eo_ratio']) < 0) {
+                $arrRegData['mb_game_eo_ratio'] = 0;
+            }
         }
-        if (floatval($arrRegData['mb_game_bs_ratio']) < 0) {
-            $arrRegData['mb_game_bs_ratio'] = 0;
+
+        if(array_key_exists('mb_game_eo2_ratio', $arrRegData)){
+            if (strlen($arrRegData['mb_game_eo2_ratio']) < 1) {
+                $arrRegData['mb_game_eo2_ratio'] = 0;
+            }
+            if (floatval($arrRegData['mb_game_eo2_ratio']) < 0) {
+                $arrRegData['mb_game_eo2_ratio'] = 0;
+            }
         }
-        if (floatval($arrRegData['mb_game_eo_ratio']) < 0) {
-            $arrRegData['mb_game_eo_ratio'] = 0;
+
+        if(array_key_exists('mb_game_co_ratio', $arrRegData)){
+            if (strlen($arrRegData['mb_game_co_ratio']) < 1) {
+                $arrRegData['mb_game_co_ratio'] = 0;
+            }
+            if (floatval($arrRegData['mb_game_co_ratio']) < 0) {
+                $arrRegData['mb_game_co_ratio'] = 0;
+            }
         }
-        if (floatval($arrRegData['mb_game_eo2_ratio']) < 0) {
-            $arrRegData['mb_game_eo2_ratio'] = 0;
-        }
-        if (floatval($arrRegData['mb_game_co_ratio']) < 0) {
-            $arrRegData['mb_game_co_ratio'] = 0;
-        }
-        if (floatval($arrRegData['mb_game_co2_ratio']) < 0) {
-            $arrRegData['mb_game_co2_ratio'] = 0;
+
+        if(array_key_exists('mb_game_co2_ratio', $arrRegData)){
+            if (strlen($arrRegData['mb_game_co2_ratio']) < 1) {
+                $arrRegData['mb_game_co2_ratio'] = 0;
+            }
+            if (floatval($arrRegData['mb_game_co2_ratio']) < 0) {
+                $arrRegData['mb_game_co2_ratio'] = 0;
+            }
         }
     }
 
@@ -1442,8 +1476,6 @@ class Member_Model extends Model
         } else {
             return 0;
         }
-
-        
 
         $this->builder()->set('mb_color', $arrData['mb_color']);
         if(array_key_exists('mb_state_delete', $arrData)){

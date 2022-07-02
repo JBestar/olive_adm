@@ -629,12 +629,7 @@ function readConfigToObject() {
         objMember.mb_game_pb2_ratio = $("#pb2_ratio").val();
         objMember.mb_game_ps_ratio = $("#ps_ratio").val();
     }
-    else{
-        objMember.mb_game_pb_ratio = 0;
-        objMember.mb_game_pb2_ratio = 0;
-        objMember.mb_game_ps_ratio = 0;
-    }  
-
+    
     if($("#pb_percent").length > 0){
         objMember.mb_game_pb_percent = $("#pb_percent").val();
         objMember.mb_game_pb2_percent = $("#pb2_percent").val();
@@ -645,10 +640,6 @@ function readConfigToObject() {
         objMember.mb_game_bb_ratio = $("#bb_ratio").val();
         objMember.mb_game_bb2_ratio = $("#bb2_ratio").val();
         objMember.mb_game_bs_ratio = $("#bs_ratio").val();
-    } else {
-        objMember.mb_game_bb_ratio = 0;
-        objMember.mb_game_bb2_ratio = 0;
-        objMember.mb_game_bs_ratio = 0;
     }
 
     if($("#bb_percent").length > 0){
@@ -660,10 +651,7 @@ function readConfigToObject() {
     if($("#eo_ratio").length > 0){
         objMember.mb_game_eo_ratio = $("#eo_ratio").val();
         objMember.mb_game_eo2_ratio = $("#eo2_ratio").val();
-    } else {
-        objMember.mb_game_eo_ratio = 0;
-        objMember.mb_game_eo2_ratio = 0;
-    }
+    } 
 
     if($("#eo_percent").length > 0){
         objMember.mb_game_eo_percent = $("#eo_percent").val();
@@ -673,9 +661,6 @@ function readConfigToObject() {
     if($("#co_ratio").length > 0){
         objMember.mb_game_co_ratio = $("#co_ratio").val();
         objMember.mb_game_co2_ratio = $("#co2_ratio").val();
-    } else {
-        objMember.mb_game_co_ratio = 0;
-        objMember.mb_game_co2_ratio = 0;
     }
 
     if($("#co_percent").length > 0){
@@ -685,11 +670,11 @@ function readConfigToObject() {
 
     if($("#cs_ratio").length > 0){
         objMember.mb_game_cs_ratio = $("#cs_ratio").val();
-    } else objMember.mb_game_cs_ratio = 0;
+    } 
 
     if($("#sl_ratio").length > 0){
         objMember.mb_game_sl_ratio = $("#sl_ratio").val();
-    } else objMember.mb_game_sl_ratio = 0;
+    } 
     
     if ($("#offline_user").length > 0){
         objMember.mb_state_delete = $("#offline_user").prop('checked') ? 1 : 0;
