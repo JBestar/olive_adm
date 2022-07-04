@@ -126,8 +126,8 @@
 	<script>
         const FURL = "<?=$_ENV['app.furl']?>" 
         var mLevelType = 0;
-        <?php if(array_key_exists('app.level_type', $_ENV) && $_ENV['app.level_type'] == 1) :  ?>
-            mLevelType = 1;
+        <?php if(array_key_exists('app.level_type', $_ENV) && $_ENV['app.level_type'] > 0) :  ?>
+            mLevelType = <?=$_ENV['app.level_type']?>;
         <?php endif ?>
     </script>
     <script src="<?php echo site_furl('assets/js/sweetalert2.all.min.js?v=1'); ?>"></script>

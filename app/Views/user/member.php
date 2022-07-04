@@ -43,17 +43,17 @@
 			</select>
 
 			<select name="pbresult-level" class="pbresult-number-select" id="userpanel-level-select-id">
-				<option value="0">::레벨::</option>
-				<option value="1"> 1레벨 </option>
-				<option value="2"> 2레벨 </option>
-				<option value="3"> 3레벨 </option>
-				<option value="4"> 4레벨 </option>
-				<option value="5"> 5레벨 </option>
-				<option value="6"> 6레벨 </option>
-				<option value="7"> 7레벨 </option>
-				<option value="8"> 8레벨 </option>
-				<option value="9"> 9레벨 </option>
-				<option value="10"> 10레벨 </option>
+				<option value="0">:: Lv::</option>
+				<option value="1"> 1 Lv </option>
+				<option value="2"> 2 Lv </option>
+				<option value="3"> 3 Lv </option>
+				<option value="4"> 4 Lv </option>
+				<option value="5"> 5 Lv </option>
+				<option value="6"> 6 Lv </option>
+				<option value="7"> 7 Lv </option>
+				<option value="8"> 8 Lv </option>
+				<option value="9"> 9 Lv </option>
+				<option value="10"> 10 Lv </option>
 			</select>
 			<select name="pbresult-number" class="pbresult-number-select" id="userpanel-number-select-id">
 				<option value="10">10개</option>
@@ -71,7 +71,7 @@
 					<th>아이디</th>
 					<th>닉네임</th>
 					<th>등록번호</th>
-					<th>레벨</th>
+					<th>Lv</th>
 					<th>현재금액</th>
 					<th>포인트</th>
 					<!-- <th>게임사별<br>보유알</th> -->

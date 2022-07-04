@@ -14,7 +14,7 @@
 <?php echo $this->endSection(); ?>
 <?php echo $this->section('user-edit-form-section1'); ?>
 <div class="useredit-text-div">
-	<p>레벨:</p>
+	<p>Lv:</p>
 	<?php if ($mb_level >= LEVEL_ADMIN) {  ?>
 	<select type="text" id="useredit-level-select-id">
 	<?php } else { ?>
@@ -23,9 +23,9 @@
 
 		<?php foreach (range(1, 10) as $useLevel) { ?>
 		<?php if (is_null($objMember) || ($objMember->mb_grade != $useLevel)) {  ?>
-		<option value="<?php echo $useLevel; ?>"><?php echo $useLevel; ?>레벨</option>
+		<option value="<?php echo $useLevel; ?>"><?php echo $useLevel; ?> Lv</option>
 		<?php } else {?>
-		<option value="<?php echo $useLevel; ?>" selected><?php echo $useLevel; ?>레벨</option>
+		<option value="<?php echo $useLevel; ?>" selected><?php echo $useLevel; ?> Lv</option>
 		<?php } ?>
 		<?php }?>
 	</select>

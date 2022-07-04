@@ -249,10 +249,4 @@
       else return $_ENV['app.furl']."/".$url;
     }
 
-    function getEmpLevel(){
-      if(array_key_exists('app.level_type', $_ENV) && $_ENV['app.level_type'] == 1){
-        return LEVEL_MARKET;
-      }
-      return LEVEL_EMPLOYEE;
-    }
 ?>

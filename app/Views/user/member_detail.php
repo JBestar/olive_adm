@@ -189,8 +189,8 @@
                                                 <span class="badge btn-primary">대기</span>
                                             <?php endif ?>
                                         </label></td>
-                                        <td>레벨 </td>
-                                        <td><label id="money"><?=$objMember->mb_grade?>레벨</label></td>
+                                        <td>Lv </td>
+                                        <td><label id="money"><?=$objMember->mb_grade?> Lv</label></td>
                                     </tr>
                                     <tr>
                                         <td>보유머니 </td>

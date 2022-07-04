@@ -84,17 +84,17 @@
 			</select>
 
 			<select name="pbresult-level" class="pbresult-number-select" id="userpanel-level-select-id">
-				<option value="0">::레벨::</option>
-				<option value="1"> 1레벨 </option>
-				<option value="2"> 2레벨 </option>
-				<option value="3"> 3레벨 </option>
-				<option value="4"> 4레벨 </option>
-				<option value="5"> 5레벨 </option>
-				<option value="6"> 6레벨 </option>
-				<option value="7"> 7레벨 </option>
-				<option value="8"> 8레벨 </option>
-				<option value="9"> 9레벨 </option>
-				<option value="10"> 10레벨 </option>
+				<option value="0">::Lv::</option>
+				<option value="1"> 1 Lv </option>
+				<option value="2"> 2 Lv </option>
+				<option value="3"> 3 Lv </option>
+				<option value="4"> 4 Lv </option>
+				<option value="5"> 5 Lv </option>
+				<option value="6"> 6 Lv </option>
+				<option value="7"> 7 Lv </option>
+				<option value="8"> 8 Lv </option>
+				<option value="9"> 9 Lv </option>
+				<option value="10"> 10 Lv </option>
 			</select>
 			<select name="pbresult-number" class="pbresult-number-select" id="userpanel-number-select-id">
 				<option value="10">10개</option>
@@ -114,7 +114,7 @@
 						<th class="sort-by">아이디</th>
 						<th class="sort-by">닉네임</th>
 						<th class="sort-by">등록번호</th>
-						<th class="sort-by">레벨</th>
+						<th class="sort-by">Lv</th>
 						<th>충전</th>
 						<th>환전</th>
 						<th class="sort-by">연락처</th>
@@ -124,9 +124,6 @@
 						<th class="sort-by">총획득금</th>
 						<th class="sort-by">총롤링금</th>
 						<th class="sort-by">환전롤링금</th>
-						<?php if(!$slot_deny) :?>
-							<th class="sort-by">공배팅</th>
-						<?php endif ?>   
 						<th class="sort-by">등록날짜</th>
 						<th >상세</th>
 						<th >수정</th>
@@ -135,6 +132,9 @@
 						<?php if ($mb_level > LEVEL_MASTER) {?>	
 						<th>알반환</th>
 						<?php } ?>
+						<?php if(!$slot_deny) :?>
+							<th class="sort-by">공배팅</th>
+						<?php endif ?> 
 						<th>로그아웃</th>
 					</tr>
 				</thead>
@@ -238,11 +238,11 @@
 											<option value="1">승인 </option>
 										</select>
 									</div>
-									<div class="col-md-2">레벨</div>
+									<div class="col-md-2">Lv</div>
 									<div class="col-md-2">
 										<select id="user_level">
 											<?php for ($lv = 1; $lv <= 10 ; $lv ++) { ?>
-												<option value="<?=$lv?>"><?=$lv?>레벨 </option>
+												<option value="<?=$lv?>"><?=$lv?>Lv </option>
 											<?php }?>
 										</select>
 									</div>

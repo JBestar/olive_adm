@@ -53,7 +53,7 @@ function showMember(arrMember, confs) {
         strBuf += "</td> <td>";
         strBuf += arrMember[nRow].mb_fid;
         strBuf += "</td> <td>";
-        strBuf += parseInt(arrMember[nRow].mb_grade).toLocaleString() + "레벨";
+        strBuf += parseInt(arrMember[nRow].mb_grade).toLocaleString() + " Lv";
         strBuf += "</td> <td>";
         strBuf += "<button name='" + nRow + "' data-fid='" + arrMember[nRow].mb_fid + "' >충전</button>";
         strBuf += "</td> <td>";
@@ -82,14 +82,6 @@ function showMember(arrMember, confs) {
         if(arrMember[nRow].chg_point == null)
             arrMember[nRow].chg_point = 0;
         strBuf += parseInt(arrMember[nRow].chg_point).toLocaleString();
-        if (!confs.slot_deny) {
-            strBuf += "</td> <td>";
-            strBuf += "<button name='" + arrMember[nRow].mb_fid + "' class='blank-btn_" + arrMember[nRow].mb_fid + "' >-</button>   ";
-            strBuf += "<button name='" + arrMember[nRow].mb_fid + "' class='blank-btn_" + arrMember[nRow].mb_fid + "' >-10</button>   ";
-            strBuf += "<input type='text' id='blank_" + arrMember[nRow].mb_fid + "' value='" + arrMember[nRow].mb_blank_count + "' disabled>   ";
-            strBuf += "<button name='" + arrMember[nRow].mb_fid + "' class='blank-btn_" + arrMember[nRow].mb_fid + "' >+</button>   ";
-            strBuf += "<button name='" + arrMember[nRow].mb_fid + "' class='blank-btn_" + arrMember[nRow].mb_fid + "' >+10</button>   ";
-        }
         strBuf += "</td> <td>";
         strBuf += arrMember[nRow].mb_time_join;
         strBuf += "</td> <td>";
@@ -113,6 +105,14 @@ function showMember(arrMember, confs) {
         if (confs.emp_level > LEVEL_ADMIN+1) {
             strBuf += "</td> <td>";
             strBuf += "<button name='" + arrMember[nRow].mb_fid + "' >알회수</button>   ";
+        }
+        if (!confs.slot_deny) {
+            strBuf += "</td> <td>";
+            strBuf += "<button name='" + arrMember[nRow].mb_fid + "' class='blank-btn_" + arrMember[nRow].mb_fid + "' >-</button>   ";
+            strBuf += "<button name='" + arrMember[nRow].mb_fid + "' class='blank-btn_" + arrMember[nRow].mb_fid + "' >-10</button>   ";
+            strBuf += "<input type='text' id='blank_" + arrMember[nRow].mb_fid + "' value='" + arrMember[nRow].mb_blank_count + "' disabled>   ";
+            strBuf += "<button name='" + arrMember[nRow].mb_fid + "' class='blank-btn_" + arrMember[nRow].mb_fid + "' >+</button>   ";
+            strBuf += "<button name='" + arrMember[nRow].mb_fid + "' class='blank-btn_" + arrMember[nRow].mb_fid + "' >+10</button>   ";
         }
         strBuf += "</td> <td>";
         strBuf += "<button name='" + arrMember[nRow].mb_fid + "' data-nickname='" + arrMember[nRow].mb_nickname + "'>강제아웃</button>   ";
@@ -178,7 +178,7 @@ function addEventListner() {
             case "아이디": item='mb_uid'; break;
             case "닉네임": item='mb_nickname'; break;
             case "등록번호": item='mb_fid'; break;
-            case "레벨": item='mb_grade'; break;
+            case "Lv": item='mb_grade'; break;
             case "연락처": item='mb_phone'; break;
             case "보유금액": item='mb_money'; break;
             case "포인트": item='mb_point'; break;

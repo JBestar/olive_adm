@@ -338,58 +338,6 @@ class Member_Model extends Model
         return $this->builder()->update();
     }
 
-    public function calcMemberMoney($strMemFid, $upLevel)
-    {
-        $arrTotalMoney = [0];
-
-        $strTbColum = ' mb_fid, mb_uid, mb_level, mb_emp_fid, mb_state_active, mb_money, mb_live_money, mb_slot_money, mb_fslot_money, mb_kgon_money ';
-        $strTbRColum = ' r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid, r.mb_state_active, r.mb_money, r.mb_live_money, r.mb_slot_money, r.mb_fslot_money, r.mb_kgon_money ';
-
-        $strSQL = 'WITH RECURSIVE tbmember ('.$strTbColum.') AS';
-        $strSQL .= ' ( SELECT '.$strTbColum.' FROM '.$this->table." WHERE "; 
-        if ($upLevel) {
-            $strSQL .= " mb_emp_fid = '".$strMemFid."'";
-        } else {
-            $strSQL .= " mb_fid = '".$strMemFid."'";
-        }
-        $strSQL .= ' UNION ALL SELECT '.$strTbRColum.' FROM '.$this->table.' r ';
-        $strSQL .= ' INNER JOIN tbmember ON r.mb_emp_fid = tbmember.mb_fid )';
-
-        $strSQL .= ' SELECT SUM(mb_money+mb_live_money+mb_slot_money+mb_fslot_money+mb_kgon_money) AS mb_money FROM tbmember ';
-        $strSQL .=" WHERE mb_state_active != '".PERMIT_DELETE."' ";
-        if ($upLevel) {
-            $strSQL .= " AND mb_level >= '".getEmpLevel()."' ";
-        } else {
-            $strSQL .= " AND mb_level < '".getEmpLevel()."' ";
-        }
-        // writeLog($strSQL);
-        $objResult = $this->db->query($strSQL)->getRow();
-        // writeLog("calcMemberMoney END");
-
-        if (!is_null($objResult->mb_money)) {
-            $arrTotalMoney[0] = $objResult->mb_money;
-        }
-        return $arrTotalMoney;
-    }
-
-    // 유저 보유금
-    public function calcUserMoney($strEmpFid)
-    {
-        return $this->calcMemberMoney($strEmpFid, false);
-    }
-
-    // 직원별 보유금
-    public function calcEmpMoney($objEmp)
-    {
-        $arrTotalMoney = [0];
-        if ($objEmp->mb_level >= getEmpLevel()) {
-            $arrResult = $this->calcMemberMoney($objEmp->mb_fid, true);
-            $arrTotalMoney[0] = $arrResult[0] + allMoney($objEmp);
-        }
-
-        return $arrTotalMoney;
-    }
-
      // 배팅금액 (하부포함)
      public function allGameRange(&$arrReqData, $confs)
      {
