@@ -99,7 +99,7 @@
             <link rel="shortcut icon" href="<?php echo site_furl('/favicon_nf.ico?v=1');?>">
         <?php break; 
         case APP_COKE :?>
-            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_co.ico?v=1');?>">
+            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_co.ico?v=2');?>">
         <?php break; 
         case APP_ASURA :?>
             <link rel="shortcut icon" href="<?php echo site_furl('/favicon_as.ico?v=1');?>">
