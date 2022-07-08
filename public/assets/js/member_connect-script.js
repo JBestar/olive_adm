@@ -78,13 +78,10 @@ function addButtonElementListener(buttonElement) {
         let tHtml = this.innerHTML; 
         if (tHtml.search("강제아웃") >= 0) {
             let nickname  = $(this).data('nickname');
-            if(nickname.length > 0){
-                if (!confirm(nickname+" 회원을 강제아웃 시키겠습니까?"))
-                    return;
-                var jsonData = { "mb_fid": this.name };
-                requestLogoutMember(jsonData);
-            }
-            
+            if (!confirm(nickname+" 회원을 강제아웃 시키겠습니까?"))
+                return;
+            var jsonData = { "mb_fid": this.name };
+            requestLogoutMember(jsonData);
         }
     });
 }
