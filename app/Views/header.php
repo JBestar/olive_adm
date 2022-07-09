@@ -105,7 +105,7 @@
             <link rel="shortcut icon" href="<?php echo site_furl('/favicon_as.ico?v=1');?>">
         <?php break; 
         case APP_MX :?>
-            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_mx.ico?v=1');?>">
+            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_mx.ico?v=2');?>">
         <?php break; 
         case APP_AT :?>
             <link rel="shortcut icon" href="<?php echo site_furl('/favicon_at.ico?v=1');?>">
