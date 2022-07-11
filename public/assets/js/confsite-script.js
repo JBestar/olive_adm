@@ -30,14 +30,17 @@ function readConfigToObject() {
     jsonData.adminpage = $("#confsite-adminpage-input-id").val();
     jsonData.bank = $("#confsite-bankname-input-id").val().trim() + "#" + $("#confsite-bankown-input-id").val().trim() +
         "#" + $("#confsite-banknum-input-id").val().trim();
-    jsonData.depositenotice = $("#confsite-deposite-text-id").summernote('code');
-    jsonData.depositenotice_ok = $("#confsite-deposite-check-id").prop('checked') ? 1 : 0;
+
     jsonData.mainnotice = $("#confsite-mainnotice-text-id").val();
     jsonData.mainnotice_ok = $("#confsite-mainnotice-check-id").prop('checked') ? 1 : 0;
-    jsonData.urgentnotice = $("#confsite-urgentnotice-text-id").summernote('code');
-    jsonData.urgentnotice_ok = $("#confsite-urgentnotice-check-id").prop('checked') ? 1 : 0;
-    jsonData.chargemanual = $("#confsite-chargemanual-text-id").summernote('code');
-    jsonData.discharmanual = $("#confsite-discharmanual-text-id").summernote('code');
+    if($("#confsite-deposite-check-id").length > 0){
+        jsonData.depositenotice = $("#confsite-deposite-text-id").summernote('code');
+        jsonData.depositenotice_ok = $("#confsite-deposite-check-id").prop('checked') ? 1 : 0;
+        jsonData.urgentnotice = $("#confsite-urgentnotice-text-id").summernote('code');
+        jsonData.urgentnotice_ok = $("#confsite-urgentnotice-check-id").prop('checked') ? 1 : 0;
+        jsonData.chargemanual = $("#confsite-chargemanual-text-id").summernote('code');
+        jsonData.discharmanual = $("#confsite-discharmanual-text-id").summernote('code');
+    }
     jsonData.bankmacro = $("#confsite-bankmacro-text-id").summernote('code');
     jsonData.multilog_ok = $("#confsite-multilog-check-id").prop('checked') ? 1 : 0;
     jsonData.trans_deny = $("#confsite-transdeny-check-id").prop('checked') ? 1 : 0;

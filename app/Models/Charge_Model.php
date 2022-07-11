@@ -139,7 +139,7 @@ class Charge_Model extends Model
 
     function search($arrReqData)
     {
-        $strSql = "SELECT ".$this->table.".*, member.mb_nickname, (member.mb_money+member.mb_live_money+member.mb_slot_money+member.mb_fslot_money) AS mb_money FROM ".$this->table;
+        $strSql = "SELECT ".$this->table.".*, member.mb_nickname, (member.mb_money+member.mb_live_money+member.mb_slot_money+member.mb_fslot_money+member.mb_kgon_money) AS mb_money FROM ".$this->table;
         $strSql .= " JOIN member ON ".$this->table.".charge_mb_uid = member.mb_uid ";
         $strSql .= " WHERE charge_state_delete = '0' ";
         if(array_key_exists('start', $arrReqData) && strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){

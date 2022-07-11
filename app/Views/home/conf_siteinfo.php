@@ -71,6 +71,7 @@
 	<div class="confsite-site-text-div">
 		<textarea rows="" id="confsite-mainnotice-text-id"><?php if(!is_null($arrConfig)) {  ?><?=$arrConfig[CONF_NOTICE_MAIN-1]->conf_content?><?php } ?></textarea>					
 	</div>
+	<?php if(!array_key_exists('app.site', $_ENV) || $_ENV['app.site'] == 0 ) :?>
 	<div class="confsite-site-check-div" style="margin-top:15px">
 		<?php if (is_null($arrConfig) || $arrConfig[CONF_NOTICE_BANK-1]->conf_active != 1) {?>
 		<input type="checkbox" id="confsite-deposite-check-id">
@@ -117,6 +118,8 @@
 			<textarea id="confsite-discharmanual-text-id" name="editordata"><?php if(!is_null($arrConfig)) {  ?><?=$arrConfig[CONF_DISCHA_MANUAL-1]->conf_content?><?php } ?></textarea>
 		</form>
 	</div>
+	<?php endif ?>
+
 	<!---->
 	<h4><i class="glyphicon glyphicon-hand-right"></i> 계좌문의 매크로</h4>
 	<div class="width:100%; clear:both; ">

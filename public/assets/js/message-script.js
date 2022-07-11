@@ -94,6 +94,8 @@ function addBtnEvent() {
 
         elemTableBtns[i].addEventListener("click", function() {
             if (this.innerHTML.search("삭제") >= 0) {
+                if(!confirm("삭제하시겠습니까?"))
+                    return;
                 var jsonData = { "notice_fid": this.name, "notice_state_delete": 1 };
                 requestUpdateNotice(jsonData);
             } else if (this.innerHTML == "발송") {

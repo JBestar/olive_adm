@@ -111,39 +111,43 @@ class ConfSite_Model extends Model
         $updateData['conf_active'] = $arrData['mainnotice_ok'];
         $arrBatch[] = $updateData;
         
-
-        $updateData = array();
-        $updateData['conf_id'] = CONF_NOTICE_BANK;
-        $updateData['conf_content'] = $arrData['depositenotice'];
-        $updateData['conf_active'] = $arrData['depositenotice_ok'];
-        $arrBatch[] = $updateData;
-
+    
         $updateData = array();
         $updateData['conf_id'] = CONF_CHARGEINFO;
         $updateData['conf_content'] = $arrData['bank'];
         $arrBatch[] = $updateData;
+        
+        if(array_key_exists('depositenotice', $arrData)){
+            $updateData = array();
+            $updateData['conf_id'] = CONF_NOTICE_BANK;
+            $updateData['conf_content'] = $arrData['depositenotice'];
+            $updateData['conf_active'] = $arrData['depositenotice_ok'];
+            $arrBatch[] = $updateData;
 
+            $updateData = array();
+            $updateData['conf_id'] = CONF_NOTICE_URGENT;
+            $updateData['conf_content'] = $arrData['urgentnotice'];
+            $updateData['conf_active'] = $arrData['urgentnotice_ok'];
+            $arrBatch[] = $updateData;
+    
+            $updateData = array();
+            $updateData['conf_id'] = CONF_CHARGE_MANUAL;
+            $updateData['conf_content'] = $arrData['chargemanual'];
+            $arrBatch[] = $updateData;
+    
+            $updateData = array();
+            $updateData['conf_id'] = CONF_DISCHA_MANUAL;
+            $updateData['conf_content'] = $arrData['discharmanual'];
+            $arrBatch[] = $updateData;
+    
+        }
+        
         $updateData = array();
         $updateData['conf_id'] = CONF_CHARGEMACRO;
         $updateData['conf_content'] = $arrData['bankmacro'];
         $arrBatch[] = $updateData;
 
-        $updateData = array();
-        $updateData['conf_id'] = CONF_NOTICE_URGENT;
-        $updateData['conf_content'] = $arrData['urgentnotice'];
-        $updateData['conf_active'] = $arrData['urgentnotice_ok'];
-        $arrBatch[] = $updateData;
-
-        $updateData = array();
-        $updateData['conf_id'] = CONF_CHARGE_MANUAL;
-        $updateData['conf_content'] = $arrData['chargemanual'];
-        $arrBatch[] = $updateData;
-
-        $updateData = array();
-        $updateData['conf_id'] = CONF_DISCHA_MANUAL;
-        $updateData['conf_content'] = $arrData['discharmanual'];
-        $arrBatch[] = $updateData;
-
+        
         $updateData = array();
         $updateData['conf_id'] = CONF_MULTI_LOGIN;
         $updateData['conf_active'] = $arrData['multilog_ok'];
