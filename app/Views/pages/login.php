@@ -36,7 +36,7 @@
             <link rel="shortcut icon" href="<?php echo site_furl('/favicon_or.ico');?>">
         <?php break; 
         case APP_MAJOR :?>
-            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_ma.ico');?>">
+            <link rel="shortcut icon" href="<?php echo site_furl('/favicon_ma.ico?v=1');?>">
         <?php break; 
         case APP_CHANEL :?>
             <link rel="shortcut icon" href="<?php echo site_furl('/favicon_ch.ico');?>">
