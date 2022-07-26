@@ -84,6 +84,10 @@ function getGameName(strGameType) {
         strGameName = "식보";
     } else if (strGameType == "4") {
         strGameName = "바카라보";
+    } else if (strGameType == "5") {
+        strGameName = "용호";
+    } else if (strGameType == "6") {
+        strGameName = "판탄";
     } else {
         strGameName = strGameType;
     }
