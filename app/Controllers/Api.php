@@ -650,7 +650,7 @@ public function withdrawlist(){
 							//charge Table 
 							$objExchange->exchange_action_state = 4;
 							$objExchange->exchange_action_uid = $strUid;
-							$objExchange->exchange_money_after = allMoney($objUser);
+							// $objExchange->exchange_money_after = allMoney($objUser);
 							$bResult = $exchangeModel->permit($objExchange);
 						}			
 					} 

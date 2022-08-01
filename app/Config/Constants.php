@@ -247,6 +247,8 @@ defined('ROUND_5MIN')    || define('ROUND_5MIN', 5);
 defined('ROUND_3MIN')    || define('ROUND_3MIN', 3);
 defined('ROUND_2MIN')    || define('ROUND_2MIN', 2);
 
+defined('DELAY_PLAYING')         || define('DELAY_PLAYING', 600); //게임 플레이 만료시간 (초)
+
 //money change type
 defined('MONEYCHANGE_CHARGE')    || define('MONEYCHANGE_CHARGE', 1);   
 defined('MONEYCHANGE_EXCHANGE')  || define('MONEYCHANGE_EXCHANGE', 2); 

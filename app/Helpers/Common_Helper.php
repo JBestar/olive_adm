@@ -249,4 +249,7 @@
       else return $_ENV['app.furl']."/".$url;
     }
 
+    function diffDt($dt1, $dt2){
+      return abs( strtotime($dt1) - strtotime($dt2) );
+    }
 ?>

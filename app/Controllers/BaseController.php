@@ -293,6 +293,7 @@ class BaseController extends Controller
                         $objMember->mb_live_money = $arrResp['balance'];
                         $this->modelMember->updateLiveMoney($objMember);   
 						$objMember->mb_money += $amount;   
+						writeLog($logHead.$objMember->mb_uid."-Withdraw Money=".$objMember->mb_money);
                         $iResult = 1;
                     }
                 } 
@@ -345,6 +346,7 @@ class BaseController extends Controller
 						$objMember->mb_kgon_money = $arrResp['balance'];
 						$this->modelMember->updateKgonMoney($objMember);   
 						$objMember->mb_money += $amount;   
+						writeLog($logHead.$objMember->mb_uid."-Withdraw Money=".$objMember->mb_money);
 						$iResult = 1;
 					}
 				} 
@@ -388,11 +390,12 @@ class BaseController extends Controller
 
 				if($arrResp['status'] == 1)
 				{
-					writeLog($logHead.$objMember->mb_uid."-Withdraw ReaminBalance=".$arrResp['balance']);
+					writeLog($logHead.$objMember->mb_uid."-Withdraw RemainBalance=".$arrResp['balance']);
                     if($this->modelMember->moneyProc($objMember, $amount)){
                         $objMember->mb_slot_money = $arrResp['balance'];
                         $this->modelMember->updateSlotMoney($objMember);
 						$objMember->mb_money += $amount;   
+						writeLog($logHead.$objMember->mb_uid."-Withdraw Money=".$objMember->mb_money);
                         $iResult = 1;
                     }
                 } 
@@ -441,6 +444,7 @@ class BaseController extends Controller
                         $objMember->mb_fslot_money = $arrResp['balance'];
                         $this->modelMember->updateFslotMoney($objMember);   
 						$objMember->mb_money += $amount;   
+						writeLog($logHead.$objMember->mb_uid."-Withdraw Money=".$objMember->mb_money);
                         $iResult = 1;
                     }
                 } 

@@ -68,7 +68,8 @@ class MoneyHistory_Model extends Model
         $this->builder()->set('money_before', $objExchange->exchange_money_before);
         $this->builder()->set('money_after', $objExchange->exchange_money_after);
         $this->builder()->set('money_change_type', MONEYCHANGE_EXCHANGE);     //환전일때
-        $this->builder()->set('money_update_time', 'NOW()', false);
+        // $this->builder()->set('money_update_time', 'NOW()', false);
+        $this->builder()->set('money_update_time', $objExchange->exchange_time_require);
         
         return $this->builder()->insert();
     }
