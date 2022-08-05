@@ -504,17 +504,23 @@ class Api extends BaseController{
 				$bPermit = false;
 			} 
 			
+			$bResult = false;
 			if(!$bPermit){
 				$arrResult['status'] = "fail";
 			} else {
-				$bResult = false;
 				$objUser = $this->modelMember->getInfo($objCharge->charge_mb_uid);
 				if(!is_null($objUser)){
 					if($arrReqData['process'] == 0){//취소
 						
 					} else if($arrReqData['process'] == 1){//승인
-						if($objCharge->charge_action_state == 1 || $objCharge->charge_action_state == 3 || $objCharge->charge_action_state == 4){ //대기이거나 거절된 상태에서만 진행
-							
+						$confsiteModel = new ConfSite_Model();
+						$confsiteModel->readMemConf();
+			
+						if($_ENV['mem.depodeny_play'] && diffDt(date('Y-m-d H:i:s'), $objUser->mb_time_bet) < DELAY_PLAYING){
+							$arrResult['status'] = 'fail';
+							$arrResult['msg'] = '회원이 게임플레이중이므로 충전승인 하실수 없습니다.';
+						} else if($objCharge->charge_action_state == 1 || $objCharge->charge_action_state == 3 || $objCharge->charge_action_state == 4){ //대기이거나 거절된 상태에서만 진행
+								
 							$dtMoney = $objCharge->charge_money;
 							$nCharge = $objCharge->charge_money;
 							if($this->modelMember->moneyProc($objUser, $dtMoney, 0, $nCharge, 0)){
@@ -526,7 +532,7 @@ class Api extends BaseController{
 								$objCharge->charge_money_after = allMoney($objUser) + $dtMoney;
 								$bResult = $chargeModel->permit($objCharge);
 							}
-						}
+						} 
 					} else if($arrReqData['process'] == 2){	//거절
 						if($objCharge->charge_action_state == 1 || $objCharge->charge_action_state == 4){//대기 상태에서만 진행
 							//charge Table 

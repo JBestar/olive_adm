@@ -296,12 +296,16 @@ class ConfSite_Model extends Model
     }
     
     public function readMemConf(){
-        $confIds = [CONF_TRANS_DENY, CONF_RETURN_DENY, CONF_TRANS_LV1, CONF_RETURN_LV1];  
+        $confIds = [CONF_TRANS_DENY, CONF_RETURN_DENY, CONF_TRANS_LV1, CONF_RETURN_LV1, 
+            CONF_TRANS_LVS, CONF_DEPOSIT_PLAY, CONF_WITHDRAW_PLAY];  
         $arrConf = $this->find($confIds);
         $_ENV['mem.trans_deny'] = false;
         $_ENV['mem.return_deny'] = false;
         $_ENV['mem.trans_lv1'] = false;
         $_ENV['mem.return_lv1'] = false;
+        $_ENV['mem.depodeny_play'] = false;
+        $_ENV['mem.withdeny_play'] = false;
+        $_ENV['mem.trans_lvs'] = [];
 
         foreach($arrConf as $objConf){
 			switch($objConf->conf_id){
@@ -313,8 +317,21 @@ class ConfSite_Model extends Model
 					break;
                 case CONF_RETURN_LV1:	$_ENV['mem.return_lv1'] = $objConf->conf_active == STATE_ACTIVE?true:false;
 					break;
+                case CONF_DEPOSIT_PLAY:	$_ENV['mem.depodeny_play'] = $objConf->conf_active == STATE_ACTIVE?true:false;
+					break;
+                case CONF_WITHDRAW_PLAY:	$_ENV['mem.withdeny_play'] = $objConf->conf_active == STATE_ACTIVE?true:false;
+					break;
+                case CONF_TRANS_LVS:	
+					$lvs = explode(',', $objConf->conf_content);
+                    foreach($lvs as $lv){
+                        $lv = trim($lv);
+                        if(strlen($lv) > 0 && !in_array($lv, $_ENV['mem.trans_lvs']))
+                            array_push($_ENV['mem.trans_lvs'], intval($lv));
+                    }
+                    break;
 				default:break;
 			}
 		}
+
     }
 }

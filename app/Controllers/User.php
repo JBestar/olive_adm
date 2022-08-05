@@ -14,6 +14,8 @@ class User extends StdController
 		if (is_login() === false){
 			return $this->response->redirect( $_ENV['app.furl'].'/pages/login');
 		}
+		$confsiteModel = new ConfSite_Model();
+		$confsiteModel->readMemConf();
 
 		$empUid = '';
 		$bTrans = false;
@@ -44,15 +46,19 @@ class User extends StdController
 				else if($_ENV['mem.trans_lv1'] && !$bChild)
 					$bTrans = false;
 				else
-					$bTrans = true;;
+					$bTrans = true;
 
 				if($_ENV['mem.return_deny'])				//환수 검사
 					$bReturn = false;
 				else if($_ENV['mem.return_lv1'] && !$bChild)
 					$bReturn = false;
 				else
-					$bReturn = true;;
+					$bReturn = true;
 
+				if(count($_ENV['mem.trans_lvs']) > 0 && !in_array(intval($objAdmin->mb_level), $_ENV['mem.trans_lvs']) ){
+					$bTrans = false;
+					$bReturn = false;
+				}
 
 				$bPermit = true;
 			}
@@ -139,8 +145,6 @@ class User extends StdController
 	}
 
 	public function member_edit($mbFid){
-		$confsiteModel = new ConfSite_Model();
-		$confsiteModel->readMemConf();
 		$this->user_edit_page(
 			'user/member_edit', 
 			'user_member', 

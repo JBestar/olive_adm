@@ -221,12 +221,15 @@ function requestProcDeposit(jsData) {
         url: FURL + "/api/depositproc",
         success: function(jResult) {
             $(".loading").hide();
-            //	console.log(jResult);
+            // console.log(jResult);
             if (jResult.status == "success") {
                 requestEmployeeInfo();
                 setTimeout(function() { requestDepositList(); }, 500);
             } else if (jResult.status == "fail") {
-                alert("충전처리가 실패되었습니다.");
+                if(jResult.msg){
+                    alert(jResult.msg);
+                }
+                else alert("충전처리가 실패되었습니다.");
             } else if (jResult.status == "logout") {
                 window.location.replace( FURL +'/');
             }

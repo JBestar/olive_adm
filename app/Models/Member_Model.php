@@ -27,6 +27,8 @@ class Member_Model extends Model
         'mb_bank_pwd',
         'mb_time_join',
         'mb_time_last',
+        'mb_time_bet', 
+        'mb_time_call', 
         'mb_ip_join',
         'mb_ip_last',
         'mb_money',
@@ -88,7 +90,7 @@ class Member_Model extends Model
     
     private $getFields = ['mb_fid', 'mb_uid', 'mb_level','mb_emp_fid', 'mb_emp_permit', 'mb_nickname', 
         'mb_email', 'mb_phone', 'mb_bank_name', 'mb_bank_own', 'mb_bank_num', 'mb_bank_pwd',
-        'mb_ip_join', 'mb_ip_last',
+        'mb_time_bet', 'mb_ip_join', 'mb_ip_last',
         'mb_money', 'mb_point', 'mb_money_charge', 'mb_money_exchange', 'mb_grade', 'mb_color',
         'mb_state_active', 'mb_state_delete', 'mb_state_alarm', 'mb_state_view',
         'mb_game_pb', 'mb_game_ps', 'mb_game_bb', 'mb_game_bs', 'mb_game_cs', 'mb_game_sl', 'mb_game_eo', 'mb_game_co', 
@@ -247,6 +249,12 @@ class Member_Model extends Model
         ->update();
     }
 
+    public function updateCallTm($member){
+        $data = [
+            'mb_time_call' => date("Y-m-d H:i:s"),
+        ];
+        return $this->update($member->mb_fid, $data);
+    }
 
     public function moneyProc(&$objUser, $dtMoney, $dtPoint=0, $nCharge=0, $nExchange=0)
     {

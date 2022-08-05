@@ -224,7 +224,15 @@ class BaseController extends Controller
 	}
 
 	protected function alltoGame(&$objMember, $iGame = 0){
+		$logHead = "<AlltoGame> ";
 		$iResult = 0;
+		$objUser = $this->modelMember->getInfoByFid($objMember->mb_fid, true);
+		if(diffDt(date('Y-m-d H:i:s'), $objUser->mb_time_call) < DELAY_TRANSFER){
+			writeLog($logHead.$objMember->mb_uid."-Now=".date('Y-m-d H:i:s')." Call=".$objUser->mb_time_call);
+			return $iResult;
+		}
+		$this->modelMember->updateCallTm($objMember);
+		
 		if($iGame == GAME_CASINO_EVOL){
 			if($this->sltoMb($objMember) == 1 && $this->fsltoMb($objMember) == 1 &&
 				$this->kgtoMb($objMember) == 1 ){
