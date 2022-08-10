@@ -182,8 +182,10 @@ defined('CONF_TRANS_LV1')       || define('CONF_TRANS_LV1', 48);    //이송 1�
 defined('CONF_RETURN_LV1')      || define('CONF_RETURN_LV1', 49);   //환수 1단계만 적용
 defined('CONF_NOTICE_DT')       || define('CONF_NOTICE_DT', 50);
 defined('CONF_TRANS_LVS')       || define('CONF_TRANS_LVS', 51);    //이송,환수 가능 레벨
-defined('CONF_DEPOSIT_PLAY')      || define('CONF_DEPOSIT_PLAY', 52);   //게임중 충전, 이송 금지
-defined('CONF_WITHDRAW_PLAY')     || define('CONF_WITHDRAW_PLAY', 53);   //게임중 환전 금지
+defined('CONF_DEPOSIT_PLAY')    || define('CONF_DEPOSIT_PLAY', 52);   //게임중 충전, 이송 금지
+defined('CONF_WITHDRAW_PLAY')   || define('CONF_WITHDRAW_PLAY', 53);   //게임중 환전 금지
+defined('CONF_MAIN_GAMEIMG')    || define('CONF_MAIN_GAMEIMG', 54);   //메인홈 게임이미지
+defined('CONF_DELAY_PLAY')      || define('CONF_DELAY_PLAY', 55);   //게임 타임아웃
 
 
 defined('LEVEL_MAX')           || define('LEVEL_MAX', 100);

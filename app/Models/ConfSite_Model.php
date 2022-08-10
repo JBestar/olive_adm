@@ -297,7 +297,7 @@ class ConfSite_Model extends Model
     
     public function readMemConf(){
         $confIds = [CONF_TRANS_DENY, CONF_RETURN_DENY, CONF_TRANS_LV1, CONF_RETURN_LV1, 
-            CONF_TRANS_LVS, CONF_DEPOSIT_PLAY, CONF_WITHDRAW_PLAY];  
+            CONF_TRANS_LVS, CONF_DEPOSIT_PLAY, CONF_WITHDRAW_PLAY, CONF_DELAY_PLAY];  
         $arrConf = $this->find($confIds);
         $_ENV['mem.trans_deny'] = false;
         $_ENV['mem.return_deny'] = false;
@@ -306,6 +306,7 @@ class ConfSite_Model extends Model
         $_ENV['mem.depodeny_play'] = false;
         $_ENV['mem.withdeny_play'] = false;
         $_ENV['mem.trans_lvs'] = [];
+        $_ENV['mem.delay_play'] = DELAY_PLAYING;
 
         foreach($arrConf as $objConf){
 			switch($objConf->conf_id){
@@ -329,6 +330,8 @@ class ConfSite_Model extends Model
                             array_push($_ENV['mem.trans_lvs'], intval($lv));
                     }
                     break;
+                case CONF_DELAY_PLAY:	$_ENV['mem.delay_play'] = intval($objConf->conf_active);
+					break;
 				default:break;
 			}
 		}

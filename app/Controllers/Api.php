@@ -516,9 +516,9 @@ class Api extends BaseController{
 						$confsiteModel = new ConfSite_Model();
 						$confsiteModel->readMemConf();
 			
-						if($_ENV['mem.depodeny_play'] && diffDt(date('Y-m-d H:i:s'), $objUser->mb_time_bet) < DELAY_PLAYING){
+						if($_ENV['mem.delay_play'] > 0 && $_ENV['mem.depodeny_play'] && diffDt(date('Y-m-d H:i:s'), $objUser->mb_time_bet) < $_ENV['mem.delay_play']){
 							$arrResult['status'] = 'fail';
-							$arrResult['msg'] = '회원이 게임플레이중이므로 충전승인 하실수 없습니다. '.intval((DELAY_PLAYING-diffDt(date('Y-m-d H:i:s'), $objUser->mb_time_bet))/60+1)."분후 다시 시도해주세요.";
+							$arrResult['msg'] = '회원이 게임플레이중이므로 충전승인 하실수 없습니다. '.intval(($_ENV['mem.delay_play']-diffDt(date('Y-m-d H:i:s'), $objUser->mb_time_bet))/60+1)."분후 다시 시도해주세요.";
 						} else if($objCharge->charge_action_state == 1 || $objCharge->charge_action_state == 3 || $objCharge->charge_action_state == 4){ //대기이거나 거절된 상태에서만 진행
 								
 							$dtMoney = $objCharge->charge_money;

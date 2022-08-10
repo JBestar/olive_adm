@@ -1037,7 +1037,7 @@ class UserApi extends BaseController
                 
                 if($arrData['type'] == 0){          //직충전
                     $iResult = 1;
-                    if($_ENV['mem.depodeny_play'] &&  diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet) < DELAY_PLAYING){
+                    if($_ENV['mem.delay_play'] > 0 && $_ENV['mem.depodeny_play'] &&  diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet) < $_ENV['mem.delay_play']){
                         $iResult = 2;
                     } 
 
@@ -1066,12 +1066,12 @@ class UserApi extends BaseController
                         }
                     } else if($iResult == 2) {
                         $objResult->status = 'fail';
-                        $objResult->msg = '회원이 게임플레이중이므로 충전 하실수 없습니다. '.intval((DELAY_PLAYING-diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet))/60+1)."분후 다시 시도해주세요.";
+                        $objResult->msg = '회원이 게임플레이중이므로 충전 하실수 없습니다. '.intval(($_ENV['mem.delay_play']-diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet))/60+1)."분후 다시 시도해주세요.";
                     }
                 } else if($arrData['type'] == 1){           //직환전
                     $iResult = 1;
                     if(intval($objMember->mb_money) < $arrData['amount']){
-                        if($_ENV['mem.withdeny_play'] && diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet) < DELAY_PLAYING){
+                        if($_ENV['mem.delay_play'] > 0 && $_ENV['mem.withdeny_play'] && diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet) < $_ENV['mem.delay_play']){
                             $iResult = 2;
                         } 
                         else 
@@ -1110,7 +1110,7 @@ class UserApi extends BaseController
                         }
                     } else if($iResult == 2) {
                         $objResult->status = 'fail';
-                        $objResult->msg = '회원이 게임플레이중이므로 환전 하실수 없습니다. '.intval((DELAY_PLAYING-diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet))/60+1)."분후 다시 시도해주세요.";
+                        $objResult->msg = '회원이 게임플레이중이므로 환전 하실수 없습니다. '.intval(($_ENV['mem.delay_play']-diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet))/60+1)."분후 다시 시도해주세요.";
                     } else {
                         $objResult->status = 'fail';
                         $objResult->msg = '게임서버가 응답하지 않습니다. 잠시후 다시 시도해주세요..';
@@ -1141,7 +1141,7 @@ class UserApi extends BaseController
                     } else {
                         $iResult = 1;
                         if($arrData['amount'] > $objEmp->mb_money){
-                            if($_ENV['mem.depodeny_play'] && diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet) < DELAY_PLAYING){
+                            if($_ENV['mem.delay_play'] > 0 && $_ENV['mem.depodeny_play'] && diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet) < $_ENV['mem.delay_play']){
                                 $iResult = 2;
                             } 
                             else $iResult = $this->alltoGame($objEmp);
@@ -1158,7 +1158,7 @@ class UserApi extends BaseController
                             } 
                         } else if($iResult == 2) {
                             $objResult->status = 'fail';
-                            $objResult->msg = '회원이 게임플레이중이므로 이송 하실수 없습니다. '.intval((DELAY_PLAYING-diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet))/60+1)."분후 다시 시도해주세요.";
+                            $objResult->msg = '회원이 게임플레이중이므로 이송 하실수 없습니다. '.intval(($_ENV['mem.delay_play']-diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet))/60+1)."분후 다시 시도해주세요.";
                         } else {
                             $objResult->status = 'fail';
                             $objResult->msg = '게임서버가 응답하지 않습니다. 잠시후 다시 시도해주세요..';
@@ -1176,7 +1176,7 @@ class UserApi extends BaseController
                     } else {
                         $iResult = 1;
                         if($arrData['amount'] > $objMember->mb_money){
-                            if($_ENV['mem.withdeny_play'] && diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet) < DELAY_PLAYING){
+                            if($_ENV['mem.delay_play'] > 0 && $_ENV['mem.withdeny_play'] && diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet) < $_ENV['mem.delay_play']){
                                 $iResult = 2;
                             } 
                             else $iResult = $this->alltoGame($objMember);
@@ -1194,7 +1194,7 @@ class UserApi extends BaseController
                             } 
                         } else if($iResult == 2) {
                             $objResult->status = 'fail';
-                            $objResult->msg = '회원이 게임플레이중이므로 환수 하실수 없습니다. '.intval((DELAY_PLAYING-diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet))/60+1)."분후 다시 시도해주세요.";
+                            $objResult->msg = '회원이 게임플레이중이므로 환수 하실수 없습니다. '.intval(($_ENV['mem.delay_play']-diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet))/60+1)."분후 다시 시도해주세요.";
                         } else {
                             $objResult->status = 'fail';
                             $objResult->msg = '게임서버가 응답하지 않습니다. 잠시후 다시 시도해주세요..';
@@ -1221,6 +1221,8 @@ class UserApi extends BaseController
             // model
             
             $moneyhistoryModel = new MoneyHistory_Model();
+            $confsiteModel = new ConfSite_Model();
+            $confsiteModel->readMemConf();
 
             $strUid = $this->session->user_id;
             $objEmp = $this->modelMember->getInfo($strUid);
@@ -1234,7 +1236,7 @@ class UserApi extends BaseController
                 $objResult->status = 'fail';
             } else {
                 if($arrData['type'] == 0){              //머니회수
-                    if(diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet) < DELAY_PLAYING){
+                    if($_ENV['mem.delay_play'] > 0 && $_ENV['mem.withdeny_play'] && diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet) < $_ENV['mem.delay_play']){
                         $iResult = 2;
                     } 
                     else 
@@ -1250,7 +1252,7 @@ class UserApi extends BaseController
                         }
                     } else if($iResult == 2) {
                         $objResult->status = 'fail';
-                        $objResult->msg = '회원이 게임플레이중이므로 회수 하실수 없습니다. '.intval((DELAY_PLAYING-diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet))/60+1)."분후 다시 시도해주세요.";
+                        $objResult->msg = '회원이 게임플레이중이므로 회수 하실수 없습니다. '.intval(($_ENV['mem.delay_play']-diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet))/60+1)."분후 다시 시도해주세요.";
                     } else {
                         $objResult->status = 'fail';
                         $objResult->msg = '게임서버가 응답하지 않습니다. 잠시후 다시 시도해주세요..';

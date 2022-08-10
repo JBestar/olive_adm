@@ -241,7 +241,9 @@ function requestWithdraw(iType){
             } else if (jResult.status == "logout") {
                 window.location.replace( FURL +'/');
             } else if (jResult.status == "fail") {
-                alert("회수가 실패되었습니다.")
+                if(jResult.msg)
+                    alert(jResult.msg);
+                else alert("회수가 실패되었습니다.");
             }
         },
         error: function(request, status, error) {
