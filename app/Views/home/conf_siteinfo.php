@@ -29,22 +29,6 @@
 		<?php } ?>
 	</div>
 	<div class="confsite-site-text-div">
-		<p>홈페이지:</p>
-		<?php if(is_null($arrConfig)) {  ?>
-		<input type="text" id="confsite-homepage-input-id">
-		<?php } else {?>
-		<input type="text" id="confsite-homepage-input-id" value="<?=$arrConfig[CONF_USERPAGE-1]->conf_content?>">
-		<?php } ?>
-	</div>
-	<div class="confsite-site-text-div">
-		<p>관리주소:</p>
-		<?php if(is_null($arrConfig)) {  ?>
-		<input type="text" id="confsite-adminpage-input-id">
-		<?php } else {?>
-		<input type="text" id="confsite-adminpage-input-id" value="<?=$arrConfig[CONF_ADMINPAGE-1]->conf_content?>">
-		<?php } ?>
-	</div>
-	<div class="confsite-site-text-div">
 		<p>입금통장:</p>
 		<?php if(is_null($arrConfig)) {  ?>
 		<input type="text" placeholder="은행명" id="confsite-bankname-input-id">
@@ -57,7 +41,21 @@
 		<input type="text" style="width:25%; " placeholder="계좌번호" id="confsite-banknum-input-id" value="<?=explode("#", trim($arrConfig[CONF_CHARGEINFO-1]->conf_content))[2]?>">
 		<?php } ?>
 	</div>
-	
+
+	<?php if(count($arrConfig) >= CONF_CHARGE_URL && $arrConfig[CONF_CHARGE_URL-1]->conf_active == 1) :  ?>
+	<div class="confsite-site-text-div">
+		<p>충전주소:</p>
+		<input type="text" style="width:20%;" id="confsite-chargeurl-input-id" value="<?=$arrConfig[CONF_CHARGE_URL-1]->conf_content?>">
+	</div>
+	<?php endif ?>
+
+	<?php if(count($arrConfig) >= CONF_TELE_ID && $arrConfig[CONF_TELE_ID-1]->conf_active == 1) :  ?>
+	<div class="confsite-site-text-div">
+		<p>텔레아이디:</p>
+		<input type="text" style="width:20%;" id="confsite-teleid-input-id" value="<?=$arrConfig[CONF_TELE_ID-1]->conf_content?>">
+	</div>
+	<?php endif ?>
+
 	<h4><i class="glyphicon glyphicon-hand-right"></i> 공지사항 </h4>
 	<div class="confsite-site-check-div">
 		<?php if(is_null($arrConfig) || $arrConfig[CONF_NOTICE_MAIN-1]->conf_active != 1) {  ?>

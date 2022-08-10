@@ -116,7 +116,7 @@
         } ?>
 	<!-- Bootstrap 3.3.7 -->
   	<link rel="stylesheet" href="<?php echo site_furl('assets/bootstrap/css/bootstrap.min.css');?>">
-	<link rel="stylesheet" href="<?php echo site_furl('assets/css/main.style.css?v=6');?>">
+	<link rel="stylesheet" href="<?php echo site_furl('assets/css/main.style.css?v=7');?>">
 
 	<!-- JQuery 1.12.1 -->
 	<link rel="stylesheet" href="<?php echo site_furl('assets/js/jquery-ui-1.12.1.min.css'); ?>">

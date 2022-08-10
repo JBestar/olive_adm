@@ -26,8 +26,8 @@ function readConfigToObject() {
 
     jsonData.sitename = $("#confsite-sitename-input-id").val();
     jsonData.domainname = $("#confsite-domainname-input-id").val();
-    jsonData.homepage = $("#confsite-homepage-input-id").val();
-    jsonData.adminpage = $("#confsite-adminpage-input-id").val();
+    // jsonData.homepage = $("#confsite-homepage-input-id").val();
+    // jsonData.adminpage = $("#confsite-adminpage-input-id").val();
     jsonData.bank = $("#confsite-bankname-input-id").val().trim() + "#" + $("#confsite-bankown-input-id").val().trim() +
         "#" + $("#confsite-banknum-input-id").val().trim();
 
@@ -47,6 +47,14 @@ function readConfigToObject() {
     jsonData.return_deny = $("#confsite-returndeny-check-id").prop('checked') ? 0 : 1;
     jsonData.trans_lv1 = $("#confsite-translv1-check-id").prop('checked') ? 1 : 0;
     jsonData.return_lv1 = $("#confsite-returnlv1-check-id").prop('checked') ? 1 : 0;
+
+    if($("#confsite-chargeurl-input-id").length > 0){
+        jsonData.chargeurl = $("#confsite-chargeurl-input-id").val();
+    }
+
+    if($("#confsite-teleid-input-id").length > 0){
+        jsonData.teleid = $("#confsite-teleid-input-id").val();
+    }
 
     return jsonData;
 

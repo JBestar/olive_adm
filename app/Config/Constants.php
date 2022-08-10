@@ -186,6 +186,8 @@ defined('CONF_DEPOSIT_PLAY')    || define('CONF_DEPOSIT_PLAY', 52);   //게임�
 defined('CONF_WITHDRAW_PLAY')   || define('CONF_WITHDRAW_PLAY', 53);   //게임중 환전 금지
 defined('CONF_MAIN_GAMEIMG')    || define('CONF_MAIN_GAMEIMG', 54);   //메인홈 게임이미지
 defined('CONF_DELAY_PLAY')      || define('CONF_DELAY_PLAY', 55);   //게임 타임아웃
+defined('CONF_CHARGE_URL')        || define('CONF_CHARGE_URL', 56);     //코인 충전주소
+defined('CONF_TELE_ID')         || define('CONF_TELE_ID', 57);      //텔레그램 아이디
 
 
 defined('LEVEL_MAX')           || define('LEVEL_MAX', 100);

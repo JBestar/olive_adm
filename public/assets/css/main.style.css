@@ -620,7 +620,7 @@ Style - conf_site
 
 .confsite-site-text-div p {
     float: left;
-    width: 80px;
+    width: 120px;
     font-size: 12px;
     text-align: left;
     color: var(--bar-font-color);

@@ -80,9 +80,6 @@ class ConfSite_Model extends Model
 
         if($arrData == null) return false;
         if (!array_key_exists("sitename", $arrData)) return false;
-        if (!array_key_exists("domainname", $arrData)) return false;
-        if (!array_key_exists("homepage", $arrData)) return false;
-        if (!array_key_exists("adminpage", $arrData)) return false;
 
         $arrBatch = array();
         $updateData = array();
@@ -95,15 +92,15 @@ class ConfSite_Model extends Model
         $updateData['conf_content'] = $arrData['domainname'];
         $arrBatch[] = $updateData;
 
-        $updateData = array();
-        $updateData['conf_id'] = CONF_USERPAGE;
-        $updateData['conf_content'] = $arrData['homepage'];
-        $arrBatch[] = $updateData;
+        // $updateData = array();
+        // $updateData['conf_id'] = CONF_USERPAGE;
+        // $updateData['conf_content'] = $arrData['homepage'];
+        // $arrBatch[] = $updateData;
         
-        $updateData = array();
-        $updateData['conf_id'] = CONF_ADMINPAGE;
-        $updateData['conf_content'] = $arrData['adminpage'];
-        $arrBatch[] = $updateData;
+        // $updateData = array();
+        // $updateData['conf_id'] = CONF_ADMINPAGE;
+        // $updateData['conf_content'] = $arrData['adminpage'];
+        // $arrBatch[] = $updateData;
         
         $updateData = array();
         $updateData['conf_id'] = CONF_NOTICE_MAIN;
@@ -139,14 +136,12 @@ class ConfSite_Model extends Model
             $updateData['conf_id'] = CONF_DISCHA_MANUAL;
             $updateData['conf_content'] = $arrData['discharmanual'];
             $arrBatch[] = $updateData;
-    
         }
         
         $updateData = array();
         $updateData['conf_id'] = CONF_CHARGEMACRO;
         $updateData['conf_content'] = $arrData['bankmacro'];
         $arrBatch[] = $updateData;
-
         
         $updateData = array();
         $updateData['conf_id'] = CONF_MULTI_LOGIN;
@@ -172,6 +167,20 @@ class ConfSite_Model extends Model
         $updateData['conf_id'] = CONF_RETURN_LV1;
         $updateData['conf_active'] = $arrData['return_lv1'];
         $arrBatch[] = $updateData;
+
+        if(array_key_exists('chargeurl', $arrData)){
+            $updateData = array();
+            $updateData['conf_id'] = CONF_CHARGE_URL;
+            $updateData['conf_content'] = $arrData['chargeurl'];
+            $arrBatch[] = $updateData;
+        }
+
+        if(array_key_exists('teleid', $arrData)){
+            $updateData = array();
+            $updateData['conf_id'] = CONF_TELE_ID;
+            $updateData['conf_content'] = $arrData['teleid'];
+            $arrBatch[] = $updateData;
+        }
 
         return  $this->builder()->updateBatch($arrBatch, 'conf_id');
 

@@ -8,7 +8,7 @@
 
 		<h4><i class="glyphicon glyphicon-hand-right"></i> 사이트점검설정</h4>						
 		<div class="confsite-site-check-div">
-			<label> 운영상태</label>			
+			<label style="font-size: 14px; width:100px;"> 운영상태</label>			
 			<select name="pbresult-number" class="pbresult-number-select" id="confsite-maintain-select-id" style="width: 200px;">
 				<?php if(is_null($objConfig) || $objConfig->conf_active != 1) {  ?>
 				<option value="0" selected>정상운영</option>
