@@ -105,6 +105,7 @@ defined('APP_COKE')         || define('APP_COKE', 'Coke');
 defined('APP_ASURA')        || define('APP_ASURA', 'Asura');
 defined('APP_MX')           || define('APP_MX', 'Mx');
 defined('APP_AT')           || define('APP_AT', 'At');
+defined('APP_VEGAS')        || define('APP_VEGAS', 'Vegas');
 
 
 defined('APPTYPE_0')        || define('APPTYPE_0', 0);      //Premier
