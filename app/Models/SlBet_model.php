@@ -241,6 +241,29 @@ class SlBet_Model extends Model
 
     }
 
+    function getBetSumByDay($arrReqInfo, $objConf){
+
+        $arrSum = array();
+        $strSql = " SELECT SUM(bet_money) AS bet_money_sum, SUM(bet_win_money) AS win_money_sum  FROM ".$this->table;
+        $strSql .= " WHERE bet_time >= '".$arrReqInfo['start']."' AND bet_time <= '".$arrReqInfo['end']."' ";
+        $strSql .= " AND bet_game_id = ".$objConf->game_index." ";
+
+        $strSql .= " AND bet_mb_uid NOT IN (SELECT mb_uid FROM ".$this->mMemberTable." WHERE mb_level >= ".LEVEL_ADMIN.") ";
+        $objResult = $this -> db -> query($strSql)->getRow();
+
+        $nSum = 0;
+        if(!is_null($objResult->bet_money_sum)) {
+            $nSum = $objResult->bet_money_sum;
+        }
+        $arrSum[0] = $nSum;
+        $nSum = 0;
+        if(!is_null($objResult->win_money_sum)) {
+            $nSum = $objResult->win_money_sum;
+        }
+        $arrSum[1] = $nSum;
+           
+        return $arrSum;
+    }
 
 
 }

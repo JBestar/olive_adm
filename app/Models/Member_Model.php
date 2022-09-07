@@ -1795,6 +1795,7 @@ class Member_Model extends Model
         $strTbColum = ' mb_fid, mb_uid, mb_pwd, mb_level, mb_emp_fid, mb_nickname, mb_phone, ';
         $strTbColum.= ' mb_bank_name, mb_bank_own, mb_bank_num, mb_bank_pwd, mb_time_join, ';
         $strTbColum.= ' (mb_money + mb_live_money + mb_slot_money + mb_fslot_money + mb_kgon_money) as mb_money, ';
+        $strTbColum.= ' (mb_live_money + mb_slot_money + mb_fslot_money + mb_kgon_money) as mb_egg, ';
         $strTbColum.= ' mb_point, mb_grade, mb_color, mb_state_active, mb_state_delete, ' ;
         $strTbColum .= ' mb_game_pb, mb_game_ps, mb_game_bb, mb_game_bs, mb_game_cs, mb_game_sl, mb_game_eo, mb_game_co, mb_game_pb_ratio, mb_game_pb2_ratio, mb_game_ps_ratio, ';
         $strTbColum .= ' mb_game_bb_ratio, mb_game_bb2_ratio, mb_game_bs_ratio, mb_game_cs_ratio, mb_game_sl_ratio, mb_game_eo_ratio, mb_game_eo2_ratio, mb_game_co_ratio, mb_game_co2_ratio, ';

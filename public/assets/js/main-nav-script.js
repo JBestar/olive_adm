@@ -331,6 +331,18 @@ function showEmpBetInfo(arrBetInfo) {
     $("#main-navbar-c32bet-id").text(parseInt(arrBetInfo[13][0]).toLocaleString() + " 원");
     $("#main-navbar-c32betearn-id").text(parseInt(arrBetInfo[13][1]).toLocaleString() + " 원");
 
+    $("#main-navbar-evbet-id").text(parseInt(arrBetInfo[14][0]).toLocaleString() + " 원");
+    $("#main-navbar-evbetearn-id").text(parseInt(arrBetInfo[14][1]).toLocaleString() + " 원");
+
+    $("#main-navbar-slbet-id").text(parseInt(arrBetInfo[15][0]).toLocaleString() + " 원");
+    $("#main-navbar-slbetearn-id").text(parseInt(arrBetInfo[15][1]).toLocaleString() + " 원");
+    
+    $("#main-navbar-fslbet-id").text(parseInt(arrBetInfo[16][0]).toLocaleString() + " 원");
+    $("#main-navbar-fslbetearn-id").text(parseInt(arrBetInfo[16][1]).toLocaleString() + " 원");
+
+    $("#main-navbar-kgbet-id").text(parseInt(arrBetInfo[17][0]).toLocaleString() + " 원");
+    $("#main-navbar-kgbetearn-id").text(parseInt(arrBetInfo[17][1]).toLocaleString() + " 원");
+
 }
 
 

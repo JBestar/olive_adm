@@ -105,6 +105,8 @@ class Exchange_Model extends Model {
         if(array_key_exists('mb_uid', $arrReqData) && strlen($arrReqData['mb_uid']) > 0){
             $strSQL.=" AND exchange_mb_uid = '".$arrReqData['mb_uid']."' ";
         }
+        $strSQL .= " AND exchange_mb_uid NOT IN (SELECT mb_uid FROM ".$this->mMemberTable." WHERE mb_level >= ".LEVEL_ADMIN.") ";
+
         $objResult = $this -> db -> query($strSQL)->getRow();
         if(is_null($objResult->exchange_sum)) return 0;
         else return  $objResult->exchange_sum;        

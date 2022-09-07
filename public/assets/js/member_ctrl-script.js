@@ -60,10 +60,16 @@ function showMember(arrMember, confs) {
         strBuf += "<button name='" + nRow + "' data-fid='" + arrMember[nRow].mb_fid + "' >환전</button>";
         strBuf += "</td> <td>";
         strBuf += arrMember[nRow].mb_phone;
-
-        strBuf += "</td><td> <span id='mm_" + arrMember[nRow].mb_fid + "'>";
+        if(parseInt(arrMember[nRow].mb_egg) > 0 )
+            strBuf += "</td><td> <span id='mm_" + arrMember[nRow].mb_fid + "' style='color:red'>";
+        else strBuf += "</td><td> <span id='mm_" + arrMember[nRow].mb_fid + "' style='color:black'>";
         strBuf += parseInt(arrMember[nRow].mb_money).toLocaleString() + "</span>";
         strBuf += '<button class="refresh_btn" onclick="refreshEgg(' + arrMember[nRow].mb_fid + ', this);"></button>';
+        if (confs.emp_level >= LEVEL_ADMIN) {
+            strBuf += "</td><td>";
+            if(parseInt(arrMember[nRow].mb_egg) > 0 )
+                strBuf += "<button name='" + arrMember[nRow].mb_fid + "'>알회수</button>";
+        }
         strBuf += "</td> <td id='mp_" + arrMember[nRow].mb_fid + "'>";
         strBuf += parseInt(arrMember[nRow].mb_point).toLocaleString();
         strBuf += "</td> <td>";
@@ -102,10 +108,7 @@ function showMember(arrMember, confs) {
         } else {
             strBuf += ">차단</button>";
         }
-        if (confs.emp_level > LEVEL_ADMIN+1) {
-            strBuf += "</td> <td>";
-            strBuf += "<button name='" + arrMember[nRow].mb_fid + "' >알회수</button>   ";
-        }
+        
         if (!confs.slot_deny) {
             strBuf += "</td> <td>";
             strBuf += "<button name='" + arrMember[nRow].mb_fid + "' class='blank-btn_" + arrMember[nRow].mb_fid + "' >-</button>   ";
@@ -339,7 +342,8 @@ function addButtonElementListener(buttonElement) {
             var jsonData = { "mb_fid": this.name };
             requestLogoutMember(jsonData);
         } else if (tHtml.search("알회수") >= 0) {
-            collectEgg(this.name);
+            if(confirm("게임알을 회수하시겠습니까?"))
+                collectEgg(this, this.name);
         } else if (tHtml === "-") {
             countBlank(this.name, -1);
         } else if (tHtml === "-10") {

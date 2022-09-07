@@ -95,6 +95,7 @@ class Charge_Model extends Model
 
     //일충전금액
     function calcAdminCharge($arrReqData){
+        
         $strSQL = "SELECT SUM(charge_money) AS charge_sum FROM ".$this->table;
         $strSQL.=" WHERE (charge_action_state = '".STATE_VERIFY."' OR charge_action_state = '".STATE_HOT."') ";
         if(array_key_exists('start', $arrReqData) && strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
@@ -103,6 +104,8 @@ class Charge_Model extends Model
         if(array_key_exists('mb_uid', $arrReqData) && strlen($arrReqData['mb_uid']) > 0){
             $strSQL.=" AND charge_mb_uid = '".$arrReqData['mb_uid']."' ";
         }
+        $strSQL .= " AND charge_mb_uid NOT IN (SELECT mb_uid FROM ".$this->mMemberTable." WHERE mb_level >= ".LEVEL_ADMIN.") ";
+
         $objResult = $this -> db -> query($strSQL)->getRow();
         if(is_null($objResult->charge_sum)) return 0;
         else return  $objResult->charge_sum;        

@@ -9,6 +9,8 @@ use App\Models\Exchange_Model;
 use App\Models\Notice_Model;
 use App\Models\PbBet_Model;
 use App\Models\PsBet_Model;
+use App\Models\CsBet_Model;
+use App\Models\SlBet_Model;
 use App\Models\MoneyHistory_Model;
 use App\Models\SessLog_Model;
 use App\Models\Block_Model;
@@ -421,7 +423,7 @@ class UserApi extends BaseController
                 $arrReqData['start'] = $strDate.' 00:00:00';
                 $arrReqData['end'] = $strDate.' 23:59:59';
                 $arrSumData = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], 
-                    [0, 0], [0, 0], [0, 0], [0, 0] ];
+                    [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0] ];
                 if(!$siteConfs['npg_deny']){
                     $betModel = new PbBet_Model();
                     $betModel->setType(GAME_POWER_BALL);
@@ -487,6 +489,27 @@ class UserApi extends BaseController
                     $arrSum = $betModel->getBetSumByDay($arrReqData, $objConfPb);
                     $arrSumData[12] = $arrSum[0];
                     $arrSumData[13] = $arrSum[1];
+                }
+                if(!$siteConfs['cas_deny']){
+                    $betModel = new CsBet_Model();
+
+                    $objConfPb = $confgameModel->getByIndex(GAME_CASINO_EVOL);
+                    $arrSumData[14] = $betModel->getBetSumByDay($arrReqData, $objConfPb);
+                }
+                if(!$siteConfs['slot_deny']){
+                    $betModel = new SlBet_Model();
+
+                    $objConfPb = $confgameModel->getByIndex(GAME_SLOT_1);
+                    $arrSumData[15] = $betModel->getBetSumByDay($arrReqData, $objConfPb);
+                    
+                    $objConfPb = $confgameModel->getByIndex(GAME_SLOT_2);
+                    $arrSumData[16] = $betModel->getBetSumByDay($arrReqData, $objConfPb);
+                }
+                if($siteConfs['kgon_enable']){
+                    $betModel = new CsBet_Model();
+
+                    $objConfPb = $confgameModel->getByIndex(GAME_CASINO_KGON);
+                    $arrSumData[17] = $betModel->getBetSumByDay($arrReqData, $objConfPb);
                 }
                 $objResult->data = $arrSumData;
                 $objResult->status = 'success';
@@ -1325,6 +1348,7 @@ class UserApi extends BaseController
 				$this->allEgg($objMember);
                 $result->money = allMoney($objMember);
                 $result->point = $objMember->mb_point;
+                $result->egg = $objMember->mb_live_money + $objMember->mb_slot_money + $objMember->mb_fslot_money + $objMember->mb_kgon_money;
                 $result->status = STATUS_SUCCESS;
     
             } else {
@@ -1347,15 +1371,26 @@ class UserApi extends BaseController
 		{
             $result->status = STATUS_LOGOUT;
 		} else {
+            $confsiteModel = new ConfSite_Model();
+            
             $strUid = $this->session->user_id;
             $objEmp = $this->modelMember->getInfo($strUid);
             $objMember = $this->modelMember->getInfoByFid($arrReqData['mb_fid']);
 			
             if(!is_null($objMember) && $objEmp->mb_level >= LEVEL_ADMIN){
-                $iResult = $this->alltoGame($objMember);
+                $confsiteModel->readMemConf();
+
+                if(diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet) < $_ENV['mem.delay_play']){
+                    $iResult = 2;
+                } else $iResult = $this->alltoGame($objMember);
+
                 if($iResult == 1){
                     $result->money = allMoney($objMember);
+                    $result->egg = $objMember->mb_live_money + $objMember->mb_slot_money + $objMember->mb_fslot_money + $objMember->mb_kgon_money;
                     $result->status = STATUS_SUCCESS;
+                } else if($iResult == 2) {
+                    $result->status = STATUS_FAIL;
+                    $result->msg = '회원이 게임플레이중이므로 회수 하실수 없습니다. '.intval(($_ENV['mem.delay_play']-diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet))/60+1)."분후 다시 시도해주세요.";
                 } else 
                     $result->status = STATUS_FAIL;
     
@@ -1364,6 +1399,117 @@ class UserApi extends BaseController
 
             }
 
+		}
+		echo json_encode($result);
+
+	}
+
+    public function eggrecovery(){
+        $jsonData = $_REQUEST['json_'];
+		$arrReqData = json_decode($jsonData, true);
+
+		$result = new \StdClass;
+		if(!is_login())
+		{
+            $result->status = STATUS_LOGOUT;
+		} else {
+            $confsiteModel = new ConfSite_Model();
+            
+            $strUid = $this->session->user_id;
+            $objEmp = $this->modelMember->getInfo($strUid);
+			$gameId = intval($arrReqData['game_index']);
+			
+            if($objEmp->mb_level >= LEVEL_ADMIN){
+                $confsiteModel->readMemConf();
+                $arrMember = $this->modelMember->findAll();
+
+                $iResult = 1;
+                $balance = 0;
+                if($gameId == GAME_CASINO_EVOL){
+
+                    foreach($arrMember as $objMember){
+                        if($objMember->mb_live_id > 0 && $objMember->mb_live_money > 0 ){
+                            writeLog("<CASINO> Recovery Uid=".$objMember->mb_uid." Balance=".$objMember->mb_live_money);
+                            if(diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet) < $_ENV['mem.delay_play']){
+                                $iResult = 2;
+                            } else $iResult = $this->evtoMb($objMember);
+                            if($iResult == 0)
+                                break;
+                            else usleep(500000);
+                        } 
+                    }
+
+                    $balance = $this->libApicas->getAgentInfo();
+                    if($balance >= 0){
+                        $confsiteModel->setConfActive(CONF_CASINO_EVOL, $balance);
+                    }
+				    writeLog("<CASINO> Agent Egg = ".$balance);
+                } else if($gameId == GAME_SLOT_1){
+                    foreach($arrMember as $objMember){
+                        if($objMember->mb_slot_uid != "" && $objMember->mb_slot_money > 0 ){
+                            writeLog("<SLOT> Recovery Uid=".$objMember->mb_uid." Balance=".$objMember->mb_slot_money);
+                            if(diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet) < $_ENV['mem.delay_play']){
+                                $iResult = 2;
+                            } else $iResult = $this->sltoMb($objMember);
+                            if($iResult == 0)
+                                break;
+                            else usleep(500000);
+                        } 
+                    }
+
+                    $balance = $this->libApislot->getAgentInfo();
+                    if($balance >= 0){
+                        $confsiteModel->setConfActive(CONF_SLOT_1, $balance);
+                    }
+                    writeLog("<SLOT> Agent Egg = ".$balance);
+    
+                } else if($gameId == GAME_SLOT_2){
+                    foreach($arrMember as $objMember){
+                        if($objMember->mb_fslot_id > 0 && $objMember->mb_fslot_money > 0 ){
+                            writeLog("<FSLOT> Recovery Uid=".$objMember->mb_uid." Balance=".$objMember->mb_fslot_money);
+                            if(diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet) < $_ENV['mem.delay_play']){
+                                $iResult = 2;
+                            } else $iResult = $this->fsltoMb($objMember);
+                            if($iResult == 0)
+                                break;
+                            else usleep(500000);
+                        } 
+                    }
+
+                    $balance = $this->libApifslot->getAgentInfo();
+                    if($balance >= 0){
+                        $confsiteModel->setConfActive(CONF_SLOT_2, $balance);
+                    }
+                    writeLog("<FSLOT> AGENT Egg = ".$balance);
+    
+                } else if($gameId == GAME_CASINO_KGON){
+                    foreach($arrMember as $objMember){
+                        if($objMember->mb_kgon_id > 0 && $objMember->mb_kgon_money > 0 ){
+                            writeLog("<KGON> Recovery Uid=".$objMember->mb_uid." Balance=".$objMember->mb_kgon_money);
+                            if(diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet) < $_ENV['mem.delay_play']){
+                                $iResult = 2;
+                            } else $iResult = $this->kgtoMb($objMember);
+                            if($iResult == 0)
+                                break;
+                            else usleep(500000);
+                        } 
+                    }
+                    
+                    $balance = $this->libApikgon->getAgentInfo();
+                    if($balance >= 0){
+                        $confsiteModel->setConfActive(CONF_CASINO_KGON, $balance);
+                    }
+                    writeLog("<KGON> AGENT Egg = ".$balance);
+                }
+
+                $result->status = STATUS_SUCCESS;
+			    $result->egg = $balance;
+			    $result->useregg = $this->modelMember->calcGameEgg($gameId);
+    
+            } else {
+                $result->status = STATUS_FAIL;
+
+            }
 
 		}
 		echo json_encode($result);

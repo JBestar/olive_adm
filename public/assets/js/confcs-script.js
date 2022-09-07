@@ -1,10 +1,10 @@
 $(document).ready(function() {
     setNavBarElement();
-    requestConfPowerball();
+    requestConfGame();
     addBtnEvent();
 });
 
-function showConfPowerball(objConfig, objAgent) {
+function showConfGame(objConfig, objAgent) {
 
     if (objConfig.game_bet_permit == 1)
         $("#confpb-bet-check-id").prop('checked', true);
@@ -20,7 +20,7 @@ function showConfPowerball(objConfig, objAgent) {
     }
 }
 
-function requestConfPowerball() {
+function requestConfGame() {
 
     let gameId = $(".confsite-game-panel").attr('id');
     var jsonData = { "game_index": gameId };
@@ -37,7 +37,7 @@ function requestConfPowerball() {
 
             // console.log(jResult);
             if (jResult.status == "success") {
-                showConfPowerball(jResult.data, jResult.agent);
+                showConfGame(jResult.data, jResult.agent);
             } else if (jResult.status == "fail") {
 
             }
@@ -45,6 +45,39 @@ function requestConfPowerball() {
         error: function(request, status, error) {
             $("#refresh_egg").removeClass("refresh");
             $("#refresh_useregg").removeClass("refresh");
+            // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+        }
+
+    });
+
+}
+
+function requestRecoveryEgg() {
+    $("#recovery_useregg").addClass("refresh");
+
+    let gameId = $(".confsite-game-panel").attr('id');
+    var jsonData = { "game_index": gameId };
+    jsonData = JSON.stringify(jsonData);
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: FURL + "/userapi/eggrecovery",
+        data: { json_: jsonData },
+        success: function(jResult) {
+            $("#recovery_useregg").removeClass("refresh");
+
+            // console.log(jResult);
+            if (jResult.status == "success") {
+                $("#confpb-agent-egg-id").val(parseInt(jResult.egg).toLocaleString());
+                $("#confpb-user-egg-id").val(parseInt(jResult.useregg).toLocaleString());
+
+            } else if (jResult.status == "fail") {
+
+            }
+        },
+        error: function(request, status, error) {
+            $("#recovery_useregg").removeClass("refresh");
             // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
         }
 
@@ -104,12 +137,17 @@ function addBtnEvent() {
     
     $('#refresh_egg').on('click', function() {
         $(this).addClass("refresh");
-        requestConfPowerball();
+        requestConfGame();
     });
 
     $('#refresh_useregg').on('click', function() {
         $(this).addClass("refresh");
-        requestConfPowerball();
+        requestConfGame();
+    });
+
+    $('#recovery_useregg').on('click', function() {
+        if(confirm("알회수 시간이 오래 걸릴 수 있습니다. 그래도 계속하시겠습니까?"))
+            requestRecoveryEgg();
     });
 
     $('#confsite-agent-btn-id').on('click', function() {
@@ -123,7 +161,7 @@ function addBtnEvent() {
         } else if(gameId == 8){
             openWindow.location.href = "http://agent.gsplay-777.com/agent";
         } else if(gameId == 3){
-            openWindow.location.href = "https://dev-v1.kgonapi.com";
+            openWindow.location.href = "https://v1.kgonapi.com";
         }
         
     });

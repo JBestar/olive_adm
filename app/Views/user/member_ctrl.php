@@ -119,6 +119,9 @@
 						<th>환전</th>
 						<th class="sort-by">연락처</th>
 						<th class="sort-by">보유금액</th>
+						<?php if ($mb_level >= LEVEL_ADMIN) {?>	
+						<th>알회수</th>
+						<?php } ?>
 						<th class="sort-by">포인트</th>
 						<th class="sort-by">총베팅금</th>
 						<th class="sort-by">총획득금</th>
@@ -129,9 +132,6 @@
 						<th >수정</th>
 						<th >삭제</th>
 						<th>상태</th>
-						<?php if ($mb_level > LEVEL_MASTER) {?>	
-						<th>알반환</th>
-						<?php } ?>
 						<?php if(!$slot_deny) :?>
 							<th class="sort-by">공배팅</th>
 						<?php endif ?> 

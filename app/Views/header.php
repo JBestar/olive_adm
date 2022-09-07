@@ -168,18 +168,42 @@
 			width: 18px;
 			height: 18px;
 			vertical-align: top;
-			margin-left: 10px;
+			margin-left: 5px;
 			background: url(<?php echo site_furl('/assets/image/refresh_btn.png');?>) no-repeat left top;
-		}
-		button.refresh_btn:hover{
-			border:1px;
-
-			box-shadow: 1px 1px 1px 0px rgb(0 0 0 / 50%);
 		}
 
 		button.refresh_btn.refresh{
 			background: url(<?php echo site_furl('/assets/image/refresh_btn.gif');?>) no-repeat left top;
+			/* animation: rotate_img 1s linear infinite;transform-origin: 50% 50%; */
 		}
+
+        	
+		button.recovery_btn {
+			border:0;
+			padding:0;
+			box-shadow:none;
+			width: 22px;
+			height: 22px;
+			vertical-align: top;
+			margin-left: 5px;
+			background: url(<?php echo site_furl('/assets/image/recovery_btn.png');?>) no-repeat left top;
+		}
+
+		button.refresh_btn:hover, button.recovery_btn:hover{
+			border:1px;
+			box-shadow: 1px 1px 1px 0px rgb(0 0 0 / 50%);
+		}
+        
+		button.recovery_btn.refresh{
+			animation: rotate_img 1s linear infinite;transform-origin: 50% 50%;
+		}
+
+        @keyframes rotate_img{
+            100% {
+                transform: rotate(-360deg);
+            }
+        }
+
 	</style>
 <?= $this->include('include/sidebar')?>
 <?= $this->include('include/main_navbar')?>

@@ -150,6 +150,7 @@ class PsBet_Model extends Model {
         $strSql = " SELECT SUM(bet_money) AS bet_money_sum, SUM(bet_win_money) AS win_money_sum  FROM ".$this->table;
         $strSql .= " WHERE bet_time >= '".$arrReqInfo['start']."' AND bet_time <= '".$arrReqInfo['end']."' ";
         $strSql .= " AND bet_mode>='1' AND bet_mode<='7'  AND bet_state != 4 ";
+        $strSql .= " AND bet_mb_uid NOT IN (SELECT mb_uid FROM ".$this->mMemberTable." WHERE mb_level >= ".LEVEL_ADMIN.") ";
         $objResult = $this -> db -> query($strSql)->getRow();
 
         $nSum = 0;

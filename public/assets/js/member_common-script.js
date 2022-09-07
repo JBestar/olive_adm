@@ -202,7 +202,10 @@ function refreshEgg(mbFid, elBtn) {
             $(elBtn).removeClass("refresh");
 
             if (jResult.status == "success") {
-                $("#mm_" + mbFid).text(parseInt(jResult.money).toLocaleString() + "원");
+                if(parseInt(jResult.egg) > 0)
+                    $("#mm_" + mbFid).css('color', 'red');
+                else $("#mm_" + mbFid).css('color', 'black');
+                $("#mm_" + mbFid).text(parseInt(jResult.money).toLocaleString());
                 $("#mp_" + mbFid).text(parseInt(jResult.point).toLocaleString());
 
             } else if (jResult.status == "fail") {
@@ -221,7 +224,8 @@ function refreshEgg(mbFid, elBtn) {
 }
 
 
-function collectEgg(mbFid) {
+function collectEgg(elem, mbFid) {
+    
     var jsonData = { "mb_fid": mbFid };
     jsonData = JSON.stringify(jsonData);
     $(".loading").show();
@@ -235,10 +239,17 @@ function collectEgg(mbFid) {
             // console.log(jResult);
             $(".loading").hide();
             if (jResult.status == "success") {
-                $("#mm_" + mbFid).text(parseInt(jResult.money).toLocaleString() + "원");
+                $("#mm_" + mbFid).text(parseInt(jResult.money).toLocaleString());
+                if(parseInt(jResult.egg) > 0)
+                    $("#mm_" + mbFid).css('color', 'red');
+                else $("#mm_" + mbFid).css('color', 'black');
+                $(elem).css('display', 'none');
                 alert("회수되었습니다.");
             } else if (jResult.status == "fail") {
-                alert("게임서버응답이 실패되었습니다.");
+                if(jResult.msg)
+                    alert(jResult.msg);
+                else
+                    alert("게임서버응답이 실패되었습니다.");
             } else if (jResult.status == "logout") {
                 window.location.replace( FURL +'/');
             }
@@ -279,7 +290,7 @@ function requestTrasnfer(jsonData, bReload = true){
         },
         error: function(request, status, error) {
             $(".loading").hide();
-            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
         }
 
     });
@@ -337,7 +348,7 @@ function reqMemSave(objMember, closeDlg = null){
             url: FURL + "/userapi/modifymember",
             data: { json_: jsonData },
             success: function(jResult) {
-                console.log(jResult);
+                // console.log(jResult);
                 if (jResult.status == "success") {
                     if(closeDlg != null){
                         closeDlg();
