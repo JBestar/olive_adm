@@ -76,7 +76,7 @@ class ApiCas_Lib  {
     public function getAgentInfo()
     {
         if(strlen($this->mHost) < 1){
-            return -1;
+            return array('status' => 0, 'error'=>INTERNAL_ERROR);
         }
 
         $url = $this->mHost."/account/info";
@@ -108,7 +108,7 @@ class ApiCas_Lib  {
             $arrResult['error'] = INTERNAL_ERROR;
         }
 
-        return $balance;
+        return $arrResult;
     }
 
     public function getUserInfo($id)

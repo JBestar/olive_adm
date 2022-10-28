@@ -17,6 +17,8 @@ use App\Models\Block_Model;
 use App\Models\Reward_Model;
 use App\Models\CasPrd_Model;
 use App\Models\SessTry_Model;
+use App\Models\EbalBet_Model;
+use App\Models\Eorder_Model;
 
 use App\Libraries\ApiCas_Lib;
 use App\Libraries\ApiSlot_Lib;
@@ -149,37 +151,57 @@ class Api extends BaseController{
 			$confsiteModel = new ConfSite_Model();
 			$objConfig = $confgameModel->getByIndex($gameId);
 			
+			$errMsg = "";
 			$agConf = null;
 			if($gameId == GAME_CASINO_EVOL){
-				$balance = $this->libApicas->getAgentInfo();
-				if($balance >= 0){
-					$confsiteModel->setConfActive(CONF_CASINO_EVOL, $balance);
+				$arrResult = $this->libApicas->getAgentInfo();
+				if($arrResult['status'] == 1){
+					$confsiteModel->setConfActive(CONF_CASINO_EVOL, $arrResult['balance']);
+					writeLog("<CASINO> Agent Egg = ".$arrResult['balance']);
+				} else {
+					if($arrResult['error'] == INVALID_ACCESS_TOKEN){
+						$errMsg = "토큰불일치";
+					} else if($arrResult['error'] == INVALID_PARAMETER){
+						$errMsg = "파라메터오류";
+					} else $errMsg = "접속불가";
 				}
-				writeLog("<CASINO> Agent Egg = ".$balance);
 				$agConf = $confsiteModel->getConf(CONF_CASINO_EVOL);
 			} else if($gameId == GAME_SLOT_1){
-				$balance = $this->libApislot->getAgentInfo();
-				if($balance >= 0){
-					$confsiteModel->setConfActive(CONF_SLOT_1, $balance);
+				$arrResult = $this->libApislot->getAgentInfo();
+				if($arrResult['status'] == 1){
+					$confsiteModel->setConfActive(CONF_SLOT_1, $arrResult['balance']);
+					writeLog("<SLOT> Agent Egg = ".$arrResult['balance']);
+				} else {
+					if($arrResult['resultCode'] == SLOTCODE_IP_AUTH){
+						$errMsg = "IP인증오류";
+					} else if($arrResult['resultCode'] == SLOTCODE_API_FAIL){
+						$errMsg = "요청실패";
+					} else $errMsg = "접속불가";
 				}
-				writeLog("<SLOT> Agent Egg = ".$balance);
-
 				$agConf = $confsiteModel->getConf(CONF_SLOT_1);
 			} else if($gameId == GAME_SLOT_2){
-				$balance = $this->libApifslot->getAgentInfo();
-				if($balance >= 0){
-					$confsiteModel->setConfActive(CONF_SLOT_2, $balance);
+				$arrResult = $this->libApifslot->getAgentInfo();
+				if($arrResult['status'] == 1){
+					$confsiteModel->setConfActive(CONF_SLOT_2, $arrResult['balance']);
+					writeLog("<FSLOT> AGENT Egg = ".$arrResult['balance']);
+				} else {
+					if($arrResult['error'] == INVALID_ACCESS_TOKEN){
+						$errMsg = "토큰불일치";
+					} else if($arrResult['error'] == INVALID_PARAMETER){
+						$errMsg = "파라메터오류";
+					} else $errMsg = "접속불가";
 				}
-				writeLog("<FSLOT> AGENT Egg = ".$balance);
-
 				$agConf = $confsiteModel->getConf(CONF_SLOT_2);
 			} else if($gameId == GAME_CASINO_KGON){
-				$balance = $this->libApikgon->getAgentInfo();
-				if($balance >= 0){
-					$confsiteModel->setConfActive(CONF_CASINO_KGON, $balance);
+				$arrResult = $this->libApikgon->getAgentInfo();
+				if($arrResult['status'] == 1){
+					$confsiteModel->setConfActive(CONF_CASINO_KGON, $arrResult['balance']);
+					writeLog("<KGON> AGENT Egg = ".$arrResult['balance']);
+				} else {
+					if(array_key_exists('msg', $arrResult)){
+						$errMsg = $arrResult['msg'];
+					} else $errMsg = "접속불가";
 				}
-				writeLog("<KGON> AGENT Egg = ".$balance);
-
 				$agConf = $confsiteModel->getConf(CONF_CASINO_KGON);
 			}
 			
@@ -195,6 +217,7 @@ class Api extends BaseController{
 			}
 
 			$objResult->data = $objConfig;
+			$objResult->msg = $errMsg;
 			$objResult->agent = $agInfo;
 			$objResult->status = "success";
 		}
@@ -316,7 +339,7 @@ class Api extends BaseController{
 			$objAdmin = $this->modelMember->getInfo($strUid);
 			if($objAdmin->mb_level >= LEVEL_ADMIN){
 
-				$arrResult['data'] = $confsiteModel->getBetSite($objAdmin->mb_level);
+				$arrResult['data'] = $confsiteModel->getBetSite();
 				$arrResult['status'] = "success";
 			} else $arrResult['status'] = "nopermit";
 
@@ -338,7 +361,7 @@ class Api extends BaseController{
 			$objAdmin = $this->modelMember->getInfo($strUid);
 			if($objAdmin->mb_level >= LEVEL_ADMIN){
 				
-				$confsiteModel->setBetSite($objAdmin->mb_level, $arrData);
+				$confsiteModel->setBetSite($arrData);
 				$arrResult['status'] = "success";
 			} else $arrResult['status'] = "nopermit";
 
@@ -349,6 +372,47 @@ class Api extends BaseController{
 
 	}
 
+	public function getEvolSite(){
+		if(is_login())
+		{
+			
+			$confsiteModel = new ConfSite_Model();
+			$strUid = $this->session->user_id;
+			$objAdmin = $this->modelMember->getInfo($strUid);
+			if($objAdmin->mb_level >= LEVEL_ADMIN){
+
+				$arrResult['data'] = $confsiteModel->getEvolSite();
+				$arrResult['status'] = "success";
+			} else $arrResult['status'] = "nopermit";
+
+		} else {
+			$arrResult['status'] = "logout";			
+		}
+		echo json_encode($arrResult);	
+
+	}
+
+	public function setEvolSite(){
+		$jsonData = $_REQUEST['json_'];
+		$arrData = json_decode($jsonData, true);		
+		if(is_login())
+		{
+			
+			$confsiteModel = new ConfSite_Model();
+			$strUid = $this->session->user_id;
+			$objAdmin = $this->modelMember->getInfo($strUid);
+			if($objAdmin->mb_level >= LEVEL_ADMIN){
+				
+				$confsiteModel->setEvolSite($arrData);
+				$arrResult['status'] = "success";
+			} else $arrResult['status'] = "nopermit";
+
+		} else {
+			$arrResult['status'] = "logout";			
+		}
+		echo json_encode($arrResult);	
+
+	}
 
 	public function getsoundconf(){
 		if(is_login())
@@ -1235,6 +1299,128 @@ public function withdrawlist(){
 	}
 
 	//베팅리력결과를 Ajax로 전송
+	public function ebalbetlist(){ 
+		$jsonData = $_REQUEST['json_'];
+		$arrGetData = json_decode($jsonData, true);
+
+		if(is_login()) {
+			//model
+			$ebetModel = new EbalBet_Model();
+			
+			$strUid = $this->session->user_id;
+			$objAdmin = $this->modelMember->getInfo($strUid);
+
+			$arrBetResults = null;
+			if($objAdmin->mb_level >= LEVEL_ADMIN){
+				$arrBetResults = $ebetModel->searchList($arrGetData);
+			} 
+			
+			$objResult = new \StdClass;
+			$objResult->data = $arrBetResults;	
+			$objResult->status = "success";
+		
+			echo json_encode($objResult);
+		}
+		else{
+		
+			$arrResult['status'] = "logout";
+
+			echo json_encode($arrResult);	
+		} 		
+	}
+
+
+
+	//베팅리력결과 개수를 Ajax로 전송
+	public function ebalbetcnt(){ 
+		$jsonData = $_REQUEST['json_'];
+		$arrGetData = json_decode($jsonData, true);
+
+		if(is_login()) {
+			//model
+			$ebetModel = new EbalBet_Model();
+			
+			$strUid = $this->session->user_id;
+			$objAdmin = $this->modelMember->getInfo($strUid);
+			
+			if($objAdmin->mb_level >= LEVEL_ADMIN){
+				$objCount = $ebetModel->searchCount($arrGetData);
+			}			
+
+			$arrResult['data'] = $objCount;
+			$arrResult['status'] = "success";
+		
+			echo json_encode($arrResult);
+		}
+		else{
+		
+			$arrResult['status'] = "logout";
+
+			echo json_encode($arrResult);	
+		} 		
+	}
+
+	//베팅리력결과를 Ajax로 전송
+	public function eorderlist(){ 
+		$jsonData = $_REQUEST['json_'];
+		$arrGetData = json_decode($jsonData, true);
+
+		if(is_login()) {
+			//model
+			$eorderModel = new Eorder_Model();
+			
+			$strUid = $this->session->user_id;
+			$objAdmin = $this->modelMember->getInfo($strUid);
+
+			$arrBetResults = null;
+			if($objAdmin->mb_level >= LEVEL_ADMIN){
+				$arrBetResults = $eorderModel->searchList($arrGetData);
+			} 
+			
+			$objResult = new \StdClass;
+			$objResult->data = $arrBetResults;	
+			$objResult->status = "success";
+		
+			echo json_encode($objResult);
+		}
+		else{
+		
+			$arrResult['status'] = "logout";
+
+			echo json_encode($arrResult);	
+		} 		
+	}
+
+	//베팅리력결과 개수를 Ajax로 전송
+	public function eordercnt(){ 
+		$jsonData = $_REQUEST['json_'];
+		$arrGetData = json_decode($jsonData, true);
+
+		if(is_login()) {
+			//model
+			$eorderModel = new Eorder_Model();
+			
+			$strUid = $this->session->user_id;
+			$objAdmin = $this->modelMember->getInfo($strUid);
+			
+			if($objAdmin->mb_level >= LEVEL_ADMIN){
+				$objCount = $eorderModel->searchCount($arrGetData);
+			}			
+
+			$arrResult['data'] = $objCount;
+			$arrResult['status'] = "success";
+		
+			echo json_encode($arrResult);
+		}
+		else{
+		
+			$arrResult['status'] = "logout";
+
+			echo json_encode($arrResult);	
+		} 		
+	}
+
+	//베팅리력결과를 Ajax로 전송
 	public function slbetlist(){ 
 		$jsonData = $_REQUEST['json_'];
 		$arrGetData = json_decode($jsonData, true);
@@ -1323,6 +1509,7 @@ public function withdrawlist(){
 			} else {
 				$objResult->status = "success";
 				$objResult->data = $slgameModel->search($arrReqData);
+				$objResult->app = $_ENV['app.type'];
 			}
 		
 		}

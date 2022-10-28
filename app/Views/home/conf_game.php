@@ -31,12 +31,10 @@
 		<?php endif ?>
 		<?php if(!$slot_deny) :?>
 			<?php if($_ENV['app.type'] != APPTYPE_2) :?>
-			<a href="<?php echo siteFurl().'home/conf_slot_1';?>" class="sub-navbar-a">정품슬롯</a>
+				<a href="<?php echo siteFurl().'home/conf_slot_1';?>" class="sub-navbar-a">정품슬롯</a>
 			<?php endif ?>
-			<?php if($_ENV['app.type'] == APPTYPE_0 || $_ENV['app.type'] == APPTYPE_1) :?>
-			<a href="<?php echo siteFurl().'home/conf_slot_2';?>" class="sub-navbar-a">네츄럴슬롯</a>
-			<?php elseif($_ENV['app.type'] == APPTYPE_2) :?>
-			<a href="<?php echo siteFurl().'home/conf_slot_2';?>" class="sub-navbar-a" >네츄럴슬롯</a>
+			<?php if($_ENV['app.type'] != APPTYPE_3) :?>
+				<a href="<?php echo siteFurl().'home/conf_slot_2';?>" class="sub-navbar-a">네츄럴슬롯</a>
 			<?php endif ?>
 		<?php endif ?>   
 	</div>

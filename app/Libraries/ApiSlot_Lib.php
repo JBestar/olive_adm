@@ -111,7 +111,7 @@ class ApiSlot_Lib {
     {
 
         if(strlen($this->mHost) < 1){
-            return array('status' => 0, 'resultCode'=>-1);
+            return array('status' => 0, 'resultCode'=>INTERNAL_ERROR);
         }
 
         $url = $this->mHost."/custom/api/agent/GetCurrentEgg";
@@ -136,6 +136,7 @@ class ApiSlot_Lib {
                 // "resultMessage": "OK",
                 // "balance": 0
                 $balance = $arrResult['currentEgg'];
+                $arrResult['balance'] = $balance;
 
             } else { //
                 $arrResult['status'] = 0;
@@ -146,7 +147,7 @@ class ApiSlot_Lib {
             $arrResult['resultCode'] = INTERNAL_ERROR;
         }
 
-        return $balance;
+        return $arrResult;
     }
 
     public function createSess($id)

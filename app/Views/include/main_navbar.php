@@ -204,7 +204,7 @@
     			<?php endif ?>  
 				<?php if($kgon_enable) :?>
 				<tr>
-					<td style="font-weight: bold; color: #0090ff; font-size: 14px;">호텔카지노:</td>
+					<td style="font-weight: bold; color: #0090ff; font-size: 14px;">호텔카진:</td>
 					<td>배팅<span id="main-navbar-kgbet-id">0 원</span></td>
 					<td>적중<span id="main-navbar-kgbetearn-id">0 원</span></td>
 				</tr>

@@ -134,6 +134,14 @@ class Home extends StdController
 		$this->load_view_page('home/conf_evol', 'conf_game', LEVEL_ADMIN, $param);	
 	}
 
+	public function conf_ebal(){
+		$param = [
+			'game_name' => "밸런스설정",
+			'game_id' => GAME_CASINO_EVOL
+		];
+		$this->load_view_page('ebal/conf_ebal', 'conf_ebal', LEVEL_ADMIN, $param);	
+	}
+
 	public function conf_casino(){
 		$param = [
 			'game_name' => "호텔카지노",

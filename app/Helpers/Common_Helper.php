@@ -20,6 +20,7 @@
                'conf_game' => '',
                'conf_other' => '',
                'conf_password' => '',
+               'conf_ebal' => '',
                'userdropdownbtn' => " main-dropdown-active-btn",
                'userdropdown' => "style=\"display:block\"", 
                'user_member' => '',

@@ -361,7 +361,7 @@ function reqMemSave(objMember, closeDlg = null){
                     if (jResult.error == 2)
                         alert("중복된 아이디입니다.");
                     else if (jResult.error == 3)
-                        alert("등록된 매장이 아닙니다.");
+                        alert("등록된 추천인이 아닙니다.");
                     else if (jResult.error == 12)
                         alert("중복된 닉네임입니다.");
                     else alert("수정이 실패되었습니다.");
@@ -407,8 +407,12 @@ function reqMemSave(objMember, closeDlg = null){
                     }
                     alert(errorString);
                 } else if (jResult.status == "fail") {
-                    if (jResult.error == 2)
-                        alert("중복된 아이디입니다.");
+                    if (jResult.error == 2){
+                        if(confirm("삭제된 회원중에 아이디가 이미 존재합니다. 그래도 계속하시겠습니까?")){
+                            objMember.mb_state_alarm = 1;
+                            create(objMember, closeDlg);
+                        }
+                    }
                     else if (jResult.error == 12)
                         alert("중복된 닉네임입니다.");
                     else if (jResult.error == 3)
@@ -427,6 +431,51 @@ function reqMemSave(objMember, closeDlg = null){
         });
     }
 
+}
+
+function create(objMember, closeDlg){
+    jsonData = JSON.stringify(objMember);
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: FURL + "/userapi/addmember",
+            data: { json_: jsonData },
+            success: function(jResult) {
+                // console.log(jResult);
+                if (jResult.status == "success") {
+                    if(closeDlg != null){
+                        closeDlg();
+                        requestMember();
+                    }
+                    else window.location.replace( FURL +'/user/member/0');
+                } else if (jResult.status == "logout") {
+                    window.location.replace( FURL +'/');
+                } else if (jResult.status == "val_error") {
+                    var errorString = '';
+                    for (property in jResult.error) {
+                        errorString += `${jResult.error[property]}\n`;
+                    }
+                    alert(errorString);
+                } else if (jResult.status == "fail") {
+                    if (jResult.error == 2){
+                        alert("중복된 아이디입니다.");
+                    }
+                    else if (jResult.error == 12)
+                        alert("중복된 닉네임입니다.");
+                    else if (jResult.error == 3)
+                        alert("등록된 추천인이 아닙니다.");
+                    else alert("등록이 실패되었습니다.");
+                } else if (jResult.status == "ratio_error") {
+                    alert(jResult.error);
+                } else if (jResult.status == "employee_error") {
+                    alert("추천인 아이디가 존재하지 않습니다.");
+                }
+            },
+            error: function(request, status, error) {
+                // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            }
+
+        });
 }
 
 

@@ -112,7 +112,7 @@ class ApiFslot_Lib {
     public function getAgentInfo()
     {
         if(strlen($this->mHost) < 1){
-            return -1;
+            return array('status' => 0, 'error'=>INTERNAL_ERROR);
         }
         $url = $this->mHost."/agent/info";
 
@@ -145,7 +145,7 @@ class ApiFslot_Lib {
             $arrResult['error'] = INTERNAL_ERROR;
         }
 
-        return $balance;
+        return $arrResult;
     }
     public function auth($id, $name, $game)
     {

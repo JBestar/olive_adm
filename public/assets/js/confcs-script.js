@@ -34,10 +34,12 @@ function requestConfGame() {
         success: function(jResult) {
             $("#refresh_egg").removeClass("refresh");
             $("#refresh_useregg").removeClass("refresh");
-
-            // console.log(jResult);
+            console.log(jResult);
             if (jResult.status == "success") {
                 showConfGame(jResult.data, jResult.agent);
+                if(jResult.msg ){
+                    $("#err_msg").text(jResult.msg);
+                }
             } else if (jResult.status == "fail") {
 
             }
@@ -45,7 +47,7 @@ function requestConfGame() {
         error: function(request, status, error) {
             $("#refresh_egg").removeClass("refresh");
             $("#refresh_useregg").removeClass("refresh");
-            // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
         }
 
     });

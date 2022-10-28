@@ -2,7 +2,6 @@
 <?= $this->section('confgame-active') ?><?=$game_name?><?= $this->endSection() ?>
 <?= $this->section('confgame-content') ?>
 
-	<?php if($_ENV['app.type'] == APPTYPE_1) :?>
 		<!---->
 		<h4 style="font-size:16px; font-weight:bold;"><i class="glyphicon glyphicon-hand-right"></i> 게임업체 설정</h4>	
 		<div>
@@ -45,7 +44,6 @@
 				<button class="list-page-button" id="page-last"  onclick="lastPage()">>></button>
 			</div>
 		</div>
-		<?php endif ?>
 
 		<!-- <p class="useredit-seperate-div"></p> -->
 
@@ -63,6 +61,7 @@
 			<p>에이젼트 보유알:</p> 
 			<input type = "text" class="conf-text-input" style="min-width:200px;" id="confpb-agent-egg-id"  disabled>
 			<button class="refresh_btn" title="조회" id="refresh_egg" style="margin-left:5px; margin-top:5px;"></button>
+			<label style="font-size:13px; font-weight:normal; padding-top:0px; color:red;" id="err_msg"></label> 
 		</div>
 		<div class="confsite-game-text-div">
 			<p>회원 보유알:</p> 

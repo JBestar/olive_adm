@@ -113,16 +113,16 @@ defined('APPTYPE_1')        || define('APPTYPE_1', 1);      //Slot Combine
 defined('APPTYPE_2')        || define('APPTYPE_2', 2);      //Netural Slot
 defined('APPTYPE_3')        || define('APPTYPE_3', 3);      //Only Slot
 
-defined('EXIT_SUCCESS')        || define('EXIT_SUCCESS', 0); // no errors
-defined('EXIT_ERROR')          || define('EXIT_ERROR', 1); // generic error
-defined('EXIT_CONFIG')         || define('EXIT_CONFIG', 3); // configuration error
-defined('EXIT_UNKNOWN_FILE')   || define('EXIT_UNKNOWN_FILE', 4); // file not found
-defined('EXIT_UNKNOWN_CLASS')  || define('EXIT_UNKNOWN_CLASS', 5); // unknown class
+defined('EXIT_SUCCESS')        || define('EXIT_SUCCESS', 0);        // no errors
+defined('EXIT_ERROR')          || define('EXIT_ERROR', 1);          // generic error
+defined('EXIT_CONFIG')         || define('EXIT_CONFIG', 3);         // configuration error
+defined('EXIT_UNKNOWN_FILE')   || define('EXIT_UNKNOWN_FILE', 4);   // file not found
+defined('EXIT_UNKNOWN_CLASS')  || define('EXIT_UNKNOWN_CLASS', 5);  // unknown class
 defined('EXIT_UNKNOWN_METHOD') || define('EXIT_UNKNOWN_METHOD', 6); // unknown class member
-defined('EXIT_USER_INPUT')     || define('EXIT_USER_INPUT', 7); // invalid user input
-defined('EXIT_DATABASE')       || define('EXIT_DATABASE', 8); // database error
-defined('EXIT__AUTO_MIN')      || define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
-defined('EXIT__AUTO_MAX')      || define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+defined('EXIT_USER_INPUT')     || define('EXIT_USER_INPUT', 7);     // invalid user input
+defined('EXIT_DATABASE')       || define('EXIT_DATABASE', 8);       // database error
+defined('EXIT__AUTO_MIN')      || define('EXIT__AUTO_MIN', 9);      // lowest automatically-assigned error code
+defined('EXIT__AUTO_MAX')      || define('EXIT__AUTO_MAX', 125);    // highest automatically-assigned error code
 
 
 $base_url = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https://'.$_SERVER['HTTP_HOST'] : 'http://'.$_SERVER['HTTP_HOST']."".str_replace(basename($_SERVER['SCRIPT_NAME']), "", $_SERVER['SCRIPT_NAME']);
@@ -176,21 +176,23 @@ defined('CONF_BET_PN_DENY')     || define('CONF_BET_PN_DENY', 39);
 defined('CONF_BET_N2P_4EN')     || define('CONF_BET_N2P_4EN', 40);
 defined('CONF_BET_PAN_TYPE')    || define('CONF_BET_PAN_TYPE', 41);
 defined('CONF_BET_CONFIRM_DENY')|| define('CONF_BET_CONFIRM_DENY', 42); //베팅시 확인창 제거
-defined('CONF_BET_BLANK_EN')    || define('CONF_BET_BLANK_EN', 43); //공배팅 절삭
-defined('CONF_TRANS_DENY')      || define('CONF_TRANS_DENY', 44);   //이송 금지
-defined('CONF_RETURN_DENY')     || define('CONF_RETURN_DENY', 47);  //환수 금지
-defined('CONF_TRANS_LV1')       || define('CONF_TRANS_LV1', 48);    //이송 1단계만 적용
-defined('CONF_RETURN_LV1')      || define('CONF_RETURN_LV1', 49);   //환수 1단계만 적용
+defined('CONF_BET_BLANK_EN')    || define('CONF_BET_BLANK_EN', 43);     //공배팅 절삭
+defined('CONF_TRANS_DENY')      || define('CONF_TRANS_DENY', 44);       //이송 금지
+defined('CONF_RETURN_DENY')     || define('CONF_RETURN_DENY', 47);      //환수 금지
+defined('CONF_TRANS_LV1')       || define('CONF_TRANS_LV1', 48);        //이송 1단계만 적용
+defined('CONF_RETURN_LV1')      || define('CONF_RETURN_LV1', 49);       //환수 1단계만 적용
 defined('CONF_NOTICE_DT')       || define('CONF_NOTICE_DT', 50);
-defined('CONF_TRANS_LVS')       || define('CONF_TRANS_LVS', 51);    //이송,환수 가능 레벨
-defined('CONF_DEPOSIT_PLAY')    || define('CONF_DEPOSIT_PLAY', 52);   //게임중 충전, 이송 금지
-defined('CONF_WITHDRAW_PLAY')   || define('CONF_WITHDRAW_PLAY', 53);   //게임중 환전 금지
-defined('CONF_MAIN_GAMEIMG')    || define('CONF_MAIN_GAMEIMG', 54);   //메인홈 게임이미지
-defined('CONF_DELAY_PLAY')      || define('CONF_DELAY_PLAY', 55);   //게임 타임아웃
-defined('CONF_CHARGE_URL')        || define('CONF_CHARGE_URL', 56);     //코인 충전주소
-defined('CONF_TELE_ID')         || define('CONF_TELE_ID', 57);      //텔레그램 아이디
-defined('CONF_QNA_DENY')        || define('CONF_QNA_DENY', 58);      //고객센터 제거
+defined('CONF_TRANS_LVS')       || define('CONF_TRANS_LVS', 51);        //이송,환수 가능 레벨
+defined('CONF_DEPOSIT_PLAY')    || define('CONF_DEPOSIT_PLAY', 52);     //게임중 충전, 이송 금지
+defined('CONF_WITHDRAW_PLAY')   || define('CONF_WITHDRAW_PLAY', 53);    //게임중 환전 금지
+defined('CONF_MAIN_GAMEIMG')    || define('CONF_MAIN_GAMEIMG', 54);     //메인홈 게임이미지
+defined('CONF_DELAY_PLAY')      || define('CONF_DELAY_PLAY', 55);       //게임 타임아웃
+defined('CONF_CHARGE_URL')      || define('CONF_CHARGE_URL', 56);       //코인 충전주소
+defined('CONF_TELE_ID')         || define('CONF_TELE_ID', 57);          //텔레그램 아이디
+defined('CONF_QNA_DENY')        || define('CONF_QNA_DENY', 58);         //고객센터 제거
 defined('CONF_AUTO_PERMIT')     || define('CONF_AUTO_PERMIT', 59);      //회원자동승인
+defined('CONF_EVOLSITE')        || define('CONF_EVOLSITE', 60);         //에볼루션 밸런스 계정
+defined('CONF_EVOLRUN')         || define('CONF_EVOLRUN', 61);         //에볼루션 밸런스 상태
 
 
 defined('LEVEL_MAX')           || define('LEVEL_MAX', 100);
@@ -270,16 +272,16 @@ defined('MONEYCHANGE_BET_PB')    || define('MONEYCHANGE_BET_PB', 4);
 defined('MONEYCHANGE_DENY_PB')   || define('MONEYCHANGE_DENY_PB', 5);
 defined('MONEYCHANGE_WIN_PB')    || define('MONEYCHANGE_WIN_PB', 6);
 defined('MONEYCHANGE_BET_PS')    || define('MONEYCHANGE_BET_PS', 7);
-defined('MONEYCHANGE_DENY_PS')    || define('MONEYCHANGE_DENY_PS', 8);
+defined('MONEYCHANGE_DENY_PS')   || define('MONEYCHANGE_DENY_PS', 8);
 defined('MONEYCHANGE_WIN_PS')    || define('MONEYCHANGE_WIN_PS', 9);
 defined('MONEYCHANGE_BET_KS')    || define('MONEYCHANGE_BET_KS', 10);
-defined('MONEYCHANGE_DENY_KS')    || define('MONEYCHANGE_DENY_KS', 11);
+defined('MONEYCHANGE_DENY_KS')   || define('MONEYCHANGE_DENY_KS', 11);
 defined('MONEYCHANGE_WIN_KS')    || define('MONEYCHANGE_WIN_KS', 12);
 defined('MONEYCHANGE_BET_BB')    || define('MONEYCHANGE_BET_BB', 13);
-defined('MONEYCHANGE_DENY_BB')    || define('MONEYCHANGE_DENY_BB', 14);
+defined('MONEYCHANGE_DENY_BB')   || define('MONEYCHANGE_DENY_BB', 14);
 defined('MONEYCHANGE_WIN_BB')    || define('MONEYCHANGE_WIN_BB', 15);
 defined('MONEYCHANGE_BET_BS')    || define('MONEYCHANGE_BET_BS', 16);
-defined('MONEYCHANGE_DENY_BS')    || define('MONEYCHANGE_DENY_BS', 17);
+defined('MONEYCHANGE_DENY_BS')   || define('MONEYCHANGE_DENY_BS', 17);
 defined('MONEYCHANGE_WIN_BS')    || define('MONEYCHANGE_WIN_BS', 18);
 
 defined('MONEYCHANGE_CHARGE_DEC')   || define('MONEYCHANGE_TRANS_DEC', 19);     //하부이송
@@ -359,7 +361,6 @@ defined('MOD_DB_DELETE')        || define('MOD_DB_DELETE', 11);
 defined('MOD_DB_CLEAR')         || define('MOD_DB_CLEAR', 12);     
 
 
-
 defined('TRYLOG_SUCCESS')           || define('TRYLOG_SUCCESS', "Success");    
 defined('TRYLOG_FAIL')              || define('TRYLOG_FAIL', "Fail");    
 defined('TRYLOG_MAINTAIN')          || define('TRYLOG_MAINTAIN', "Maintain");    
@@ -369,4 +370,13 @@ defined('TRYLOG_IPBLOCK')           || define('TRYLOG_IPBLOCK', "Ip-Block");
 defined('TRYLOG_IPDENIED')          || define('TRYLOG_IPDENIED', "Ip-denied");    
 defined('TRYLOG_LOGINING')          || define('TRYLOG_LOGINING', "Logining");    
 
+
+defined('BET_STATE_REQ')         || define('BET_STATE_REQ', 0);     
+defined('BET_STATE_RES')         || define('BET_STATE_RES', 1);     
+defined('BET_STATE_LOSS')        || define('BET_STATE_LOSS', 2);     
+defined('BET_STATE_WIN')         || define('BET_STATE_WIN', 3);     
+defined('BET_STATE_TIE')         || define('BET_STATE_TIE', 4);     
+defined('BET_STATE_DENY')        || define('BET_STATE_DENY', 5);     
+defined('BET_STATE_SUM')         || define('BET_STATE_SUM', 6);     
+defined('BET_STATE_BIN')         || define('BET_STATE_BIN', 7);     
 

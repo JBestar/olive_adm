@@ -1448,11 +1448,12 @@ class UserApi extends BaseController
                         } 
                     }
 
-                    $balance = $this->libApicas->getAgentInfo();
-                    if($balance >= 0){
-                        $confsiteModel->setConfActive(CONF_CASINO_EVOL, $balance);
+                    $arrResult = $this->libApicas->getAgentInfo();
+                    if($arrResult['status'] == 1){
+                        $confsiteModel->setConfActive(CONF_CASINO_EVOL, $arrResult['balance']);
+                        writeLog("<CASINO> Agent Egg = ".$arrResult['balance']);
+                        $balance = $arrResult['balance'];
                     }
-				    writeLog("<CASINO> Agent Egg = ".$balance);
                 } else if($gameId == GAME_SLOT_1){
                     foreach($arrMember as $objMember){
                         if($objMember->mb_slot_uid != "" && $objMember->mb_slot_money > 0 ){
@@ -1466,11 +1467,12 @@ class UserApi extends BaseController
                         } 
                     }
 
-                    $balance = $this->libApislot->getAgentInfo();
-                    if($balance >= 0){
-                        $confsiteModel->setConfActive(CONF_SLOT_1, $balance);
+                    $arrResult = $this->libApislot->getAgentInfo();
+                    if($arrResult['status'] == 1){
+                        $confsiteModel->setConfActive(CONF_SLOT_1, $arrResult['balance']);
+                        writeLog("<SLOT> Agent Egg = ".$arrResult['balance']);
+                        $balance = $arrResult['balance'];
                     }
-                    writeLog("<SLOT> Agent Egg = ".$balance);
     
                 } else if($gameId == GAME_SLOT_2){
                     foreach($arrMember as $objMember){
@@ -1485,11 +1487,12 @@ class UserApi extends BaseController
                         } 
                     }
 
-                    $balance = $this->libApifslot->getAgentInfo();
-                    if($balance >= 0){
-                        $confsiteModel->setConfActive(CONF_SLOT_2, $balance);
+                    $arrResult = $this->libApifslot->getAgentInfo();
+                    if($arrResult['status'] == 1){
+                        $confsiteModel->setConfActive(CONF_SLOT_2, $arrResult['balance']);
+                        writeLog("<FSLOT> AGENT Egg = ".$arrResult['balance']);
+                        $balance = $arrResult['balance'];
                     }
-                    writeLog("<FSLOT> AGENT Egg = ".$balance);
     
                 } else if($gameId == GAME_CASINO_KGON){
                     foreach($arrMember as $objMember){
@@ -1504,11 +1507,12 @@ class UserApi extends BaseController
                         } 
                     }
                     
-                    $balance = $this->libApikgon->getAgentInfo();
-                    if($balance >= 0){
-                        $confsiteModel->setConfActive(CONF_CASINO_KGON, $balance);
+                    $arrResult = $this->libApikgon->getAgentInfo();
+                    if($arrResult['status'] == 1){
+                        $confsiteModel->setConfActive(CONF_CASINO_KGON, $arrResult['balance']);
+                        writeLog("<KGON> AGENT Egg = ".$arrResult['balance']);
+                        $balance = $arrResult['balance'];
                     }
-                    writeLog("<KGON> AGENT Egg = ".$balance);
                 }
 
                 $result->status = STATUS_SUCCESS;

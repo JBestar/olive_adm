@@ -41,6 +41,8 @@ function showMember(arrMember) {
         strBuf += parseInt(arrMember[nRow].mb_point).toLocaleString();
         strBuf += "</td> <td>";
         strBuf += arrMember[nRow].sess_ip;
+        if(arrMember[nRow].sess_type == 1)
+            strBuf += "(APP)"; 
         strBuf += "</td> <td>";
         strBuf += arrMember[nRow].sess_join;
         strBuf += "</td> <td>";
@@ -51,7 +53,7 @@ function showMember(arrMember) {
     }
 
     if (strBuf.length < 1) {
-        strBuf = "<tr><td colspan='6'>자료가 없습니다.</td></tr>";
+        strBuf = "<tr><td colspan='9'>자료가 없습니다.</td></tr>";
     }
 
     $("#user-member-table-id").html(strBuf);

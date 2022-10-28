@@ -2,20 +2,24 @@ $(document).ready(function() {
     setNavBarElement();
     requestConfBetSite();
     addBtnEvent();
+
 });
 
-function showConfSite(arrData) {
-    if (arrData.length < 5)
-        return;
 
-    $("#conf-betsite-input-id").val(arrData[0]);
-    $("#conf-userid-input-id").val(arrData[1]);
-    $("#conf-userpwd-input-id").val(arrData[2]);
-    $("#confpb-bet-check-id").prop('checked', arrData[3] > 0 ? true : false);
-    $("#conf-bettype-select-id").val(arrData[4]);
+function showConfSite(arrData) {
+    if (arrData.length < 6)
+        return;
     
-    changeBetType();
+    $("#confev-betsite-input-id").val(arrData[0]);
+    $("#confev-userid-input-id").val(arrData[1]);
+    $("#confev-userpwd-input-id").val(arrData[2]);
+    $("#confev-bet-check-id").prop('checked', arrData[3] > 0 ? true : false);
+    $("#confev-bettype-select-id").val(arrData[4]);
+    $("#confev-betend-input-id").val(arrData[5]);
+    $("#confev-conbet-check-id").prop('checked', arrData[6] > 0 ? true : false);
+
 }
+
 
 function addBtnEvent() {
 
@@ -23,22 +27,23 @@ function addBtnEvent() {
 
         var objData = new Object();
 
-        objData.site = $("#conf-betsite-input-id").val();
-        objData.userid = $("#conf-userid-input-id").val();
-        objData.userpwd = $("#conf-userpwd-input-id").val();
-        objData.active = $("#confpb-bet-check-id").prop('checked') ? 1 : 0;
-        objData.type = $("#conf-bettype-select-id").val();
+        objData.site_ev = $("#confev-betsite-input-id").val();
+        objData.userid_ev = $("#confev-userid-input-id").val();
+        objData.userpwd_ev = $("#confev-userpwd-input-id").val();
+        objData.active_ev = $("#confev-bet-check-id").prop('checked') ? 1 : 0;
+        objData.type_ev = $("#confev-bettype-select-id").val();
+        objData.bet_ev = $("#confev-betend-input-id").val();
+        objData.con_ev = $("#confev-conbet-check-id").prop('checked') ? 1 : 0;
 
         var jsonData = JSON.stringify(objData);
 
-        console.log(jsonData);
         if (!confirm("저장하시겠습니까?"))
             return;
 
         $.ajax({
             type: "POST",
             dataType: "json",
-            url: FURL + "/api/setBetSite",
+            url: FURL + "/api/setEvolSite",
             data: { json_: jsonData },
             success: function(jResult) {
                 // console.log(jResult);
@@ -53,40 +58,26 @@ function addBtnEvent() {
                 }
             },
             error: function(request, status, error) {
-                console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
             }
 
         });
 
-
     });
-
 
     $("#confsite-cancel-btn-id").click(function() {
         location.reload();
     });
 
-    
-    $("#conf-bettype-select-id").change(function() {
-        changeBetType();
-    });
-}
-
-function changeBetType(){
-    if($("#conf-bettype-select-id").val() == "1" || $("#conf-bettype-select-id").val() == "2"){
-        $("#conf-pw-label").text("계정 토큰키");
-    } else{
-        $("#conf-pw-label").text("계정 비밀번호");
-    } 
 }
 
 function requestConfBetSite() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: FURL + "/api/getBetSite",
+        url: FURL + "/api/getEvolSite",
         success: function(jResult) {
-            console.log(jResult);
+            // console.log(jResult);
             if (jResult.status == "success") {
                 showConfSite(jResult.data);
             } else if (jResult.status == "logout") {

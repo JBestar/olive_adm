@@ -32,7 +32,6 @@ class CsBet_Model extends Model
     private $mRewardTable = 'bet_reward';
 
     function getBetAccount($arrReqData){
-
         
         $strCondition = " WHERE bet_money != bet_win_money ";
         if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
@@ -43,6 +42,8 @@ class CsBet_Model extends Model
         }
         if(intval($arrReqData['mode']) >= 0){
             $strCondition.=" AND bet_game_id = '".$arrReqData['mode']."' ";
+        } else if(intval($arrReqData['mode']) == -10){
+            $strCondition.=" AND bet_game_id = '0' AND bet_player_id = '0' ";
         }
 
         //총배팅금, 적중금
@@ -104,6 +105,10 @@ class CsBet_Model extends Model
             if($bWhere) $strWhere.= " AND ";
             else $strWhere.= " WHERE ";
             $strWhere.=" bet_game_id = '".$arrReqData['mode']."' ";
+        } else if(intval($arrReqData['mode']) == -10){
+            if($bWhere) $strWhere.= " AND ";
+            else $strWhere.= " WHERE ";
+            $strWhere.=" bet_game_id = '0' AND bet_player_id = '0' ";
         }
         if($objEmp->mb_level < LEVEL_ADMIN){
             $strWhere.=" AND bet_mb_uid in ( SELECT mb_uid FROM  tbmember UNION ALL SELECT '".$objEmp->mb_uid."' AS mb_uid ) ";
@@ -202,6 +207,11 @@ class CsBet_Model extends Model
             if($bWhere) $strSql.= " AND ";
             else $strSql.= " WHERE ";    
             $strSql.=" bet_game_id = '".$arrReqData['mode']."' ";
+            $bWhere = true;
+        } else if(intval($arrReqData['mode']) == -10){
+            if($bWhere) $strSql.= " AND ";
+            else $strSql.= " WHERE ";    
+            $strSql.=" bet_game_id = '0' AND bet_player_id = '0' ";
             $bWhere = true;
         }
         if($objEmp->mb_level < LEVEL_ADMIN){

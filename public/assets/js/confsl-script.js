@@ -24,7 +24,7 @@ function addEventListner() {
 
 }
 
-function showGame(list) {
+function showGame(list, appType) {
     var html = "";
 
     if (list) {
@@ -59,18 +59,32 @@ function showGame(list) {
             html += "</td><td>";
 
             html += "<select class='act' onchange='onChangeAct(this)' data-fid='" + game.fid + "' ";
-            html += (game.act >= 1 ?" style='color:black'> ":" style='color:red'> ");
-
-            if(game.fslot_cnt > 1){
-                html += "<option "+(game.act==1?"selected":"")+" value='1'>OUR</option>";
-                html += "<option "+(game.act==2?"selected":"")+" value='2'>OUR_NEW</option>";
-            } else{
-                if(parseInt(game.fslot_prd) != 215)
+            if(appType == 2){
+                if(game.fslot_cnt > 1){
+                    html += " style='color:red'> ";
+                    html += "<option "+(game.act==0?"selected":"")+" value='0'>OUR</option>";
+                    html += "<option "+(game.act!=0?"selected":"")+" value='1'>OUR_NEW</option>";
+                } else if(game.prd_code == 215){
+                    html += " style='color:black'> ";
+                    html += "<option selected value='0'>OUR_NEW</option>";
+                } else {
+                    html += " style='color:black'> ";
+                    html += "<option selected value='0'>OUR</option>";
+                }
+            } else {
+                html += (game.act >= 1 ?" style='color:black'> ":" style='color:red'> ");
+                if(game.fslot_cnt > 1){
                     html += "<option "+(game.act==1?"selected":"")+" value='1'>OUR</option>";
-                else 
                     html += "<option "+(game.act==2?"selected":"")+" value='2'>OUR_NEW</option>";
+                } else{
+                    if(parseInt(game.fslot_prd) != 215)
+                        html += "<option "+(game.act==1?"selected":"")+" value='1'>OUR</option>";
+                    else 
+                        html += "<option "+(game.act==2?"selected":"")+" value='2'>OUR_NEW</option>";
+                }
+                html += "<option "+(game.act==0?"selected":"")+" value='0'>KPLAY</option></select>";
             }
-            html += "<option "+(game.act==0?"selected":"")+" value='0'>KPLAY</option></select>";
+            
 
             html += "</td><tr>";
             nRow++;
@@ -154,7 +168,7 @@ function requestGame() {
             // console.log(jResult);
             $(".loading").hide();
             if (jResult.status == "success") {
-                showGame(jResult.data);
+                showGame(jResult.data, jResult.app);
             } else if (jResult.status == "fail") {
 
             }

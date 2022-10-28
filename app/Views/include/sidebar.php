@@ -25,7 +25,7 @@
     <?php elseif(!$slot_deny) :?>
       <a href="<?php echo siteFurl().'home/conf_slot_2';?>" class="<?=$conf_game?>"><i class="glyphicon glyphicon-play-circle"></i>  게임설정</a>
     <?php endif ?>   
-
+    <a href="<?php echo siteFurl().'home/conf_ebal';?>" class="<?=$conf_ebal?>"><i class="glyphicon glyphicon-cd"></i> 에볼밸런스</a>
     <?php } ?>
     <a href="<?php echo siteFurl().'home/conf_password';?>" class="<?=$conf_password?>"><i class="glyphicon glyphicon-lock"></i> 정보변경</a>
   </div>

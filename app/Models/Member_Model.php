@@ -1293,10 +1293,7 @@ class Member_Model extends Model
             if ($arrRegData['mb_level'] < LEVEL_MIN){
                 return 3;
             }
-            // $objUser = $this->getByNickname(trim($arrData['mb_nickname']));
-            // if (!is_null($objUser)) {
-            //     return 12;
-            // }
+            
             
             
         } else {
@@ -1309,6 +1306,14 @@ class Member_Model extends Model
             return $ratioResult;
         }
 
+        $objUser = $this->getInfoByUid(trim($arrRegData['mb_uid']));
+        if (!is_null($objUser) && $objUser->mb_state_active == PERMIT_DELETE) {
+            if(array_key_exists('mb_state_alarm', $arrRegData) && $arrRegData['mb_state_alarm'] == 1) {
+                $this->delete($objUser->mb_fid);
+            }   
+            else return 2;
+        }
+
         // 자료기지 등록
         $arrRegData['mb_uid'] = trim($arrRegData['mb_uid']);
         $arrRegData['mb_nickname'] = trim($arrRegData['mb_nickname']);
@@ -1318,7 +1323,7 @@ class Member_Model extends Model
         $arrRegData['mb_bank_pwd'] = trim($arrRegData['mb_bank_pwd']);
         $arrRegData['mb_time_join'] = date('Y-m-d H:i:s');
         
-        if(!array_key_exists('mb_stage_active', $arrRegData)){
+        if(!array_key_exists('mb_state_active', $arrRegData)){
             $arrRegData['mb_state_active'] = PERMIT_WAIT;
         }
         if($_ENV['mem.auto_permit']){

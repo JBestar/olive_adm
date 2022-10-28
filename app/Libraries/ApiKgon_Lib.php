@@ -74,7 +74,7 @@ class ApiKgon_Lib  {
     public function getAgentInfo()
     {
         if(strlen($this->mHost) < 1){
-            return -1;
+            return array('status' => 0, 'error'=>INTERNAL_ERROR);
         }
 
         $url = $this->mHost."/partner/balance";
@@ -103,7 +103,7 @@ class ApiKgon_Lib  {
             $arrResult['error'] = INTERNAL_ERROR;
         }
 
-        return $balance;
+        return $arrResult;
     }
 
     public function getUserInfo($id)

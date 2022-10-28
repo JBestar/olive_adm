@@ -31,8 +31,10 @@
 				<?php if($_ENV['app.type'] != APPTYPE_2) :?>
 					<a href="<?php echo site_furl('bet/xslhistory');?>" class="sub-navbar-a" >정품슬롯</a>
 				<?php endif ?>
-				<a href="<?php echo site_furl('bet/fslhistory');?>" class="sub-navbar-a" >네츄럴슬롯</a>
-				<?php if($_ENV['app.type'] != APPTYPE_2) :?>
+				<?php if($_ENV['app.type'] != APPTYPE_3) :?>
+					<a href="<?php echo site_furl('bet/fslhistory');?>" class="sub-navbar-a" >네츄럴슬롯</a>
+				<?php endif ?>
+				<?php if($_ENV['app.type'] == APPTYPE_1) :?>
 					<a href="<?php echo site_furl('bet/slhistory');?>" class="sub-navbar-a" >슬롯</a>
 				<?php endif ?>
 			<?php else: ?>
@@ -43,7 +45,7 @@
 
 	<div class="bet-panel">
         <h4>
-            <?= $this->renderSection('histroy-title') ?>
+            <?= $this->renderSection('history-title') ?>
         </h4>
 		
 		<div class="pbresult-list-div">

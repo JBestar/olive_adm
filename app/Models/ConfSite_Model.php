@@ -32,50 +32,115 @@ class ConfSite_Model extends Model
     }
 
     
-    public function getBetSite($nLevel){
+    public function getBetSite(){
 
-        $nConfigId = CONF_BETSITE;
-        $arrSiteInfo = ["", "", "", 0, 0 ];
+        $data = ["", "", "", 0, 0];
 
-        $objConfig = $this->where(array('conf_id'=>$nConfigId))->first();
-        if(!is_null($objConfig) && $nLevel >= LEVEL_ADMIN){
-            $strSite = $objConfig->conf_content;
-            $arrSiteInfo = explode('#', $strSite);
-            if(count($arrSiteInfo) >= 3){
-                $arrSiteInfo[3] = $objConfig->conf_active;
-                $arrSiteInfo[4] = intval($objConfig->conf_idx);
-                return $arrSiteInfo;
+        $objConfig = $this->where('conf_id', CONF_BETSITE)->first();
+        if(!is_null($objConfig)){
+            $info = explode('#', $objConfig->conf_content);
+            if(count($info) >= 3){
+                $data[0] = $info[0];   
+                $data[1] = $info[1];   
+                $data[2] = $info[2];   
+                $data[3] = $objConfig->conf_active;
+                $data[4] = intval($objConfig->conf_idx);
             }
         }
-        return $arrSiteInfo;
+
+        return $data;
     }
 
 
-    public function setBetSite($nAdminLev, $arrReqData){
-        if($nAdminLev < LEVEL_ADMIN)
-            return false;
+    public function setBetSite($data){
+        $arrBatch = array();
 
         $strContent = "";
-        if(strlen($arrReqData['site'])<1) 
-            $arrReqData['site']=" ";
-        $strContent .= $arrReqData['site']."#";
+        if(strlen($data['site'])<1) 
+            $data['site']=" ";
+        $strContent .= $data['site']."#";
         
-        if(strlen($arrReqData['userid'])<1) 
-            $arrReqData['userid']=" ";    
-        $strContent .= $arrReqData['userid']."#";
+        if(strlen($data['userid'])<1) 
+            $data['userid']=" ";    
+        $strContent .= $data['userid']."#";
         
-        if(strlen($arrReqData['userpwd'])<1) 
-            $arrReqData['userpwd']=" "; 
-        $strContent .= $arrReqData['userpwd'];
+        if(strlen($data['userpwd'])<1) 
+            $data['userpwd']=" "; 
+        $strContent .= $data['userpwd'];
         
-        $this->builder()->set('conf_content', $strContent);
-        $this->builder()->set('conf_active', $arrReqData['active']);
-        $this->builder()->set('conf_idx', $arrReqData['type']);
-        $this->builder()->where('conf_id', CONF_BETSITE);
-        
-        return $this->builder()->update();
+        $arrBatch = array();
+        $updateData = array();
+        $updateData['conf_id'] = CONF_BETSITE;
+        $updateData['conf_content'] = $strContent;
+        $updateData['conf_active'] = $data['active'];
+        $updateData['conf_idx'] = $data['type'];
+        $arrBatch[] = $updateData;
+
+        return  $this->builder()->updateBatch($arrBatch, 'conf_id');
     }
 
+    public function getEvolSite(){
+
+        $data = ["", "", "", 0, 0, 0, 0 ];
+
+        $objConfig = $this->where('conf_id', CONF_EVOLSITE)->first();
+        if(!is_null($objConfig)){
+            $info = explode(';', $objConfig->conf_content);
+            if(count($info) >= 3){
+                $data[0] = $info[0];   
+                $data[1] = $info[1];   
+                $data[2] = $info[2];   
+                // $data[3] = $objConfig->conf_active;
+                $info = explode('#', $objConfig->conf_idx);
+                if(count($info) >= 3){
+                    $data[4] = intval($info[0]);
+                    $data[5] = intval($info[1]);
+                    $data[6] = intval($info[2]);
+                }
+            }
+        }
+
+        $objConfig = $this->where('conf_id', CONF_EVOLRUN)->first();
+        if(!is_null($objConfig)){
+            $data[3] = $objConfig->conf_active;
+        }
+        return $data;
+    }
+
+    public function setEvolSite($data){
+        $arrBatch = array();
+
+        if(array_key_exists('site_ev', $data)){
+            $strContent = "";
+            if(strlen($data['site_ev'])<1) 
+                $data['site_ev']=" ";
+            $strContent .= $data['site_ev'].";";
+            
+            if(strlen($data['userid_ev'])<1) 
+                $data['userid_ev']=" ";    
+            $strContent .= $data['userid_ev'].";";
+            
+            if(strlen($data['userpwd_ev'])<1) 
+                $data['userpwd_ev']=" "; 
+            $strContent .= $data['userpwd_ev'];
+    
+            $updateData = array();
+            $updateData['conf_id'] = CONF_EVOLSITE;
+            $updateData['conf_content'] = $strContent;
+            // $updateData['conf_active'] = $data['active_ev'];
+            $strContent = $data['type_ev']."#".$data['bet_ev']."#".$data['con_ev'];
+            $updateData['conf_idx'] = $strContent;
+            $arrBatch[] = $updateData;
+        }
+
+        $updateData = array();
+        $updateData['conf_id'] = CONF_EVOLRUN;
+        $updateData['conf_active'] = $data['active_ev'];
+        $arrBatch[] = $updateData;
+
+        return  $this->builder()->updateBatch($arrBatch, 'conf_id');
+    }
+    
     public function saveData($arrData){
 
         if($arrData == null) return false;
