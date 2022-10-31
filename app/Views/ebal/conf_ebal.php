@@ -11,6 +11,7 @@
 			<p> 보험타입</p>			
 			<select name="pbresult-number" class="" id="confev-bettype-select-id" style="padding:5px; width: 200px; margin-left:0px;">
 				<option value="1" >NINE</option>
+				<option value="2" >AMAZON</option>
 				<option value="11" >LUCKY</option>
 			</select>
 		</div>
@@ -33,7 +34,7 @@
 			<input type = "number" class="conf-text-input"  style="min-width:200px;" id="confev-betend-input-id"> 초전
 		</div>
 		<div class="confsite-game-text-div">
-			<p>접속유지 배팅:</p> 
+			<p>팅김방지 배팅:</p> 
 			<input type="checkbox" id="confev-conbet-check-id" style="zoom:120%; margin-top:5px;"><label style="font-size:14px; font-weight:normal; padding-top:0px;"> 배팅승인</label>
 		</div>
 		<div class = "confsite-button-group">
