@@ -19,6 +19,8 @@ function ShowBetHistory(jsonBetData) {
     var curPage = getActivePage();
     var firstIdx = (curPage - 1) * CountPerPage;
 
+    let playerAmount = 0, bankerAmount = 0, betAmount = 0, winAmount = 0;
+
     for (nRow in jsonBetData) {
 
         strBuf += "<tr><td>";
@@ -32,29 +34,36 @@ function ShowBetHistory(jsonBetData) {
         strBuf += "</td><td>";
         strBuf += jsonBetData[nRow].bet_table_name;
         strBuf += "</td><td>";
-        strBuf += parseInt(jsonBetData[nRow].bet_player).toLocaleString() + " / " + parseInt(jsonBetData[nRow].bet_banker).toLocaleString();
+        
+        playerAmount = parseInt(jsonBetData[nRow].bet_player);
+        bankerAmount = parseInt(jsonBetData[nRow].bet_banker);
+        betAmount = parseInt(jsonBetData[nRow].bet_amount);
+        winAmount = parseInt(jsonBetData[nRow].bet_win_amount);
+
+        strBuf += playerAmount.toLocaleString() + " / " + bankerAmount.toLocaleString();
         strBuf += "</td><td>";
-        strBuf += parseInt(jsonBetData[nRow].bet_amount).toLocaleString() + "원";
+        strBuf += betAmount.toLocaleString() + "원";
         strBuf += "</td><td>";
         strBuf += getEvolSide(jsonBetData[nRow].bet_choice);
         strBuf += "</td><td>";
         strBuf += getEvolSide(jsonBetData[nRow].bet_result);
         strBuf += "</td><td>";
-        strBuf += parseInt(jsonBetData[nRow].bet_win_amount).toLocaleString() + "원";
+        strBuf += winAmount.toLocaleString() + "원";
         strBuf += "</td><td>";
         strResult = "";
+        
+
         if (parseInt(jsonBetData[nRow].bet_type) == 0){
-            if(jsonBetData[nRow].bet_choice == "Banker" && jsonBetData[nRow].bet_result == "Banker")
-                strResult = (parseInt(jsonBetData[nRow].bet_player/1000) * 50).toLocaleString();
+            if(jsonBetData[nRow].bet_result == "Player")
+                strResult = (bankerAmount-Math.floor(playerAmount/1000)*1000 - betAmount + winAmount).toLocaleString();
+            else if(jsonBetData[nRow].bet_result == "Banker")
+                strResult = (playerAmount-Math.floor(bankerAmount/1000)*950 - betAmount + winAmount).toLocaleString();
             else strResult = 0;
         } else if(parseInt(jsonBetData[nRow].bet_type) == 1) {
-            let player = parseInt(jsonBetData[nRow].bet_player);
-            let banker = parseInt(jsonBetData[nRow].bet_banker);
-
-            if(jsonBetData[nRow].bet_result == "Banker")
-                strResult = (player%1000 + parseInt(player/1000) * 50 ).toLocaleString();
-            else if(jsonBetData[nRow].bet_result == "Player")
-                strResult = (banker%1000 ).toLocaleString();
+            if(jsonBetData[nRow].bet_result == "Player")
+                strResult = (bankerAmount%1000 ).toLocaleString();
+            else if(jsonBetData[nRow].bet_result == "Banker")
+                strResult = (playerAmount%1000 + Math.floor(playerAmount/1000) * 50 ).toLocaleString();
             else strResult = 0;
         }
         strBuf += strResult;

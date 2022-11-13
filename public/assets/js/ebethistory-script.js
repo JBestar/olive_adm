@@ -43,6 +43,9 @@ function ShowBetHistory(jsonBetData) {
             } else
                 strBuf += jsonBetData[nRow].bet_table_code;
             strBuf += "</td><td>";
+            if(jsonBetData[nRow].obj_id > 0)
+                strBuf += parseInt(jsonBetData[nRow].obj_id).toLocaleString() + "원";
+            strBuf += "</td><td>";
             strBuf += parseInt(jsonBetData[nRow].bet_money).toLocaleString() + "원";
             strBuf += "</td><td>";
             strBuf += getEvolSide(jsonBetData[nRow].bet_choice);
@@ -175,7 +178,7 @@ function requestBetHistory() {
         },
         error: function(request, status, error) {
             $(".loading").hide();
-            // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
         }
 
     });

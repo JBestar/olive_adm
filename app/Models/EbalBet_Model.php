@@ -31,7 +31,7 @@ class EbalBet_Model extends Model
     
     function getBetAccount($reqData){
         
-        $where = " WHERE bet_type <> ".BET_TYPE_FORCE ;
+        $where = " WHERE bet_type <> ".BET_TYPE_FORCE." AND bet_state > ".BET_STATE_REQ ;
         if(strlen($reqData['start']) > 0 && strlen($reqData['end']) > 0 ){
             $where.=" AND ".getTimeRange('bet_tm_req', $reqData);
         }
@@ -45,12 +45,16 @@ class EbalBet_Model extends Model
         //총배팅금, 적중금
         $arrSum = array();
         $strSql = " SELECT SUM(bet_amount) AS bet_amount_sum, SUM(bet_win_amount) AS win_amount_sum, ";
-        $strSql .= " SUM(CASE WHEN bet_type= 0 AND bet_choice = 'Banker' AND bet_result = 'Banker' THEN FLOOR(bet_player DIV 1000)*50 ELSE 0 END) AS profit_sum1, ";
-        $strSql .= " SUM(CASE WHEN bet_type= 1 AND bet_result = 'Banker' THEN bet_player % 1000 + FLOOR(bet_player DIV 1000)*50 ELSE 0 END) AS profit_sum2, ";
-        $strSql .= " SUM(CASE WHEN bet_type= 1 AND bet_result = 'Player' THEN bet_banker % 1000 ELSE 0 END) AS profit_sum3 ";
+        // $strSql .= " SUM(CASE WHEN bet_type= 0 AND bet_choice = 'Banker' AND bet_result = 'Banker' THEN FLOOR(bet_player DIV 1000)*50 ELSE 0 END) AS profit_sum1, ";
+        $strSql .= " SUM(CASE WHEN bet_type= 0 AND bet_result = 'Player' THEN bet_banker - FLOOR(bet_player DIV 1000)*1000 - bet_amount + bet_win_amount ELSE 0 END) AS profit_sum1, ";
+        $strSql .= " SUM(CASE WHEN bet_type= 0 AND bet_result = 'Banker' THEN bet_player - FLOOR(bet_banker DIV 1000)*950 - bet_amount + bet_win_amount ELSE 0 END) AS profit_sum2, ";
+        $strSql .= " SUM(CASE WHEN bet_type= 1 AND bet_result = 'Player' THEN bet_banker % 1000 ELSE 0 END) AS profit_sum3, ";
+        $strSql .= " SUM(CASE WHEN bet_type= 1 AND bet_result = 'Banker' THEN bet_player % 1000 + FLOOR(bet_player DIV 1000)*50 ELSE 0 END) AS profit_sum4 ";
         $strSql .= " FROM ".$this->table;
         $strSql .= $where;
         $objResult = $this -> db -> query($strSql)->getRow();
+
+        // writeLog($strSql);
 
         $nSum = 0;
         if(!is_null($objResult->bet_amount_sum)) {
@@ -72,6 +76,9 @@ class EbalBet_Model extends Model
         }
         if(!is_null($objResult->profit_sum3)) {
             $nSum += intval($objResult->profit_sum3);
+        }
+        if(!is_null($objResult->profit_sum4)) {
+            $nSum += intval($objResult->profit_sum4);
         }
         $arrSum[2] = $nSum;
         
