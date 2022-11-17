@@ -1,23 +1,44 @@
 $(document).ready(function() {
     setNavBarElement();
-    requestConfBetSite();
+    requestConfBetSite(true);
     addBtnEvent();
 
 });
 
 
-function showConfSite(arrData) {
+function showConfSite(arrData, all) {
     if (arrData.length < 6)
         return;
+    if(all){
+        $("#confev-betsite-input-id").val(arrData[0]);
+        $("#confev-userid-input-id").val(arrData[1]);
+        $("#confev-userpwd-input-id").val(arrData[2]);
+        $("#confev-bet-check-id").prop('checked', arrData[3] > 0 ? true : false);
+        $("#confev-bettype-select-id").val(arrData[4]);
+        $("#confev-betend-input-id").val(arrData[5]);
+        $("#confev-conbet-check-id").prop('checked', arrData[6] > 0 ? true : false);
+    }
     
-    $("#confev-betsite-input-id").val(arrData[0]);
-    $("#confev-userid-input-id").val(arrData[1]);
-    $("#confev-userpwd-input-id").val(arrData[2]);
-    $("#confev-bet-check-id").prop('checked', arrData[3] > 0 ? true : false);
-    $("#confev-bettype-select-id").val(arrData[4]);
-    $("#confev-betend-input-id").val(arrData[5]);
-    $("#confev-conbet-check-id").prop('checked', arrData[6] > 0 ? true : false);
+    $('#confev-balance-input-id').val('');
+    $('#confev-balance-label-id').text('');
 
+    if(parseInt(arrData[7]) >= 0){
+        $('#confev-balance-input-id').val(`${arrData[7].toLocaleString()}`);
+        setTimeout(() =>{
+            this.requestConfBetSite();
+        }, 10000);
+    }
+    else if(parseInt(arrData[7]) == -1){
+        $('#confev-balance-label-id').text('(시작중)');
+        setTimeout(() =>{
+            this.requestConfBetSite();
+        }, 2000);
+    } else{
+        $('#confev-balance-label-id').text('(정지됨)');
+        setTimeout(() =>{
+            this.requestConfBetSite();
+        }, 5000);
+    }
 }
 
 
@@ -71,7 +92,7 @@ function addBtnEvent() {
 
 }
 
-function requestConfBetSite() {
+function requestConfBetSite(all=false) {
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -79,7 +100,7 @@ function requestConfBetSite() {
         success: function(jResult) {
             // console.log(jResult);
             if (jResult.status == "success") {
-                showConfSite(jResult.data);
+                showConfSite(jResult.data, all);
             } else if (jResult.status == "logout") {
                 window.location.replace( FURL +'/');
             } else if (jResult.status == "nopermit") {

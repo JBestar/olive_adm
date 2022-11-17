@@ -12,6 +12,7 @@
 			<select name="pbresult-number" class="" id="confev-bettype-select-id" style="padding:5px; width: 200px; margin-left:0px;">
 				<option value="1" >NINE</option>
 				<option value="2" >AMAZON</option>
+				<option value="3" >AIRLINE</option>
 				<option value="11" >LUCKY</option>
 				<option value="12" >VEDA</option>
 			</select>
@@ -33,6 +34,12 @@
 		<div class="confsite-game-text-div">
 			<p id="conf-pw-label">보험베팅시간:</p> 
 			<input type = "number" class="conf-text-input"  style="min-width:200px;" id="confev-betend-input-id"> 초전
+		</div>
+		
+		<div class="confsite-game-text-div">
+			<p id="conf-pw-label">보험알:</p> 
+			<input type = "text" class="conf-text-input"  style="min-width:200px;" id="confev-balance-input-id" disabled> 
+			<label style="font-size:14px; font-weight:normal; padding-top:0px;"  id="confev-balance-label-id"></label>
 		</div>
 		<div class="confsite-game-text-div">
 			<p>팅김방지 배팅:</p> 

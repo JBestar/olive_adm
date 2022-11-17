@@ -185,7 +185,14 @@ function showConfSite(arrData) {
         $("#ebal-stop-but-id").css("background", 'white');
 
         $('#ebal-balance-id').show();
-        $('#ebal-balance-id').text(`보유알: ${arrData[7].toLocaleString()}`);
+        if(parseInt(arrData[7]) >= 0)
+            $('#ebal-balance-id').text(`보유알: ${arrData[7].toLocaleString()}`);
+        else $('#ebal-balance-id').hide();
+        // else if(parseInt(arrData[7]) == -1){
+        //     $('#ebal-balance-id').text('기동중');
+        // } else{
+        //     $('#ebal-balance-id').text('정지됨');
+        // }
     } else {
         $("#ebal-start-but-id").attr("disabled", false);
         $("#ebal-stop-but-id").attr("disabled", true);

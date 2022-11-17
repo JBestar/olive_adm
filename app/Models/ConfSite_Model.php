@@ -90,7 +90,13 @@ class ConfSite_Model extends Model
                 $data[0] = $info[0];   
                 $data[1] = $info[1];   
                 $data[2] = $info[2];   
-                $data[7] = $objConfig->conf_active;
+                $objConfig->conf_active = intval($objConfig->conf_active); 
+                
+                $data[7] = -2; 
+                if(diffDt(date('Y-m-d H:i:s'), $objConfig->conf_update) < DELAY_TRANSFER){
+                    $data[7] = $objConfig->conf_active;
+                }
+                
                 $info = explode('#', $objConfig->conf_idx);
                 if(count($info) >= 3){
                     $data[4] = intval($info[0]);
