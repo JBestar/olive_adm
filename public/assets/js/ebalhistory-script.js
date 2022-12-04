@@ -43,8 +43,8 @@ function ShowBetHistory(jsonBetData) {
         bankerAmount = parseInt(jsonBetData[nRow].bet_banker);
         betAmount = parseInt(jsonBetData[nRow].bet_amount);
         winAmount = parseInt(jsonBetData[nRow].bet_win_amount);
-
-        strBuf += playerAmount.toLocaleString() + " / " + bankerAmount.toLocaleString();
+        if (parseInt(jsonBetData[nRow].bet_type) <= 1)
+            strBuf += playerAmount.toLocaleString() + " / " + bankerAmount.toLocaleString();
         strBuf += "</td><td>";
         strBuf += betAmount.toLocaleString() + "원";
         strBuf += "</td><td>";
