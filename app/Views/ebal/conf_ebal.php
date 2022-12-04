@@ -10,13 +10,14 @@
 		<div class="confsite-game-text-div">
 			<p> 보험타입</p>			
 			<select name="pbresult-number" class="" id="confev-bettype-select-id" style="padding:5px; width: 200px; margin-left:0px;">
-				<option value="10" >AUTOEVOL</option>
+				<option value="10" >EVOL365</option>
 				<option value="11" >LUCKY</option>
 				<option value="12" >VEDA</option>
 				<option value="1" >NINE</option>
 				<option value="2" >AMAZON</option>
 				<option value="3" >AIRLINE</option>
 				<option value="4" >NINEBAR</option>
+				<option value="5" >CHROMA</option>
 			</select>
 		</div>
 		<div class="confsite-game-text-div">
