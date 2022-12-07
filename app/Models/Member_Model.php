@@ -717,6 +717,7 @@ class Member_Model extends Model
         if(!$confs['cas_deny'] || $confs['kgon_enable']){
             $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_casino ';
             $strSQL .= " WHERE bet_fid >= ".$arrReqData['cas_range'][0]." AND bet_fid <= ".$arrReqData['cas_range'][1];
+            $strSQL .= " AND bet_money <> bet_win_money ";  //sum without Tie
             $strSQL .= $strWhereMem." )";
         }
         $strSQL .= " ) AS bet_table ) ";
@@ -770,6 +771,8 @@ class Member_Model extends Model
         $strSQL .= " WHERE bet_fid >= ".$arrReqData['gm_range'][0]." AND bet_fid <= ".$arrReqData['gm_range'][1];
         if ($arrReqData['type'] == GAME_SLOT_1 || $arrReqData['type'] == GAME_SLOT_2){
             $strSQL .= " AND bet_game_id = '".$arrReqData['type']."' ";
+        } else if ($arrReqData['type'] == GAME_CASINO_EVOL ) {
+            $strSQL .= " AND bet_money <> bet_win_money ";  //sum without Tie
         }
         $strSQL .= " AND bet_mb_uid IN (SELECT mb_uid from tbmember) ) ";
         //포인트
