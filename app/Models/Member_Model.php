@@ -173,7 +173,14 @@ class Member_Model extends Model
 
     public function getInfoByUid($strId)
     {
-        return $this->select($this->fields)->where('mb_uid', $strId)->first();
+        $fields = ['mb_fid', 'mb_uid', 'mb_level','mb_nickname', 
+            'mb_money', 'mb_point', 'mb_money_charge', 'mb_money_exchange', 'mb_grade', 
+            'mb_state_active', 'mb_state_delete', 'mb_state_alarm', 'mb_state_view',
+            'mb_game_pb_ratio', 'mb_game_pb2_ratio','mb_game_ps_ratio', 'mb_game_bb_ratio', 'mb_game_bb2_ratio', 
+            'mb_game_bs_ratio', 'mb_game_cs_ratio', 'mb_game_sl_ratio', 'mb_game_eo_ratio', 'mb_game_eo2_ratio', 'mb_game_co_ratio', 'mb_game_co2_ratio', 
+            'mb_live_money', 'mb_slot_money', 'mb_fslot_money', 'mb_kgon_money' ];
+
+        return $this->select($fields)->where('mb_uid', $strId)->first();
     }
 
     public function getByNickname($strName)
@@ -1335,7 +1342,7 @@ class Member_Model extends Model
             return $ratioResult;
         }
 
-        $objUser = $this->getInfoByUid(trim($arrRegData['mb_uid']));
+        $objUser = $this->getInfo(trim($arrRegData['mb_uid']));
         if (!is_null($objUser) && $objUser->mb_state_active == PERMIT_DELETE) {
             if(array_key_exists('mb_state_alarm', $arrRegData) && $arrRegData['mb_state_alarm'] == 1) {
                 $this->delete($objUser->mb_fid);
