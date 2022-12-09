@@ -81,7 +81,7 @@ class ConfSite_Model extends Model
 
     public function getEvolSite(){
 
-        $data = ["", "", "", 0, 0, 0, 0, 0, 0, 0 ];
+        $data = ["", "", "", 0, 0, 0, 0, 0, 0, 0, "" ];
 
         $objConfig = $this->where('conf_id', CONF_EVOLSITE)->first();
         if(!is_null($objConfig)){
@@ -92,7 +92,7 @@ class ConfSite_Model extends Model
                 $data[2] = $info[2];   
                 $objConfig->conf_active = intval($objConfig->conf_active); 
                 
-                $data[7] = -2; 
+                $data[7] = -3; 
                 if(diffDt(date('Y-m-d H:i:s'), $objConfig->conf_update) < DELAY_TRANSFER){
                     $data[7] = $objConfig->conf_active;
                 }
@@ -113,6 +113,7 @@ class ConfSite_Model extends Model
         $objConfig = $this->where('conf_id', CONF_EVOLRUN)->first();
         if(!is_null($objConfig)){
             $data[3] = $objConfig->conf_active;
+            $data[10] = $objConfig->conf_idx;
         }
         return $data;
     }
@@ -137,7 +138,6 @@ class ConfSite_Model extends Model
             $updateData = array();
             $updateData['conf_id'] = CONF_EVOLSITE;
             $updateData['conf_content'] = $strContent;
-            // $updateData['conf_active'] = $data['active_ev'];
             $strContent = $data['type_ev']."#".$data['bet_ev']."#".$data['con_ev']."#".$data['bet_min']."#".$data['bet_max'];
             $updateData['conf_idx'] = $strContent;
             $arrBatch[] = $updateData;

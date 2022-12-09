@@ -25,21 +25,20 @@ function showConfSite(arrData, all) {
     $('#confev-balance-label-id').text('');
 
     if(parseInt(arrData[7]) >= 0){
-        $('#confev-balance-input-id').val(`${arrData[7].toLocaleString()}`);
+        $('#confev-balance-input-id').val(arrData[7].toLocaleString());
         setTimeout(() =>{
             this.requestConfBetSite();
         }, 10000);
-    }
-    else if(parseInt(arrData[7]) == -1){
-        $('#confev-balance-label-id').text('(대기중)');
-        setTimeout(() =>{
-            this.requestConfBetSite();
-        }, 2000);
-    } else{
-        $('#confev-balance-label-id').text('(정지됨)');
+    } else {
         setTimeout(() =>{
             this.requestConfBetSite();
         }, 5000);
+    }
+
+    if(arrData[10].length > 0)
+        $('#confev-balance-label-id').text(`( ${arrData[10]} )`);
+    else if(parseInt(arrData[7]) < -2){
+        $('#confev-balance-label-id').text(`( 정지됨 )`);
     }
 }
 

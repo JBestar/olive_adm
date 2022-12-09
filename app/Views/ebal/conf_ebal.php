@@ -3,7 +3,7 @@
 <?= $this->section('eval_content') ?>
 	<style>
 		.confsite-game-text-div div{
-			width:450px;			
+			width:510px;			
 		}
 		.confsite-game-text-div p{
 			width:150px;			
@@ -71,7 +71,7 @@
 			<div>
 				<p id="conf-pw-label">보험알:</p> 
 				<input type = "text" class="conf-text-input"  id="confev-balance-input-id" disabled> 
-				<label style="font-size:14px; font-weight:normal; padding-top:0px;"  id="confev-balance-label-id"></label>
+				<label style="font-size:14px; font-weight:normal; padding-top:0px; min-width:100px;"  id="confev-balance-label-id"></label>
 			</div>
 		</div>
 		
