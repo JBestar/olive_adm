@@ -70,7 +70,7 @@ class Eorder_Model extends Model
         $strSql.= " WHERE ord_state != 7 AND ord_choice IN ('Player', 'Banker') AND ord_round_id COLLATE utf8mb4_general_ci IN ( SELECT nid FROM casino_room WHERE OPEN = ".STATE_ACTIVE."  ) GROUP BY ord_table_id, ord_round_id, ord_choice) AS tbBet ";
         $strSql.= " ON tbRoom.tid COLLATE utf8mb4_general_ci = tbBet.ord_table_id ORDER BY name ASC, ord_choice DESC ";
 
-        writeLog($strSql);
+        // writeLog($strSql);
         $query = $this -> db -> query($strSql);
         $result = $query -> getResult();
         return $result;

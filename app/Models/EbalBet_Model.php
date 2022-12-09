@@ -57,7 +57,7 @@ class EbalBet_Model extends Model
         $strSql .= $where;
         $objResult = $this -> db -> query($strSql)->getRow();
 
-        writeLog($strSql);
+        // writeLog($strSql);
 
         $nSum = 0;
         if(!is_null($objResult->bet_amount_sum)) {

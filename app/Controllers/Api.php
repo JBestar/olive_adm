@@ -133,6 +133,8 @@ class Api extends BaseController{
 	*/
 	public function logout()
 	{
+		$sess_id = $this->session->session_id;
+		writeLog("[api] logout (".$sess_id.")");
 		$this->sess_destroy();
 		
 		$arrResult['status'] = "success";

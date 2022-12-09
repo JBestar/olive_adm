@@ -20,6 +20,9 @@ class Pages extends BaseController
 
 	public function logout()
 	{
+		$sess_id = $this->session->session_id;
+		writeLog("[page] logout (".$sess_id.")");
+
 		$this->sess_destroy();
 		$this->response->redirect( $_ENV['app.furl'].'/pages/login');
 	}

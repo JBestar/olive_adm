@@ -336,13 +336,16 @@ class UserApi extends BaseController
             $bPermit = true;
             if (is_null($objUser)) {
 				$bPermit = false;
+                writeLog("[assets] user = null (".$strUid.")");
             }
             else if($objUser->mb_level < LEVEL_ADMIN && $modelConfsite->IsMaintain())
 				$bPermit = false;
             else if( !$this->modelMember->isPermitMember($objUser) )
 				$bPermit = false;
-            else if( is_null($this->modelSess->getBySess($sess_id)) )
+            else if( is_null($this->modelSess->getBySess($sess_id)) ){
+                writeLog("[assets] session = null (".$sess_id.")");
 				$bPermit = false;
+            }
             
             if ($bPermit) {
 				$this->modelSess->updateLast($sess_id);
@@ -352,6 +355,7 @@ class UserApi extends BaseController
                 $objResult->data = $objUser;
                 $objResult->status = 'success';
             } else {
+                writeLog("[assets] logout (".$sess_id.")");
 				$this->sess_destroy();
                 $objResult->status = 'logout';
             }
