@@ -145,7 +145,7 @@ function requestBetHistory() {
         dataType: "json",
         success: function(jResult) {
             $(".loading").hide();
-            console.log(jResult);
+            // console.log(jResult);
             if (jResult.status == "success") {
                 ShowBetHistory(jResult.data);
                 ShowBetAccount(jResult.account)
