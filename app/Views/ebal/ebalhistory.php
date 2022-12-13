@@ -47,8 +47,8 @@
 			<p>총 배팅금: <span id="total-betmoney-id">0</span></p>
 			<p>총 밸런스금: <span id="total-balmoney-id">0</span></p>
 			<p>뱅커 밸런스금: <span id="total-bankermoney-id">0</span></p>
-			<p>팅김방지금: <span id="total-conmoney-id">0</span></p>
 			<p>밸런스수익: <span id="total-profit-id">0</span></p>
+			<p>팅김방지: <span id="total-conmoney-id">0</span></p>
 			<div class="pagination"  id="list-page"  style="display:none">
 				<button class="list-page-button" id="page-first"  onclick="firstPage()"><<</button>
 				<button class="list-page-button" id="page-prev"  onclick="prevPage()"><</button>

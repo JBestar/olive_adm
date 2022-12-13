@@ -94,14 +94,14 @@ function ShowBetAccount(arrBetAccount) {
         $(".pbresult-list-page-div p").css('display', 'none');
         return;
     }
-    if (arrBetAccount.length != 7) return;
+    if (arrBetAccount.length != 6) return;
     $(".pbresult-list-page-div p").css('display', 'block');
 
-    $("#total-betmoney-id").text(parseInt(arrBetAccount[4]).toLocaleString() + " 원");
-    $("#total-balmoney-id").text(parseInt(arrBetAccount[5]).toLocaleString() + " 원");
-    $("#total-bankermoney-id").text(parseInt(arrBetAccount[6]).toLocaleString() + " 원");
-    $("#total-profit-id").text(parseInt(arrBetAccount[2]).toLocaleString() + " 원");
-    $("#total-conmoney-id").text(parseInt(arrBetAccount[3]).toLocaleString() + " 원");
+    $("#total-betmoney-id").text(parseInt(arrBetAccount[0]).toLocaleString() + " 원");
+    $("#total-balmoney-id").text(parseInt(arrBetAccount[1]).toLocaleString() + " 원");
+    $("#total-bankermoney-id").text(parseInt(arrBetAccount[2]).toLocaleString() + " 원");
+    $("#total-profit-id").text(parseInt(arrBetAccount[3]).toLocaleString() + " 원");
+    $("#total-conmoney-id").text(parseInt(arrBetAccount[4]).toLocaleString() + " / " + parseInt(arrBetAccount[5]).toLocaleString());
 
 }
 
