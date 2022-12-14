@@ -49,7 +49,7 @@ class EbalBet_Model extends Model
         // $strSql .= " SUM(CASE WHEN bet_type=0 THEN bet_win_amount ELSE 0 END ) AS win_amount_sum, ";
         $strSql .= " SUM(CASE WHEN bet_type=2 THEN bet_amount ELSE 0 END ) AS bet_con_sum, ";
         $strSql .= " SUM(CASE WHEN bet_type=2 THEN bet_win_amount ELSE 0 END ) AS win_con_sum, ";
-        $strSql .= " SUM(CASE WHEN bet_type=2 THEN 0 ELSE bet_player + bet_banker END ) AS bet_user_sum, ";
+        $strSql .= " SUM(CASE WHEN bet_type!=2 AND bet_result != 'Tie' THEN bet_player + bet_banker ELSE 0 END ) AS bet_user_sum, ";
         $strSql .= " SUM(CASE WHEN bet_type!=2 THEN (bet_player + bet_banker - ABS(bet_player - bet_banker))/2 ELSE 0 END ) AS bet_bal_sum, ";
         $strSql .= " SUM(CASE WHEN bet_type!=2 AND bet_result = 'Banker' THEN (bet_player + bet_banker - ABS(bet_player - bet_banker))/2 ELSE 0 END ) AS bet_bal_banker ";
         // $strSql .= " SUM(CASE WHEN bet_type=0 AND bet_choice = 'Banker' AND bet_result = 'Banker' THEN FLOOR(bet_player DIV 1000)*50 ELSE 0 END) AS profit_sum1 ";

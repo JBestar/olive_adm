@@ -80,6 +80,8 @@ class CsBet_Model extends Model
         }
         $arrSum[3] = $nSum;
         
+        // writeLog($strSql);
+        
         return $arrSum;
     }
 
