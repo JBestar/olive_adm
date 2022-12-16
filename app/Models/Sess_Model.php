@@ -84,7 +84,7 @@ class Sess_Model extends Model {
     function search($arrReqData, $mbLv=LEVEL_ADMIN)
     {
         $strSql = "SELECT ".$this->table.".*, member.mb_nickname, member.mb_level, ";
-        $strSql .= " (member.mb_money+member.mb_live_money+member.mb_slot_money+member.mb_fslot_money+member.mb_kgon_money ) AS mb_money, member.mb_point FROM ".$this->table;
+        $strSql .= " (member.mb_money+member.mb_live_money+member.mb_slot_money+member.mb_fslot_money+member.mb_kgon_money+member.mb_gslot_money ) AS mb_money, member.mb_point FROM ".$this->table;
         $strSql .= " JOIN member ON ".$this->table.".sess_mb_fid = member.mb_fid ";
         $strSql .= " WHERE mb_level < '".$mbLv."' ";
         

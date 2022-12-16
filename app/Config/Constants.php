@@ -107,11 +107,11 @@ defined('APP_MX')           || define('APP_MX', 'Mx');
 defined('APP_AT')           || define('APP_AT', 'At');
 defined('APP_VEGAS')        || define('APP_VEGAS', 'Vegas');
 
-
-defined('APPTYPE_0')        || define('APPTYPE_0', 0);      //Premier
-defined('APPTYPE_1')        || define('APPTYPE_1', 1);      //Slot Combine
-defined('APPTYPE_2')        || define('APPTYPE_2', 2);      //Netural Slot
-defined('APPTYPE_3')        || define('APPTYPE_3', 3);      //Only Slot
+defined('APPTYPE_1')        || define('APPTYPE_1', 1);      //Slot + FSlot
+defined('APPTYPE_2')        || define('APPTYPE_2', 2);      //FSlot
+defined('APPTYPE_3')        || define('APPTYPE_3', 3);      //Slot
+defined('APPTYPE_4')        || define('APPTYPE_4', 4);      //Slot + Gold
+defined('APPTYPE_5')        || define('APPTYPE_5', 5);      //Gold Slot
 
 defined('EXIT_SUCCESS')        || define('EXIT_SUCCESS', 0);        // no errors
 defined('EXIT_ERROR')          || define('EXIT_ERROR', 1);          // generic error
@@ -149,7 +149,7 @@ defined('CONF_SOUND_1')        || define('CONF_SOUND_1', 15);
 defined('CONF_SOUND_2')        || define('CONF_SOUND_2', 16);
 defined('CONF_SOUND_3')        || define('CONF_SOUND_3', 17);
 defined('CONF_SOUND_4')        || define('CONF_SOUND_4', 18);
-
+defined('CONF_SLOT_3')         || define('CONF_SLOT_3', 19);
 defined('CONF_CASINO_KGON')    || define('CONF_CASINO_KGON', 20);
 defined('CONF_CASINO_EVOL')    || define('CONF_CASINO_EVOL', 21);
 defined('CONF_SLOT_1')         || define('CONF_SLOT_1', 22);

@@ -46,7 +46,7 @@
 			<td><?=number_format(allMoney($objMember))?>원</td>
 			<td><?=number_format($objMember->mb_point)?></td>
 			<td><?=number_format($objMember->mb_live_money)?>원</td>
-			<td><?=number_format($objMember->mb_slot_money)?>원</td>
+			<td><?=number_format($objMember->mb_slot_money+$objMember->mb_fslot_money+$objMember->mb_gslot_money)?>원</td>
 			<td>
 				<?=$objMember->mb_game_pb_ratio?> % / <?=$objMember->mb_game_pb2_ratio?> %
 			</td>

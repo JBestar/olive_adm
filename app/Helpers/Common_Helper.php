@@ -225,7 +225,8 @@
           case GAME_BOGLE_BALL: return $objMember->mb_game_bb;
           case GAME_BOGLE_LADDER: return $objMember->mb_game_bs;
           case GAME_SLOT_1: 
-          case GAME_SLOT_2: return $objMember->mb_game_sl;
+          case GAME_SLOT_2: 
+          case GAME_SLOT_3: return $objMember->mb_game_sl;
           default: break;
       } 
       return 0;
@@ -236,7 +237,7 @@
       if(is_null($member))
         return $nMoney;
 
-      $nMoney = $member->mb_money + $member->mb_live_money + $member->mb_slot_money + $member->mb_fslot_money + $member->mb_kgon_money;
+      $nMoney = $member->mb_money + $member->mb_live_money + $member->mb_slot_money + $member->mb_fslot_money + $member->mb_kgon_money + $member->mb_gslot_money;
       return $nMoney;
     }
     

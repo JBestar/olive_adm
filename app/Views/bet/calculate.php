@@ -32,13 +32,13 @@
    		<?php endif ?>   
 		<?php if(!$slot_deny) :?>
 			<?php if($mb_level >= LEVEL_ADMIN) :  ?>
-				<?php if($_ENV['app.type'] != APPTYPE_2) :?>
+				<?php if($_ENV['app.type'] == APPTYPE_1 || $_ENV['app.type'] == APPTYPE_3 || $_ENV['app.type'] == APPTYPE_4) :?>
 					<a href="<?php echo site_furl('bet/xslcalculate');?>" class="sub-navbar-a" >정품슬롯</a>
 				<?php endif ?>
 				<?php if($_ENV['app.type'] != APPTYPE_3) :?>
 					<a href="<?php echo site_furl('bet/fslcalculate');?>" class="sub-navbar-a" >네츄럴슬롯</a>
 				<?php endif ?>
-				<?php if($_ENV['app.type'] == APPTYPE_1) :?>
+				<?php if($_ENV['app.type'] == APPTYPE_1 || $_ENV['app.type'] == APPTYPE_4) :?>
 					<a href="<?php echo site_furl('bet/slcalculate');?>" class="sub-navbar-a" >슬롯</a>
 				<?php endif ?>
 			<?php else: ?>

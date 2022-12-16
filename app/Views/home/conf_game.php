@@ -33,7 +33,7 @@
 			<a href="<?php echo siteFurl().'home/conf_casino';?>" class="sub-navbar-a" >호텔카지노</a>
 		<?php endif ?>
 		<?php if(!$slot_deny) :?>
-			<?php if($_ENV['app.type'] != APPTYPE_2) :?>
+			<?php if($_ENV['app.type'] == APPTYPE_1 || $_ENV['app.type'] == APPTYPE_3 || $_ENV['app.type'] == APPTYPE_4) :?>
 				<a href="<?php echo siteFurl().'home/conf_slot_1';?>" class="sub-navbar-a">정품슬롯</a>
 			<?php endif ?>
 			<?php if($_ENV['app.type'] != APPTYPE_3) :?>

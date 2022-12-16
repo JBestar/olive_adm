@@ -196,6 +196,19 @@ class Api extends BaseController{
 					} else $errMsg = "접속불가";
 				}
 				$agConf = $confsiteModel->getConf(CONF_SLOT_2);
+			} else if($gameId == GAME_SLOT_3){
+				$arrResult = $this->libApigslot->getUserInfo();
+				if($arrResult['status'] == 1){
+					$confsiteModel->setConfActive(CONF_SLOT_3, $arrResult['balance']);
+					writeLog("<GSLOT> AGENT Egg = ".$arrResult['balance']);
+				} else {
+					if($arrResult['msg'] == INVALID_ACCESS_SECRETKEY){
+						$errMsg = "잘못된 보안키";
+					} else if($arrResult['msg'] == "INVALID_AGENT" || $arrResult['msg'] == "BLOCKED_AGENT"){
+						$errMsg = "에이젼트 오류";
+					} else $errMsg = "접속불가";
+				}
+				$agConf = $confsiteModel->getConf(CONF_SLOT_3);
 			} else if($gameId == GAME_CASINO_KGON){
 				$arrResult = $this->libApikgon->getAgentInfo();
 				if($arrResult['status'] == 1){

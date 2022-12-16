@@ -75,13 +75,21 @@ class SlotGame_Model extends Model {
         // $strSql.= " group by fslot_game.fid ";
         if($_ENV['app.type'] == APPTYPE_2 ){
             if($arrReqData['prd'] == 200)
-                $strSql = " SELECT slot_game.*, COUNT(game_code) AS fslot_cnt FROM slot_game WHERE prd_code IN (200 ,215) AND OPEN = 1  GROUP BY game_code ";
+                $strSql = " SELECT slot_game.*, COUNT(game_code) AS fslot_cnt FROM slot_game WHERE prd_code IN (200, 215) AND OPEN = 1  GROUP BY game_code ";
             else 
                 $strSql = " SELECT slot_game.*, 1 AS fslot_cnt FROM slot_game WHERE prd_code = ".$arrReqData['prd']." AND OPEN = 1  ";
+        } else if($_ENV['app.type'] == APPTYPE_5 ){
+            $strSql = " SELECT slot_game.*, 1 AS fslot_cnt FROM slot_game WHERE prd_code = ".$arrReqData['prd']." AND OPEN = 1  ";
+        } else if($_ENV['app.type'] == APPTYPE_4 ){
+            $strSql = " SELECT xslot_game.*, fslot_game.fid AS fslot_fid, fslot_game.prd_code AS fslot_prd , fslot_game.cnt AS fslot_cnt, fslot_game.act AS fslot_act FROM ";
+            $strSql.= " ( SELECT * FROM slot_game WHERE prd_code = ".$arrReqData['prd']." AND OPEN = 1 AND ref_prd = 0 ".$where.") AS xslot_game ";
+            $strSql.= " JOIN (SELECT *, COUNT(NAME) AS cnt FROM slot_game WHERE prd_code IN ( SELECT code FROM slot_prd WHERE ref_code = ".$arrReqData['prd']." AND cat = ".GAME_SLOT_3." ) AND OPEN = 1  GROUP BY name_ko) AS fslot_game ";
+            $strSql.= " ON xslot_game.name_ko = fslot_game.name_ko ";
+            
         } else {
             $strSql = " SELECT xslot_game.*, fslot_game.fid AS fslot_fid, fslot_game.prd_code AS fslot_prd , fslot_game.cnt AS fslot_cnt, fslot_game.act AS fslot_act FROM ";
             $strSql.= " ( SELECT * FROM slot_game WHERE prd_code = ".$arrReqData['prd']." AND OPEN = 1 AND ref_prd = 0 ".$where.") AS xslot_game ";
-            $strSql.= " JOIN (SELECT *, COUNT(NAME) AS cnt FROM slot_game WHERE prd_code IN ( SELECT code FROM slot_prd WHERE ref_code = ".$arrReqData['prd']." ) AND OPEN = 1  GROUP BY NAME) AS fslot_game ";
+            $strSql.= " JOIN (SELECT *, COUNT(NAME) AS cnt FROM slot_game WHERE prd_code IN ( SELECT code FROM slot_prd WHERE ref_code = ".$arrReqData['prd']." AND cat = ".GAME_SLOT_2." ) AND OPEN = 1  GROUP BY name) AS fslot_game ";
             $strSql.= " ON xslot_game.name = fslot_game.name ";
             
             $strSql.= " UNION ALL SELECT xslot_game.*, fslot_game.fid AS fslot_fid, fslot_game.prd_code AS fslot_prd, 1 AS fslot_cnt, fslot_game.act AS fslot_act FROM ";
@@ -119,13 +127,20 @@ class SlotGame_Model extends Model {
         // $strSql.= " AS tb_result";
         if($_ENV['app.type'] == APPTYPE_2 ){
             if($arrReqData['prd'] == 200)
-                $strSql = " SELECT slot_game.fid FROM slot_game WHERE prd_code IN (200 ,215) AND OPEN = 1  GROUP BY game_code ";
+                $strSql = " SELECT slot_game.fid FROM slot_game WHERE prd_code IN (200, 215) AND OPEN = 1  GROUP BY game_code ";
             else 
                 $strSql = " SELECT slot_game.fid FROM slot_game WHERE prd_code = ".$arrReqData['prd']." AND OPEN = 1  ";
+        } else if($_ENV['app.type'] == APPTYPE_5 ){
+            $strSql = " SELECT slot_game.fid FROM slot_game WHERE prd_code = ".$arrReqData['prd']." AND OPEN = 1  ";
+        } else if($_ENV['app.type'] == APPTYPE_4 ){
+            $strSql = " SELECT xslot_game.fid FROM ";
+            $strSql.= " ( SELECT * FROM slot_game WHERE prd_code = ".$arrReqData['prd']." AND OPEN = 1 AND ref_prd = 0 ".$where.") AS xslot_game ";
+            $strSql.= " JOIN (SELECT *, COUNT(NAME) AS cnt FROM slot_game WHERE prd_code IN ( SELECT code FROM slot_prd WHERE ref_code = ".$arrReqData['prd']." AND cat = ".GAME_SLOT_3." ) AND OPEN = 1  GROUP BY name_ko) AS fslot_game ";
+            $strSql.= " ON xslot_game.name_ko = fslot_game.name_ko ";
         } else {
             $strSql = " SELECT xslot_game.fid FROM ";
             $strSql.= " ( SELECT * FROM slot_game WHERE prd_code = ".$arrReqData['prd']." AND OPEN = 1 AND ref_prd = 0 ".$where.") AS xslot_game ";
-            $strSql.= " JOIN (SELECT *, COUNT(NAME) AS cnt FROM slot_game WHERE prd_code IN ( SELECT code FROM slot_prd WHERE ref_code = ".$arrReqData['prd']." ) AND OPEN = 1  GROUP BY NAME) AS fslot_game ";
+            $strSql.= " JOIN (SELECT *, COUNT(NAME) AS cnt FROM slot_game WHERE prd_code IN ( SELECT code FROM slot_prd WHERE ref_code = ".$arrReqData['prd']." AND cat = ".GAME_SLOT_2." ) AND OPEN = 1  GROUP BY name) AS fslot_game ";
             $strSql.= " ON xslot_game.name = fslot_game.name ";
             
             $strSql.= " UNION ALL SELECT xslot_game.fid FROM ";

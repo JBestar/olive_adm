@@ -16,7 +16,7 @@ class SlBet_Model extends Model
         'bet_win_money',
         'bet_agent_id', 
         'bet_player_id', 
-        'bet_game_id' ,         //GAME_SLOT_1 || GAME_SLOT_2
+        'bet_game_id' ,         //GAME_SLOT_1 || GAME_SLOT_2 || GAME_SLOT_3
         'bet_game_type',        //Third Party No
         'bet_table_code',       //Slot Game Id
         'bet_choice', 

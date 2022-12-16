@@ -522,7 +522,10 @@ class UserApi extends BaseController
                     $objConfPb = $confgameModel->getByIndex(GAME_SLOT_1);
                     $arrSumData[15] = $betModel->getBetSumByDay($arrReqData, $objConfPb);
                     
-                    $objConfPb = $confgameModel->getByIndex(GAME_SLOT_2);
+                    if($_ENV['app.type'] == APPTYPE_4 || $_ENV['app.type'] == APPTYPE_5)
+                        $objConfPb = $confgameModel->getByIndex(GAME_SLOT_3);
+                    else 
+                        $objConfPb = $confgameModel->getByIndex(GAME_SLOT_2);
                     $arrSumData[16] = $betModel->getBetSumByDay($arrReqData, $objConfPb);
                 }
                 if($siteConfs['kgon_enable']){
@@ -1341,7 +1344,7 @@ class UserApi extends BaseController
                     'ip_check' => $objEmp->mb_state_view > 0 ? 1:0,
                     'fid' => $objEmp->mb_fid,
                     'money' => allMoney($objEmp),
-                    'egg' => $objEmp->mb_live_money + $objEmp->mb_slot_money + $objEmp->mb_fslot_money + $objEmp->mb_kgon_money,
+                    'egg' => $objEmp->mb_live_money + $objEmp->mb_slot_money + $objEmp->mb_fslot_money + $objEmp->mb_kgon_money + $objEmp->mb_gslot_money,
                 ];
                 $arrResult['data'] = $arrInfo;
                 $arrResult['status'] = 'success';
@@ -1370,7 +1373,7 @@ class UserApi extends BaseController
 				$this->allEgg($objMember);
                 $result->money = allMoney($objMember);
                 $result->point = $objMember->mb_point;
-                $result->egg = $objMember->mb_live_money + $objMember->mb_slot_money + $objMember->mb_fslot_money + $objMember->mb_kgon_money;
+                $result->egg = $objMember->mb_live_money + $objMember->mb_slot_money + $objMember->mb_fslot_money + $objMember->mb_kgon_money + $objMember->mb_gslot_money;
                 $result->status = STATUS_SUCCESS;
     
             } else {
@@ -1415,7 +1418,7 @@ class UserApi extends BaseController
 
                 if($iResult == 1){
                     $result->money = allMoney($objMember);
-                    $result->egg = $objMember->mb_live_money + $objMember->mb_slot_money + $objMember->mb_fslot_money + $objMember->mb_kgon_money;
+                    $result->egg = $objMember->mb_live_money + $objMember->mb_slot_money + $objMember->mb_fslot_money + $objMember->mb_kgon_money + $objMember->mb_gslot_money;
                     $result->status = STATUS_SUCCESS;
                 } else if($iResult == 2) {
                     $result->status = STATUS_FAIL;
@@ -1514,6 +1517,25 @@ class UserApi extends BaseController
                         $balance = $arrResult['balance'];
                     }
     
+                } else if($gameId == GAME_SLOT_3){
+                    foreach($arrMember as $objMember){
+                        if($objMember->mb_slot_uid != "" && $objMember->mb_gslot_money > 0 ) {
+                            writeLog("<GSLOT> Recovery Uid=".$objMember->mb_uid." Balance=".$objMember->mb_gslot_money);
+                            if(diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet) < $_ENV['mem.delay_play']){
+                                $iResult = 2;
+                            } else $iResult = $this->gsltoMb($objMember);
+                            if($iResult == 0)
+                                break;
+                            else usleep(500000);
+                        } 
+                    }
+
+                    $arrResult = $this->libApigslot->getUserInfo();
+                    if($arrResult['status'] == 1){
+                        $confsiteModel->setConfActive(CONF_SLOT_3, $arrResult['balance']);
+                        writeLog("<SLOT> Agent Egg = ".$arrResult['balance']);
+                        $balance = $arrResult['balance'];
+                    }
                 } else if($gameId == GAME_CASINO_KGON){
                     foreach($arrMember as $objMember){
                         if($objMember->mb_kgon_id > 0 && $objMember->mb_kgon_money > 0 ){

@@ -239,7 +239,11 @@ class Bet extends StdController {
 	public function fslhistory(){
 		
 		$modelSlotprd = new SlotPrd_Model();
+
 		$gameId = GAME_SLOT_2;
+		if($_ENV['app.type'] == APPTYPE_4 || $_ENV['app.type'] == APPTYPE_5)
+			$gameId = GAME_SLOT_3;
+
 		$arrPrd = $modelSlotprd->gets($gameId);
 
 		$param = [
@@ -255,9 +259,11 @@ class Bet extends StdController {
 		
 		$modelSlotprd = new SlotPrd_Model();
 		$gameId = GAME_SLOT_12;
-		if($_ENV['app.type'] == APPTYPE_2){
+		if($_ENV['app.type'] == APPTYPE_2)
 			$arrPrd = $modelSlotprd->gets(GAME_SLOT_2);
-		} else
+		else if($_ENV['app.type'] == APPTYPE_5)
+			$arrPrd = $modelSlotprd->gets(GAME_SLOT_3);
+		else
 			$arrPrd = $modelSlotprd->gets(GAME_SLOT_1);
 		
 		$param = [
@@ -312,9 +318,13 @@ class Bet extends StdController {
 	}
 	
 	public function fslcalculate(){
+		$gameId = GAME_SLOT_2;
+		if($_ENV['app.type'] == APPTYPE_4)
+			$gameId = GAME_SLOT_3;
+
 		$param = [
 			'game_name' => "네츄럴슬롯",
-			'game_id' => GAME_SLOT_2,
+			'game_id' => $gameId,
 		];
 
 		$this->load_view_page('bet/calculate_game', 'bet_calculate', LEVEL_ADMIN, $param);

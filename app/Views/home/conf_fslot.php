@@ -14,7 +14,9 @@
 				<?php foreach ($game_prds as $prd):?>
 					<?php if($_ENV['app.type'] == APPTYPE_2) :?>
 						<option value="<?=$prd->code?>"><?=$prd->name_kr?></option>
-					<?php else :?>
+					<?php elseif($_ENV['app.type'] == APPTYPE_5) :?>
+						<option value="<?=$prd->code?>"><?=$prd->name_kr?></option>
+					<?php elseif($prd->ref_code > 0):?>
 						<option value="<?=$prd->ref_code?>"><?=$prd->name_kr?></option>
 					<?php endif ?>
 				<?php endforeach;?>

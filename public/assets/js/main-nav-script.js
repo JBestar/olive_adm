@@ -142,7 +142,7 @@ function showMemberInfo(objUser) {
         if(objUser.mb_money == null)
             objUser.mb_money = 0;
         strBuf = (parseInt(objUser.mb_money)+parseInt(objUser.mb_live_money)+parseInt(objUser.mb_slot_money)+
-            parseInt(objUser.mb_fslot_money)+parseInt(objUser.mb_kgon_money)).toLocaleString() + " 원";
+            parseInt(objUser.mb_fslot_money)+parseInt(objUser.mb_kgon_money)+parseInt(objUser.mb_gslot_money)).toLocaleString() + " 원";
         $("#main-navbar-emp_money-id").text(strBuf);
 
         if(objUser.mb_point == null)

@@ -33,8 +33,8 @@ function showMoneyHistory(jsonBetData) {
         strBuf += jsonBetData[nRow].money_mb_uid;
         strBuf += "</td><td>";
         if(jsonBetData[nRow].mb_money != null)
-            strBuf += (parseInt(jsonBetData[nRow].mb_money)+parseInt(jsonBetData[nRow].mb_live_money)
-            +parseInt(jsonBetData[nRow].mb_slot_money)+parseInt(jsonBetData[nRow].mb_fslot_money)+parseInt(jsonBetData[nRow].mb_kgon_money)).toLocaleString();
+            strBuf += (parseInt(jsonBetData[nRow].mb_money)+parseInt(jsonBetData[nRow].mb_live_money)+parseInt(jsonBetData[nRow].mb_slot_money)
+            +parseInt(jsonBetData[nRow].mb_fslot_money)+parseInt(jsonBetData[nRow].mb_kgon_money)+parseInt(jsonBetData[nRow].mb_gslot_money)).toLocaleString();
         strBuf += "</td><td>";
         strBuf += parseInt(jsonBetData[nRow].money_amount).toLocaleString();
         strBuf += "</td><td>";

@@ -24,6 +24,7 @@ use App\Libraries\ApiCas_Lib;
 use App\Libraries\ApiKgon_Lib;
 use App\Libraries\ApiSlot_Lib;
 use App\Libraries\ApiFslot_Lib;
+use App\Libraries\ApiGslot_Lib;
 
 class BaseController extends Controller
 {
@@ -44,6 +45,7 @@ class BaseController extends Controller
 	protected $libApikgon;
 	protected $libApislot;
 	protected $libApifslot;
+	protected $libApigslot;
 	/**
 	 * Constructor.
 	 */
@@ -68,7 +70,7 @@ class BaseController extends Controller
 		$this->libApikgon = new ApiKgon_Lib();
 		$this->libApislot = new ApiSlot_Lib();
         $this->libApifslot = new ApiFslot_Lib();
-
+        $this->libApigslot = new ApiGslot_Lib();
 	}
 
 	protected function getSiteConf($confsiteModel){
@@ -132,7 +134,10 @@ class BaseController extends Controller
 		}
 		$this->slEgg($objMember);
 		usleep(100000);
-		$this->fslEgg($objMember);
+		if($_ENV['app.type'] == APPTYPE_1 || $_ENV['app.type'] == APPTYPE_2)
+			$this->fslEgg($objMember);
+		else if($_ENV['app.type'] == APPTYPE_4 || $_ENV['app.type'] == APPTYPE_5)
+			$this->gslEgg($objMember);
 	}
 	
 	protected function evEgg(&$objMember){
@@ -228,6 +233,28 @@ class BaseController extends Controller
 		return $iResult;
 	}
 
+	protected function gslEgg(&$objMember){
+		$iResult = 0;
+
+		$logHead = "<GslEgg> ";
+		//슬롯 머니조회
+		if($objMember->mb_gslot_uid !== ""){
+			//슬롯머니 요청
+			$arrResult = $this->libApigslot->getUserInfo($objMember->mb_gslot_uid);
+			writeLog($logHead.$objMember->mb_uid."-UserInfo status=".$arrResult['status']);
+			if($arrResult['status'] == 1)
+			{
+				writeLog($logHead.$objMember->mb_uid."-UserInfo Balance=".$arrResult['balance']." Money=".$objMember->mb_money);
+				$objMember->mb_gslot_money = $arrResult['balance'];
+				$this->modelMember->updateGslotMoney($objMember);   
+				$iResult = 1;
+			}
+		} else {
+            $iResult = 1;
+        }
+		return $iResult;
+	}
+
 	protected function alltoGame(&$objMember, $iGame = 0){
 		$logHead = "<AlltoGame> ";
 		$iResult = 0;
@@ -240,29 +267,34 @@ class BaseController extends Controller
 		
 		if($iGame == GAME_CASINO_EVOL){
 			if($this->sltoMb($objMember) == 1 && $this->fsltoMb($objMember) == 1 &&
-				$this->kgtoMb($objMember) == 1 ){
+				$this->kgtoMb($objMember) == 1 && $this->gsltoMb($objMember) == 1 ){
 					$iResult = $this->mbtoEv($objMember);
 			}
 		} else if($iGame == GAME_SLOT_1){
 			if($this->evtoMb($objMember) == 1 && $this->fsltoMb($objMember) == 1 &&
-				$this->kgtoMb($objMember) == 1 ) {
+				$this->kgtoMb($objMember) == 1 && $this->gsltoMb($objMember) == 1 ) {
 					$iResult = $this->mbtoSl($objMember);
 			}
 		} else if($iGame == GAME_SLOT_2){
 			if($this->evtoMb($objMember) == 1 && $this->sltoMb($objMember) == 1 &&
-				$this->kgtoMb($objMember) == 1 ) {
+				$this->kgtoMb($objMember) == 1 && $this->gsltoMb($objMember) == 1 ) {
 					$iResult = $this->mbtoFsl($objMember);
 			}
-		}  else if($iGame == GAME_CASINO_KGON){
+		} else if($iGame == GAME_SLOT_3){
 			if($this->evtoMb($objMember) == 1 && $this->sltoMb($objMember) == 1 &&
-				$this->fsltoMb($objMember) == 1 ) {
+				$this->kgtoMb($objMember) == 1 && $this->fsltoMb($objMember) == 1 ) {
+					$iResult = $this->mbtoGsl($objMember);
+			}
+		} else if($iGame == GAME_CASINO_KGON){
+			if($this->evtoMb($objMember) == 1 && $this->sltoMb($objMember) == 1 &&
+				$this->fsltoMb($objMember) == 1 && $this->gsltoMb($objMember) == 1) {
 					$iResult = $this->mbtoKg($objMember);
 			}
 		} else {
 			if($this->evtoMb($objMember) == 1 && $this->sltoMb($objMember) == 1 &&
-				$this->fsltoMb($objMember) == 1 && $this->kgtoMb($objMember) == 1) {
+				$this->fsltoMb($objMember) == 1 && $this->kgtoMb($objMember) == 1 &&
+				$this->gsltoMb($objMember) == 1) {
 					$iResult = 1;
-					
 			}
 		}
 		return $iResult ;
@@ -472,6 +504,54 @@ class BaseController extends Controller
 
 		return $iResult;
 	}
+	
+	protected function gsltoMb(&$objMember){
+		$iResult = 0;
+
+		$logHead = "<GsltoMb> ";
+		//골드슬롯 => 보유머니넘기기
+		if($objMember->mb_gslot_uid !== ""){
+			//슬롯머니 요청
+			$arrResult = $this->libApigslot->getUserInfo($objMember->mb_gslot_uid);
+			writeLog($logHead." ".$objMember->mb_uid."-UserInfo status=".$arrResult['status']);
+			if($arrResult['status'] == 1)
+			{
+				writeLog($logHead." ".$objMember->mb_uid."-UserInfo Balance=".$arrResult['balance']." Money=".$objMember->mb_money);
+				$amount = 0;
+				if($arrResult['balance'] > 0){
+					//슬롯머니 꺼내기
+					usleep(500000);
+					$amount = $arrResult['balance'];
+					$arrResp =  $this->libApigslot->subBalance($objMember->mb_gslot_uid, $amount);
+					writeLog($logHead." ".$objMember->mb_uid."-Withdraw status=".$arrResult['status']);
+				} else {
+					$objMember->mb_gslot_money = $arrResult['balance'];
+					$this->modelMember->updateGslotMoney($objMember);
+                    $iResult = 1;   //success
+                    return $iResult;
+                }
+
+				if($arrResp['status'] == 1)
+				{
+					writeLog($logHead.$objMember->mb_uid."-Withdraw status=".$arrResp['balance']);
+                    if($this->modelMember->updateAssets($objMember, $amount)){
+                        $objMember->mb_gslot_money = $arrResp['balance'];
+                        $this->modelMember->updateGslotMoney($objMember);
+						$objMember->mb_money += $amount;   
+						writeLog($logHead.$objMember->mb_uid."-Withdraw Money=".$objMember->mb_money);
+                        $iResult = 1;
+                    }
+                } 
+			} else {
+				// if($objMember->mb_slot_money == 0){
+					$iResult = 1;
+				// }
+			}
+		} else {
+            $iResult = 1;
+        }
+		return $iResult;
+	}
 
 	protected function mbtoEv(&$objMember){
 		$iResult = 0;
@@ -585,5 +665,32 @@ class BaseController extends Controller
 		return $iResult;
 	}
 
+	protected function mbtoGsl(&$objMember){
+		$iResult = 0;
+
+		$logHead = "<MbtoGsl> ";
+		//슬롯 <= 보유머니넘기기
+		if($objMember->mb_gslot_uid !== "" && $objMember->mb_money > 0){
+			//슬롯머니 요청
+			$arrResult = $this->libApigslot->addBalance($objMember->mb_gslot_uid, $objMember->mb_money);
+			writeLog($logHead." ".$objMember->mb_uid."-Deposit status=".$arrResult['status']);
+			
+			if($arrResult['status'] == 1)
+			{
+				$arrResult['amount'] = $objMember->mb_money;
+
+				writeLog($logHead.$objMember->mb_uid."-Deposit Balance=".$arrResult['balance']);
+				if($this->modelMember->updateAssets($objMember, 0-$arrResult['amount'])){
+					$objMember->mb_gslot_money = $arrResult['balance'];
+					$this->modelMember->updateGslotMoney($objMember);
+					$objMember->mb_money -= $arrResult['amount'];   
+					$iResult = 1;
+				}
+			} 
+		} else {
+            $iResult = 1;
+        }
+		return $iResult;
+	}
 
 }

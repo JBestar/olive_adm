@@ -38,8 +38,12 @@ class Reward_Model extends Model {
         $strSQL .= " WHERE rw_fid >= ".$arrReqData['rw_range'][0]." AND rw_fid <= ".$arrReqData['rw_range'][1];
 
         $strSQL.=" AND rw_mb_fid = '".$objEmp->mb_fid."' ";
-        if($gameId == GAME_SLOT_12)
-            $strSQL.=" AND (rw_game = '".GAME_SLOT_1."' OR rw_game = '".GAME_SLOT_2."') ";
+        if($gameId == GAME_SLOT_12){
+            if($_ENV['app.type'] == APPTYPE_4)
+                $strSQL.=" AND rw_game IN ( '".GAME_SLOT_1."', '".GAME_SLOT_3."') ";
+            else
+                $strSQL.=" AND rw_game IN ( '".GAME_SLOT_1."', '".GAME_SLOT_2."') ";
+        }
         else if($gameId > 0)
             $strSQL.=" AND rw_game = '".$gameId."' ";
         if($bBlank){
