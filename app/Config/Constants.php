@@ -192,8 +192,13 @@ defined('CONF_CHARGE_URL')      || define('CONF_CHARGE_URL', 56);       //코인
 defined('CONF_TELE_ID')         || define('CONF_TELE_ID', 57);          //텔레그램 아이디
 defined('CONF_QNA_DENY')        || define('CONF_QNA_DENY', 58);         //고객센터 제거
 defined('CONF_AUTO_PERMIT')     || define('CONF_AUTO_PERMIT', 59);      //회원자동승인
-defined('CONF_EVOLSITE')        || define('CONF_EVOLSITE', 60);         //에볼루션 밸런스 계정
-defined('CONF_EVOLRUN')         || define('CONF_EVOLRUN', 61);         //에볼루션 밸런스 상태
+defined('CONF_EVOLSITE_1')      || define('CONF_EVOLSITE', 60);         //에볼루션 밸런스 계정
+defined('CONF_EVOLRUN_1')       || define('CONF_EVOLRUN', 61);          //에볼루션 밸런스 상태
+defined('CONF_AUTOAPPS')        || define('CONF_AUTOAPPS', 62);         //메인홈 게임이미지
+defined('CONF_EVOLSITE_2')      || define('CONF_EVOLSITE_2', 63);         //에볼루션 밸런스 상태
+defined('CONF_EVOLRUN_2')       || define('CONF_EVOLRUN_2', 64);         //에볼루션 밸런스 상태
+defined('CONF_EVOLSITE_3')      || define('CONF_EVOLSITE_3', 65);         //에볼루션 밸런스 상태
+defined('CONF_EVOLRUN_3')       || define('CONF_EVOLRUN_3', 66);         //에볼루션 밸런스 상태
 
 
 defined('LEVEL_MAX')           || define('LEVEL_MAX', 100);
@@ -311,6 +316,9 @@ defined('MONEYCHANGE_WIN_CO5')    || define('MONEYCHANGE_WIN_CO5', 39);
 defined('MONEYCHANGE_BET_CO3')    || define('MONEYCHANGE_BET_CO3', 40);
 defined('MONEYCHANGE_DENY_CO3')   || define('MONEYCHANGE_DENY_CO3', 41);
 defined('MONEYCHANGE_WIN_CO3')    || define('MONEYCHANGE_WIN_CO3', 42);
+defined('MONEYCHANGE_BET_EBAL')   || define('MONEYCHANGE_BET_EBAL', 43);
+defined('MONEYCHANGE_DENY_EBAL')  || define('MONEYCHANGE_DENY_EBAL', 44);
+defined('MONEYCHANGE_WIN_EBAL')   || define('MONEYCHANGE_WIN_EBAL', 45);
 
 
 defined('TRANS_SITE_EVOL')      || define('TRANS_SITE_EVOL', 1); 

@@ -9,12 +9,11 @@
 				에볼루션 실시간베팅
 			</label>
 
-			<div style="float:right">
+			<!-- <div style="float:right">
 				<label id="ebal-balance-id" style="color:#ea564b; font-size:16px; padding:5px 20px; display:none;">보유알</label>
 				<button class="pbresult-list-view-but" id="ebal-start-but-id" style="margin-right:0px; " disabled>시작</button>
 				<button class="pbresult-list-view-but" id="ebal-stop-but-id" style="margin-right:3px; " disabled>정지</button>
-
-			</div>
+			</div> -->
 		</div>
 		<Table class="bet-table">
 			<thead>

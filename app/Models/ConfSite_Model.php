@@ -115,6 +115,57 @@ class ConfSite_Model extends Model
             $data[3] = $objConfig->conf_active;
             $data[10] = $objConfig->conf_idx;
         }
+
+        /*
+        $confIds = [CONF_EVOLSITE_1, CONF_EVOLRUN_1, CONF_EVOLSITE_2, CONF_EVOLRUN_2, CONF_EVOLSITE_3, CONF_EVOLRUN_3];  
+        $arrConf = $this->find($confIds);
+
+        foreach($arrConf as $objConf){
+            $data = ["", "", "", 0, 0, 0, 0, 0, 0, 0, "" ];
+
+			switch($objConf->conf_id){
+				case CONF_EVOLSITE_1:	
+				case CONF_EVOLSITE_2:	
+                case CONF_EVOLSITE_3:	
+                    $info = explode(';', $objConfig->conf_content);
+                    if(count($info) >= 3){
+                        $data[$objConf->conf_id-CONF_EVOLSITE_1][0] = $info[0];   
+                        $data[$objConf->conf_id-CONF_EVOLSITE_1][1] = $info[1];   
+                        $data[$objConf->conf_id-CONF_EVOLSITE_1][2] = $info[2];   
+                        $objConfig->conf_active = intval($objConfig->conf_active); 
+                        
+                        $data[$objConf->conf_id-CONF_EVOLSITE_1][7] = -3; 
+                        if(diffDt(date('Y-m-d H:i:s'), $objConfig->conf_update) < DELAY_TRANSFER){
+                            $data[$objConf->conf_id-CONF_EVOLSITE_1][7] = $objConfig->conf_active;
+                        }
+                        
+                        $info = explode('#', $objConfig->conf_idx);
+                        if(count($info) >= 3){
+                            $data[$objConf->conf_id-CONF_EVOLSITE_1][4] = intval($info[0]);
+                            $data[$objConf->conf_id-CONF_EVOLSITE_1][5] = intval($info[1]);
+                            $data[$objConf->conf_id-CONF_EVOLSITE_1][6] = intval($info[2]);
+                            if(count($info) >= 5){
+                                $data[$objConf->conf_id-CONF_EVOLSITE_1][8] = intval($info[3]);
+                                $data[$objConf->conf_id-CONF_EVOLSITE_1][9] = intval($info[4]);
+                            }
+                        }
+                    }
+					break;
+				case CONF_EVOLRUN_1:	
+				case CONF_EVOLRUN_2:	
+                case CONF_EVOLRUN_3:	
+                    $data[$objConf->conf_id-CONF_EVOLRUN_1][3] = $objConfig->conf_active;
+                    $data[$objConf->conf_id-CONF_EVOLRUN_1][10] = $objConfig->conf_idx;
+					break;
+				
+
+
+
+                default:break;
+			}
+		}
+        */
+
         return $data;
     }
 

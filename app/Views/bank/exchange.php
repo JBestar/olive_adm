@@ -58,7 +58,11 @@
 				<?php endif ?> 
 				<?php if($coin3_enable) :?>
 					<option value="40">코인3분배팅</option>				
-					<option value="32">코인3분정산</option>
+					<option value="42">코인3분정산</option>
+				<?php endif ?> 
+				<?php if($mb_level >= LEVEL_ADMIN) :  ?>
+					<option value="43">에볼배팅</option>				
+					<option value="45">에볼정산</option>
 				<?php endif ?> 
 			</select>
 

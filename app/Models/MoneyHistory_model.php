@@ -187,10 +187,15 @@ class MoneyHistory_Model extends Model
             $strSql.=" money_mb_uid = '".$arrReqData['user']."' ";
             $bWhere = true;
         }
-        if((int)$arrReqData['mode'] > 0){
+        if(intval($arrReqData['mode']) > 0){
             if($bWhere) $strSql.= " AND ";
             else $strSql.= " WHERE ";
             $strSql.=" money_change_type = '".$arrReqData['mode']."' ";
+        }
+        if($objEmp->mb_level < LEVEL_ADMIN){
+            if($bWhere) $strSql.= " AND ";
+            else $strSql.= " WHERE ";
+            $strSql.=" money_change_type <= '".MONEYCHANGE_WIN_CO3."' ";
         }
 
         $nStartRow = ($arrReqData['page']-1) * $arrReqData['count'] ;
@@ -238,7 +243,12 @@ class MoneyHistory_Model extends Model
             else $strSql.= " WHERE ";
             $strSql.=" money_change_type = '".$arrReqData['mode']."' ";
         }
-
+        if($objEmp->mb_level < LEVEL_ADMIN){
+            if($bWhere) $strSql.= " AND ";
+            else $strSql.= " WHERE ";
+            $strSql.=" money_change_type <= '".MONEYCHANGE_WIN_CO3."' ";
+        }
+        
         $query = $this -> db -> query($strSql);
         $result = $query -> getRow();
 

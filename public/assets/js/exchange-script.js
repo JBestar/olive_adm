@@ -12,13 +12,13 @@ function showMoneyHistory(jsonBetData) {
     var elemBetDataTb = document.getElementById("bank-exchange-table-id");
     var strBuf = "";
 
-    var nCurBetCnt = 0;
-    var nCurBetMoney = 0;
-    var strBetMode = "";
-    var strBetTarget = "";
-    var strResultTarget = "";
-    var strWinMoney = "";
-    var strResult = "";
+    // var nCurBetCnt = 0;
+    // var nCurBetMoney = 0;
+    // var strBetMode = "";
+    // var strBetTarget = "";
+    // var strResultTarget = "";
+    // var strWinMoney = "";
+    // var strResult = "";
     var curPage = getActivePage();
     var firstIdx = (curPage - 1) * CountPerPage;
 
@@ -83,10 +83,18 @@ function showMoneyHistory(jsonBetData) {
             case 40: strBuf += "코인3분파워볼 배팅"; break;
             case 41: strBuf += "코인3분파워볼 배팅취소"; break;
             case 42: strBuf += "코인3분파워볼 정산"; break;
+            case 43: strBuf += "에볼 배팅"; break;
+            case 44: strBuf += "에볼 배팅취소"; break;
+            case 45: strBuf += "에볼 정산"; break;
             default:break;
         } 
         strBuf += "</td><td>";
-        if (jsonBetData[nRow].money_change_type == 19 || jsonBetData[nRow].money_change_type == 20 ||
+        if(jsonBetData[nRow].money_change_type == 43 || jsonBetData[nRow].money_change_type == 44 ||
+            jsonBetData[nRow].money_change_type == 45 ){
+                strBuf += jsonBetData[nRow].money_bet_target ;
+                if(mObjUser && mObjUser.mb_level > LEVEL_ADMIN && jsonBetData[nRow].money_bet_round.length > 0)
+                    strBuf += "<br>" + jsonBetData[nRow].money_bet_round;
+        } else if (jsonBetData[nRow].money_change_type == 19 || jsonBetData[nRow].money_change_type == 20 ||
             jsonBetData[nRow].money_change_type == 27 || jsonBetData[nRow].money_change_type == 28) {
             strBuf += jsonBetData[nRow].money_bet_target;
         } 
