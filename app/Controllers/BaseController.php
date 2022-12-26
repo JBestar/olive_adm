@@ -106,7 +106,7 @@ class BaseController extends Controller
 					break;
 				case CONF_HPG_ENABLE:	$confs['hpg_enable'] = $objConf->conf_active == STATE_ACTIVE?true:false;
 					break;
-				case CONF_EVOLSITE:	$confs['ebal_enable'] = $objConf->conf_active >= -2? true:false;
+				case CONF_EVOLSITE_1:	$confs['ebal_enable'] = $objConf->conf_active >= -2? true:false;
 					break;
 				default:break;
 			}

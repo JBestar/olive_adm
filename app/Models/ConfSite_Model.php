@@ -81,6 +81,7 @@ class ConfSite_Model extends Model
 
     public function getEvolSite(){
 
+        /*
         $data = ["", "", "", 0, 0, 0, 0, 0, 0, 0, "" ];
 
         $objConfig = $this->where('conf_id', CONF_EVOLSITE)->first();
@@ -98,14 +99,12 @@ class ConfSite_Model extends Model
                 }
                 
                 $info = explode('#', $objConfig->conf_idx);
-                if(count($info) >= 3){
+                if(count($info) >= 5){
                     $data[4] = intval($info[0]);
                     $data[5] = intval($info[1]);
                     $data[6] = intval($info[2]);
-                    if(count($info) >= 5){
-                        $data[8] = intval($info[3]);
-                        $data[9] = intval($info[4]);
-                    }
+                    $data[8] = intval($info[3]);
+                    $data[9] = intval($info[4]);
                 }
             }
         }
@@ -115,56 +114,72 @@ class ConfSite_Model extends Model
             $data[3] = $objConfig->conf_active;
             $data[10] = $objConfig->conf_idx;
         }
+        */
 
-        /*
+        $arrBatch = array();
+        
         $confIds = [CONF_EVOLSITE_1, CONF_EVOLRUN_1, CONF_EVOLSITE_2, CONF_EVOLRUN_2, CONF_EVOLSITE_3, CONF_EVOLRUN_3];  
         $arrConf = $this->find($confIds);
+        
+        $data[] = ["", "", "", 0, 0, 0, 0, 0, 0, 0, "" ];
+        $data[] = ["", "", "", 0, 0, 0, 0, 0, 0, 0, "" ];
+        $data[] = ["", "", "", 0, 0, 0, 0, 0, 0, 0, "" ];
 
+        $idx = 0;
         foreach($arrConf as $objConf){
-            $data = ["", "", "", 0, 0, 0, 0, 0, 0, 0, "" ];
 
 			switch($objConf->conf_id){
 				case CONF_EVOLSITE_1:	
 				case CONF_EVOLSITE_2:	
                 case CONF_EVOLSITE_3:	
-                    $info = explode(';', $objConfig->conf_content);
-                    if(count($info) >= 3){
-                        $data[$objConf->conf_id-CONF_EVOLSITE_1][0] = $info[0];   
-                        $data[$objConf->conf_id-CONF_EVOLSITE_1][1] = $info[1];   
-                        $data[$objConf->conf_id-CONF_EVOLSITE_1][2] = $info[2];   
-                        $objConfig->conf_active = intval($objConfig->conf_active); 
+                    if($objConf->conf_id == CONF_EVOLSITE_1)
+                        $idx = 0;
+                    else if($objConf->conf_id == CONF_EVOLSITE_2)
+                        $idx = 1;
+                    else 
+                        $idx = 2;
                         
-                        $data[$objConf->conf_id-CONF_EVOLSITE_1][7] = -3; 
-                        if(diffDt(date('Y-m-d H:i:s'), $objConfig->conf_update) < DELAY_TRANSFER){
-                            $data[$objConf->conf_id-CONF_EVOLSITE_1][7] = $objConfig->conf_active;
+                    $info = explode(';', $objConf->conf_content);
+                    if(count($info) >= 3){
+                        $data[$idx][0] = $info[0];   
+                        $data[$idx][1] = $info[1];   
+                        $data[$idx][2] = $info[2];   
+                        $objConf->conf_active = intval($objConf->conf_active); 
+                        
+                        $data[$idx][7] = -3; 
+                        if(diffDt(date('Y-m-d H:i:s'), $objConf->conf_update) < 20){
+                            $data[$idx][7] = $objConf->conf_active;
                         }
                         
-                        $info = explode('#', $objConfig->conf_idx);
+                        $info = explode('#', $objConf->conf_idx);
                         if(count($info) >= 3){
-                            $data[$objConf->conf_id-CONF_EVOLSITE_1][4] = intval($info[0]);
-                            $data[$objConf->conf_id-CONF_EVOLSITE_1][5] = intval($info[1]);
-                            $data[$objConf->conf_id-CONF_EVOLSITE_1][6] = intval($info[2]);
+                            $data[$idx][4] = intval($info[0]);
+                            $data[$idx][5] = intval($info[1]);
+                            $data[$idx][6] = intval($info[2]);
                             if(count($info) >= 5){
-                                $data[$objConf->conf_id-CONF_EVOLSITE_1][8] = intval($info[3]);
-                                $data[$objConf->conf_id-CONF_EVOLSITE_1][9] = intval($info[4]);
+                                $data[$idx][8] = intval($info[3]);
+                                $data[$idx][9] = intval($info[4]);
                             }
                         }
                     }
 					break;
 				case CONF_EVOLRUN_1:	
 				case CONF_EVOLRUN_2:	
-                case CONF_EVOLRUN_3:	
-                    $data[$objConf->conf_id-CONF_EVOLRUN_1][3] = $objConfig->conf_active;
-                    $data[$objConf->conf_id-CONF_EVOLRUN_1][10] = $objConfig->conf_idx;
+                case CONF_EVOLRUN_3:
+                    if($objConf->conf_id == CONF_EVOLRUN_1)
+                        $idx = 0;
+                    else if($objConf->conf_id == CONF_EVOLRUN_2)
+                        $idx = 1;
+                    else 
+                        $idx = 2;	
+                    $data[$idx][3] = $objConf->conf_active;
+                    $data[$idx][10] = $objConf->conf_idx;
 					break;
-				
-
-
 
                 default:break;
 			}
 		}
-        */
+        
 
         return $data;
     }
@@ -187,7 +202,7 @@ class ConfSite_Model extends Model
             $strContent .= $data['userpwd_ev'];
     
             $updateData = array();
-            $updateData['conf_id'] = CONF_EVOLSITE;
+            $updateData['conf_id'] = CONF_EVOLSITE_1;
             $updateData['conf_content'] = $strContent;
             $strContent = $data['type_ev']."#".$data['bet_ev']."#".$data['con_ev']."#".$data['bet_min']."#".$data['bet_max'];
             $updateData['conf_idx'] = $strContent;
@@ -195,9 +210,64 @@ class ConfSite_Model extends Model
         }
 
         $updateData = array();
-        $updateData['conf_id'] = CONF_EVOLRUN;
+        $updateData['conf_id'] = CONF_EVOLRUN_1;
         $updateData['conf_active'] = $data['active_ev'];
         $arrBatch[] = $updateData;
+
+
+        if(array_key_exists('site_ev2', $data)){
+            $strContent = "";
+            if(strlen($data['site_ev2'])<1) 
+                $data['site_ev2']=" ";
+            $strContent .= $data['site_ev2'].";";
+            
+            if(strlen($data['userid_ev2'])<1) 
+                $data['userid_ev2']=" ";    
+            $strContent .= $data['userid_ev2'].";";
+            
+            if(strlen($data['userpwd_ev2'])<1) 
+                $data['userpwd_ev2']=" "; 
+            $strContent .= $data['userpwd_ev2'];
+    
+            $updateData = array();
+            $updateData['conf_id'] = CONF_EVOLSITE_2;
+            $updateData['conf_content'] = $strContent;
+            $strContent = $data['type_ev2']."#".$data['betmode_ev']."#".$data['con_ev2'];
+            $updateData['conf_idx'] = $strContent;
+            $arrBatch[] = $updateData;
+
+            $updateData = array();
+            $updateData['conf_id'] = CONF_EVOLRUN_2;
+            $updateData['conf_active'] = $data['active_ev2'];
+            $arrBatch[] = $updateData;
+
+            //site 3
+            $strContent = "";
+            if(strlen($data['site_ev3'])<1) 
+                $data['site_ev3']=" ";
+            $strContent .= $data['site_ev3'].";";
+            
+            if(strlen($data['userid_ev3'])<1) 
+                $data['userid_ev3']=" ";    
+            $strContent .= $data['userid_ev3'].";";
+            
+            if(strlen($data['userpwd_ev3'])<1) 
+                $data['userpwd_ev3']=" "; 
+            $strContent .= $data['userpwd_ev3'];
+    
+            $updateData = array();
+            $updateData['conf_id'] = CONF_EVOLSITE_3;
+            $updateData['conf_content'] = $strContent;
+            $strContent = $data['type_ev3']."#".$data['betmode_ev']."#".$data['con_ev3'];
+            $updateData['conf_idx'] = $strContent;
+            $arrBatch[] = $updateData;
+
+            $updateData = array();
+            $updateData['conf_id'] = CONF_EVOLRUN_3;
+            $updateData['conf_active'] = $data['active_ev3'];
+            $arrBatch[] = $updateData;
+        }
+
 
         return  $this->builder()->updateBatch($arrBatch, 'conf_id');
     }
@@ -375,7 +445,7 @@ class ConfSite_Model extends Model
 
     public function getSiteConf(){
         $confIds = [CONF_SITENAME, CONF_GAMEPER_FULL, CONF_NPG_DENY, CONF_BPG_DENY,  CONF_CAS_DENY, CONF_SLOT_DENY, 
-           CONF_KGON_ENABLE, CONF_EOS5_ENABLE, CONF_EOS3_ENABLE, CONF_COIN5_ENABLE, CONF_COIN3_ENABLE, CONF_HPG_ENABLE, CONF_EVOLSITE];  
+           CONF_KGON_ENABLE, CONF_EOS5_ENABLE, CONF_EOS3_ENABLE, CONF_COIN5_ENABLE, CONF_COIN3_ENABLE, CONF_HPG_ENABLE, CONF_EVOLSITE_1];  
         return $this->find($confIds);
     }
 

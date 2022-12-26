@@ -95,7 +95,7 @@ function readConfigToObject() {
     } 
 
     if ($("#useredit-balance-check-id").length > 0){
-        objMember.mb_state_view = $("#useredit-balance-check-id").prop('checked') ? 0 : 1;
+        objMember.mb_state_view = $("#useredit-balance-check-id").prop('checked') ? 1 : 0;
     } 
 
     return objMember;
