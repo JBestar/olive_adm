@@ -1197,7 +1197,7 @@ class UserApi extends BaseController
     
                         if($iResult == 1){
                             if($arrData['amount'] > $objEmp->mb_money){
-                                $objResult->msg = '이송금액이 보유금액을 초과하셧습니다.';
+                                $objResult->msg = '이동금액이 보유금액을 초과하셧습니다.';
                             } else if($this->modelMember->trasferMoney($objEmp, $objMember, $arrData['amount'])){
     
                                 $moneyhistoryModel->registerTransfer($objEmp, $objMember->mb_uid, 0-$arrData['amount'], MONEYCHANGE_TRANS_DEC);
@@ -1206,7 +1206,7 @@ class UserApi extends BaseController
                             } 
                         } else if($iResult == 2) {
                             $objResult->status = 'fail';
-                            $objResult->msg = '회원이 게임플레이중이므로 이송 하실수 없습니다. '.intval(($_ENV['mem.delay_play']-diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet))/60+1)."분후 다시 시도해주세요.";
+                            $objResult->msg = '회원이 게임플레이중이므로 이동 하실수 없습니다. '.intval(($_ENV['mem.delay_play']-diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet))/60+1)."분후 다시 시도해주세요.";
                         } else {
                             $objResult->status = 'fail';
                             $objResult->msg = '게임서버가 응답하지 않습니다. 잠시후 다시 시도해주세요..';

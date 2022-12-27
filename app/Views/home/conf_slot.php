@@ -22,7 +22,7 @@
 					<th>번호</th>
 					<th>게임업체(ko)</th>
 					<th>게임업체(en)</th>
-					<th>로출상태</th>
+					<th>노출상태</th>
 				</tr>
 			</thead>
 			<tbody  id="confsite-table-data">

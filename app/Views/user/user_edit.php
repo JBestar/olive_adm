@@ -429,7 +429,7 @@
 					<button class="pbresult-money-but" id="money_6">100만원</button>  
 				
 					<?php if($trnas_en) :  ?>
-						<button class="pbresult-list-view-but" id="useredit-transfer-but-id" style="margin-right:0px;">이송</button>  
+						<button class="pbresult-list-view-but" id="useredit-transfer-but-id" style="margin-right:0px;">이동</button>  
 					<?php endif ?>
 
 					<?php if($return_en) :  ?>

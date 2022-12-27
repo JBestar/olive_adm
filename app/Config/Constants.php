@@ -344,6 +344,7 @@ defined('INSUFFICIENT_FUNDS')   || define('INSUFFICIENT_FUNDS', "INSUFFICIENT_FU
 defined('INTERNAL_ERROR')       || define('INTERNAL_ERROR', "INTERNAL_ERROR");              //기타오류
 defined('INVALID_AMOUNT')       || define('INVALID_AMOUNT', "INVALID_AMOUNT");              //금액이 올바르지 않은경우
 defined('GAME_PLAYING')         || define('GAME_PLAYING', "GAME_PLAYING");                  //해당 유저가 게임중인 경우
+defined('CONNECT_ERROR')        || define('CONNECT_ERROR', "CONNECT_ERROR");              //기타오류
 
 // SLOT 결과
 defined('SLOTCODE_SUCCESS')         || define('SLOTCODE_SUCCESS', 0);       //정상   

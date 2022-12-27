@@ -63,8 +63,8 @@ function showMoneyHistory(jsonBetData) {
             case 16: strBuf += "보글사다리 배팅"; break;
             case 17: strBuf += "보글사다리 배팅취소"; break;
             case 18: strBuf += "보글사다리 정산"; break;
-            case 19: strBuf += "하부이송"; break;
-            case 20: strBuf += "상부이송"; break;
+            case 19: strBuf += "하부이동"; break;
+            case 20: strBuf += "상부이동"; break;
             case 27: strBuf += "하부환수"; break;
             case 28: strBuf += "상부환수"; break;
             case 23: strBuf += "직충전"; break;

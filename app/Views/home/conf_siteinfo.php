@@ -64,7 +64,7 @@
 		<input type="checkbox" id="confsite-mainnotice-check-id" checked>				
 		<?php } ?>
 
-		<label for="confsite-mainnotice-check-id"> 회원로그인시 메인공지사항 현시</label>			
+		<label for="confsite-mainnotice-check-id"> 회원로그인시 메인공지사항</label>			
 	</div>
 	<div class="confsite-site-text-div">
 		<textarea rows="" id="confsite-mainnotice-text-id"><?php if(!is_null($arrConfig)) {  ?><?=$arrConfig[CONF_NOTICE_MAIN-1]->conf_content?><?php } ?></textarea>					
@@ -76,7 +76,7 @@
 		<?php } else {?>
 		<input type="checkbox" id="confsite-deposite-check-id" checked>
 		<?php }?>
-		<label for="confsite-deposite-check-id"> 회원로그인시 충환전공지사항 현시</label>
+		<label for="confsite-deposite-check-id"> 회원로그인시 충환전공지사항</label>
 		
 		<span style="float:right; margin-right:19%; ">
 			<label> 배경색</label>
@@ -108,7 +108,7 @@
 		<?php } else {?>
 			<input type="checkbox" id="confsite-urgentnotice-check-id" checked>
 		<?php }?>
-		<label for="confsite-urgentnotice-check-id"> 회원로그인시 긴급공지사항 현시</label>
+		<label for="confsite-urgentnotice-check-id"> 회원로그인시 긴급공지사항</label>
 		<span style="float:right; margin-right:19%; ">
 			<label> 배경색</label>
 		<?php if (strlen($arrConfig[CONF_NOTICE_URGENT-1]->conf_idx) > 3){ ?>
@@ -169,7 +169,7 @@
 		<?php } else {?>
 			<input type="checkbox" id="confsite-transdeny-check-id" checked>
 		<?php }?>
-		<label for="confsite-transdeny-check-id"> 하부회원 머니이송 허용</label>
+		<label for="confsite-transdeny-check-id"> 하부회원 머니이동 허용</label>
 	</div>
 	<div class="confsite-site-check-div" style="padding-left:50px;">
 		<?php if (is_null($arrConfig) || $arrConfig[CONF_TRANS_LV1-1]->conf_active != 1){ ?>

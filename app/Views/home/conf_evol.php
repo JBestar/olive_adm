@@ -16,7 +16,7 @@
 			</select>
 		</div>
 		<div class="confsite-game-text-div">
-			<p> 로출상태</p>			
+			<p> 노출상태</p>			
 			<select class="pbresult-number-select" id="confpb-display-select-id" style="margin-left:0px; width: 200px;">
 				<option value="0">보이기</option>
 				<option value="1">감추기</option>

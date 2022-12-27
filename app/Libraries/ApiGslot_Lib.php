@@ -26,7 +26,7 @@ class ApiGslot_Lib  {
 
     private function getHeader($post){
 
-        return ['Content-Type: application/x-www-form-urlencoded',
+        return ['Content-Type: application/json',
             'Content-Length: ' . strlen($post),
             'Accept: */*'];
     }
@@ -39,10 +39,11 @@ class ApiGslot_Lib  {
 
         $url = $this->mHost;
 
-        $post = 'method=user_create';
-		$post.='&agent_code='.$this->mAgCode;
-		$post.='&agent_token='.$this->mAgToken;
-		$post.='&user_code='.$id;
+        $arrPost['method'] = "user_create";
+        $arrPost['agent_code'] = $this->mAgCode;
+        $arrPost['agent_token'] = $this->mAgToken;
+        $arrPost['user_code'] = $id;
+        $post = json_encode($arrPost);
 
         $header =  $this->getHeader($post);
         
@@ -79,11 +80,12 @@ class ApiGslot_Lib  {
 
         $url = $this->mHost;
         
-        $post = 'method=money_info';
-		$post.='&agent_code='.$this->mAgCode;
-		$post.='&agent_token='.$this->mAgToken;
+        $arrPost['method'] = "money_info";
+        $arrPost['agent_code'] = $this->mAgCode;
+        $arrPost['agent_token'] = $this->mAgToken;
         if(strlen($id) > 0)
-		    $post.='&user_code='.$id;
+            $arrPost['user_code'] = $id;
+        $post = json_encode($arrPost);
 
         $header =  $this->getHeader($post);
 
@@ -130,13 +132,14 @@ class ApiGslot_Lib  {
 
         $url = $this->mHost;
 
-        $post ='method=game_launch';
-		$post.='&agent_code='.$this->mAgCode;
-		$post.='&agent_token='.$this->mAgToken;
-		$post.='&user_code='.$id;
-        $post.='&game_type=slot';
-		$post.='&provider_code='.$provider;
-		$post.='&game_code='.$gameCode;
+        $arrPost['method'] = "game_launch";
+        $arrPost['agent_code'] = $this->mAgCode;
+        $arrPost['agent_token'] = $this->mAgToken;
+        $arrPost['user_code'] = $id;
+        $arrPost['game_type'] = "slot";
+        $arrPost['provider_code'] = $provider;
+        $arrPost['game_code'] = $gameCode;
+        $post = json_encode($arrPost);
 
         $header =  $this->getHeader($post);
         
@@ -171,12 +174,13 @@ class ApiGslot_Lib  {
         
         $url = $this->mHost;
         
-        $post = 'method=user_deposit';
-		$post.='&agent_code='.$this->mAgCode;
-		$post.='&agent_token='.$this->mAgToken;
-		$post.='&user_code='.$id;
-		$post.='&amount='.$balance;
-		$post.='&game_type=slot';
+        $arrPost['method'] = "user_deposit";
+        $arrPost['agent_code'] = $this->mAgCode;
+        $arrPost['agent_token'] = $this->mAgToken;
+        $arrPost['user_code'] = $id;
+        $arrPost['amount'] = intval($balance);
+        $arrPost['game_type'] = "slot";
+        $post = json_encode($arrPost);
        
         $header =  $this->getHeader($post);
 
@@ -212,12 +216,13 @@ class ApiGslot_Lib  {
 
         $url = $this->mHost;
         
-        $post = 'method=user_withdraw';
-		$post.='&agent_code='.$this->mAgCode;
-		$post.='&agent_token='.$this->mAgToken;
-		$post.='&user_code='.$id;
-		$post.='&amount='.$balance;
-		$post.='&game_type=slot';
+        $arrPost['method'] = "user_withdraw";
+        $arrPost['agent_code'] = $this->mAgCode;
+        $arrPost['agent_token'] = $this->mAgToken;
+        $arrPost['user_code'] = $id;
+        $arrPost['amount'] = intval($balance);
+        $arrPost['game_type'] = "slot";
+        $post = json_encode($arrPost);
 
         $header =  $this->getHeader($post);
 

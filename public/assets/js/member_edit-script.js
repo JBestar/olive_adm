@@ -181,11 +181,11 @@ function addBtnEvent() {
             nAmount = 0;
         }
         if (nAmount == 0) {
-            alert("이송금액을 입력 해주세요.");
+            alert("이동금액을 입력 해주세요.");
             return false;
         }
 
-        if (!confirm(nAmount.toLocaleString() + "원을 회원에게 이송하시겠습니까?"))
+        if (!confirm(nAmount.toLocaleString() + "원을 회원에게 이동하시겠습니까?"))
             return;
 
         var jsonData = {

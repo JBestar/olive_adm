@@ -40,7 +40,7 @@
 					<th>게임업체</th>
 					<th>게임명(ko)</th>
 					<th>게임명(en)</th>
-					<th>로출상태</th>
+					<th>노출상태</th>
 					<th>운영상태</th>
 					<th>API타입</th>
 				</tr>

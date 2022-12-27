@@ -38,8 +38,8 @@
 					<option value="16">보사달배팅</option>
 					<option value="18">보사달정산</option>
 				<?php endif ?>   
-				<option value="19">하부이송</option>
-				<option value="20">상부이송</option>
+				<option value="19">하부이동</option>
+				<option value="20">상부이동</option>
 				<option value="27">하부환수</option>
 				<option value="28">상부환수</option>
 				<option value="24">머니회수</option>
