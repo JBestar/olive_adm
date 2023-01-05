@@ -40,7 +40,7 @@
 				<input type = "text" id="useredit-nickname-input-id" value="<?=$objMember->mb_nickname?>" disabled>
 				<?php } ?>		
 			<?php } ?>
-			<label>(길이 3~20)</label>
+			<label>(길이 2~20)</label>
 		</div>
 		<!---->
         <?php $this->renderSection('user-edit-check-level')  ?>

@@ -127,7 +127,7 @@ class Member_Model extends Model
     
     protected $validationRules = [
         'mb_uid' => 'required|alpha_numeric|is_unique[member.mb_uid, mb_fid, {mb_fid}]',
-        'mb_nickname' => 'required|min_length[3]|max_length[20]|is_unique[member.mb_nickname, mb_fid, {mb_fid}]',
+        'mb_nickname' => 'required|min_length[2]|max_length[20]|is_unique[member.mb_nickname, mb_fid, {mb_fid}]',
         'mb_pwd' => 'required',
         'mb_level' => 'required',
         'mb_phone' => 'required|numeric',
@@ -142,7 +142,7 @@ class Member_Model extends Model
         ],
         'mb_nickname' => [
             'required' => '닉네임은 필수입력사항입니다.',
-            'min_length' => '닉네임은 최소 3글자 이상입니다.',
+            'min_length' => '닉네임은 최소 2글자 이상입니다.',
             'max_length' => '닉네임은 최대 20글자 이하입니다.',
             'is_unique' => '닉네임이 이미 존재합니다.',
         ],
