@@ -315,8 +315,8 @@ function reqMemSave(objMember, closeDlg = null){
             return;
         }
 
-        if (objMember.mb_nickname.length < 3 || objMember.mb_nickname.length > 20) {
-            alert("닉네임길이는 3~20자리입니다.");
+        if (objMember.mb_nickname.length < 2 || objMember.mb_nickname.length > 20) {
+            alert("닉네임길이는 2~20자리입니다.");
             return;
         }
 
