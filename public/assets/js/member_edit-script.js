@@ -96,6 +96,12 @@ function readConfigToObject() {
 
     if ($("#useredit-balance-check-id").length > 0){
         objMember.mb_state_view = $("#useredit-balance-check-id").prop('checked') ? 1 : 0;
+        let min = $("#useredit-rangemin-input-id").val();
+        let max = $("#useredit-rangemax-input-id").val();
+        if(min < 0) min = 0;
+        if(max < 0) max = 0;
+
+        objMember.mb_range_ev = min + ":" + max; 
     } 
 
     return objMember;

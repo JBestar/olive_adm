@@ -88,7 +88,7 @@
                                 <div class="col-xs-12 pull-left nopadmar">
                                     <div class="row">
                                         <div class="square_box col-xs-7 text-right">
-                                            <span>누적 베팅총액 </span>
+                                            <span>누적 배팅총액 </span>
                                             <div class="number" id="total_bet_money">0</div>
                                         </div>
                                     </div>
@@ -119,7 +119,7 @@
                                 <div class="col-xs-12 pull-left nopadmar">
                                     <div class="row">
                                         <div class="square_box col-xs-7 text-right">
-                                            <span>당일 베팅총액 </span>
+                                            <span>당일 배팅총액 </span>
                                             <div class="number" id="today_bet_money">0</div>
                                         </div>
                                     </div>
@@ -223,7 +223,7 @@
                             <div class="panel-heading">
                                 <h3 class="panel-title">
                                     <i class="livicon" data-name="clock" data-size="16" data-loop="true" data-c="#fff" data-hc="white" id="livicon-68" style="width: 16px; height: 16px;"><svg height="16" version="1.1" width="16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="overflow: hidden; position: relative; left: -0.6px; top: -0.9875px;" id="canvas-for-livicon-68"><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with Raphaël 2.1.2</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></defs><path fill="#ffffff" stroke="none" d="M16,2C8.269,2,2,8.269,2,16S8.269,30,16,30S30,23.731,30,16S23.731,2,16,2ZM16.691,26.965L16.5,24.101H15.5L15.309,26.965C9.788,26.621,5.379,22.213,5.036,16.692L7.9,16.5V15.5L5.035,15.309C5.3790000000000004,9.788,9.786999999999999,5.379,15.308,5.036L15.5,7.9H16.5L16.691,5.035C22.212,5.3790000000000004,26.621,9.786999999999999,26.964,15.308L24.101,15.5V16.5L26.965,16.691C26.621,22.213,22.213,26.621,16.691,26.965Z" transform="matrix(0.5,0,0,0.5,0,0)" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="#ffffff" stroke="none" d="M22.632,12.287C22.908,12.766,16.979000000000003,16.59,16.5,16.866S15.41,16.979,15.134,16.5C14.858,16.021,15.022,15.411,15.5,15.134S22.355,11.809,22.632,12.287Z" transform="matrix(0.5,0,0,0.5,0,0)" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="#ffffff" stroke="none" d="M17.082,15.375C17.428,15.973,17.223,16.737000000000002,16.625,17.083C16.028,17.427999999999997,15.263,17.223,14.917,16.625S10.403,7.685,11,7.34C11.598,6.995,16.737,14.777,17.082,15.375Z" stroke-width="0" transform="matrix(0.5,0,0,0.5,0,0)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path></svg></i>
-                                        기계별 베팅 금액  
+                                        기계별 배팅 금액  
                                 </h3>
                                 <span class="pull-right">
                                     <i class="glyphicon glyphicon-chevron-up clickable"></i>
@@ -237,8 +237,8 @@
                                             <th>번호 </th>
                                             <th>날짜 </th>
                                             <th>게임 </th>
-                                            <th>베팅횟수 </th>
-                                            <th>베팅 </th>
+                                            <th>배팅횟수 </th>
+                                            <th>배팅 </th>
                                             <th>당첨 </th>
                                         </tr>
                                     </thead>

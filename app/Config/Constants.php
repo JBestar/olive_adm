@@ -176,7 +176,7 @@ defined('CONF_BET_N2P_DENY')    || define('CONF_BET_N2P_DENY', 38);
 defined('CONF_BET_PN_DENY')     || define('CONF_BET_PN_DENY', 39);
 defined('CONF_BET_N2P_4EN')     || define('CONF_BET_N2P_4EN', 40);
 defined('CONF_BET_PAN_TYPE')    || define('CONF_BET_PAN_TYPE', 41);
-defined('CONF_BET_CONFIRM_DENY')|| define('CONF_BET_CONFIRM_DENY', 42); //베팅시 확인창 제거
+defined('CONF_BET_CONFIRM_DENY')|| define('CONF_BET_CONFIRM_DENY', 42); //배팅시 확인창 제거
 defined('CONF_BET_BLANK_EN')    || define('CONF_BET_BLANK_EN', 43);     //공배팅 절삭
 defined('CONF_TRANS_DENY')      || define('CONF_TRANS_DENY', 44);       //이송 금지
 defined('CONF_RETURN_DENY')     || define('CONF_RETURN_DENY', 47);      //환수 금지

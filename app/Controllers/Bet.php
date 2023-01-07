@@ -162,7 +162,7 @@ class Bet extends StdController {
 	public function ebethistory(){
 
 		$param = [
-			'game_name' => "베팅내역",
+			'game_name' => "배팅내역",
 			'game_id' => GAME_CASINO_EVOL,
 		];
 		$this->load_view_page('ebal/ebethistory', 'conf_ebal', LEVEL_ADMIN, $param);

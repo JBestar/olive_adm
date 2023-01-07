@@ -201,7 +201,7 @@ function addEventListner() {
             case "연락처": item='mb_phone'; break;
             case "보유금액": item='mb_money'; break;
             case "포인트": item='mb_point'; break;
-            case "총베팅금": item='bet_sum'; break;
+            case "총배팅금": item='bet_sum'; break;
             case "총획득금": item='win_sum'; break;
             case "총롤링금": item='rw_point'; break;
             case "환전롤링금": item='chg_point'; break;

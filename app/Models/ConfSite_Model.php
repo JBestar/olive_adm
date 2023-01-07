@@ -121,7 +121,7 @@ class ConfSite_Model extends Model
         $confIds = [CONF_EVOLSITE_1, CONF_EVOLRUN_1, CONF_EVOLSITE_2, CONF_EVOLRUN_2, CONF_EVOLSITE_3, CONF_EVOLRUN_3];  
         $arrConf = $this->find($confIds);
         
-        $data[] = ["", "", "", 0, 0, 0, 0, 0, 0, 0, "" ];
+        $data[] = ["", "", "", 0, 0, 0, 0, 0, 0, 0, "", 20, 50 ];
         $data[] = ["", "", "", 0, 0, 0, 0, 0, 0, 0, "" ];
         $data[] = ["", "", "", 0, 0, 0, 0, 0, 0, 0, "" ];
 
@@ -156,9 +156,13 @@ class ConfSite_Model extends Model
                             $data[$idx][4] = intval($info[0]);
                             $data[$idx][5] = intval($info[1]);
                             $data[$idx][6] = intval($info[2]);
-                            if(count($info) >= 5){
+                            if(count($info) >= 5 && $idx == 0){
                                 $data[$idx][8] = intval($info[3]);
                                 $data[$idx][9] = intval($info[4]);
+                                if(count($info) >= 7){
+                                    $data[$idx][11] = intval($info[5]);
+                                    $data[$idx][12] = intval($info[6]);
+                                }
                             }
                         }
                     }
@@ -204,7 +208,7 @@ class ConfSite_Model extends Model
             $updateData = array();
             $updateData['conf_id'] = CONF_EVOLSITE_1;
             $updateData['conf_content'] = $strContent;
-            $strContent = $data['type_ev']."#".$data['bet_ev']."#".$data['con_ev']."#".$data['bet_min']."#".$data['bet_max'];
+            $strContent = $data['type_ev']."#".$data['bet_ev']."#".$data['con_ev']."#".$data['bet_min']."#".$data['bet_max']."#".$data['con_min']."#".$data['user_max'];
             $updateData['conf_idx'] = $strContent;
             $arrBatch[] = $updateData;
         }

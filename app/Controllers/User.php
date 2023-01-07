@@ -37,6 +37,14 @@ class User extends StdController
 				$objMember = reset($arrMem);					
 			
 			if ($objMember != null){
+				$objMember->mb_range_min = 0;
+				$objMember->mb_range_max = 0;
+				$range = explode(":", $objMember->mb_range_ev);
+				if(count($range) == 2){
+					$objMember->mb_range_min = intval($range[0]);
+					$objMember->mb_range_max = intval($range[1]);
+				}
+
 				$objEmpMember = $this->modelMember->find($objMember->mb_emp_fid);
 				if ($objEmpMember != null)
 					$empUid = $objEmpMember->mb_uid;

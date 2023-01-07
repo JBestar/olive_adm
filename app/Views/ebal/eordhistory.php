@@ -6,7 +6,7 @@
 		<div class="pbresult-list-div">
 			
 			<label style="font-size:18px; font-weight:normal">
-				에볼루션 실시간베팅
+				에볼루션 실시간배팅
 			</label>
 
 			<div style="float:right">

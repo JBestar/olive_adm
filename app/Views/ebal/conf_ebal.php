@@ -52,27 +52,37 @@
 				<input type = "text" class="conf-text-input"  id="confev-userid-input-id">
 			</div>
 			<div>
-				<p id="conf-pw-label">계정 비밀번호:</p> 
+				<p>계정 비밀번호:</p> 
 				<input type = "text" class="conf-text-input"  id="confev-userpwd-input-id">
 			</div>
 		</div>
 		<div class="confsite-game-text-div">
 			<div>
-				<p id="conf-pw-label">최소베팅금액:</p> 
+				<p>최소배팅금액:</p> 
 				<input type = "number" class="conf-text-input"  id="confev-betmin-input-id" min="0" step="1000"> 원
 			</div>
 			<div>
-			<p id="conf-pw-label">최대베팅금액:</p> 
+				<p>최대배팅금액:</p> 
 				<input type = "number" class="conf-text-input"  id="confev-betmax-input-id" min="0" step="10000"> 원
 			</div>
 		</div>
 		<div class="confsite-game-text-div">
 			<div>
-				<p id="conf-pw-label">보험베팅마감:</p> 
+				<p>보험배팅마감:</p> 
 				<input type = "number" class="conf-text-input"  id="confev-betend-input-id"> 초전
 			</div>
 			<div>
-				<p id="conf-pw-label">보험알:</p> 
+				<p>팅김방지 배팅간격:</p> 
+				<input type = "number" class="conf-text-input" min="0" step="1" id="confev-conbet-input-id"> 분 (1~30)
+			</div>
+		</div>
+		<div class="confsite-game-text-div">
+			<div>
+				<p>최대 접속자수:</p> 
+				<input type = "number" class="conf-text-input" min="0" step="1" id="confev-maxuser-input-id"> 명 (1~50)
+			</div>
+			<div>
+				<p>보험알:</p> 
 				<input type = "text" class="conf-text-input"  id="confev-balance-input-id" disabled> 
 				<label style="font-size:14px; font-weight:normal; padding-top:0px; min-width:100px;"  id="confev-balance-label-id"></label>
 			</div>
@@ -83,22 +93,6 @@
 				<p>전체 보험배팅:</p> 
 				<input type="checkbox" id="confev-bet-allcheck-id" style="zoom:120%; margin-top:0px;"><label style="font-size:14px; font-weight:normal; padding-top:0px;"> 배팅승인</label>
 			</div>
-		</div>
-		<div class="confsite-game-text-div">
-			<div>
-				<p id="conf-pw-label">최소베팅금액:</p> 
-				<input type = "number" class="conf-text-input"  id="confev-betmin-input-id" min="0" step="1000"> 원
-			</div>
-			<div>
-			<p id="conf-pw-label">최대베팅금액:</p> 
-				<input type = "number" class="conf-text-input"  id="confev-betmax-input-id" min="0" step="10000"> 원
-			</div>
-		</div>
-		<div class="confsite-game-text-div">
-			<div>
-				<p id="conf-pw-label">보험베팅마감:</p> 
-				<input type = "number" class="conf-text-input"  id="confev-betend-input-id"> 초전
-			</div>
 			<div>
 				<p> 배팅방식</p>			
 				<select name="pbresult-number" class="" id="confev-betmode-select-id" style="padding:5px; width: 200px; margin-left:0px;">
@@ -107,6 +101,34 @@
 				</select>
 			</div>
 		</div>
+		<div class="confsite-game-text-div">
+			<div>
+				<p>최소배팅금액:</p> 
+				<input type = "number" class="conf-text-input"  id="confev-betmin-input-id" min="0" step="1000"> 원
+			</div>
+			<div>
+			<p>최대배팅금액:</p> 
+				<input type = "number" class="conf-text-input"  id="confev-betmax-input-id" min="0" step="10000"> 원
+			</div>
+		</div>
+		<div class="confsite-game-text-div">
+			<div>
+				<p>보험배팅마감:</p> 
+				<input type = "number" class="conf-text-input"  id="confev-betend-input-id"> 초전
+			</div>
+			<div>
+				<p>팅김방지 배팅간격:</p> 
+				<input type = "number" class="conf-text-input" min="0" step="1" id="confev-conbet-input-id"> 분 (1~30)
+			</div>
+			
+		</div>
+		<div class="confsite-game-text-div">
+			<div>
+				<p>최대 접속자수:</p> 
+				<input type = "number" class="conf-text-input" min="0" step="1" id="confev-maxuser-input-id"> 명 (1~50)
+			</div>
+		</div>
+
 		<!-- 보험계정 1 -->
 		<div class="confsite-game-text-div">
   			<p style="font-size: 16px; font-weight: bold;">보험계정 1</p>
@@ -147,17 +169,18 @@
 				<input type = "text" class="conf-text-input"  id="confev-userid-input-id">
 			</div>
 			<div>
-				<p id="conf-pw-label">계정 비밀번호:</p> 
+				<p>계정 비밀번호:</p> 
 				<input type = "text" class="conf-text-input"  id="confev-userpwd-input-id">
 			</div>
 		</div>
 		
 		<div class="confsite-game-text-div">
 			<div>
-				<p id="conf-pw-label">보험알:</p> 
+				<p>보험알:</p> 
 				<input type = "text" class="conf-text-input"  id="confev-balance-input-id" disabled> 
 				<label style="font-size:14px; font-weight:normal; padding-top:0px; min-width:100px;"  id="confev-balance-label-id"></label>
 			</div>
+			
 		</div>
 		
 		<!-- 보험계정 2 -->
@@ -200,14 +223,14 @@
 				<input type = "text" class="conf-text-input"  id="confev-userid-input-id2">
 			</div>
 			<div>
-				<p id="conf-pw-label">계정 비밀번호:</p> 
+				<p>계정 비밀번호:</p> 
 				<input type = "text" class="conf-text-input"  id="confev-userpwd-input-id2">
 			</div>
 		</div>
 		
 		<div class="confsite-game-text-div">
 			<div>
-				<p id="conf-pw-label">보험알:</p> 
+				<p>보험알:</p> 
 				<input type = "text" class="conf-text-input"  id="confev-balance-input-id2" disabled> 
 				<label style="font-size:14px; font-weight:normal; padding-top:0px; min-width:100px;"  id="confev-balance-label-id2"></label>
 			</div>
@@ -252,14 +275,14 @@
 				<input type = "text" class="conf-text-input"  id="confev-userid-input-id3">
 			</div>
 			<div>
-				<p id="conf-pw-label">계정 비밀번호:</p> 
+				<p>계정 비밀번호:</p> 
 				<input type = "text" class="conf-text-input"  id="confev-userpwd-input-id3">
 			</div>
 		</div>
 		
 		<div class="confsite-game-text-div">
 			<div>
-				<p id="conf-pw-label">보험알:</p> 
+				<p>보험알:</p> 
 				<input type = "text" class="conf-text-input"  id="confev-balance-input-id3" disabled> 
 				<label style="font-size:14px; font-weight:normal; padding-top:0px; min-width:100px;"  id="confev-balance-label-id3"></label>
 			</div>

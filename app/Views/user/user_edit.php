@@ -333,16 +333,31 @@
 		<?php $this->renderSection('user-edit-check-level')  ?>
 		<?php if ($mb_level >= LEVEL_ADMIN) { ?>
         
-			<div class="useredit-text-div">
+			<div class="useredit-percent-div">
 				
 				<?php if(array_key_exists('app.ebal', $_ENV) && $_ENV['app.ebal'] > 0 ) :?>
 
 					<?php if(!is_null($objMember) && $objMember->mb_state_view == 1) :  ?>
-						<input type="checkbox" id="useredit-balance-check-id" style="zoom:140%; margin-top:4px; width:20px;" checked>
+						<input type="checkbox" id="useredit-balance-check-id" style="zoom:140%; margin-top:4px; margin-right:0; width:20px;" checked>
 					<?php else :  ?>
-						<input type="checkbox" id="useredit-balance-check-id" style="zoom:140%; margin-top:4px; width:20px;" >
+						<input type="checkbox" id="useredit-balance-check-id" style="zoom:140%; margin-top:4px; margin-right:0; width:20px;" >
 					<?php endif ?>
-					<p>에볼 누르기</p> 
+					<p style="width:133px">에볼 누르기</p> 
+
+
+					<label> 최소배팅금액</label>
+					<?php if(is_null($objMember)) : ?>
+					<input type = "number" min="0" step="1000" id="useredit-rangemin-input-id" value="0">
+					<?php else :?>
+					<input type = "number" min="0" step="1000" id="useredit-rangemin-input-id" value="<?=$objMember->mb_range_min?>">
+					<?php endif ?>
+
+					<label> 최대배팅금액</label>
+					<?php if(is_null($objMember)) :  ?>
+					<input type = "number" min="0" step="1000" id="useredit-rangemax-input-id" value="0">
+					<?php else :?>
+					<input type = "number" min="0" step="1000" id="useredit-rangemax-input-id" value="<?=$objMember->mb_range_max?>">
+					<?php endif ?>
 
 				<?php else :?>
 					<?php if(!is_null($objMember) && $objMember->mb_state_delete == 1) :  ?>

@@ -22,6 +22,8 @@ function showConfSite(arrData, all) {
         $("#confev-conbet-check-id").prop('checked', data[6] > 0 ? true : false);
         $("#confev-betmin-input-id").val(data[8]);
         $("#confev-betmax-input-id").val(data[9]);
+        $("#confev-conbet-input-id").val(data[11]);
+        $("#confev-maxuser-input-id").val(data[12]);
     }
     
     $('#confev-balance-input-id').val('');
@@ -114,6 +116,8 @@ function addBtnEvent() {
         objData.bet_min = $("#confev-betmin-input-id").val();
         objData.bet_max = $("#confev-betmax-input-id").val();
         objData.con_ev = $("#confev-conbet-check-id").prop('checked') ? 1 : 0;
+        objData.con_min = $("#confev-conbet-input-id").val();
+        objData.user_max = $("#confev-maxuser-input-id").val();
 
         if($("#confev-betsite-input-id2").length > 0){
             objData.betmode_ev = $("#confev-betmode-select-id").val();

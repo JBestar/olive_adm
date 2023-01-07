@@ -26,7 +26,7 @@ class PbApi extends BaseController {
 		
 	}
 
-	//베팅결과를 Ajax로 전송
+	//배팅결과를 Ajax로 전송
 	public function result(){ 
 		
 		$jsonData = $_REQUEST['json_'];
@@ -78,7 +78,7 @@ class PbApi extends BaseController {
 	}
 
 	
-	//베팅결과를 검색개수 Ajax로 전송
+	//배팅결과를 검색개수 Ajax로 전송
 	public function resultcnt(){ 
 			
 		$jsonData = $_REQUEST['json_'];
@@ -129,7 +129,7 @@ class PbApi extends BaseController {
 
 	}
 
-	//베팅리력결과를 Ajax로 전송
+	//배팅리력결과를 Ajax로 전송
 	public function betlist(){ 
 		
 		$jsonData = $_REQUEST['json_'];
@@ -180,7 +180,7 @@ class PbApi extends BaseController {
 
 
 
-	//베팅리력결과 개수를 Ajax로 전송
+	//배팅리력결과 개수를 Ajax로 전송
 	public function betlistcnt(){ 
 		$jsonData = $_REQUEST['json_'];
 		$arrReqData = json_decode($jsonData, true);
@@ -235,7 +235,7 @@ class PbApi extends BaseController {
 	}
 
 
-	//실시간베팅결과 합을 Ajax로 전송
+	//실시간배팅결과 합을 Ajax로 전송
 	public function betrealtime(){ 
 		$jsonData = $_REQUEST['json_'];
 		$arrReqData = json_decode($jsonData, true);

@@ -30,7 +30,7 @@
 
 	<div class="bet-panel">
 		<h4>
-            <?php $this->renderSection('realtime-title')?> 실시간베팅
+            <?php $this->renderSection('realtime-title')?> 실시간배팅
         </h4>
 		<Table class="bet-table" id="pbbet-table-id">
 			<tr>

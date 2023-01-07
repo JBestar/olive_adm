@@ -167,7 +167,7 @@
     }
 
     
-    //베팅시간으로부터 정확한 회차날자 얻기
+    //배팅시간으로부터 정확한 회차날자 얻기
     function getRoundDate($strDateTime){
       //2021-01-33 23:33:33
       if(strlen($strDateTime) < 1)

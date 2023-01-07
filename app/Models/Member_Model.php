@@ -73,6 +73,7 @@ class Member_Model extends Model
         'mb_game_co_percent',
         'mb_game_co2_percent',
         'mb_blank_count',
+        'mb_range_ev', 
         'mb_live_id',
         'mb_live_uid',
         'mb_live_money',
@@ -550,9 +551,9 @@ class Member_Model extends Model
         $objResult = $this->db->query($strSQL)->getRow();
         // writeLog("calcBetMoneys END");
 
-        $arrBetData['bet_money'] = 0;          // 베팅머니
+        $arrBetData['bet_money'] = 0;          // 배팅머니
         $arrBetData['bet_win_money'] = 0;      // 적중머니
-        $arrBetData['bet_benefit_money'] = 0;  // 베팅손익
+        $arrBetData['bet_benefit_money'] = 0;  // 배팅손익
 
          if (!is_null($objResult->bet_money)) {
              $arrBetData['bet_money'] += $objResult->bet_money;
@@ -561,7 +562,7 @@ class Member_Model extends Model
             $arrBetData['bet_win_money'] += $objResult->bet_win_money;
         }
 
-        $arrBetData['bet_benefit_money'] = $arrBetData['bet_money'] - $arrBetData['bet_win_money'];  // 베팅손익
+        $arrBetData['bet_benefit_money'] = $arrBetData['bet_money'] - $arrBetData['bet_win_money'];  // 배팅손익
 
         return $arrBetData;
     }
@@ -612,9 +613,9 @@ class Member_Model extends Model
         $objResult = $this->db->query($strSQL)->getRow();
         // writeLog("calcBetMoneysByGame END");
 
-        $arrBetData['bet_money'] = 0;          // 베팅머니
+        $arrBetData['bet_money'] = 0;          // 배팅머니
         $arrBetData['bet_win_money'] = 0;      // 적중머니
-        $arrBetData['bet_benefit_money'] = 0;  // 베팅손익
+        $arrBetData['bet_benefit_money'] = 0;  // 배팅손익
 
          if (!is_null($objResult->bet_money)) {
              $arrBetData['bet_money'] += $objResult->bet_money;
@@ -623,7 +624,7 @@ class Member_Model extends Model
             $arrBetData['bet_win_money'] += $objResult->bet_win_money;
         }
 
-        $arrBetData['bet_benefit_money'] = $arrBetData['bet_money'] - $arrBetData['bet_win_money'];  // 베팅손익
+        $arrBetData['bet_benefit_money'] = $arrBetData['bet_money'] - $arrBetData['bet_win_money'];  // 배팅손익
 
         return $arrBetData;
     }
@@ -688,7 +689,7 @@ class Member_Model extends Model
         $strSQL = $this->calcCommonSql($objEmp, $arrReqData);
         // $strWhereMem = " AND (bet_emp_fid IN (SELECT mb_emp_fid FROM tbmember WHERE mb_fid != ".$objEmp->mb_fid." GROUP BY mb_emp_fid ) OR bet_mb_uid = '".$objEmp->mb_uid."')";
         $strWhereMem = " AND bet_mb_uid IN (SELECT mb_uid from tbmember) ";
-        //베팅금액
+        //배팅금액
         $strSQL .= ' UNION ALL ( SELECT SUM(bet_money) AS result_1, SUM(bet_win_money) AS result_2 ';
         $strSQL .= '  FROM ( SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_slot';
         $strSQL .= " WHERE bet_fid >= ".$arrReqData['slot_range'][0]." AND bet_fid <= ".$arrReqData['slot_range'][1];
@@ -772,7 +773,7 @@ class Member_Model extends Model
     public function calculateByGame($objEmp, $arrReqData){
 
         $strSQL = $this->calcCommonSql($objEmp, $arrReqData);
-        //베팅금액
+        //배팅금액
         $strSQL .= ' UNION ALL ( SELECT SUM(bet_money) AS result_1, SUM(bet_win_money) AS result_2 FROM';
         if ($arrReqData['type'] == GAME_POWER_BALL ) {
             $strSQL .= ' bet_powerball ';
@@ -891,7 +892,7 @@ class Member_Model extends Model
 
         $objResult = $this->db->query($strSQL)->getRow();
 
-        $arrBetData['bet_money'] = 0;          // 베팅머니
+        $arrBetData['bet_money'] = 0;          // 배팅머니
         $arrBetData['bet_win_money'] = 0;      // 적중머니
 
          if (!is_null($objResult->bet_money)) {
@@ -1048,7 +1049,7 @@ class Member_Model extends Model
             $strTbColum .= ' mb_game_pb_ratio, mb_game_pb2_ratio, mb_game_ps_ratio, mb_game_bb_ratio, mb_game_bb2_ratio, ';
             $strTbColum .= ' mb_game_bs_ratio, mb_game_cs_ratio, mb_game_sl_ratio, mb_game_eo_ratio, mb_game_eo2_ratio, mb_game_co_ratio, mb_game_co2_ratio, ';
             $strTbColum .= ' mb_game_pb_percent, mb_game_pb2_percent, mb_game_ps_percent, mb_game_bb_percent, mb_game_bb2_percent, mb_game_bs_percent, ';
-            $strTbColum .= ' mb_game_eo_percent, mb_game_eo2_percent, mb_game_co_percent, mb_game_co2_percent, ';
+            $strTbColum .= ' mb_game_eo_percent, mb_game_eo2_percent, mb_game_co_percent, mb_game_co2_percent, mb_range_ev, ';
             $strTbColum .= ' mb_live_money, mb_slot_money, mb_fslot_money, mb_kgon_money, mb_gslot_money ';
 
             $strTbRColum = ' r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid, r.mb_emp_permit, r.mb_nickname, r.mb_phone, r.mb_money, r.mb_point, ';
@@ -1056,7 +1057,7 @@ class Member_Model extends Model
             $strTbRColum .= ' r.mb_game_pb_ratio, r.mb_game_pb2_ratio, r.mb_game_ps_ratio, r.mb_game_bb_ratio, r.mb_game_bb2_ratio, ';
             $strTbRColum .= ' r.mb_game_bs_ratio, r.mb_game_cs_ratio, r.mb_game_sl_ratio, r.mb_game_eo_ratio, r.mb_game_eo2_ratio, r.mb_game_co_ratio, r.mb_game_co2_ratio,';
             $strTbRColum .= ' r.mb_game_pb_percent, r.mb_game_pb2_percent, r.mb_game_ps_percent, r.mb_game_bb_percent, r.mb_game_bb2_percent, r.mb_game_bs_percent, ';
-            $strTbRColum .= ' r.mb_game_eo_percent, r.mb_game_eo2_percent, r.mb_game_co_percent, r.mb_game_co2_percent, ';
+            $strTbRColum .= ' r.mb_game_eo_percent, r.mb_game_eo2_percent, r.mb_game_co_percent, r.mb_game_co2_percent, r.mb_range_ev, ';
             $strTbRColum .= ' r.mb_live_money, r.mb_slot_money, r.mb_fslot_money, r.mb_kgon_money, r.mb_gslot_money ';
 
             $strSQL = 'WITH RECURSIVE tbmember ('.$strTbColum.') AS';

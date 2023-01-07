@@ -123,7 +123,7 @@
 						<th>알회수</th>
 						<?php } ?>
 						<th class="sort-by">포인트</th>
-						<th class="sort-by">총베팅금</th>
+						<th class="sort-by">총배팅금</th>
 						<th class="sort-by">총획득금</th>
 						<th class="sort-by">총롤링금</th>
 						<th class="sort-by">환전롤링금</th>
