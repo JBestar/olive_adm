@@ -114,6 +114,9 @@ class Sess_Model extends Model {
         if(strlen($arrReqData['mb_uid']) > 0){
             $strSql.=" AND sess_mb_uid = '".$arrReqData['mb_uid']."' ";
         }
+        if(intval($arrReqData['type']) >= 0){
+            $strSql.=" AND sess_type = '".$arrReqData['type']."' ";
+        }
         $query = $this -> db -> query($strSql);
         $result = $query -> getRow();
         
