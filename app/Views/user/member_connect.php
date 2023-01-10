@@ -23,7 +23,15 @@
 	<!--Site Setting-->
 	<div class="user-panel">	
 		<div>
-			<!-- <a href="javascript:" class="user-panel-add-a" >전체 삭제</a> -->
+			<?php if(array_key_exists('app.ebal', $_ENV) && $_ENV['app.ebal'] > 0 ) :?>
+				<label>접속</label>
+				<select name="pbresult-number" class="pbresult-number-select" id="userpanel-type-select-id" style="margin-left:0px">
+					<option value="-1">전체</option>
+					<option value="0">사이트</option>
+					<option value="1">앱</option>
+				</select>
+			<?php endif ?>
+
 			<label>아이디</label>
             <input type="text" class="pbresult-text-input" id="userpanel-userid-input-id" >
 			

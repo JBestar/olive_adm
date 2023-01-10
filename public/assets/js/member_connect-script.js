@@ -40,9 +40,10 @@ function showMember(arrMember) {
         strBuf += "</td> <td>";
         strBuf += parseInt(arrMember[nRow].mb_point).toLocaleString();
         strBuf += "</td> <td>";
-        strBuf += arrMember[nRow].sess_ip;
         if(arrMember[nRow].sess_type == 1)
-            strBuf += "(APP)"; 
+            strBuf += "앱"; 
+        else 
+            strBuf += arrMember[nRow].sess_ip;
         strBuf += "</td> <td>";
         strBuf += arrMember[nRow].sess_join;
         strBuf += "</td> <td>";
@@ -100,6 +101,10 @@ function addEventListner() {
     $("#userpanel-number-select-id").change(function() {
         requestTotalPage();
     });
+    
+    $("#userpanel-type-select-id").change(function() {
+        requestTotalPage();
+    });
 }
 
 
@@ -108,11 +113,15 @@ function requestMember() {
 
     var nPage = getActivePage();
     var strUid = $("#userpanel-userid-input-id").val();
+    var type = 0;
+    if($("#userpanel-type-select-id").length > 0)
+        type = $("#userpanel-type-select-id").val();
 
     var jsonData = {
         "count": CountPerPage,
         "page": nPage,
         "mb_uid": strUid,
+        "type":type,
     };
 
     jsonData = JSON.stringify(jsonData);
@@ -134,7 +143,7 @@ function requestMember() {
         },
         error: function(request, status, error) {
             $(".loading").hide();
-            // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
         }
 
     });
@@ -147,10 +156,14 @@ function requestMember() {
 function requestTotalPage() {
     CountPerPage = $("#userpanel-number-select-id").val();
     var strUid = $("#userpanel-userid-input-id").val();
+    var type = 0;
+    if($("#userpanel-type-select-id").length > 0)
+        type = $("#userpanel-type-select-id").val();
 
     var jsonData = {
         "count": CountPerPage,
         "mb_uid": strUid,
+        "type":type,
     };
 
     jsonData = JSON.stringify(jsonData);
