@@ -542,7 +542,7 @@ class Member_Model extends Model
         if(!$confs['cas_deny'] || $confs['kgon_enable']){
             $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_casino ';
             $strSQL .= " WHERE bet_fid >= ".$arrReqData['cas_range'][0]." AND bet_fid <= ".$arrReqData['cas_range'][1];
-            $strSQL .= " AND bet_mb_uid IN (SELECT mb_uid from tbmember UNION ALL SELECT '".$objEmp->mb_uid."' as mb_uid) )";
+            $strSQL .= " AND company_amount = 0 AND bet_mb_uid IN (SELECT mb_uid from tbmember UNION ALL SELECT '".$objEmp->mb_uid."' as mb_uid) )";
         }
         $strSQL .= " ) AS bet_table ";
 
@@ -747,7 +747,7 @@ class Member_Model extends Model
         if(!$confs['cas_deny'] || $confs['kgon_enable']){
             $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_casino ';
             $strSQL .= " WHERE bet_fid >= ".$arrReqData['cas_range'][0]." AND bet_fid <= ".$arrReqData['cas_range'][1];
-            $strSQL .= " AND bet_money <> bet_win_money ";  //sum without Tie
+            $strSQL .= " AND bet_money <> bet_win_money AND company_amount = 0 ";  //sum without Tie
             $strSQL .= $strWhereMem." )";
         }
         $strSQL .= " ) AS bet_table ) ";
@@ -884,6 +884,7 @@ class Member_Model extends Model
         }
 
         if(!$confs['cas_deny'] || $confs['kgon_enable']){
+            $strCond .= " company_amount = 0 ";
             $strSQL .= 'UNION ALL SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_casino ';
             $strSQL .= $strCond;
         }
@@ -965,6 +966,7 @@ class Member_Model extends Model
         }
 
         if(!$confs['cas_deny'] || $confs['kgon_enable']){
+            $strCond.= " AND company_amount = 0 ";
             $strSQL.= " UNION All SELECT bet_money, bet_win_money, bet_count, bet_name, '".GAME_CASINO_EVOL."' As bet_kind From ";
             $strSQL.= " (SELECT bet_casino_g.*, name_ko AS bet_name from (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, COUNT(*) AS bet_count, bet_game_id FROM bet_casino ";
             $strSQL.=  $strCond." group by bet_game_id) AS bet_casino_g ";

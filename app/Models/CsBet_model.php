@@ -33,7 +33,10 @@ class CsBet_Model extends Model
 
     function getBetAccount($arrReqData){
         
-        $strCondition = " WHERE bet_money != bet_win_money ";
+        if(array_key_exists("state", $arrReqData) && $arrReqData['state'] > 0)
+            return null;
+
+        $strCondition = " WHERE bet_money != bet_win_money AND company_amount = 0 ";
         // $strCondition = " WHERE bet_result != 'Tie' ";
         if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
             $strCondition.=" AND ".getBetTimeRange($arrReqData);
@@ -123,13 +126,20 @@ class CsBet_Model extends Model
             if($bWhere) $strWhere.= " AND ";
             else $strWhere.= " WHERE ";  
             $strWhere.=" bet_mb_uid in ( SELECT mb_uid FROM  tbmember UNION ALL SELECT '".$objEmp->mb_uid."' AS mb_uid ) ";
+            $bWhere = true;
         }
+        if(array_key_exists("state", $arrReqData) && $arrReqData['state'] > 0){
+            $strWhere.=" AND company_amount > 0 ";
+        } else {
+            $strWhere.=" AND company_amount = 0 ";
+        }
+
         $nStartRow = ($arrReqData['page']-1) * $arrReqData['count'] ;
         $strWhere.=" ORDER BY bet_time DESC LIMIT ".$nStartRow.", ".$arrReqData['count'];
         
         $strSql = "";
         $strSql .= "SELECT bet_fid, bet_idx, bet_mb_uid, bet_round_no, bet_time, bet_money, bet_win_money, bet_player_id, bet_game_id, bet_game_type, bet_table_code, ";
-        $strSql .= " bet_choice, bet_result, obj_id, ".$this->mGameTable.".name as game_name, rw_mb_uid, rw_point, ".$this->mPrdTable.".name as prd_name";
+        $strSql .= " bet_choice, bet_result, point_amount, company_amount, obj_id, ".$this->mGameTable.".name as game_name, rw_mb_uid, rw_point, ".$this->mPrdTable.".name as prd_name";
         $strSql .= " FROM ( ";
 
         $tbBetSearch = "bet_search";
@@ -232,6 +242,11 @@ class CsBet_Model extends Model
             else $strSql.= " WHERE ";    
             $strSql.=" bet_mb_uid in ( SELECT mb_uid FROM  tbmember UNION ALL SELECT '".$objEmp->mb_uid."' AS mb_uid ) ";
         }
+        if(array_key_exists("state", $arrReqData) && $arrReqData['state'] > 0){
+            $strSql.=" AND company_amount > 0 ";
+        } else {
+            $strSql.=" AND company_amount = 0 ";
+        }
 
         $query = $this -> db -> query($strSql);
         $result = $query -> getRow();
@@ -245,7 +260,7 @@ class CsBet_Model extends Model
         $arrSum = array();
         $strSql = " SELECT SUM(bet_money) AS bet_money_sum, SUM(bet_win_money) AS win_money_sum  FROM ".$this->table;
         $strSql .= " WHERE bet_time >= '".$arrReqInfo['start']."' AND bet_time <= '".$arrReqInfo['end']."' ";
-        $strSql .= " AND bet_money != bet_win_money ";
+        $strSql .= " AND bet_money != bet_win_money AND company_amount = 0 ";
         if($objConf->game_index == GAME_CASINO_EVOL)
             $strSql .= " AND bet_game_id = 0 ";
         else 
@@ -268,5 +283,15 @@ class CsBet_Model extends Model
         return $arrSum;
     }
 
+    public function updateBet($objbet)
+    {
+
+        $this->builder()->set('bet_win_money', $objbet->bet_win_money);
+        $this->builder()->set('point_amount', $objbet->point_amount);
+        $this->builder()->set('acc_time', 'NOW()', false);
+        
+        $this->builder()->where('bet_fid', $objbet->bet_fid);
+        return $this->builder()->update();        
+    }
 
 }

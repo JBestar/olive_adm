@@ -15,17 +15,23 @@
 
 			<input type="text" placeholder="            게임방" class="pbresult-text-input" id="pbhistory-room-input-id"  style="width:150px;">
 			
-            <select name="pbresult-number" class="pbresult-number-select" id="pbhistory-number-select-id" style="width:70px; margin-left:10px;">
+            <select name="pbresult-number" class="pbresult-number-select" id="pbhistory-state-select-id" style="width:80px; margin-left:-5px;">
+				<option value="0">정상</option>
+				<option value="1">미처리</option>
+			</select>
+            <select name="pbresult-number" class="pbresult-number-select" id="pbhistory-number-select-id" style="width:70px; margin-left:5px;">
 				<option value="10">10개</option>
 				<option value="20">20개</option>
 				<option value="50">50개</option>
 				<option value="100">100개</option>
 			</select>
 			<button class="pbresult-list-view-but" id="pbhistory-list-view-but-id">검색</button>
+			
+
 		</div>
 		<Table class="bet-table">
 			<thead>
-				<tr>
+				<tr  id="pbbet-table-head-id">
 					<th>ID</th>
 					<th>아이디</th>
 					<th>배팅시간</th>

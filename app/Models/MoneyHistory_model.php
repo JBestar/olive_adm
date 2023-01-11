@@ -153,6 +153,26 @@ class MoneyHistory_Model extends Model
         
         return $this->builder()->insert();        
     }
+    
+    function registerAccountCsBet($objUser, $objBetInfo, $nMoney, $iType)
+    {
+        
+        if(is_null($objUser)) return false;    
+        
+        $this->builder()->set('money_mb_fid', $objUser->mb_fid);
+        $this->builder()->set('money_mb_uid', $objUser->mb_uid);
+        $this->builder()->set('money_mb_emp_fid', $objUser->mb_emp_fid);        
+        $this->builder()->set('money_amount', $nMoney);
+        $this->builder()->set('money_before', allMoney($objUser));
+        $this->builder()->set('money_after', allMoney($objUser)+$nMoney);
+        $this->builder()->set('money_change_type', $iType);     
+        $this->builder()->set('money_bet_round', $objBetInfo->bet_round_no);
+        $this->builder()->set('money_bet_target', $objBetInfo->bet_table_code);        
+        $this->builder()->set('money_update_time', 'NOW()', false);
+        
+        return $this->builder()->insert();        
+    }
+
     function search($objEmp, $arrReqData)
     {
         $strTbColum = " mb_fid, mb_uid, mb_level, mb_emp_fid, mb_nickname, mb_money, mb_live_money, mb_slot_money, mb_fslot_money, mb_kgon_money, mb_gslot_money ";

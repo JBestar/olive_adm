@@ -6,6 +6,7 @@ use App\Models\MoneyHistory_Model;
 use App\Models\PbBet_Model;
 use App\Models\PbRound_Model;
 use App\Models\PsBet_Model;
+use App\Models\CsBet_Model;
 use App\Models\PsRound_Model;
 
 class PbApi extends BaseController {
@@ -595,7 +596,6 @@ class PbApi extends BaseController {
 								$dtPont = $objBet->point_amount;
 								$bResult = $this->modelMember->moneyProc($objBetUser, $dtMoney, $dtPont, 0, 0);
 								if($bResult){
-
 									$moneyhistoryModel->registerAccountBet($objBetUser, $objBet, $dtMoney, $iChangeType);
 								}
 							}
@@ -617,4 +617,88 @@ class PbApi extends BaseController {
 		}
 
 	}	
+
+
+	public function csbetprocess(){ 
+		$jsonData = $_REQUEST['json_'];
+		$arrReqData = json_decode($jsonData, true);
+		if(is_login()) {
+			$bResult = false;
+			$moneyhistoryModel = new MoneyHistory_Model();
+			$csbetModel = new CsBet_Model();
+
+			$strUid = $this->session->user_id;
+			$objUser = $this->modelMember->getInfo($strUid);
+			if(is_null($objUser) || $objUser->mb_level <  LEVEL_ADMIN){
+				$bResult = false;
+			} else {
+				$state = intval($arrReqData['state']);
+				for($i = 0; $i < count($arrReqData['data']); $i++) {
+					$objBet = $csbetModel->find($arrReqData['data'][$i]);
+					if(is_null($objBet)) 
+						continue;
+
+					if($objBet->point_amount == $state)
+						continue;
+
+					$winMoney = 0;
+					if($state == BET_STATE_WIN){
+						if($objBet->bet_choice == "Banker")
+							$winMoney = $objBet->bet_money * RATE_BANKER;
+						else if($objBet->bet_choice == "Tie")
+							$winMoney = $objBet->bet_money * RATE_TIE;
+						else
+							$winMoney = $objBet->bet_money * RATE_PLAYER;
+					} else if($state == BET_STATE_TIE){
+						$winMoney = $objBet->bet_money;
+					} else if($state == BET_STATE_LOSS){
+						$winMoney = 0;
+					} else continue;
+
+					$dtMoney = 0;
+					if($objBet->point_amount == 0){
+						$dtMoney = $winMoney - $objBet->bet_money;
+					} else if($objBet->point_amount == BET_STATE_LOSS){
+						// $dtMoney = $objBet->bet_money + $winMoney - $objBet->bet_money;
+						$dtMoney = $winMoney;
+					} else if($objBet->point_amount == BET_STATE_WIN){
+						// $dtMoney = $objBet->bet_money - $objBet->bet_win_money + $winMoney - $objBet->bet_money;
+						$dtMoney = $winMoney - $objBet->bet_win_money;
+					} else if($objBet->point_amount == BET_STATE_TIE){
+						$dtMoney = $winMoney - $objBet->bet_money;
+					} else continue;
+
+					$objBetUser = $this->modelMember->getInfo($objBet->bet_mb_uid);
+					if(is_null($objBetUser))
+						continue;
+
+					if($this->modelMember->moneyProc($objBetUser, $dtMoney)){
+						
+						$objBet->bet_win_money = $winMoney;
+						$objBet->point_amount = $state;
+						
+						$moneyhistoryModel->registerAccountCsBet($objBetUser, $objBet, $dtMoney, MONEYCHANGE_DENY_EBAL);
+						
+						if(!$csbetModel->updateBet($objBet))
+							continue;
+					}
+
+				}
+
+				$bResult = true;
+			}
+			if($bResult)
+				$arrResult['status'] = "success";
+			else 
+				$arrResult['status'] = "fail";
+
+			echo json_encode($arrResult);
+		} else {
+			$arrResult['status'] = "logout";
+			echo json_encode($arrResult);	
+		}
+	}
+
+
+
 }

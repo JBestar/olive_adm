@@ -391,6 +391,11 @@ defined('BET_STATE_DENY')        || define('BET_STATE_DENY', 5);
 defined('BET_STATE_SUM')         || define('BET_STATE_SUM', 6);     
 defined('BET_STATE_BIN')         || define('BET_STATE_BIN', 7);     
 
-defined('BET_TYPE_NORMAL')         || define('BET_TYPE_NORMAL', 0);     
+defined('BET_TYPE_NORMAL')       || define('BET_TYPE_NORMAL', 0);     
 defined('BET_TYPE_ZERO')         || define('BET_TYPE_ZERO', 1);     
 defined('BET_TYPE_FORCE')        || define('BET_TYPE_FORCE', 2); 
+
+defined('RATE_PLAYER')       || define('RATE_PLAYER', 2.0);     
+defined('RATE_BANKER')       || define('RATE_BANKER', 1.95);     
+defined('RATE_TIE')          || define('RATE_TIE', 7.0);     
+

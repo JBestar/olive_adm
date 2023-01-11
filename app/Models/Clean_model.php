@@ -84,6 +84,7 @@ class Clean_Model extends Model {
     public function initDb(){
         $this->db->query("TRUNCATE bet_slot");
         $this->db->query("TRUNCATE bet_casino");
+        $this->db->query("TRUNCATE bet_balance");
         $this->db->query("TRUNCATE bet_powerball");
         $this->db->query("TRUNCATE bet_powerladder");
         $this->db->query("TRUNCATE bet_bogleball");

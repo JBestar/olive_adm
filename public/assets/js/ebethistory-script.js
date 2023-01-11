@@ -17,6 +17,19 @@ function requestPageInfo() {
 
 //Function to Show Betting History
 function ShowBetHistory(jsonBetData) {
+
+    var state = $("#pbhistory-state-select-id").val();
+
+    var strHead = "<th>ID</th><th>아이디</th><th>배팅시간</th><th>게임종류</th><th>게임방</th>";
+    strHead += "<th>요청금</th><th>배팅금</th><th>배팅선택</th><th>경기결과</th><th>적중금</th>";
+    if(state == 1){
+        strHead+= "<th>처리결과</th><th>처리</th>";
+    } else {
+        strHead+= "<th>배팅결과</th><th>포인트</th>";
+    }
+    $("#pbbet-table-head-id").html(strHead);
+
+
     var elemBetDataTb = document.getElementById("pbbet-table-id");
     var strBuf = "";
     var strWinMoney = "";
@@ -55,20 +68,36 @@ function ShowBetHistory(jsonBetData) {
             strBuf += parseInt(jsonBetData[nRow].bet_win_money).toLocaleString() + "원";
             strBuf += "</td>";
             strResult = "<td>";
-            // strWinMoney = "";
-            if (parseInt(jsonBetData[nRow].bet_win_money) > parseInt(jsonBetData[nRow].bet_money)) {
-                strResult = "<td  class = 'pb-home-table-betstate-earn'>적중";
-                // strWinMoney = (parseInt(jsonBetData[nRow].bet_win_money) - parseInt(jsonBetData[nRow].bet_money)).toLocaleString() + "원";
-            } else if (jsonBetData[nRow].bet_win_money == jsonBetData[nRow].bet_money) {
-                strResult = "<td  class = 'pb-home-table-betstate-wait'>타이";
-            } else {
-                strResult = "<td  class = 'pb-home-table-betstate-loss'>미적중"; //
+            if(state == 1) {
+                if (parseInt(jsonBetData[nRow].point_amount) == 3) {
+                    strResult = "<td  class = 'pb-home-table-betstate-earn'>적중";
+                } else if (parseInt(jsonBetData[nRow].point_amount) == 4) {
+                    strResult = "<td  class = 'pb-home-table-betstate-wait'>타이";
+                } else  if (parseInt(jsonBetData[nRow].point_amount) == 2){
+                    strResult = "<td  class = 'pb-home-table-betstate-loss'>미적중"; //
+                } else {
+                    strResult = "<td  class = 'pb-home-table-betstate-loss'>미처리"; //
+                }
+            } else{
+                if (parseInt(jsonBetData[nRow].bet_win_money) > parseInt(jsonBetData[nRow].bet_money)) {
+                    strResult = "<td  class = 'pb-home-table-betstate-earn'>적중";
+                } else if (jsonBetData[nRow].bet_win_money == jsonBetData[nRow].bet_money) {
+                    strResult = "<td  class = 'pb-home-table-betstate-wait'>타이";
+                } else {
+                    strResult = "<td  class = 'pb-home-table-betstate-loss'>미적중"; //
+                }
             }
             strBuf += strResult;
             strBuf += "</td><td>";
-            if (jsonBetData[nRow].rw_point != null)
-                strBuf += jsonBetData[nRow].rw_point;
-            else strBuf += "0";
+            if(state == 1) {
+                strBuf += "<button data-fid='" + jsonBetData[nRow].bet_fid + "'>적중</button> ";
+                strBuf += "<button data-fid='" + jsonBetData[nRow].bet_fid + "'>미적중</button> ";
+                strBuf += "<button data-fid='" + jsonBetData[nRow].bet_fid + "'>타이</button> ";
+            } else {
+                if (jsonBetData[nRow].rw_point != null)
+                    strBuf += jsonBetData[nRow].rw_point;
+                else strBuf += "0";
+            }
             strBuf += "</td></tr>";
 
         }
@@ -78,6 +107,44 @@ function ShowBetHistory(jsonBetData) {
     }
     elemBetDataTb.innerHTML = strBuf;
 
+    if(state == 1)
+        addBtnEvent();
+
+}
+
+
+function addBtnEvent() {
+    /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+
+    var elemTable = document.getElementById("pbbet-table-id");
+    var elemTableBtns = elemTable.getElementsByTagName("button");
+    if (elemTableBtns == null)
+        return;
+
+    var i;
+    for (i = 0; i < elemTableBtns.length; i++) {
+        addButtonElementListener(elemTableBtns[i]);
+    }
+}
+
+
+
+function addButtonElementListener(buttonElement) {
+    buttonElement.addEventListener("click", function() {
+        let fid  = $(this).data('fid');
+
+        let tHtml = this.innerHTML; 
+        if (tHtml.search("미적중") >= 0) {
+            var jsonData = {"data":[fid], "state":2};
+            requestBetProcess(jsonData);
+        } else  if (tHtml.search("적중") >= 0) {
+            var jsonData = {"data":[fid], "state":3};
+            requestBetProcess(jsonData);
+        } else  if (tHtml.search("타이") >= 0) {
+            var jsonData = {"data":[fid], "state":4};
+            requestBetProcess(jsonData);
+        }
+    });
 }
 
 function getGameName(strGameType) {
@@ -135,6 +202,10 @@ function addEventListner() {
     $("#pbhistory-number-select-id").change(function() {
         requestTotalPage();
     });
+    
+    $("#pbhistory-state-select-id").change(function() {
+        requestTotalPage();
+    });
 }
 
 //Function to Request Betting History to WebServer
@@ -150,6 +221,10 @@ function requestBetHistory() {
     if ($("#pbhistory-empid-input-id").length > 0) {
         strEmp = $("#pbhistory-empid-input-id").val();
     }
+    var state = 0;
+    if ($("#pbhistory-state-select-id").length > 0) {
+        state = $("#pbhistory-state-select-id").val();
+    }
 
     var jsonData = {
         "count": CountPerPage,
@@ -159,7 +234,8 @@ function requestBetHistory() {
         "emp": strEmp,
         "user": strUser,
         "room": strRoom,
-        "mode": -10
+        "mode": -10,
+        "state":state,
     };
     jsonData = JSON.stringify(jsonData);
     $(".loading").show();
@@ -177,7 +253,7 @@ function requestBetHistory() {
         },
         error: function(request, status, error) {
             $(".loading").hide();
-            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
         }
 
     });
@@ -195,6 +271,10 @@ function requestTotalPage(bReqPage = true) {
     if ($("#pbhistory-empid-input-id").length > 0) {
         strEmp = $("#pbhistory-empid-input-id").val();
     }
+    var state = 0;
+    if ($("#pbhistory-state-select-id").length > 0) {
+        state = $("#pbhistory-state-select-id").val();
+    }
     var jsonData = {
         "count": CountPerPage,
         "start": dtStart,
@@ -202,7 +282,8 @@ function requestTotalPage(bReqPage = true) {
         "emp": strEmp,
         "user": strUser,
         "room": strRoom,
-        "mode": -10
+        "mode": -10,
+        "state":state,
     };
     jsonData = JSON.stringify(jsonData);
 
@@ -229,6 +310,30 @@ function requestTotalPage(bReqPage = true) {
     });
 }
 
+function requestBetProcess(jsData) {
+    var jsonData = JSON.stringify(jsData);
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: FURL + "/pbapi/csbetprocess",
+        data: { json_: jsonData },
+        success: function(jResult) {
+            // console.log(jResult);
+
+            if (jResult.status == "success") {
+                requestBetHistory();
+            } else if (jResult.status == "logout") {
+                window.location.replace( FURL +'/');
+            }
+        },
+        error: function(request, status, error) {
+            // console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+        }
+
+    });
+
+}
 
 function pbhitoryLoop() {
 

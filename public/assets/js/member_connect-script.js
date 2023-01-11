@@ -143,7 +143,7 @@ function requestMember() {
         },
         error: function(request, status, error) {
             $(".loading").hide();
-            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
         }
 
     });
@@ -198,7 +198,7 @@ function requestLogoutMember(jsData) {
         url: FURL + "/userapi/logoutmember",
         data: { json_: jsonData },
         success: function(jResult) {
-            console.log(jResult);
+            // console.log(jResult);
 
             if (jResult.status == "success") {
                 requestMember();
@@ -213,7 +213,7 @@ function requestLogoutMember(jsData) {
             }
         },
         error: function(request, status, error) {
-            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            // console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
         }
 
     });
