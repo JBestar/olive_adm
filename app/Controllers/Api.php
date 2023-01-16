@@ -1311,6 +1311,9 @@ public function withdrawlist(){
 			$strUid = $this->session->user_id;
 			$objAdmin = $this->modelMember->getInfo($strUid);
 
+			$arrGetData['type'] = GAME_CASINO_EVOL;
+			$this->modelMember->gameRange($arrGetData);
+
 			if($objAdmin->mb_level >= LEVEL_ADMIN && strlen(trim($arrGetData['emp'])) > 0){
 				$objAdmin = $this->modelMember->getInfo(trim($arrGetData['emp']));
 			} 
@@ -1344,6 +1347,9 @@ public function withdrawlist(){
 			$strUid = $this->session->user_id;
 			$objAdmin = $this->modelMember->getInfo($strUid);
 
+			$arrGetData['type'] = GAME_CASINO_EVOL;
+			$this->modelMember->gameRange($arrGetData);
+			
 			$arrBetAccount = null;
 			if($objAdmin->mb_level >= LEVEL_ADMIN){
 				if(strlen(trim($arrGetData['emp'])) > 0){

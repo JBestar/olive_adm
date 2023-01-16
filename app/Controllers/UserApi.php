@@ -434,6 +434,9 @@ class UserApi extends BaseController
                 $strDate = date('Y-m-d');
                 $arrReqData['start'] = $strDate.' 00:00:00';
                 $arrReqData['end'] = $strDate.' 23:59:59';
+
+
+
                 $arrSumData = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], 
                     [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0] ];
                 // if(!$siteConfs['npg_deny']){
@@ -511,6 +514,10 @@ class UserApi extends BaseController
                     $arrSumData[13] = $arrSum[1];
                 }
                 if(!$siteConfs['cas_deny']){
+                    
+                    $arrReqData['type'] = GAME_CASINO_EVOL;
+                    $this->modelMember->gameRange($arrReqData);
+
                     $betModel = new CsBet_Model();
 
                     $objConfPb = $confgameModel->getByIndex(GAME_CASINO_EVOL);

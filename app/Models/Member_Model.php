@@ -469,6 +469,7 @@ class Member_Model extends Model
          }
          return $range;
      }
+     /*
     // 배팅금액 (하부포함)
     public function calcBetMoneys($objEmp, $arrReqData, $confs)
     {
@@ -628,7 +629,7 @@ class Member_Model extends Model
 
         return $arrBetData;
     }
-
+    */
     //유저별 충환전 총액
     public function calcTransfer(&$objUser){
         $strSQL = " SELECT SUM(charge_money) AS result_1 FROM ".$this->chargeTb;

@@ -36,14 +36,16 @@ class CsBet_Model extends Model
         if(array_key_exists("state", $arrReqData) && $arrReqData['state'] > 0)
             return null;
 
-        $strCondition = " WHERE bet_money != bet_win_money AND company_amount = 0 ";
+        $strCondition = " WHERE ";
         // $strCondition = " WHERE bet_result != 'Tie' ";
-        if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
-            $strCondition.=" AND ".getBetTimeRange($arrReqData);
-        }
+        // if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
+            // $strCondition.=" AND ".getBetTimeRange($arrReqData);
+        $strCondition .= " bet_fid >= ".$arrReqData['gm_range'][0]." AND bet_fid <= ".$arrReqData['gm_range'][1];
+        // }
         if(strlen($arrReqData['user']) > 0){
             $strCondition.=" AND bet_mb_uid = '".$arrReqData['user']."' ";            
         }
+        $strCondition .= " AND bet_money != bet_win_money AND company_amount = 0 ";
         if(intval($arrReqData['mode']) >= 0){
             $strCondition.=" AND bet_game_id = '".$arrReqData['mode']."' ";
         } else if(intval($arrReqData['mode']) == -10){
@@ -97,12 +99,13 @@ class CsBet_Model extends Model
         $strTbColum = " mb_fid, mb_uid, mb_level, mb_emp_fid, mb_nickname, mb_live_id ";
         $strTbRColum = " r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid, r.mb_nickname, r.mb_live_id ";
 
-        $bWhere = false;
-        $strWhere="";
-        if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
-            $strWhere.=" WHERE ".getBetTimeRange($arrReqData);
-            $bWhere = true;            
-        }
+        $bWhere = true;
+        $strWhere=" WHERE ";
+        $strWhere .= " bet_fid >= ".$arrReqData['gm_range'][0]." AND bet_fid <= ".$arrReqData['gm_range'][1];
+
+        // if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
+        //     $strWhere.=" WHERE ".getBetTimeRange($arrReqData);
+        // }
         if(strlen($arrReqData['user']) > 0){
             if($bWhere) $strWhere.= " AND ";
             else $strWhere.= " WHERE ";
@@ -213,11 +216,14 @@ class CsBet_Model extends Model
             // $strSql .= " JOIN member ON ".$this->table.".bet_mb_uid = ".$this->mMemberTable.".mb_uid ";
         }
         
-        $bWhere = false;
-        if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
-            $strSql.=" WHERE ".getBetTimeRange($arrReqData);
-            $bWhere = true;
-        }
+        $bWhere = true;
+        $strSql .= " WHERE ";
+        $strSql .= " bet_fid >= ".$arrReqData['gm_range'][0]." AND bet_fid <= ".$arrReqData['gm_range'][1];
+
+        // if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
+        //     $strSql.=" WHERE ".getBetTimeRange($arrReqData);
+        //     $bWhere = true;
+        // }
         if(strlen($arrReqData['user']) > 0){
             if($bWhere) $strSql.= " AND ";
             else $strSql.= " WHERE ";    
@@ -259,15 +265,17 @@ class CsBet_Model extends Model
 
         $arrSum = array();
         $strSql = " SELECT SUM(bet_money) AS bet_money_sum, SUM(bet_win_money) AS win_money_sum  FROM ".$this->table;
-        $strSql .= " WHERE bet_time >= '".$arrReqInfo['start']."' AND bet_time <= '".$arrReqInfo['end']."' ";
+        $strSql .= " WHERE bet_fid >= ".$arrReqInfo['gm_range'][0]." AND bet_fid <= ".$arrReqInfo['gm_range'][1];
+        // $strSql .= " WHERE bet_time >= '".$arrReqInfo['start']."' AND bet_time <= '".$arrReqInfo['end']."' ";
         $strSql .= " AND bet_money != bet_win_money AND company_amount = 0 ";
         if($objConf->game_index == GAME_CASINO_EVOL)
             $strSql .= " AND bet_game_id = 0 ";
         else 
             $strSql .= " AND bet_game_id != 0 ";
 
-        $strSql .= " AND bet_mb_uid NOT IN (SELECT mb_uid FROM ".$this->mMemberTable." WHERE mb_level >= ".LEVEL_ADMIN.") ";
+        // $strSql .= " AND bet_mb_uid NOT IN (SELECT mb_uid FROM ".$this->mMemberTable." WHERE mb_level >= ".LEVEL_ADMIN.") ";
         $objResult = $this -> db -> query($strSql)->getRow();
+        // writeLog($strSql);
 
         $nSum = 0;
         if(!is_null($objResult->bet_money_sum)) {
