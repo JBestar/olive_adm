@@ -142,7 +142,7 @@ function requestBetHistory() {
     jsonData = JSON.stringify(jsonData);
     $(".loading").show();
     $.ajax({
-        url: FURL + '/api/ebalbetlist',
+        url: FURL + '/api/ebalancelist',
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",
@@ -182,7 +182,7 @@ function requestTotalPage() {
     jsonData = JSON.stringify(jsonData);
 
     $.ajax({
-        url: FURL + '/api/ebalbetcnt',
+        url: FURL + '/api/ebalancecnt',
         data: { json_: jsonData },
         dataType: 'json',
         type: 'post',

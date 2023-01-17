@@ -20,6 +20,7 @@ use App\Models\CasGame_Model;
 use App\Models\CasRoom_Model;
 use App\Models\SessTry_Model;
 use App\Models\EbalBet_Model;
+use App\Models\Ebalance_Model;
 use App\Models\Eorder_Model;
 
 use App\Libraries\ApiCas_Lib;
@@ -1306,13 +1307,22 @@ public function withdrawlist(){
 
 		if(is_login()) {
 			//model
-			$csbetModel = new CsBet_Model();
+			if(isEBalMode()){
+				$csbetModel = new EbalBet_Model();
+				if(strlen($arrGetData['user']) > 0){
+					$objUser = $this->modelMember->getInfo(trim($arrGetData['user']));
+					if(!is_null($objUser))
+						$arrGetData['user'] = $objUser->mb_fid;
+					else $arrGetData['user'] = 0;
+				}
+			} else 
+				$csbetModel = new CsBet_Model();
 			
 			$strUid = $this->session->user_id;
 			$objAdmin = $this->modelMember->getInfo($strUid);
 
 			$arrGetData['type'] = GAME_CASINO_EVOL;
-			$this->modelMember->gameRange($arrGetData);
+			$this->modelMember->gameRange($arrGetData, false);
 
 			if($objAdmin->mb_level >= LEVEL_ADMIN && strlen(trim($arrGetData['emp'])) > 0){
 				$objAdmin = $this->modelMember->getInfo(trim($arrGetData['emp']));
@@ -1342,13 +1352,22 @@ public function withdrawlist(){
 
 		if(is_login()) {
 			//model
-			$csbetModel = new CsBet_Model();
+			if(isEBalMode()){
+				$csbetModel = new EbalBet_Model();
+				if(strlen($arrGetData['user']) > 0){
+					$objUser = $this->modelMember->getInfo(trim($arrGetData['user']));
+					if(!is_null($objUser))
+						$arrGetData['user'] = $objUser->mb_fid;
+					else $arrGetData['user'] = 0;
+				}
+			} else 
+				$csbetModel = new CsBet_Model();
 			
 			$strUid = $this->session->user_id;
 			$objAdmin = $this->modelMember->getInfo($strUid);
 
 			$arrGetData['type'] = GAME_CASINO_EVOL;
-			$this->modelMember->gameRange($arrGetData);
+			$this->modelMember->gameRange($arrGetData, false);
 			
 			$arrBetAccount = null;
 			if($objAdmin->mb_level >= LEVEL_ADMIN){
@@ -1375,13 +1394,13 @@ public function withdrawlist(){
 	}
 
 	//배팅리력결과를 Ajax로 전송
-	public function ebalbetlist(){ 
+	public function ebalancelist(){ 
 		$jsonData = $_REQUEST['json_'];
 		$arrGetData = json_decode($jsonData, true);
 
 		if(is_login()) {
 			//model
-			$ebetModel = new EbalBet_Model();
+			$ebetModel = new Ebalance_Model();
 			
 			$strUid = $this->session->user_id;
 			$objAdmin = $this->modelMember->getInfo($strUid);
@@ -1408,13 +1427,13 @@ public function withdrawlist(){
 
 
 	//배팅리력결과 개수를 Ajax로 전송
-	public function ebalbetcnt(){ 
+	public function ebalancecnt(){ 
 		$jsonData = $_REQUEST['json_'];
 		$arrGetData = json_decode($jsonData, true);
 
 		if(is_login()) {
 			//model
-			$ebetModel = new EbalBet_Model();
+			$ebetModel = new Ebalance_Model();
 			
 			$strUid = $this->session->user_id;
 			$objAdmin = $this->modelMember->getInfo($strUid);

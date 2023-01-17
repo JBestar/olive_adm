@@ -45,7 +45,7 @@ class CsBet_Model extends Model
         if(strlen($arrReqData['user']) > 0){
             $strCondition.=" AND bet_mb_uid = '".$arrReqData['user']."' ";            
         }
-        $strCondition .= " AND bet_money != bet_win_money AND company_amount = 0 ";
+        $strCondition .= " AND bet_money != bet_win_money ";
         if(intval($arrReqData['mode']) >= 0){
             $strCondition.=" AND bet_game_id = '".$arrReqData['mode']."' ";
         } else if(intval($arrReqData['mode']) == -10){

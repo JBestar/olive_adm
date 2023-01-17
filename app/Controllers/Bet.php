@@ -126,7 +126,7 @@ class Bet extends StdController {
 		if(!$confs["cas_deny"]){
 			$arrPrd +=  $modelCasprd->gets(GAME_CASINO_EVOL);
 		}
-		if($confs["kgon_enable"]){
+		if(!isEBalMode() && $confs["kgon_enable"]){
 			$arrKgon =  $modelCasprd->gets(GAME_CASINO_KGON);
 			foreach($arrKgon as $objPrd){
 				array_push($arrPrd, $objPrd);

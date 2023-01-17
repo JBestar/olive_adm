@@ -11,6 +11,7 @@ use App\Models\PbBet_Model;
 use App\Models\PsBet_Model;
 use App\Models\CsBet_Model;
 use App\Models\SlBet_Model;
+use App\Models\EbalBet_Model;
 use App\Models\MoneyHistory_Model;
 use App\Models\SessLog_Model;
 use App\Models\Block_Model;
@@ -433,34 +434,20 @@ class UserApi extends BaseController
             if ($objUser->mb_level >= LEVEL_ADMIN) {
                 $strDate = date('Y-m-d');
                 $arrReqData['start'] = $strDate.' 00:00:00';
-                $arrReqData['end'] = $strDate.' 23:59:00';
+                // $arrReqData['end'] = $strDate.' 23:59:00';
 
                 $arrSumData = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], 
                     [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0] ];
-                // if(!$siteConfs['npg_deny']){
-                //     $betModel = new PbBet_Model();
-                //     $betModel->setType(GAME_POWER_BALL);
-
-                //     $objConfPb = $confgameModel->getByIndex(GAME_POWER_BALL);
-                //     $arrSum = $betModel->getBetSumByDay($arrReqData, $objConfPb);
-                //     $arrSumData[0] = $arrSum[0];
-                //     $arrSumData[1] = $arrSum[1];
-                    
-                //     $betModel = new PsBet_Model();
-                //     $betModel->setType(GAME_POWER_LADDER);
-                //     $objConfPs = $confgameModel->getByIndex(GAME_POWER_LADDER);
-                //     $sum = $betModel->getBetSumByDay($arrReqData, $objConfPs);
-                //     $arrSumData[2] = $sum;
-                // }
+                
                 $tmNow = microtime(true) * 1000;
-                // writeLog("empbetinfo");
+                writeLog("empbetinfo");
 
                 if($siteConfs['hpg_enable']){
                     $betModel = new PbBet_Model();
                     $betModel->setType(GAME_HAPPY_BALL);
 
-                    $objConfPb = $confgameModel->getByIndex(GAME_HAPPY_BALL);
-                    $arrSum = $betModel->getBetSumByDay($arrReqData, $objConfPb);
+                    // $objConfPb = $confgameModel->getByIndex(GAME_HAPPY_BALL);
+                    $arrSum = $betModel->getBetSumByDay($arrReqData);
                     $arrSumData[0] = $arrSum[0];
                     $arrSumData[1] = $arrSum[1];
                     // writeLog("hpg_enable");
@@ -469,15 +456,15 @@ class UserApi extends BaseController
                     $betModel = new PbBet_Model();
                     $betModel->setType(GAME_BOGLE_BALL);
 
-                    $objConfBb = $confgameModel->getByIndex(GAME_BOGLE_BALL);
-                    $arrSum = $betModel->getBetSumByDay($arrReqData, $objConfBb);
+                    // $objConfBb = $confgameModel->getByIndex(GAME_BOGLE_BALL);
+                    $arrSum = $betModel->getBetSumByDay($arrReqData);
                     $arrSumData[3] = $arrSum[0];
                     $arrSumData[4] = $arrSum[1];
 
                     $betModel = new PsBet_Model();
                     $betModel->setType(GAME_BOGLE_LADDER);
-                    $objConfBs = $confgameModel->getByIndex(GAME_BOGLE_LADDER);
-                    $arrSumData[5] = $betModel->getBetSumByDay($arrReqData, $objConfBs);
+                    // $objConfBs = $confgameModel->getByIndex(GAME_BOGLE_LADDER);
+                    $arrSumData[5] = $betModel->getBetSumByDay($arrReqData);
                     // writeLog("bpg_deny");
 
                 }
@@ -485,8 +472,8 @@ class UserApi extends BaseController
                     $betModel = new PbBet_Model();
                     $betModel->setType(GAME_EOS5_BALL);
 
-                    $objConfPb = $confgameModel->getByIndex(GAME_EOS5_BALL);
-                    $arrSum = $betModel->getBetSumByDay($arrReqData, $objConfPb);
+                    // $objConfPb = $confgameModel->getByIndex(GAME_EOS5_BALL);
+                    $arrSum = $betModel->getBetSumByDay($arrReqData);
                     $arrSumData[6] = $arrSum[0];
                     $arrSumData[7] = $arrSum[1];
                     // writeLog("eos5_enable");
@@ -496,8 +483,8 @@ class UserApi extends BaseController
                     $betModel = new PbBet_Model();
                     $betModel->setType(GAME_EOS3_BALL);
 
-                    $objConfPb = $confgameModel->getByIndex(GAME_EOS3_BALL);
-                    $arrSum = $betModel->getBetSumByDay($arrReqData, $objConfPb);
+                    // $objConfPb = $confgameModel->getByIndex(GAME_EOS3_BALL);
+                    $arrSum = $betModel->getBetSumByDay($arrReqData);
                     $arrSumData[8] = $arrSum[0];
                     $arrSumData[9] = $arrSum[1];
                     // writeLog("eos3_enable");
@@ -507,8 +494,8 @@ class UserApi extends BaseController
                     $betModel = new PbBet_Model();
                     $betModel->setType(GAME_COIN5_BALL);
 
-                    $objConfPb = $confgameModel->getByIndex(GAME_COIN5_BALL);
-                    $arrSum = $betModel->getBetSumByDay($arrReqData, $objConfPb);
+                    // $objConfPb = $confgameModel->getByIndex(GAME_COIN5_BALL);
+                    $arrSum = $betModel->getBetSumByDay($arrReqData);
                     $arrSumData[10] = $arrSum[0];
                     $arrSumData[11] = $arrSum[1];
                     // writeLog("coin5_enable");
@@ -518,27 +505,31 @@ class UserApi extends BaseController
                     $betModel = new PbBet_Model();
                     $betModel->setType(GAME_COIN3_BALL);
 
-                    $objConfPb = $confgameModel->getByIndex(GAME_COIN3_BALL);
-                    $arrSum = $betModel->getBetSumByDay($arrReqData, $objConfPb);
+                    // $objConfPb = $confgameModel->getByIndex(GAME_COIN3_BALL);
+                    $arrSum = $betModel->getBetSumByDay($arrReqData);
                     $arrSumData[12] = $arrSum[0];
                     $arrSumData[13] = $arrSum[1];
                     // writeLog("coin3_enable");
 
                 }
                 if(!$siteConfs['cas_deny']){
-                    
+
                     $arrReqData['type'] = GAME_CASINO_EVOL;
-                    $arrReqData['gm_range'] = $this->modelMember->getBetMinId($arrReqData, "bet_casino");
-                    // writeLog("cas_deny 1");
+                    if(isEBalMode()){
+                        $betModel = new EbalBet_Model();
+                        // writeLog("cas_deny 1");
+                        $arrReqData['gm_range'] = $this->modelMember->getBetMinId($arrReqData, $betModel->table);
+                        // writeLog("cas_deny 2");
+                        $arrSumData[14] = $betModel->getBetSumByDay($arrReqData);
+                        // writeLog("cas_deny 3");
 
-                    $betModel = new CsBet_Model();
-
-                    $objConfPb = $confgameModel->getByIndex(GAME_CASINO_EVOL);
-                    // writeLog("cas_deny 2");
-
-                    $arrSumData[14] = $betModel->getBetSumByDay($arrReqData, $objConfPb);
-                    // writeLog("cas_deny 3");
-
+                    } else {
+                        $betModel = new CsBet_Model();
+                        $arrReqData['gm_range'] = $this->modelMember->getBetMinId($arrReqData, $betModel->table);
+                        
+                        $objConfPb = $confgameModel->getByIndex($arrReqData['type']);
+                        $arrSumData[14] = $betModel->getBetSumByDay($arrReqData, $objConfPb);
+                    }
                 }
                 if(!$siteConfs['slot_deny']){
                     $betModel = new SlBet_Model();
@@ -554,15 +545,14 @@ class UserApi extends BaseController
                     // writeLog("slot_deny");
 
                 }
-                if($siteConfs['kgon_enable']){
+                if(!isEBalMode() && $siteConfs['kgon_enable']){
                     $betModel = new CsBet_Model();
 
                     $objConfPb = $confgameModel->getByIndex(GAME_CASINO_KGON);
                     $arrSumData[17] = $betModel->getBetSumByDay($arrReqData, $objConfPb);
                     // writeLog("kgon_enable");
-
                 }
-                // writeLog("empbetinfo end duration = ".(microtime(true) * 1000 - $tmNow));
+                writeLog("empbetinfo end duration = ".(microtime(true) * 1000 - $tmNow));
 
                 $objResult->data = $arrSumData;
                 $objResult->status = 'success';

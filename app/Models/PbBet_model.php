@@ -149,14 +149,14 @@ class PbBet_Model extends Model
         return $arrSumData;  
     }
 
-    public function getBetSumByDay($arrReqInfo, $objConf){
+    public function getBetSumByDay($arrReqInfo){
 
         $arrSumData = array();
 
         $arrSum = array();
         $strSql = " SELECT SUM(bet_money) AS bet_money_sum, SUM(bet_win_money) AS win_money_sum  FROM ".$this->table;
-        $strSql .= " WHERE bet_time >= '".$arrReqInfo['start']."' AND bet_time <= '".$arrReqInfo['end']."' ";
-        $strSql .= " AND bet_mode>='1' AND bet_mode<='4' AND bet_state != 4 ";
+        $strSql .= " WHERE bet_time >= '".$arrReqInfo['start']."' "; //"' AND bet_time <= '".$arrReqInfo['end'].
+        $strSql .= " AND bet_mode>='1' AND bet_mode<='4' AND bet_state <> ".BET_STATE_TIE;
         $strSql .= " AND bet_mb_uid NOT IN (SELECT mb_uid FROM ".$this->mMemberTable." WHERE mb_level >= ".LEVEL_ADMIN.") ";
         $objResult = $this -> db -> query($strSql)->getRow();
 
@@ -175,8 +175,8 @@ class PbBet_Model extends Model
 
         $arrSum = array();
         $strSql = " SELECT SUM(bet_money) AS bet_money_sum, SUM(bet_win_money) AS win_money_sum  FROM ".$this->table;
-        $strSql .= " WHERE bet_time > '".$arrReqInfo['start']."' AND bet_time < '".$arrReqInfo['end']."' ";
-        $strSql .= " AND bet_mode>='5' AND bet_mode<='38'  AND bet_state != 4 ";
+        $strSql .= " WHERE bet_time > '".$arrReqInfo['start']."' "; //AND bet_time < '".$arrReqInfo['end']."' "
+        $strSql .= " AND bet_mode>='5' AND bet_mode<='38'  AND bet_state <> ".BET_STATE_TIE;
         $strSql .= " AND bet_mb_uid NOT IN (SELECT mb_uid FROM ".$this->mMemberTable." WHERE mb_level >= ".LEVEL_ADMIN.") ";
         $objResult = $this -> db -> query($strSql)->getRow();
 
@@ -201,7 +201,7 @@ class PbBet_Model extends Model
     public function getBetAccount($arrReqData){
 
         
-        $strCondition = " WHERE bet_state != 4 ";
+        $strCondition = " WHERE bet_state <> ".BET_STATE_TIE;
         if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
             $strCondition.=" AND ".getBetTimeRange($arrReqData);
                         

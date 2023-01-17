@@ -244,7 +244,7 @@ class SlBet_Model extends Model
 
         $arrSum = array();
         $strSql = " SELECT SUM(bet_money) AS bet_money_sum, SUM(bet_win_money) AS win_money_sum  FROM ".$this->table;
-        $strSql .= " WHERE bet_time >= '".$arrReqInfo['start']."' AND bet_time <= '".$arrReqInfo['end']."' ";
+        $strSql .= " WHERE bet_time >= '".$arrReqInfo['start']."' "; //AND bet_time <= '".$arrReqInfo['end']."' 
         $strSql .= " AND bet_game_id = ".$objConf->game_index." ";
 
         $strSql .= " AND bet_mb_uid NOT IN (SELECT mb_uid FROM ".$this->mMemberTable." WHERE mb_level >= ".LEVEL_ADMIN.") ";

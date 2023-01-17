@@ -42,6 +42,12 @@ class Clean_Model extends Model {
         $strSql = " DELETE FROM bet_coin3ball WHERE bet_time < '".$strDate."' ";
         $this -> db -> query($strSql);
         
+        $strSql = " DELETE FROM bet_ebal WHERE bet_time < '".$strDate."' ";
+        $this -> db -> query($strSql);
+
+        $strSql = " DELETE FROM bet_balance WHERE bet_time < '".$strDate."' ";
+        $this -> db -> query($strSql);
+
         // $strSql = " DELETE FROM board_notice WHERE notice_time_create < '".$strDate."'  AND notice_type != '".NOTICE_BOARD."' ";
         // $this -> db -> query($strSql);
 
@@ -104,6 +110,8 @@ class Clean_Model extends Model {
         $this->db->query("TRUNCATE sess");
         $this->db->query("TRUNCATE sess_log");
         $this->db->query("TRUNCATE sess_try");
+        $this->db->query("TRUNCATE bet_ebal");
+        $this->db->query("TRUNCATE bet_balance");
 
         $tmNow = time();
         $strDate = date('Y-m-d', strtotime("-2 months", $tmNow));

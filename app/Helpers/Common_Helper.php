@@ -254,4 +254,11 @@
     function diffDt($dt1, $dt2){
       return abs( strtotime($dt1) - strtotime($dt2) );
     }
+
+    function isEBalMode(){
+      if(array_key_exists('app.ebal', $_ENV) && $_ENV['app.ebal'] > 0 )
+        return true;
+      return false;
+    }
+
 ?>

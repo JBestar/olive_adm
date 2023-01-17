@@ -9,7 +9,7 @@
 		
 		<div class="pbresult-list-div">
 			<label>기간</label>
-			<input type="date" id="exchange-datestart-input-id" value="<?php echo date('Y-m')."-01";?>">
+			<input type="date" id="exchange-datestart-input-id" value="<?php echo date('Y-m-d');?>">
             <label> ~ </label>
             <input type="date" id="exchange-dateend-input-id" value="<?php echo date('Y-m-d'); ?>">
             <label>아이디</label>

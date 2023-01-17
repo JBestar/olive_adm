@@ -4,189 +4,258 @@ use CodeIgniter\Model;
 
 class EbalBet_Model extends Model 
 {
-    protected $table = 'bet_balance';
+    protected $table = 'bet_ebal';
     protected $returnType = 'object'; 
     protected $allowedFields = [
-        'bet_id', 
-        'bet_state', 
-        'bet_site_name', 
-        'bet_site_uid', 
-        'bet_evol_uid', 
+        'bet_idx', 
+        'bet_emp_fid', 
+        'bet_mb_fid', 
+        'bet_mb_uid', 
+        'bet_round_no', 
+        'bet_time', 
+        'bet_money', 
+        'bet_win_money',
+        'bet_agent_id', 
+        'bet_player_id', 
+        'bet_game_id' ,
         'bet_game_type', 
-        'bet_table_id', 
+        'bet_table_code', 
         'bet_table_name', 
-        'bet_round_id', 
-        'bet_tm_req', 
-        'bet_amount', 
-        'bet_win_amount',
-        'bet_choice',
-        'bet_result',
-        'bet_player',
-        'bet_banker',
-        'bet_balance',
-        'bet_type',
-
+        'bet_choice', 
+        'bet_result', 
+        'point_amount', 
+        'employee_amount', 
+        'company_amount', 
+        'org_id', 
     ];
-    protected $primaryKey = 'bet_id';
+    protected $primaryKey = 'bet_fid';
+    private $mMemberTable = 'member';
+    private $mGameTable = 'casino_game';
+    private $mPrdTable = 'casino_prd';
+    private $mRewardTable = 'bet_reward';
 
-    
-    function getBetAccount($reqData){
+    function getBetAccount($arrReqData){
         
-        $where = " WHERE bet_state > ".BET_STATE_RES." AND bet_state < ".BET_STATE_DENY  ;
-        // $strCondition = " WHERE bet_money != bet_win_money ";
-        if(strlen($reqData['start']) > 0 && strlen($reqData['end']) > 0 ){
-            $where.=" AND ".getTimeRange('bet_tm_req', $reqData);
-            // $strCondition.=" AND ".getBetTimeRange($reqData);
+        if(array_key_exists("state", $arrReqData) && $arrReqData['state'] > 0)
+            return null;
+
+        $strCondition = " WHERE ";
+        // $strCondition = " WHERE bet_result != 'Tie' ";
+        // if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
+            // $strCondition.=" AND ".getBetTimeRange($arrReqData);
+        $strCondition .= " bet_fid >= ".$arrReqData['gm_range'][0]." AND bet_fid <= ".$arrReqData['gm_range'][1];
+        // }
+        if(strlen($arrReqData['user']) > 0){
+            $strCondition.=" AND bet_mb_fid = '".$arrReqData['user']."' ";            
         }
-        if(strlen($reqData['user']) > 0){
-            $where.=" AND bet_site_uid = '".$reqData['user']."' ";
-            // $strCondition.=" AND bet_mb_uid = '".$reqData['user']."' ";   
+        $strCondition .= " AND point_amount != ".BET_STATE_TIE." AND employee_amount = 0 AND company_amount = 0 ";
+        
+        if(array_key_exists('room', $arrReqData) && strlen($arrReqData['room']) > 0) {
+            $strCondition.=" AND bet_table_name = '".$arrReqData['room']."' ";
         }
-        if(strlen(trim($reqData['room'])) > 0){
-            $where.=" AND (bet_table_id = '".$reqData['room']."' OR bet_table_name LIKE '%".trim($reqData['room'])."%' ) ";
-            // $strCondition.=" AND bet_table_code in ( SELECT tid FROM  casino_game WHERE tid = '".$reqData['room']."' OR name LIKE '%".$reqData['room']."%' ) ";
-        }
-        // $strCondition.=" AND bet_game_id = '0' AND bet_player_id = '0' ";
 
         //총배팅금, 적중금
         $arrSum = array();
-        $strSql = " SELECT ";
-        $strSql .= " SUM(CASE WHEN bet_type=0 AND bet_result != 'Tie' THEN bet_amount ELSE 0 END ) AS bet_amount_sum, ";
-        $strSql .= " SUM(CASE WHEN bet_type=0 AND bet_result != 'Tie' THEN bet_win_amount ELSE 0 END ) AS win_amount_sum, ";
-        $strSql .= " SUM(CASE WHEN bet_type=2 THEN bet_amount ELSE 0 END ) AS bet_con_sum, ";
-        $strSql .= " SUM(CASE WHEN bet_type=2 THEN bet_win_amount ELSE 0 END ) AS win_con_sum, ";
-        // $strSql .= " SUM(CASE WHEN bet_type!=2 AND bet_result != 'Tie' THEN bet_player + bet_banker ELSE 0 END ) AS bet_user_sum, ";
-        $strSql .= " SUM(CASE WHEN bet_type!=2 AND bet_result != 'Tie' THEN (bet_player + bet_banker - ABS(bet_player - bet_banker))/2 ELSE 0 END ) AS bet_bal_sum, ";
-        $strSql .= " SUM(CASE WHEN bet_type!=2 AND bet_result = 'Banker' THEN (bet_player + bet_banker - ABS(bet_player - bet_banker))/2 ELSE 0 END ) AS bet_bal_banker ";
-        // $strSql .= " SUM(CASE WHEN bet_type=0 AND bet_choice = 'Banker' AND bet_result = 'Banker' THEN FLOOR(bet_player DIV 1000)*50 ELSE 0 END) AS profit_sum1 ";
-
-        // $strSql .= " SUM(CASE WHEN bet_type= 0 AND bet_result = 'Player' THEN bet_banker - FLOOR(bet_player DIV 1000)*1000 - bet_amount + bet_win_amount ELSE 0 END) AS profit_sum1, ";
-        // $strSql .= " SUM(CASE WHEN bet_type= 0 AND bet_result = 'Banker' THEN bet_player - FLOOR(bet_banker DIV 1000)*950 - bet_amount + bet_win_amount ELSE 0 END) AS profit_sum2, ";
-        // $strSql .= " SUM(CASE WHEN bet_type= 1 AND bet_result = 'Player' THEN bet_banker % 1000 ELSE 0 END) AS profit_sum3, ";
-        // $strSql .= " SUM(CASE WHEN bet_type= 1 AND bet_result = 'Banker' THEN bet_player % 1000 + FLOOR(bet_player DIV 1000)*50 ELSE 0 END) AS profit_sum4 ";
+        $strSql = " SELECT SUM(bet_money) AS bet_money_sum, SUM(bet_win_money) AS win_money_sum, ";
+        $strSql .= " SUM(CASE WHEN bet_win_money= 0 THEN bet_money ELSE 0 END) AS loss_money_sum, ";
+        $strSql .= " SUM(CASE WHEN bet_win_money > 0 THEN bet_win_money-bet_money ELSE 0 END) AS benefit_money_sum ";
         $strSql .= " FROM ".$this->table;
-
-        $strSql .= $where;
+        $strSql .= $strCondition;
         $objResult = $this -> db -> query($strSql)->getRow();
-        
-        writeLog($strSql);
-        //Total Betting money
+
         $nSum = 0;
-        if(!is_null($objResult->bet_amount_sum)) {
-            $nSum = intval($objResult->bet_amount_sum);
+        if(!is_null($objResult->bet_money_sum)) {
+            $nSum = $objResult->bet_money_sum;
         }
         $arrSum[0] = $nSum;
         $nSum = 0;
-        if(!is_null($objResult->win_amount_sum)) {
-            $nSum = intval($objResult->win_amount_sum);
+        if(!is_null($objResult->win_money_sum)) {
+            $nSum = $objResult->win_money_sum;
         }
         $arrSum[1] = $nSum;
-        //Total user's Betting balane money
+        //총미적중금
         $nSum = 0;
-        if(!is_null($objResult->bet_bal_sum)) {
-            $nSum = intval($objResult->bet_bal_sum);
+        if(!is_null($objResult->loss_money_sum)) {
+            $nSum = $objResult->loss_money_sum;
         }
         $arrSum[2] = $nSum;
-        //if result is banker, Total user's Betting balane money
+        //총당첨금
         $nSum = 0;
-        if(!is_null($objResult->bet_bal_banker)) {
-            $nSum = intval($objResult->bet_bal_banker);
+        if(!is_null($objResult->benefit_money_sum)) {
+            $nSum = $objResult->benefit_money_sum;
         }
         $arrSum[3] = $nSum;
-        //totabl profit
-        $arrSum[4] = $nSum * 0.05;
-        //connect bet sum
-        $nSum = 0;
-        if(!is_null($objResult->bet_con_sum)) {
-            $nSum = intval($objResult->bet_con_sum);
-        }
-        $arrSum[5] = $nSum;
-        //connect bet win
-        $nSum = 0;
-        if(!is_null($objResult->win_con_sum)) {
-            $nSum = intval($objResult->win_con_sum);
-        }
-        $arrSum[6] = $nSum;
         
-        //Total user's Betting money
-
-        // $strSql = "SELECT SUM(bet_money) AS bet_money_sum";
-        // $strSql .= " FROM bet_casino ";
-        // $strSql .= $strCondition;
-        // $objResult = $this -> db -> query($strSql)->getRow();
-        // $nSum = 0;
-        // if(!is_null($objResult->bet_money_sum)) {
-        //     $nSum = intval($objResult->bet_money_sum);
-        // }
-        // $arrSum[0] = $nSum;
+        // writeLog($strSql);
+        
         return $arrSum;
     }
 
-    public function searchCount($reqData){
 
-        $where = " WHERE bet_state > ".BET_STATE_REQ." AND bet_state < ".BET_STATE_DENY  ;
-        if(strlen($reqData['start']) > 0 && strlen($reqData['end']) > 0 ){
-            $where.=" AND ".getTimeRange('bet_tm_req', $reqData);
-        }
-        if(strlen($reqData['bet']) > 0){
-            if(intval($reqData['bet']) == 1)
-                $where.=" AND bet_type <= '".BET_TYPE_ZERO."' ";
-            else if(intval($reqData['bet']) == 2)
-                $where.=" AND bet_type = '".BET_TYPE_FORCE."' ";
-        }
-        if(strlen($reqData['user']) > 0){
-            $where.=" AND bet_site_uid = '".$reqData['user']."' ";
-        }
-        if(strlen(trim($reqData['room'])) > 0){
-            $where.=" AND (bet_table_id = '".$reqData['room']."' OR bet_table_name LIKE '%".trim($reqData['room'])."%' ) ";
-        }
+    function search($objEmp, $arrReqData)
+    {
+        $gameId = GAME_CASINO_EVOL;
 
-        $strSql = "SELECT count('bet_id') as count FROM ".$this->table;
-        $strSql .= $where;
+        $strTbColum = " mb_fid, mb_uid, mb_level, mb_emp_fid, mb_nickname, mb_live_id ";
+        $strTbRColum = " r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid, r.mb_nickname, r.mb_live_id ";
 
-        $query = $this -> db -> query($strSql);
-        $result = $query -> getRow();
+        $strWhere=" WHERE ";
+        $strWhere .= " bet_fid >= ".$arrReqData['gm_range'][0]." AND bet_fid <= ".$arrReqData['gm_range'][1];
+
+        if(strlen($arrReqData['user']) > 0){
+            $strWhere.=" AND bet_mb_fid = '".$arrReqData['user']."' ";
+        }
+        $strWhere.=" AND employee_amount = 0 ";  
+        if(array_key_exists("state", $arrReqData) && $arrReqData['state'] > 0){
+            $strWhere.=" AND company_amount <> 0 ";
+        } else {
+            $strWhere.=" AND company_amount = 0 ";
+        }
+        if(array_key_exists('room', $arrReqData) && strlen($arrReqData['room']) > 0)
+            $strWhere.=" AND bet_table_name = '".$arrReqData['room']."' ";
         
-        return $result; 
-    }
 
-    public function searchList($reqData){
+        $nStartRow = ($arrReqData['page']-1) * $arrReqData['count'] ;
+        $strWhere.=" ORDER BY bet_time DESC LIMIT ".$nStartRow.", ".$arrReqData['count'];
         
-        $where = " WHERE bet_state > ".BET_STATE_REQ." AND bet_state < ".BET_STATE_DENY  ;
-        if(strlen($reqData['start']) > 0 && strlen($reqData['end']) > 0 ){
-            $where.=" AND ".getTimeRange('bet_tm_req', $reqData);
-        }
-        if(strlen($reqData['bet']) > 0){
-            if(intval($reqData['bet']) == 1)
-                $where.=" AND bet_type <= '".BET_TYPE_ZERO."' ";
-            else if(intval($reqData['bet']) == 2)
-                $where.=" AND bet_type = '".BET_TYPE_FORCE."' ";
-        }
-        if(strlen($reqData['user']) > 0){
-            $where.=" AND  bet_site_uid = '".$reqData['user']."' ";
-        }
-        if(strlen(trim($reqData['room'])) > 0){
-            $where.=" AND (bet_table_id = '".$reqData['room']."' OR bet_table_name LIKE '%".trim($reqData['room'])."%' ) ";
-        }
+        $strSql = "";
+        $strSql .= "SELECT bet_fid, bet_idx, bet_mb_uid, bet_round_no, bet_time, bet_money, bet_win_money, bet_player_id, bet_game_id, bet_game_type, bet_table_code, ";
+        $strSql .= " bet_choice, bet_result, point_amount, company_amount, obj_id, ".$this->mGameTable.".name as game_name, rw_mb_uid, rw_point, ".$this->mPrdTable.".name as prd_name";
+        $strSql .= " FROM ( ";
 
-        $strTbColum = " ".implode(", ", $this->allowedFields);
+        $tbBetSearch = "bet_search";
 
-        $strSql = " SELECT ".$strTbColum." FROM ".$this->table;
-        $strSql .= $where;
+        if($objEmp->mb_level < LEVEL_ADMIN){
 
-        $page = $reqData['page'];
-        $count = $reqData['count'];
-        if($page < 1)
-            return NULL;
-        if($count < 1)
-            return NULL;
-        
-        $nStartRow = ($page-1) * $count ;
+            $strSql .= " WITH RECURSIVE tbmember (".$strTbColum.") AS";
+            $strSql .= " ( SELECT ".$strTbColum." FROM ".$this->mMemberTable." WHERE mb_emp_fid = '".$objEmp->mb_fid."'";
+            $strSql .= " UNION ALL SELECT ".$strTbRColum." FROM ".$this->mMemberTable." r ";
+            $strSql .= " INNER JOIN tbmember ON r.mb_emp_fid = tbmember.mb_fid )";
 
-        $strSql.=" ORDER BY bet_id DESC LIMIT ".$nStartRow.", ".$count;
+            $strSql .= " SELECT * FROM ".$this->table;  
+            $strSql .=$strWhere.") ".$tbBetSearch;
+
+            //Join bet_reward
+            $strSql .= '  LEFT JOIN '.$this->mRewardTable.' ON '.$this->mRewardTable.".rw_game = '".$gameId."' ";
+                $strSql .= ' AND '.$tbBetSearch.'.bet_fid = '.$this->mRewardTable.'.rw_bet_id ';
+                $strSql .= ' AND '.$this->mRewardTable.".rw_mb_uid = '".$objEmp->mb_uid."' ";
+            
+        } else{
+            
+            $strSql .= " SELECT * FROM ".$this->table;  
+        	$strSql .=$strWhere.") ".$tbBetSearch;
+
+            //Join bet_reward
+            $strSql .= '  LEFT JOIN '.$this->mRewardTable.' ON '.$this->mRewardTable.".rw_game = '".$gameId."' ";
+                $strSql .= ' AND '.$tbBetSearch.'.bet_fid = '.$this->mRewardTable.'.rw_bet_id ';
+                $strSql .= ' AND '.$this->mRewardTable.".rw_mb_uid = ".$tbBetSearch.".bet_mb_uid ";
+            
+        }
+        $strSql .= " LEFT JOIN ".$this->mPrdTable." ON ".$tbBetSearch.".bet_game_id = ".$this->mPrdTable.".vendor_id ";
+
+        $strSql .= " LEFT JOIN ".$this->mGameTable." ON ".$tbBetSearch.".bet_table_code = ".$this->mGameTable.".tid ";
+        $strSql .= " ORDER BY bet_time DESC";
+
         // writeLog($strSql);
         $query = $this -> db -> query($strSql);
         $result = $query -> getResult();
-        return $result;
+        // writeLog("search End");
+        
+        return $result; 
+
     }
+
+
+    function searchCount($objEmp, $arrReqData)
+    {
+        $strTbColum = " mb_fid, mb_uid, mb_level, mb_emp_fid, mb_live_id ";
+        $strTbRColum = " r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid, r.mb_live_id ";
+
+         $strSql = "";
+        if($objEmp->mb_level < LEVEL_ADMIN){
+
+
+            $strSql = "WITH RECURSIVE tbmember (".$strTbColum.") AS";
+            $strSql .= " ( SELECT ".$strTbColum." FROM ".$this->mMemberTable." WHERE mb_emp_fid = '".$objEmp->mb_fid."'";
+            $strSql .= " UNION ALL SELECT ".$strTbRColum." FROM ".$this->mMemberTable." r ";
+            $strSql .= " INNER JOIN tbmember ON r.mb_emp_fid = tbmember.mb_fid )";
+
+            $strSql .= "SELECT count(bet_fid) as count  FROM ".$this->table;
+
+        } else {
+            $strSql .= "SELECT count(bet_fid) as count  FROM ".$this->table;
+        }
+        
+        $bWhere = true;
+        $strSql .= " WHERE ";
+        $strSql .= " bet_fid >= ".$arrReqData['gm_range'][0]." AND bet_fid <= ".$arrReqData['gm_range'][1];
+
+        if(strlen($arrReqData['user']) > 0){
+            $strSql.=" AND bet_mb_fid = '".$arrReqData['user']."' ";
+        }
+        
+        $strSql.=" AND employee_amount = 0 ";
+        if(array_key_exists("state", $arrReqData) && $arrReqData['state'] > 0){
+            $strSql.=" AND company_amount > 0 ";
+        } else {
+            $strSql.=" AND company_amount = 0 ";
+        }
+        
+        if(array_key_exists('room', $arrReqData) && strlen($arrReqData['room']) > 0) {
+            $strSql.=" AND bet_table_name = '".$arrReqData['room']."' ";
+        }
+        // writeLog($strSql);
+        $query = $this -> db -> query($strSql);
+        // writeLog("searchCount End");
+
+        $result = $query -> getRow();
+        
+        return $result; 
+
+    }
+
+    function getBetSumByDay($arrReqInfo, $objConf=null){
+
+        $arrSum = array();
+
+        if($arrReqInfo['gm_range'][0] >= 0){
+            $strSql = " SELECT SUM(bet_money) AS bet_money_sum, SUM(bet_win_money) AS win_money_sum  FROM ".$this->table;
+            $strSql .= " WHERE bet_fid >= ".$arrReqInfo['gm_range'][0]; //." AND bet_fid <= ".$arrReqInfo['gm_range'][1]
+            // $strSql .= " WHERE bet_time >= '".$arrReqInfo['start']."' AND bet_time <= '".$arrReqInfo['end']."' ";
+            $strSql .= " AND point_amount <> ".BET_STATE_TIE." AND company_amount = 0 ";  //exclude tie and success bet 
+            $strSql .= " AND employee_amount = 0 ";  //member level < admin level;
+    
+            // writeLog($strSql);
+            $objResult = $this -> db -> query($strSql)->getRow();
+            // writeLog("BetSumByDay End");
+        } else {
+            $objResult->bet_money_sum = 0;
+            $objResult->win_money_sum = 0;
+        }
+        
+        $nSum = 0;
+        if(!is_null($objResult->bet_money_sum)) {
+            $nSum = $objResult->bet_money_sum;
+        }
+        $arrSum[0] = $nSum;
+        $nSum = 0;
+        if(!is_null($objResult->win_money_sum)) {
+            $nSum = $objResult->win_money_sum;
+        }
+        $arrSum[1] = $nSum;
+           
+        return $arrSum;
+    }
+
+    public function updateBet($objbet)
+    {
+
+        $this->builder()->set('bet_win_money', $objbet->bet_win_money);
+        $this->builder()->set('point_amount', $objbet->point_amount);
+        $this->builder()->set('acc_time', 'NOW()', false);
+        
+        $this->builder()->where('bet_fid', $objbet->bet_fid);
+        return $this->builder()->update();        
+    }
+
 }

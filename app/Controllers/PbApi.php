@@ -473,7 +473,7 @@ class PbApi extends BaseController {
 				if($objUser->mb_level >=  LEVEL_ADMIN){
 					for($i = 0; $i < count($arrReqData['data']); $i++) {
 						$objBet = $betModel->getByFid($arrReqData['data'][$i]);
-						if(!is_null($objBet) && $objBet->bet_state != 4){
+						if(!is_null($objBet) && $objBet->bet_state != BET_STATE_TIE){
 							$bResult = $betModel->ignore($objBet); 
 							if($bResult){
 								$objBetUser = $this->modelMember->getInfo($objBet->bet_mb_uid);
@@ -625,7 +625,7 @@ class PbApi extends BaseController {
 		if(is_login()) {
 			$bResult = false;
 			$moneyhistoryModel = new MoneyHistory_Model();
-			$csbetModel = new CsBet_Model();
+			$csbetModel = new EbalBet_Model();
 
 			$strUid = $this->session->user_id;
 			$objUser = $this->modelMember->getInfo($strUid);

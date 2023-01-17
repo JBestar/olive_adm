@@ -188,11 +188,11 @@ class MoneyHistory_Model extends Model
             $strSql .= "SELECT ".$this->table.".*, mb_table.mb_nickname, mb_table.mb_money, mb_table.mb_live_money, mb_table.mb_slot_money, mb_table.mb_fslot_money, mb_table.mb_kgon_money, mb_table.mb_gslot_money FROM ".$this->table;
             $strSql .="  JOIN (SELECT  * FROM tbmember UNION SELECT ".$strTbColum." FROM ".$this->mMemberTable." where mb_fid='".$objEmp->mb_fid."'";           
             $strSql .=" ) AS mb_table ";
-            $strSql .=" ON ".$this->table.".money_mb_uid = mb_table.mb_uid ";
+            $strSql .=" ON ".$this->table.".money_mb_fid = mb_table.mb_fid ";
         } else {
             $strSql .= "SELECT ".$this->table.".*, member.mb_nickname, member.mb_money, member.mb_live_money, member.mb_slot_money, member.mb_fslot_money, member.mb_kgon_money, member.mb_gslot_money FROM ".$this->table;
             $strSql .="  LEFT JOIN member ";
-            $strSql .=" ON ".$this->table.".money_mb_uid = member.mb_uid ";
+            $strSql .=" ON ".$this->table.".money_mb_fid = member.mb_fid ";
         }
         $bWhere = false;
 
@@ -243,7 +243,7 @@ class MoneyHistory_Model extends Model
         if($objEmp->mb_level < LEVEL_ADMIN){
             $strSql .="  JOIN (SELECT  * FROM tbmember UNION SELECT ".$strTbColum." FROM ".$this->mMemberTable." where mb_fid='".$objEmp->mb_fid."'";           
             $strSql .=" ) AS mb_table ";
-            $strSql .=" ON ".$this->table.".money_mb_uid = mb_table.mb_uid ";
+            $strSql .=" ON ".$this->table.".money_mb_fid = mb_table.mb_fid ";
         }
         $bWhere = false;
 
