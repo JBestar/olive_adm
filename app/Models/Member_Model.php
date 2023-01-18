@@ -489,9 +489,9 @@ class Member_Model extends Model
         $strSQL = " SELECT MIN(rw_fid) AS min_fid FROM bet_reward";
         $strSQL.= $strCond; 
 
-        writeLog($strSQL);
+        // writeLog($strSQL);
         $objResult = $this->db->query($strSQL)->getRow();
-        writeLog("getRwRangeId END");
+        // writeLog("getRwRangeId END");
 
         if (!is_null($objResult->min_fid)) {
             $range[0] = $objResult->min_fid;
