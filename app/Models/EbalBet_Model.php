@@ -61,7 +61,9 @@ class EbalBet_Model extends Model
         $strSql .= " SUM(CASE WHEN bet_win_money > 0 THEN bet_win_money-bet_money ELSE 0 END) AS benefit_money_sum ";
         $strSql .= " FROM ".$this->table;
         $strSql .= $strCondition;
+        writeLog($strSql);
         $objResult = $this -> db -> query($strSql)->getRow();
+        writeLog("account End");
 
         $nSum = 0;
         if(!is_null($objResult->bet_money_sum)) {
@@ -86,7 +88,6 @@ class EbalBet_Model extends Model
         }
         $arrSum[3] = $nSum;
         
-        // writeLog($strSql);
         
         return $arrSum;
     }
@@ -204,9 +205,9 @@ class EbalBet_Model extends Model
         if(array_key_exists('room', $arrReqData) && strlen($arrReqData['room']) > 0) {
             $strSql.=" AND bet_table_name = '".$arrReqData['room']."' ";
         }
-        // writeLog($strSql);
+        writeLog($strSql);
         $query = $this -> db -> query($strSql);
-        // writeLog("searchCount End");
+        writeLog("searchCount End");
 
         $result = $query -> getRow();
         
@@ -229,6 +230,7 @@ class EbalBet_Model extends Model
             $objResult = $this -> db -> query($strSql)->getRow();
             // writeLog("BetSumByDay End");
         } else {
+            $objResult= new \StdClass;
             $objResult->bet_money_sum = 0;
             $objResult->win_money_sum = 0;
         }

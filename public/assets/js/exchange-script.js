@@ -26,15 +26,15 @@ function showMoneyHistory(jsonBetData) {
 
         strBuf += "<tr><td>";
         strBuf += (parseInt(nRow) + firstIdx + 1);
-        strBuf += "</td><td>";
-        if(jsonBetData[nRow].mb_nickname != null)
-            strBuf += jsonBetData[nRow].mb_nickname;
+        // strBuf += "</td><td>";
+        // if(jsonBetData[nRow].mb_nickname != null)
+        //     strBuf += jsonBetData[nRow].mb_nickname;
         strBuf += "</td><td>";
         strBuf += jsonBetData[nRow].money_mb_uid;
-        strBuf += "</td><td>";
-        if(jsonBetData[nRow].mb_money != null)
-            strBuf += (parseInt(jsonBetData[nRow].mb_money)+parseInt(jsonBetData[nRow].mb_live_money)+parseInt(jsonBetData[nRow].mb_slot_money)
-            +parseInt(jsonBetData[nRow].mb_fslot_money)+parseInt(jsonBetData[nRow].mb_kgon_money)+parseInt(jsonBetData[nRow].mb_gslot_money)).toLocaleString();
+        // strBuf += "</td><td>";
+        // if(jsonBetData[nRow].mb_money != null)
+        //     strBuf += (parseInt(jsonBetData[nRow].mb_money)+parseInt(jsonBetData[nRow].mb_live_money)+parseInt(jsonBetData[nRow].mb_slot_money)
+        //     +parseInt(jsonBetData[nRow].mb_fslot_money)+parseInt(jsonBetData[nRow].mb_kgon_money)+parseInt(jsonBetData[nRow].mb_gslot_money)).toLocaleString();
         strBuf += "</td><td>";
         strBuf += parseInt(jsonBetData[nRow].money_amount).toLocaleString();
         strBuf += "</td><td>";

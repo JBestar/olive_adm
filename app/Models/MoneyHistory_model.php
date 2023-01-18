@@ -173,6 +173,26 @@ class MoneyHistory_Model extends Model
         return $this->builder()->insert();        
     }
 
+    public function getRangeId($arrReqData){
+        $range = [-1, -1];
+        
+        $strCond = ""; 
+        $strCond .=" WHERE money_update_time >= '".$arrReqData['start']." 00:00:00' AND money_update_time <= '".$arrReqData['end']." 23:59:59'" ;
+        
+        $strSQL = " SELECT MIN(money_fid) AS min_fid, MAX(money_fid) AS max_fid FROM ".$this->table;
+        $strSQL.= $strCond; 
+
+        // writeLog($strSQL);
+        $objResult = $this->db->query($strSQL)->getRow();
+        // writeLog("getRangeId END");
+
+        if (!is_null($objResult->min_fid) && !is_null($objResult->max_fid)) {
+            $range[0] = $objResult->min_fid;
+            $range[1] = $objResult->max_fid;
+         }
+         return $range;
+     }
+
     function search($objEmp, $arrReqData)
     {
         $strTbColum = " mb_fid, mb_uid, mb_level, mb_emp_fid, mb_nickname, mb_money, mb_live_money, mb_slot_money, mb_fslot_money, mb_kgon_money, mb_gslot_money ";
@@ -185,37 +205,33 @@ class MoneyHistory_Model extends Model
             $strSql .= " UNION ALL SELECT ".$strTbRColum." FROM ".$this->mMemberTable." r ";
             $strSql .= " INNER JOIN tbmember ON r.mb_emp_fid = tbmember.mb_fid )";
 
-            $strSql .= "SELECT ".$this->table.".*, mb_table.mb_nickname, mb_table.mb_money, mb_table.mb_live_money, mb_table.mb_slot_money, mb_table.mb_fslot_money, mb_table.mb_kgon_money, mb_table.mb_gslot_money FROM ".$this->table;
-            $strSql .="  JOIN (SELECT  * FROM tbmember UNION SELECT ".$strTbColum." FROM ".$this->mMemberTable." where mb_fid='".$objEmp->mb_fid."'";           
-            $strSql .=" ) AS mb_table ";
-            $strSql .=" ON ".$this->table.".money_mb_fid = mb_table.mb_fid ";
-        } else {
-            $strSql .= "SELECT ".$this->table.".*, member.mb_nickname, member.mb_money, member.mb_live_money, member.mb_slot_money, member.mb_fslot_money, member.mb_kgon_money, member.mb_gslot_money FROM ".$this->table;
-            $strSql .="  LEFT JOIN member ";
-            $strSql .=" ON ".$this->table.".money_mb_fid = member.mb_fid ";
-        }
-        $bWhere = false;
+            $strSql .= "SELECT * FROM ".$this->table;
 
-        if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
-            $strSql.=" WHERE money_update_time >= '".$arrReqData['start']." 0:0:0' AND money_update_time <= '".$arrReqData['end']." 23:59:59'" ;
-            $bWhere = true;            
+            // $strSql .= "SELECT ".$this->table.".*, mb_table.mb_nickname, mb_table.mb_money, mb_table.mb_live_money, mb_table.mb_slot_money, mb_table.mb_fslot_money, mb_table.mb_kgon_money, mb_table.mb_gslot_money FROM ".$this->table;
+            // $strSql .="  JOIN (SELECT  * FROM tbmember UNION SELECT ".$strTbColum." FROM ".$this->mMemberTable." where mb_fid='".$objEmp->mb_fid."'";           
+            // $strSql .=" ) AS mb_table ";
+            // $strSql .=" ON ".$this->table.".money_mb_fid = mb_table.mb_fid ";
+        } else {
+            $strSql .= "SELECT * FROM ".$this->table;
+            // $strSql .= "SELECT ".$this->table.".*, member.mb_nickname, member.mb_money, member.mb_live_money, member.mb_slot_money, member.mb_fslot_money, member.mb_kgon_money, member.mb_gslot_money FROM ".$this->table;
+            // $strSql .="  LEFT JOIN member ";
+            // $strSql .=" ON ".$this->table.".money_mb_fid = member.mb_fid ";
         }
+
+        $rangeIds = $this->getRangeId($arrReqData);
+
+        // if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
+            // $strSql.=" WHERE money_update_time >= '".$arrReqData['start']." 0:0:0' AND money_update_time <= '".$arrReqData['end']." 23:59:59'" ;
+            $strSql.=" WHERE money_fid >= ".$rangeIds[0]." AND money_fid <= ".$rangeIds[1]." " ;
+        // }
         if(strlen($arrReqData['user']) > 0){
-            
-            if($bWhere) $strSql.= " AND ";
-            else $strSql.= " WHERE ";
-            $strSql.=" money_mb_uid = '".$arrReqData['user']."' ";
-            $bWhere = true;
+            $strSql.=" AND money_mb_fid = '".$arrReqData['user']."' ";
         }
         if(intval($arrReqData['mode']) > 0){
-            if($bWhere) $strSql.= " AND ";
-            else $strSql.= " WHERE ";
-            $strSql.=" money_change_type = '".$arrReqData['mode']."' ";
+            $strSql.=" AND money_change_type = '".$arrReqData['mode']."' ";
         }
         if($objEmp->mb_level < LEVEL_ADMIN){
-            if($bWhere) $strSql.= " AND ";
-            else $strSql.= " WHERE ";
-            $strSql.=" money_change_type <= '".MONEYCHANGE_WIN_CO3."' ";
+            // $strSql.=" AND money_change_type <= '".MONEYCHANGE_WIN_CO3."' ";
         }
 
         $nStartRow = ($arrReqData['page']-1) * $arrReqData['count'] ;
@@ -239,34 +255,26 @@ class MoneyHistory_Model extends Model
             $strSql .= " UNION ALL SELECT ".$strTbRColum." FROM ".$this->mMemberTable." r ";
             $strSql .= " INNER JOIN tbmember ON r.mb_emp_fid = tbmember.mb_fid )";
         }
-        $strSql .= "SELECT count(*) as count  FROM ".$this->table;
+        $strSql .= "SELECT count(money_fid) as count  FROM ".$this->table;
         if($objEmp->mb_level < LEVEL_ADMIN){
             $strSql .="  JOIN (SELECT  * FROM tbmember UNION SELECT ".$strTbColum." FROM ".$this->mMemberTable." where mb_fid='".$objEmp->mb_fid."'";           
             $strSql .=" ) AS mb_table ";
             $strSql .=" ON ".$this->table.".money_mb_fid = mb_table.mb_fid ";
         }
-        $bWhere = false;
+        $rangeIds = $this->getRangeId($arrReqData);
 
-        if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
-            $strSql.=" WHERE money_update_time >= '".$arrReqData['start']." 0:0:0' AND money_update_time <= '".$arrReqData['end']." 23:59:59'" ;
-            $bWhere = true;            
-        }
+        // if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
+            // $strSql.=" WHERE money_update_time >= '".$arrReqData['start']." 0:0:0' AND money_update_time <= '".$arrReqData['end']." 23:59:59'" ;
+        // }
+        $strSql.=" WHERE money_fid >= ".$rangeIds[0]." AND money_fid <= ".$rangeIds[1] ;
         if(strlen($arrReqData['user']) > 0){
-            
-            if($bWhere) $strSql.= " AND ";
-            else $strSql.= " WHERE ";
-            $strSql.=" money_mb_uid = '".$arrReqData['user']."' ";
-            $bWhere = true;
+            $strSql.=" AND money_mb_fid = '".$arrReqData['user']."' ";
         }
         if((int)$arrReqData['mode'] > 0){
-            if($bWhere) $strSql.= " AND ";
-            else $strSql.= " WHERE ";
-            $strSql.=" money_change_type = '".$arrReqData['mode']."' ";
+            $strSql.=" AND money_change_type = '".$arrReqData['mode']."' ";
         }
         if($objEmp->mb_level < LEVEL_ADMIN){
-            if($bWhere) $strSql.= " AND ";
-            else $strSql.= " WHERE ";
-            $strSql.=" money_change_type <= '".MONEYCHANGE_WIN_CO3."' ";
+            // $strSql.=" AND money_change_type <= '".MONEYCHANGE_WIN_CO3."' ";
         }
         
         $query = $this -> db -> query($strSql);

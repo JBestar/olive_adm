@@ -958,7 +958,14 @@ public function withdrawlist(){
 			
 			$strUid = $this->session->user_id;
 			$objAdmin = $this->modelMember->getInfo($strUid);
-			
+
+			if(strlen($arrGetData['user']) > 0){
+				$objUser = $this->modelMember->getInfo(trim($arrGetData['user']));
+				if(!is_null($objUser))
+					$arrGetData['user'] = $objUser->mb_fid;
+				else $arrGetData['user'] = 0;
+			}
+
 			$arrBetResults = $moneyhistoryModel->search($objAdmin, $arrGetData);
 		
 			$objResult = new \StdClass;
@@ -989,6 +996,13 @@ public function withdrawlist(){
 			
 			$strUid = $this->session->user_id;
 			$objAdmin = $this->modelMember->getInfo($strUid);
+			
+			if(strlen($arrGetData['user']) > 0){
+				$objUser = $this->modelMember->getInfo(trim($arrGetData['user']));
+				if(!is_null($objUser))
+					$arrGetData['user'] = $objUser->mb_fid;
+				else $arrGetData['user'] = 0;
+			}
 			
 			$objCount = $moneyhistoryModel->searchCount($objAdmin, $arrGetData);
 			
