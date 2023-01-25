@@ -181,9 +181,11 @@ class SlBet_Model extends Model
         
         }
         $strSql .= " LEFT JOIN ".$this->mGameTable." ON ".$tbBetSearch.".bet_table_code = ".$this->mGameTable.".game_code ";
-            $strSql .= " AND ".$this->mGameTable.".prd_code = ".$tbBetSearch.".bet_game_type ";
+        $strSql .= " AND ".$this->mGameTable.".prd_code = ".$tbBetSearch.".bet_game_type ";
+        $strSql .= " AND ".$this->mGameTable.".cat = ".$tbBetSearch.".bet_game_id ";
 
         $strSql .= " LEFT JOIN ".$this->mPrdTable." ON ".$tbBetSearch.".bet_game_type = ".$this->mPrdTable.".code ";
+        $strSql .= " AND ".$this->mPrdTable.".cat = ".$tbBetSearch.".bet_game_id ";
         $strSql .= " ORDER BY bet_time  DESC";
         // writeLog($strSql);
 
