@@ -92,6 +92,7 @@ class Clean_Model extends Model {
         $this->db->query("TRUNCATE bet_casino");
         $this->db->query("TRUNCATE bet_balance");
         $this->db->query("TRUNCATE bet_powerball");
+        $this->db->query("TRUNCATE bet_happyball");
         $this->db->query("TRUNCATE bet_powerladder");
         $this->db->query("TRUNCATE bet_bogleball");
         $this->db->query("TRUNCATE bet_bogleladder");

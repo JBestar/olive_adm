@@ -1588,7 +1588,7 @@ class UserApi extends BaseController
                         } 
                     }
 
-                    $arrResult = $this->libApiHslot->getUserInfo();
+                    $arrResult = $this->libApiHslot->getAgentInfo();
                     if($arrResult['status'] == 1){
                         $confsiteModel->setConfActive(CONF_SLOT_HI, $arrResult['balance']);
                         writeLog("<HSLOT> Agent Egg = ".$arrResult['balance']);
