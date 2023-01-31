@@ -39,6 +39,7 @@
 					<option value="4" >NINEBAR</option>
 					<option value="5" >CHROMA</option>
 					<option value="6" >CITY</option>
+					<option value="7" >CJ CASINO</option>
 				</select>
 			</div>
 			<div>
@@ -158,6 +159,7 @@
 					<option value="4" >NINEBAR</option>
 					<option value="5" >CHROMA</option>
 					<option value="6" >CITY</option>
+					<option value="7" >CJ CASINO</option>
 				</select>
 			</div>
 			<div>
@@ -212,6 +214,7 @@
 					<option value="4" >NINEBAR</option>
 					<option value="5" >CHROMA</option>
 					<option value="6" >CITY</option>
+					<option value="7" >CJ CASINO</option>
 				</select>
 			</div>
 			<div>
@@ -264,6 +267,7 @@
 					<option value="4" >NINEBAR</option>
 					<option value="5" >CHROMA</option>
 					<option value="6" >CITY</option>
+					<option value="7" >CJ CASINO</option>
 				</select>
 			</div>
 			<div>

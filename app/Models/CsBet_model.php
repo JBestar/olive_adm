@@ -280,6 +280,7 @@ class CsBet_Model extends Model
             $objResult = $this -> db -> query($strSql)->getRow();
             // writeLog("BetSumByDay End");
         } else {
+            $objResult= new \StdClass;
             $objResult->bet_money_sum = 0;
             $objResult->win_money_sum = 0;
         }
