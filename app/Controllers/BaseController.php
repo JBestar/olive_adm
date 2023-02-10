@@ -79,9 +79,9 @@ class BaseController extends Controller
 
 	protected function getSiteConf($confsiteModel){
 		
-		$confs = ['site_name'=>"", "gameper_full"=>false, "bpg_deny"=>false, "cas_deny"=>false, "slot_deny"=>false, 
-			"kgon_enable"=>false, "eos5_enable"=>false, "eos3_enable"=>false, "coin5_enable"=>false, "coin3_enable"=>false, 
-			"hpg_enable"=>false];
+		$confs = ['site_name'=>"", "gameper_full"=>false, "bpg_deny"=>false, "evol_deny"=>false, "slot_deny"=>false, 
+			"cas_deny"=>false, "eos5_deny"=>false, "eos3_deny"=>false, "coin5_deny"=>false, "coin3_deny"=>false, 
+			"hpg_deny"=>false];
 		$arrConf = $confsiteModel->getSiteConf();  
 		
 		foreach($arrConf as $objConf){
@@ -90,23 +90,23 @@ class BaseController extends Controller
 					break;
 				case CONF_BPG_DENY:	$confs['bpg_deny'] = $objConf->conf_active == STATE_ACTIVE?true:false;
 					break;
-				case CONF_CAS_DENY:	$confs['cas_deny'] = $objConf->conf_active == STATE_ACTIVE?true:false;
+				case CONF_EVOL_DENY:	$confs['evol_deny'] = $objConf->conf_active == STATE_ACTIVE?true:false;
 					break;
 				case CONF_SLOT_DENY: $confs['slot_deny'] = $objConf->conf_active == STATE_ACTIVE?true:false;
 					break;
 				case CONF_GAMEPER_FULL:	$confs['gameper_full'] = $objConf->conf_active == STATE_ACTIVE?true:false;
 					break;
-				case CONF_KGON_ENABLE:	$confs['kgon_enable'] = $objConf->conf_active == STATE_ACTIVE?true:false;
+				case CONF_CAS_DENY:	$confs['cas_deny'] = $objConf->conf_active == STATE_ACTIVE?true:false;
 					break;
-				case CONF_EOS5_ENABLE:	$confs['eos5_enable'] = $objConf->conf_active == STATE_ACTIVE?true:false;
+				case CONF_EOS5_DENY:	$confs['eos5_deny'] = $objConf->conf_active == STATE_ACTIVE?true:false;
 					break;
-				case CONF_EOS3_ENABLE:	$confs['eos3_enable'] = $objConf->conf_active == STATE_ACTIVE?true:false;
+				case CONF_EOS3_DENY:	$confs['eos3_deny'] = $objConf->conf_active == STATE_ACTIVE?true:false;
 					break;
-				case CONF_COIN5_ENABLE:	$confs['coin5_enable'] = $objConf->conf_active == STATE_ACTIVE?true:false;
+				case CONF_COIN5_DENY:	$confs['coin5_deny'] = $objConf->conf_active == STATE_ACTIVE?true:false;
 					break;
-				case CONF_COIN3_ENABLE:	$confs['coin3_enable'] = $objConf->conf_active == STATE_ACTIVE?true:false;
+				case CONF_COIN3_DENY:	$confs['coin3_deny'] = $objConf->conf_active == STATE_ACTIVE?true:false;
 					break;
-				case CONF_HPG_ENABLE:	$confs['hpg_enable'] = $objConf->conf_active == STATE_ACTIVE?true:false;
+				case CONF_HPG_DENY:	$confs['hpg_deny'] = $objConf->conf_active == STATE_ACTIVE?true:false;
 					break;
 				default:break;
 			}
@@ -124,11 +124,11 @@ class BaseController extends Controller
 	protected function allEgg(&$objMember){
 		$confsiteModel = new ConfSite_Model();
 		$confs = $this->getSiteConf($confsiteModel);
-		if(!$confs["cas_deny"]){
+		if(!$confs["evol_deny"]){
 			$this->evEgg($objMember);
 			usleep(100000);
 		}
-		if($confs["kgon_enable"] || $_ENV['app.type'] == APPTYPE_6 || $_ENV['app.type'] == APPTYPE_7){
+		if(!$confs["cas_deny"] || $_ENV['app.type'] == APPTYPE_6 || $_ENV['app.type'] == APPTYPE_7){
 			$this->kgonEgg($objMember);
 			usleep(100000);
 		}
@@ -334,7 +334,7 @@ class BaseController extends Controller
 		$logHead = "<EvtoMb> ";
 		$confsiteModel = new ConfSite_Model();
 		$confs = $this->getSiteConf($confsiteModel);
-		if($confs["cas_deny"]){
+		if($confs["evol_deny"]){
 			return 1;
 		}
 		//에볼 => 지갑 머니넘기기
@@ -388,7 +388,7 @@ class BaseController extends Controller
 		$logHead = "<KgtoMb> ";
 		$confsiteModel = new ConfSite_Model();
 		$confs = $this->getSiteConf($confsiteModel);
-		if(!$confs["kgon_enable"]){
+		if($confs["cas_deny"]){
 			return 1;
 		}
 		//카지노 => 지갑 머니넘기기

@@ -111,7 +111,7 @@
 		<?php }?>
         <?= $this->renderSection('user-edit-form-section2') ?>
 		
-		<?php if($hpg_enable) :?>
+		<?php if(!$hpg_deny) :?>
 
 			<div class="useredit-percent-div">
 				<p>해피볼 단폴:</p> 
@@ -229,7 +229,7 @@
 				<?php endif?>
 			</div>	
 		<?php endif ?>   
-		<?php if($eos5_enable || $eos3_enable) :?>
+		<?php if(!$eos5_deny || !$eos3_deny) :?>
 			<div class="useredit-percent-div">
 				<p>EOS 단폴:</p> 
 				<label> 배당율(%)</label>
@@ -268,7 +268,7 @@
 				<?php endif?>
 			</div>
 		<?php endif ?>
-		<?php if($coin5_enable || $coin3_enable) :?>
+		<?php if(!$coin5_deny || !$coin3_deny) :?>
 			<div class="useredit-percent-div">
 				<p>코인 단폴:</p> 
 				<label> 배당율(%)</label>
@@ -307,7 +307,7 @@
 				<?php endif?>
 			</div>
 		<?php endif ?>   
-		<?php if(!$cas_deny || $kgon_enable) :?>
+		<?php if(!$evol_deny || !$cas_deny) :?>
 			<div class="useredit-percent-div">
 				<p>카지노:</p>			 
 				<label> 배당율(%)</label>

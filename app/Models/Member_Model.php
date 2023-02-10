@@ -364,26 +364,26 @@ class Member_Model extends Model
      public function allGameRange(&$arrReqData, $confs)
      {
         //  writeLog("allGameRange");
-        if($confs['hpg_enable']){
+        if(!$confs['hpg_deny']){
             $arrReqData['hpb_range'] = $this->getBetRangeId($arrReqData, "bet_happyball");
         }
         if(!$confs['bpg_deny']){
             $arrReqData['bpb_range'] = $this->getBetRangeId($arrReqData, "bet_bogleball");
             $arrReqData['bps_range'] = $this->getBetRangeId($arrReqData, "bet_bogleladder");
         }
-        if($confs['eos5_enable']){
+        if(!$confs['eos5_deny']){
             $arrReqData['eos5_range'] = $this->getBetRangeId($arrReqData, "bet_eos5ball");
         }
-        if($confs['eos3_enable']){
+        if(!$confs['eos3_deny']){
             $arrReqData['eos3_range'] = $this->getBetRangeId($arrReqData, "bet_eos3ball");
         }
-        if($confs['coin5_enable']){
+        if(!$confs['coin5_deny']){
             $arrReqData['coin5_range'] = $this->getBetRangeId($arrReqData, "bet_coin5ball");
         }
-        if($confs['coin3_enable']){
+        if(!$confs['coin3_deny']){
             $arrReqData['coin3_range'] = $this->getBetRangeId($arrReqData, "bet_coin3ball");
         }
-        if(!$confs['cas_deny'] || $confs['kgon_enable']){
+        if(!$confs['evol_deny'] || !$confs['cas_deny']){
             if(isEBalMode()){
                 $tbName = "bet_ebal";
             } else 
@@ -545,7 +545,7 @@ class Member_Model extends Model
         $strSQL .= " WHERE bet_fid >= ".$arrReqData['slot_range'][0]." AND bet_fid <= ".$arrReqData['slot_range'][1];
         $strSQL .= " AND bet_mb_uid IN (SELECT mb_uid from tbmember UNION ALL SELECT '".$objEmp->mb_uid."' as mb_uid) ";
 
-        if($confs['hpg_enable']){
+        if(!$confs['hpg_deny']){
             $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_happyball ';
             $strSQL .= " WHERE bet_fid >= ".$arrReqData['hpb_range'][0]." AND bet_fid <= ".$arrReqData['hpb_range'][1];
             $strSQL .= " AND bet_mb_uid IN (SELECT mb_uid from tbmember UNION ALL SELECT '".$objEmp->mb_uid."' as mb_uid) )";
@@ -561,31 +561,31 @@ class Member_Model extends Model
             $strSQL .= " AND bet_mb_uid IN (SELECT mb_uid from tbmember UNION ALL SELECT '".$objEmp->mb_uid."' as mb_uid) )";
         }
 
-        if($confs['eos5_enable']){
+        if(!$confs['eos5_deny']){
             $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_eos5ball ';
             $strSQL .= " WHERE bet_fid >= ".$arrReqData['eos5_range'][0]." AND bet_fid <= ".$arrReqData['eos5_range'][1];
             $strSQL .= " AND bet_mb_uid IN (SELECT mb_uid from tbmember UNION ALL SELECT '".$objEmp->mb_uid."' as mb_uid) )";
         }
 
-        if($confs['eos3_enable']){
+        if(!$confs['eos3_deny']){
             $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_eos3ball ';
             $strSQL .= " WHERE bet_fid >= ".$arrReqData['eos3_range'][0]." AND bet_fid <= ".$arrReqData['eos3_range'][1];
             $strSQL .= " AND bet_mb_uid IN (SELECT mb_uid from tbmember UNION ALL SELECT '".$objEmp->mb_uid."' as mb_uid) )";
         }
 
-        if($confs['coin5_enable']){
+        if(!$confs['coin5_deny']){
             $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_coin5ball ';
             $strSQL .= " WHERE bet_fid >= ".$arrReqData['coin5_range'][0]." AND bet_fid <= ".$arrReqData['coin5_range'][1];
             $strSQL .= " AND bet_mb_uid IN (SELECT mb_uid from tbmember UNION ALL SELECT '".$objEmp->mb_uid."' as mb_uid) )";
         }
 
-        if($confs['coin3_enable']){
+        if(!$confs['coin3_deny']){
             $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_coin3ball ';
             $strSQL .= " WHERE bet_fid >= ".$arrReqData['coin3_range'][0]." AND bet_fid <= ".$arrReqData['coin3_range'][1];
             $strSQL .= " AND bet_mb_uid IN (SELECT mb_uid from tbmember UNION ALL SELECT '".$objEmp->mb_uid."' as mb_uid) )";
         }
 
-        if(!$confs['cas_deny'] || $confs['kgon_enable']){
+        if(!$confs['evol_deny'] || !$confs['cas_deny']){
             $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_casino ';
             $strSQL .= " WHERE bet_fid >= ".$arrReqData['cas_range'][0]." AND bet_fid <= ".$arrReqData['cas_range'][1];
             $strSQL .= " AND company_amount = 0 AND bet_mb_uid IN (SELECT mb_uid from tbmember UNION ALL SELECT '".$objEmp->mb_uid."' as mb_uid) )";
@@ -742,7 +742,7 @@ class Member_Model extends Model
         $strSQL .= $strWhereMem;
         // $strSQL .= " AND bet_mb_fid IN (SELECT mb_fid from tbmember) ";
 
-        if($confs['hpg_enable']){
+        if(!$confs['hpg_deny']){
             $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_happyball ';
             $strSQL .= " WHERE bet_fid >= ".$arrReqData['hpb_range'][0]." AND bet_fid <= ".$arrReqData['hpb_range'][1];
             $strSQL .= $strWhereMem." )";
@@ -757,31 +757,31 @@ class Member_Model extends Model
             $strSQL .= $strWhereMem." )";
         }
 
-        if($confs['eos5_enable']){
+        if(!$confs['eos5_deny']){
             $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_eos5ball ';
             $strSQL .= " WHERE bet_fid >= ".$arrReqData['eos5_range'][0]." AND bet_fid <= ".$arrReqData['eos5_range'][1];
             $strSQL .= $strWhereMem." )";
         }
 
-        if($confs['eos3_enable']){
+        if(!$confs['eos3_deny']){
             $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_eos3ball ';
             $strSQL .= " WHERE bet_fid >= ".$arrReqData['eos3_range'][0]." AND bet_fid <= ".$arrReqData['eos3_range'][1];
             $strSQL .= $strWhereMem." )";
         }
 
-        if($confs['coin5_enable']){
+        if(!$confs['coin5_deny']){
             $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_coin5ball ';
             $strSQL .= " WHERE bet_fid >= ".$arrReqData['coin5_range'][0]." AND bet_fid <= ".$arrReqData['coin5_range'][1];
             $strSQL .= $strWhereMem." )";
         }
 
-        if($confs['coin3_enable']){
+        if(!$confs['coin3_deny']){
             $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_coin3ball ';
             $strSQL .= " WHERE bet_fid >= ".$arrReqData['coin3_range'][0]." AND bet_fid <= ".$arrReqData['coin3_range'][1];
             $strSQL .= $strWhereMem." )";
         }
 
-        if(!$confs['cas_deny'] || $confs['kgon_enable']){
+        if(!$confs['evol_deny'] || !$confs['cas_deny']){
             if(isEBalMode()){
                 $tbName = "bet_ebal";
                 $strWhereMem2= " AND bet_mb_fid IN (SELECT mb_fid from tbmember) ";
@@ -905,7 +905,7 @@ class Member_Model extends Model
         $strSQL .= '  FROM  (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_slot';
         $strSQL .= $strCond;
 
-        if($confs['hpg_enable']){
+        if(!$confs['hpg_deny']){
             $strSQL .= 'UNION ALL SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_happyball ';
             $strSQL .= $strCond;
         }
@@ -917,27 +917,27 @@ class Member_Model extends Model
             $strSQL .= $strCond;
         }
 
-        if($confs['eos5_enable']){
+        if(!$confs['eos5_deny']){
             $strSQL .= 'UNION ALL SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_eos5ball ';
             $strSQL .= $strCond;
         }
 
-        if($confs['eos3_enable']){
+        if(!$confs['eos3_deny']){
             $strSQL .= 'UNION ALL SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_eos3ball ';
             $strSQL .= $strCond;
         }
 
-        if($confs['coin5_enable']){
+        if(!$confs['coin5_deny']){
             $strSQL .= 'UNION ALL SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_coin5ball ';
             $strSQL .= $strCond;
         }
 
-        if($confs['coin3_enable']){
+        if(!$confs['coin3_deny']){
             $strSQL .= 'UNION ALL SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_coin3ball ';
             $strSQL .= $strCond;
         }
 
-        if(!$confs['cas_deny'] || $confs['kgon_enable']){
+        if(!$confs['evol_deny'] || !$confs['cas_deny']){
             if(isEBalMode()){
                 $tbName = "bet_ebal";
             } else 
@@ -974,7 +974,7 @@ class Member_Model extends Model
          $strSQL.= " (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, COUNT(*) AS bet_count, bet_game_type  FROM bet_slot ";
 		 $strSQL.= $strCond." group by bet_game_type) AS bet_slot_g JOIN slot_prd on slot_prd.code = bet_slot_g.bet_game_type ";
          
-        if($confs['hpg_enable']){
+        if(!$confs['hpg_deny']){
             $strSQL.= " UNION ALL SELECT bet_money, bet_win_money, bet_count, '해피볼' AS bet_name, '".GAME_HAPPY_BALL."' As bet_kind  From ";
             $strSQL.= " (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, COUNT(*) AS bet_count FROM bet_happyball  ";
             $strSQL.= $strCond." ) AS bet_pb_g ";
@@ -990,31 +990,31 @@ class Member_Model extends Model
             $strSQL.= $strCond." ) AS bet_bs_g ";
         }
 
-        if($confs['eos5_enable']){
+        if(!$confs['eos5_deny']){
             $strSQL.= " UNION ALL SELECT bet_money, bet_win_money, bet_count, 'EOS5분 파워볼' AS bet_name, '".GAME_EOS5_BALL."' As bet_kind  From ";
             $strSQL.= " (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, COUNT(*) AS bet_count FROM bet_eos5ball  ";
             $strSQL.= $strCond." ) AS bet_e5_g ";
         }
 
-        if($confs['eos3_enable']){
+        if(!$confs['eos3_deny']){
             $strSQL.= " UNION ALL SELECT bet_money, bet_win_money, bet_count, 'EOS3분 파워볼' AS bet_name, '".GAME_EOS3_BALL."' As bet_kind  From ";
             $strSQL.= " (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, COUNT(*) AS bet_count FROM bet_eos3ball  ";
             $strSQL.= $strCond." ) AS bet_e3_g ";
         }
 
-        if($confs['coin5_enable']){
+        if(!$confs['coin5_deny']){
             $strSQL.= " UNION ALL SELECT bet_money, bet_win_money, bet_count, '코인5분 파워볼' AS bet_name, '".GAME_COIN5_BALL."' As bet_kind  From ";
             $strSQL.= " (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, COUNT(*) AS bet_count FROM bet_coin5ball  ";
             $strSQL.= $strCond." ) AS bet_c5_g ";
         }
 
-        if($confs['coin3_enable']){
+        if(!$confs['coin3_deny']){
             $strSQL.= " UNION ALL SELECT bet_money, bet_win_money, bet_count, '코인3분 파워볼' AS bet_name, '".GAME_COIN3_BALL."' As bet_kind  From ";
             $strSQL.= " (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, COUNT(*) AS bet_count FROM bet_coin3ball  ";
             $strSQL.= $strCond." ) AS bet_c3_g ";
         }
 
-        if(!$confs['cas_deny'] || $confs['kgon_enable']){
+        if(!$confs['evol_deny'] || !$confs['cas_deny']){
             if(isEBalMode()){
                 $tbName = "bet_ebal";
             } else 
@@ -1923,7 +1923,7 @@ class Member_Model extends Model
         $strTbColum .= " bet_sl.bet_sl_m, bet_sl.bet_sl_w, ";
         $strTbColum .= "  ";
         
-        if($confs['hpg_enable']){
+        if(!$confs['hpg_deny']){
             $strTbColum.= " bet_pb.bet_pb_m, bet_pb.bet_pb_w, ";
             $strTbColum.= "  "; 
         }
@@ -1931,19 +1931,19 @@ class Member_Model extends Model
             $strTbColum.= " bet_bb.bet_bb_m, bet_bb.bet_bb_w, "; 
             $strTbColum.= " bet_bl.bet_bl_m, bet_bl.bet_bl_w, "; 
         }
-        if($confs['eos5_enable']){
+        if(!$confs['eos5_deny']){
             $strTbColum.= " bet_e5.bet_e5_m, bet_e5.bet_e5_w, "; 
         }
-        if($confs['eos3_enable']){
+        if(!$confs['eos3_deny']){
             $strTbColum.= " bet_e3.bet_e3_m, bet_e3.bet_e3_w, "; 
         }
-        if($confs['coin5_enable']){
+        if(!$confs['coin5_deny']){
             $strTbColum.= " bet_c5.bet_c5_m, bet_c5.bet_c5_w, "; 
         }
-        if($confs['coin3_enable']){
+        if(!$confs['coin3_deny']){
             $strTbColum.= " bet_c3.bet_c3_m, bet_c3.bet_c3_w, "; 
         }
-        if(!$confs['cas_deny'] || $confs['kgon_enable']){
+        if(!$confs['evol_deny'] || !$confs['cas_deny']){
             $strTbColum.= " bet_cs.bet_cs_m, bet_cs.bet_cs_w, "; 
         }
         $strTbColum.= " rw_point, chg_point ";
@@ -1966,26 +1966,26 @@ class Member_Model extends Model
         $strSQL = "SELECT ".$strTbColum." FROM ".$this->table;
         $strSQL.= " LEFT JOIN ( select bet_mb_uid, sum(bet_money) AS bet_sl_m, sum(bet_win_money) AS bet_sl_w from bet_slot group by bet_mb_uid ) bet_sl ON bet_sl.bet_mb_uid = member.mb_uid";
 
-        if($confs['hpg_enable']){
+        if(!$confs['hpg_deny']){
             $strSQL.= " LEFT JOIN ( select bet_mb_uid, sum(bet_money) AS bet_pb_m, sum(bet_win_money) AS bet_pb_w from bet_happyball group by bet_mb_uid ) bet_pb ON bet_pb.bet_mb_uid = member.mb_uid";
         }
         if(!$confs['bpg_deny']){
             $strSQL.= " LEFT JOIN ( select bet_mb_uid, sum(bet_money) AS bet_bb_m, sum(bet_win_money) AS bet_bb_w from bet_bogleball group by bet_mb_uid ) bet_bb ON bet_bb.bet_mb_uid = member.mb_uid";
             $strSQL.= " LEFT JOIN ( select bet_mb_uid, sum(bet_money) AS bet_bl_m, sum(bet_win_money) AS bet_bl_w from bet_bogleladder group by bet_mb_uid ) bet_bl ON bet_bl.bet_mb_uid = member.mb_uid";
         }
-        if($confs['eos5_enable']){
+        if(!$confs['eos5_deny']){
             $strSQL.= " LEFT JOIN ( select bet_mb_uid, sum(bet_money) AS bet_e5_m, sum(bet_win_money) AS bet_e5_w from bet_eos5ball group by bet_mb_uid ) bet_e5 ON bet_e5.bet_mb_uid = member.mb_uid";
         }
-        if($confs['eos3_enable']){
+        if(!$confs['eos3_deny']){
             $strSQL.= " LEFT JOIN ( select bet_mb_uid, sum(bet_money) AS bet_e3_m, sum(bet_win_money) AS bet_e3_w from bet_eos3ball group by bet_mb_uid ) bet_e3 ON bet_e3.bet_mb_uid = member.mb_uid";
         }
-        if($confs['coin5_enable']){
+        if(!$confs['coin5_deny']){
             $strSQL.= " LEFT JOIN ( select bet_mb_uid, sum(bet_money) AS bet_c5_m, sum(bet_win_money) AS bet_c5_w from bet_coin5ball group by bet_mb_uid ) bet_c5 ON bet_c5.bet_mb_uid = member.mb_uid";
         }
-        if($confs['coin3_enable']){
+        if(!$confs['coin3_deny']){
             $strSQL.= " LEFT JOIN ( select bet_mb_uid, sum(bet_money) AS bet_c3_m, sum(bet_win_money) AS bet_c3_w from bet_coin3ball group by bet_mb_uid ) bet_c3 ON bet_c3.bet_mb_uid = member.mb_uid";
         }
-        if(!$confs['cas_deny'] || $confs['kgon_enable']){
+        if(!$confs['evol_deny'] || !$confs['cas_deny']){
             if(isEBalMode()){
                 $tbName = "bet_ebal";
             } else 

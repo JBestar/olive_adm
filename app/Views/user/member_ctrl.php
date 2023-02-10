@@ -255,7 +255,7 @@
 									</div>
 								</div>
 							</div>
-					<?php if($hpg_enable) :?>
+					<?php if(!$hpg_deny) :?>
 							<div class="col-md-12">
 								<div class="row">
 									<div class="col-md-2">해피볼 단폴 배당율 (%)</div>
@@ -333,7 +333,7 @@
 							</div>
 						<?php endif ?>
 					<?php endif ?>
-					<?php if($eos5_enable || $eos3_enable) :?>
+					<?php if(!$eos5_deny || !$eos3_deny) :?>
 							<div class="col-md-12">
 								<div class="row">
 									<div class="col-md-2">EOS 단폴 배당율 (%)</div>
@@ -365,7 +365,7 @@
 							</div>
 						<?php endif ?>
 					<?php endif ?>
-					<?php if($coin5_enable || $coin3_enable) :?>
+					<?php if(!$coin5_deny || !$coin3_deny) :?>
 							<div class="col-md-12">
 								<div class="row">
 									<div class="col-md-2">코인 단폴 배당율 (%)</div>
@@ -399,7 +399,7 @@
 					<?php endif ?>
 							<div class="col-md-12">
 								<div class="row">
-								<?php if(!$cas_deny || $kgon_enable) :?>
+								<?php if(!$evol_deny || !$cas_deny) :?>
 									<div class="col-md-2">카지노 배당율 (%)</div>
 									<div class="col-md-2">
 										<input type="number" id="cs_ratio" step="0.01" class="form-control" value="0.00" min="0" />

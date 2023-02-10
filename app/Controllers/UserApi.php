@@ -442,7 +442,7 @@ class UserApi extends BaseController
                 $tmNow = microtime(true) * 1000;
                 writeLog("empbetinfo");
 
-                if($siteConfs['hpg_enable']){
+                if(!$siteConfs['hpg_deny']){
                     $betModel = new PbBet_Model();
                     $betModel->setType(GAME_HAPPY_BALL);
 
@@ -450,7 +450,7 @@ class UserApi extends BaseController
                     $arrSum = $betModel->getBetSumByDay($arrReqData);
                     $arrSumData[0] = $arrSum[0];
                     $arrSumData[1] = $arrSum[1];
-                    // writeLog("hpg_enable");
+                    // writeLog("hpg_deny");
                 }
                 if(!$siteConfs['bpg_deny']){
                     $betModel = new PbBet_Model();
@@ -468,7 +468,7 @@ class UserApi extends BaseController
                     // writeLog("bpg_deny");
 
                 }
-                if($siteConfs['eos5_enable']){
+                if(!$siteConfs['eos5_deny']){
                     $betModel = new PbBet_Model();
                     $betModel->setType(GAME_EOS5_BALL);
 
@@ -476,10 +476,10 @@ class UserApi extends BaseController
                     $arrSum = $betModel->getBetSumByDay($arrReqData);
                     $arrSumData[6] = $arrSum[0];
                     $arrSumData[7] = $arrSum[1];
-                    // writeLog("eos5_enable");
+                    // writeLog("eos5_deny");
 
                 }
-                if($siteConfs['eos3_enable']){
+                if(!$siteConfs['eos3_deny']){
                     $betModel = new PbBet_Model();
                     $betModel->setType(GAME_EOS3_BALL);
 
@@ -487,10 +487,10 @@ class UserApi extends BaseController
                     $arrSum = $betModel->getBetSumByDay($arrReqData);
                     $arrSumData[8] = $arrSum[0];
                     $arrSumData[9] = $arrSum[1];
-                    // writeLog("eos3_enable");
+                    // writeLog("eos3_deny");
 
                 }
-                if($siteConfs['coin5_enable']){
+                if(!$siteConfs['coin5_deny']){
                     $betModel = new PbBet_Model();
                     $betModel->setType(GAME_COIN5_BALL);
 
@@ -498,10 +498,10 @@ class UserApi extends BaseController
                     $arrSum = $betModel->getBetSumByDay($arrReqData);
                     $arrSumData[10] = $arrSum[0];
                     $arrSumData[11] = $arrSum[1];
-                    // writeLog("coin5_enable");
+                    // writeLog("coin5_deny");
 
                 }
-                if($siteConfs['coin3_enable']){
+                if(!$siteConfs['coin3_deny']){
                     $betModel = new PbBet_Model();
                     $betModel->setType(GAME_COIN3_BALL);
 
@@ -512,7 +512,7 @@ class UserApi extends BaseController
                     // writeLog("coin3_enable");
 
                 }
-                if(!$siteConfs['cas_deny']){
+                if(!$siteConfs['evol_deny']){
 
                     $arrReqData['type'] = GAME_CASINO_EVOL;
                     if(isEBalMode()){
@@ -545,12 +545,11 @@ class UserApi extends BaseController
                     // writeLog("slot_deny");
 
                 }
-                if(!isEBalMode() && $siteConfs['kgon_enable']){
+                if(!isEBalMode() && !$siteConfs['cas_deny']){
                     $betModel = new CsBet_Model();
 
                     $objConfPb = $confgameModel->getByIndex(GAME_CASINO_KGON);
                     $arrSumData[17] = $betModel->getBetSumByDay($arrReqData, $objConfPb);
-                    // writeLog("kgon_enable");
                 }
                 writeLog("empbetinfo end duration = ".(microtime(true) * 1000 - $tmNow));
 

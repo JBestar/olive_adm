@@ -22,7 +22,7 @@
 				<option value="2">환전</option>
 				<option value="26">직환전</option>
 				<option value="3">포인트전환</option>
-				<?php if($hpg_enable) :?>
+				<?php if(!$hpg_deny) :?>
 					<option value="4">해피볼배팅</option>				
 					<option value="6">해피볼정산</option>
 				<?php endif ?>   
@@ -38,19 +38,19 @@
 				<option value="28">상부환수</option>
 				<option value="24">머니회수</option>
 				<option value="25">포인트회수</option>
-				<?php if($eos5_enable) :?>
+				<?php if(!$eos5_deny) :?>
 					<option value="31">EOS5분배팅</option>				
 					<option value="33">EOS5분정산</option>
 				<?php endif ?> 
-				<?php if($eos3_enable) :?>
+				<?php if(!$eos3_deny) :?>
 					<option value="34">EOS3분배팅</option>				
 					<option value="36">EOS3분정산</option>
 				<?php endif ?> 
-				<?php if($coin5_enable) :?>
+				<?php if(!$coin5_deny) :?>
 					<option value="37">코인5분배팅</option>				
 					<option value="39">코인5분정산</option>
 				<?php endif ?> 
-				<?php if($coin3_enable) :?>
+				<?php if(!$coin3_deny) :?>
 					<option value="40">코인3분배팅</option>				
 					<option value="42">코인3분정산</option>
 				<?php endif ?> 

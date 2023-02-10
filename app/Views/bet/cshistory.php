@@ -4,7 +4,7 @@
 <?=$game_name?> 배팅내역
 <?= $this->endSection() ?>
 <?= $this->section('history_game_options') ?>	
-	<?php if($kgon_enable) :?>
+	<?php if(!$cas_deny) :?>
 		<select class="pbresult-game-select" id="pbhistory-game-select-id">
 			<option value="-1">::업체선택::</option>	
 			<?php foreach ($prds as $prd):?>

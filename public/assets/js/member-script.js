@@ -91,7 +91,7 @@ function showMember(arrMember, confs) {
 
         if (confs.emp_level >= LEVEL_ADMIN) {
             strBuf += "</td> <td>";
-            if(confs.hpg_enable){
+            if(!confs.hpg_deny){
                 if (arrMember[nRow].mb_game_pb == 1) {
                     strBuf += "<button name='" + arrMember[nRow].mb_fid + "'  class='button-active'>해피볼</button>";
                 } else {
@@ -110,21 +110,21 @@ function showMember(arrMember, confs) {
                     strBuf += "<button name='" + arrMember[nRow].mb_fid + "' >보사달</button>";
                 }
             }
-            if(confs.eos5_enable || confs.eos3_enable){
+            if(!confs.eos5_deny || !confs.eos3_deny){
                 if (arrMember[nRow].mb_game_eo == 1) {
                     strBuf += "<button name='" + arrMember[nRow].mb_fid + "'  class='button-active'>EOS</button>";
                 } else {
                     strBuf += "<button name='" + arrMember[nRow].mb_fid + "' >EOS</button>";
                 }
             }
-            if(confs.coin5_enable || confs.coin3_enable){
+            if(!confs.coin5_deny || !confs.coin3_deny){
                 if (arrMember[nRow].mb_game_co == 1) {
                     strBuf += "<button name='" + arrMember[nRow].mb_fid + "'  class='button-active'>코인</button>";
                 } else {
                     strBuf += "<button name='" + arrMember[nRow].mb_fid + "' >코인</button>";
                 }
             }
-            if(!confs.cas_deny || confs.kgon_enable){
+            if(!confs.evol_deny || !confs.cas_deny){
                 if (arrMember[nRow].mb_game_cs == 1) {
                     strBuf += "<button name='" + arrMember[nRow].mb_fid + "'  class='button-active'>카지노</button>";
                 } else {

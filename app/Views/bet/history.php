@@ -3,26 +3,26 @@
 	<!--Sub Navbar-->
 	<div class = "sub-navbar" value="<?= $this->renderSection('history-active') ?>">
 		<p><i class="glyphicon glyphicon-book"></i> 배팅내역</p>
-		<?php if($hpg_enable) :?>
+		<?php if(!$hpg_deny) :?>
 			<a href="<?php echo site_furl('bet/pbhistory');?>" class="sub-navbar-a" >해피볼</a>
 		<?php endif ?>  
     	<?php if(!$bpg_deny) :?>
 			<a href="<?php echo site_furl('bet/bbhistory');?>" class="sub-navbar-a" >보글볼</a>
 			<a href="<?php echo site_furl('bet/bshistory');?>" class="sub-navbar-a" >보글사다리</a>
    		<?php endif ?>   
-		<?php if($eos5_enable) :?>
+		<?php if(!$eos5_deny) :?>
 			<a href="<?php echo site_furl('bet/e5history');?>" class="sub-navbar-a" >EOS5분</a>
    		<?php endif ?>  
-		<?php if($eos3_enable) :?>
+		<?php if(!$eos3_deny) :?>
 			<a href="<?php echo site_furl('bet/e3history');?>" class="sub-navbar-a" >EOS3분</a>
    		<?php endif ?>  
-		<?php if($coin5_enable) :?>
+		<?php if(!$coin5_deny) :?>
 			<a href="<?php echo site_furl('bet/c5history');?>" class="sub-navbar-a" >코인5분</a>
    		<?php endif ?>  
-		<?php if($coin3_enable) :?>
+		<?php if(!$coin3_deny) :?>
 			<a href="<?php echo site_furl('bet/c3history');?>" class="sub-navbar-a" >코인3분</a>
    		<?php endif ?>  
-		<?php if(!$cas_deny || $kgon_enable) :?>
+		<?php if(!$evol_deny || !$cas_deny) :?>
 			<a href="<?php echo site_furl('bet/cshistory');?>" class="sub-navbar-a" >카지노</a>
 		<?php endif ?>
 		<?php if(!$slot_deny) :?>

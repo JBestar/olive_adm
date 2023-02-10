@@ -3,23 +3,23 @@
 	<!--Sub Navbar-->
 	<div class = "sub-navbar" value="<?= $this->renderSection('realtime-title')?>">
 		<p><i class="glyphicon glyphicon-dashboard"></i> 실시간배팅</p>
-		<?php if($hpg_enable) :?>
+		<?php if(!$hpg_deny) :?>
 			<a href="<?php echo site_furl('bet/pbrealtime');?>" class="sub-navbar-a" >해피볼</a>
 		<?php endif ?>  
 		<?php if(!$bpg_deny) :?>
 			<a href="<?php echo site_furl('bet/bbrealtime');?>" class="sub-navbar-a" >보글볼</a>
 			<a href="<?php echo site_furl('bet/bsrealtime');?>" class="sub-navbar-a" >보글사다리</a>
 		<?php endif ?>   
-		<?php if($eos5_enable) :?>
+		<?php if(!$eos5_deny) :?>
 			<a href="<?php echo site_furl('bet/e5realtime');?>" class="sub-navbar-a" >EOS5분</a>
    		<?php endif ?>  
-		<?php if($eos3_enable) :?>
+		<?php if(!$eos3_deny) :?>
 			<a href="<?php echo site_furl('bet/e3realtime');?>" class="sub-navbar-a" >EOS3분</a>
    		<?php endif ?>
-		<?php if($coin5_enable) :?>
+		<?php if(!$coin5_deny) :?>
 			<a href="<?php echo site_furl('bet/c5realtime');?>" class="sub-navbar-a" >코인5분</a>
    		<?php endif ?>  
-		<?php if($coin3_enable) :?>
+		<?php if(!$coin3_deny) :?>
 			<a href="<?php echo site_furl('bet/c3realtime');?>" class="sub-navbar-a" >코인3분</a>
    		<?php endif ?>  
 	</div>

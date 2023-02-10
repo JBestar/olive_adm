@@ -3,7 +3,7 @@
 	<!--Sub Navbar-->
 	<div class = "sub-navbar" value="<?= $this->renderSection('bet-change-title')?>">
 		<p><i class="glyphicon glyphicon-tag"></i> 적중특례</p>
-		<?php if($hpg_enable) :?>
+		<?php if(!$hpg_deny) :?>
 			<a href="<?php echo siteFurl().'result/pbbetchange/0/0';?>" class="sub-navbar-a" >해피볼</a>
 			<!-- <a href="<?php echo siteFurl().'result/psbetchange/0/0';?>" class="sub-navbar-a" >파워사다리</a> -->
 		<?php endif ?>   
@@ -11,16 +11,16 @@
 			<a href="<?php echo siteFurl().'result/bbbetchange/0/0';?>" class="sub-navbar-a" >보글볼</a>
 			<a href="<?php echo siteFurl().'result/bsbetchange/0/0';?>" class="sub-navbar-a" >보글사다리</a>
 		<?php endif ?>   
-		<?php if($eos5_enable) :?>
+		<?php if(!$eos5_deny) :?>
 			<a href="<?php echo siteFurl().'result/e5betchange/0/0';?>" class="sub-navbar-a" >EOS5분</a>
 		<?php endif ?>   
-		<?php if($eos3_enable) :?>
+		<?php if(!$eos3_deny) :?>
 			<a href="<?php echo siteFurl().'result/e3betchange/0/0';?>" class="sub-navbar-a" >EOS3분</a>
 		<?php endif ?>   
-		<?php if($coin5_enable) :?>
+		<?php if(!$coin5_deny) :?>
 			<a href="<?php echo siteFurl().'result/c5betchange/0/0';?>" class="sub-navbar-a" >코인5분</a>
 		<?php endif ?>   
-		<?php if($coin3_enable) :?>
+		<?php if(!$coin3_deny) :?>
 			<a href="<?php echo siteFurl().'result/c3betchange/0/0';?>" class="sub-navbar-a" >코인3분</a>
 		<?php endif ?>   
 	</div>
