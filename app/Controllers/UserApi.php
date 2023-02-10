@@ -1511,7 +1511,7 @@ class UserApi extends BaseController
 
                     $arrResult = $this->libApiSlot->getAgentInfo();
                     if($arrResult['status'] == 1){
-                        $confsiteModel->setConfActive(CONF_API_GSPLAY, $arrResult['balance']);
+                        $confsiteModel->setConfActive(CONF_API_THEPLUS, $arrResult['balance']);
                         writeLog("<SLOT> Agent Egg = ".$arrResult['balance']);
                         $balance = $arrResult['balance'];
                     }
@@ -1531,7 +1531,7 @@ class UserApi extends BaseController
 
                     $arrResult = $this->libApiFslot->getAgentInfo();
                     if($arrResult['status'] == 1){
-                        $confsiteModel->setConfActive(CONF_API_THEPLUS, $arrResult['balance']);
+                        $confsiteModel->setConfActive(CONF_API_GSPLAY, $arrResult['balance']);
                         writeLog("<FSLOT> AGENT Egg = ".$arrResult['balance']);
                         $balance = $arrResult['balance'];
                     }

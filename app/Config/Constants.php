@@ -117,6 +117,18 @@ defined('APPTYPE_7')        || define('APPTYPE_7', 7);      //KGON Slot
 defined('APPTYPE_8')        || define('APPTYPE_8', 8);      //Slot + HI
 defined('APPTYPE_9')        || define('APPTYPE_9', 9);      //HI Slot
 
+defined('APP_TYPE_1')        || define('APP_TYPE_1', 1);      //Slot + FSlot
+defined('APP_TYPE_2')        || define('APP_TYPE_2', 2);      //FSlot
+defined('APP_TYPE_3')        || define('APP_TYPE_3', 3);      //Slot
+//Genuine
+defined('APP_SLOT_THEPLUS')  || define('APP_SLOT_THEPLUS', 1); 
+defined('APP_SLOT_KGON')     || define('APP_SLOT_KGON', 2); 
+defined('APP_SLOT_STAR')     || define('APP_SLOT_STAR', 3); 
+
+//Natural 
+defined('APP_FSLOT_GSPLAY')  || define('APP_FSLOT_GSPLAY', 1); 
+defined('APP_FSLOT_GOLD')    || define('APP_FSLOT_GOLD', 2); 
+
 defined('EXIT_SUCCESS')        || define('EXIT_SUCCESS', 0);        // no errors
 defined('EXIT_ERROR')          || define('EXIT_ERROR', 1);          // generic error
 defined('EXIT_CONFIG')         || define('EXIT_CONFIG', 3);         // configuration error
@@ -156,8 +168,8 @@ defined('CONF_SOUND_4')        || define('CONF_SOUND_4', 18);
 defined('CONF_API_GOLD')       || define('CONF_API_GOLD', 19);
 defined('CONF_API_KGON')       || define('CONF_API_KGON', 20);
 defined('CONF_API_HPPLAY')     || define('CONF_API_HPPLAY', 21);
-defined('CONF_API_GSPLAY')     || define('CONF_API_GSPLAY', 22);
-defined('CONF_API_THEPLUS')    || define('CONF_API_THEPLUS', 23);
+defined('CONF_API_THEPLUS')    || define('CONF_API_THEPLUS', 22);
+defined('CONF_API_GSPLAY')     || define('CONF_API_GSPLAY', 23);
 defined('CONF_API_STAR')       || define('CONF_API_STAR', 30);
 
 defined('CONF_CHARGE_MANUAL')  || define('CONF_CHARGE_MANUAL', 24);

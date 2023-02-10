@@ -173,7 +173,7 @@ class Home extends StdController
 		$this->load_view_page('home/conf_casino', 'conf_game', LEVEL_ADMIN, $param);	
 	}
 
-	public function CONF_API_GSPLAY(){
+	public function conf_slot_1(){
 		$param = [
 			'game_name' => "정품슬롯",
 			'game_id' => GAME_SLOT_THEPLUS
@@ -181,7 +181,7 @@ class Home extends StdController
 		$this->load_view_page('home/conf_slot', 'conf_game', LEVEL_ADMIN, $param);	
 	}
 
-	public function CONF_API_THEPLUS(){
+	public function conf_slot_2(){
 		$slprdModel = new SlotPrd_Model();
 
 		$gameId = GAME_SLOT_GSPLAY;

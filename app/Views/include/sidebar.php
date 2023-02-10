@@ -23,7 +23,7 @@
     <?php elseif(!$cas_deny) :?>
       <a href="<?php echo siteFurl().'home/conf_casino';?>" class="<?=$conf_game?>"><i class="glyphicon glyphicon-play-circle"></i>  게임설정</a>
     <?php elseif(!$slot_deny) :?>
-      <a href="<?php echo siteFurl().'home/CONF_API_THEPLUS';?>" class="<?=$conf_game?>"><i class="glyphicon glyphicon-play-circle"></i>  게임설정</a>
+      <a href="<?php echo siteFurl().'home/conf_slot_1';?>" class="<?=$conf_game?>"><i class="glyphicon glyphicon-play-circle"></i>  게임설정</a>
     <?php endif ?>  
 
       <?php if(array_key_exists('app.ebal', $_ENV) && $_ENV['app.ebal'] > 0) :?>

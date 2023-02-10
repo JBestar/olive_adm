@@ -30,10 +30,10 @@
 		<?php endif ?>
 		<?php if(!$slot_deny) :?>
 			<?php if($_ENV['app.type'] == APPTYPE_1 || $_ENV['app.type'] == APPTYPE_3 || $_ENV['app.type'] == APPTYPE_4 || $_ENV['app.type'] == APPTYPE_6 || $_ENV['app.type'] == APPTYPE_8) :?>
-				<a href="<?php echo siteFurl().'home/CONF_API_GSPLAY';?>" class="sub-navbar-a">정품슬롯</a>
+				<a href="<?php echo siteFurl().'home/conf_slot_1';?>" class="sub-navbar-a">정품슬롯</a>
 			<?php endif ?>
 			<?php if($_ENV['app.type'] != APPTYPE_3) :?>
-				<a href="<?php echo siteFurl().'home/CONF_API_THEPLUS';?>" class="sub-navbar-a">네츄럴슬롯</a>
+				<a href="<?php echo siteFurl().'home/conf_slot_2';?>" class="sub-navbar-a">네츄럴슬롯</a>
 			<?php endif ?>
 		<?php endif ?>   
 	</div>
