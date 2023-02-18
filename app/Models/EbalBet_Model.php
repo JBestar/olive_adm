@@ -25,6 +25,8 @@ class EbalBet_Model extends Model
         'bet_table_name', 
         'bet_choice', 
         'bet_result', 
+        'bet_balance', 
+        'bet_win_balance',
         'point_amount', 
         'company_amount', 
         'org_id', 
@@ -50,18 +52,30 @@ class EbalBet_Model extends Model
         if(strlen($arrReqData['user']) > 0){
             $strCondition.=" AND bet_mb_fid = '".$arrReqData['user']."' ";            
         }
-        if(array_key_exists('type', $arrReqData) && intval($arrReqData['type']) >= 0){
-            $strCondition.=" AND bet_type = '".$arrReqData['type']."' ";            
-        }
+        // if(intval($arrReqData['type']) >= 0){
+        //     $strCondition.=" AND bet_type = '".$arrReqData['type']."' ";   
+        // }
         if(array_key_exists('room', $arrReqData) && strlen($arrReqData['room']) > 0) {
             $strCondition.=" AND bet_table_name = '".$arrReqData['room']."' ";
         }
 
         //총배팅금, 적중금
         $arrSum = array();
-        $strSql = " SELECT SUM(bet_money) AS bet_money_sum, SUM(bet_win_money) AS win_money_sum, ";
-        $strSql .= " SUM(CASE WHEN bet_win_money= 0 THEN bet_money ELSE 0 END) AS loss_money_sum, ";
-        $strSql .= " SUM(CASE WHEN bet_win_money > 0 THEN bet_win_money-bet_money ELSE 0 END) AS benefit_money_sum ";
+        
+        if(intval($arrReqData['type']) == 1){               //only balance betting
+            $strSql = " SELECT SUM(bet_balance) AS bet_money_sum, SUM(bet_win_balance) AS win_money_sum, ";
+            $strSql .= " SUM(CASE WHEN bet_win_balance= 0 THEN bet_balance ELSE 0 END) AS loss_money_sum, ";
+            $strSql .= " SUM(CASE WHEN bet_win_balance > 0 THEN bet_win_balance-bet_balance ELSE 0 END) AS benefit_money_sum ";
+        } else if(intval($arrReqData['type']) == 0){        //only press betting
+            $strSql = " SELECT SUM(bet_money-bet_balance) AS bet_money_sum, SUM(bet_win_money-bet_win_balance) AS win_money_sum, ";
+            $strSql .= " SUM(CASE WHEN bet_win_money = 0 AND bet_money <> bet_balance THEN bet_money-bet_balance ELSE 0 END) AS loss_money_sum, ";
+            $strSql .= " SUM(CASE WHEN bet_win_money > 0 AND bet_money <> bet_balance THEN bet_win_money-bet_money-bet_balance+bet_win_balance ELSE 0 END) AS benefit_money_sum ";
+        } else {                                            //all betting
+            $strSql = " SELECT SUM(bet_money) AS bet_money_sum, SUM(bet_win_money) AS win_money_sum, ";
+            $strSql .= " SUM(CASE WHEN bet_win_money= 0 THEN bet_money ELSE 0 END) AS loss_money_sum, ";
+            $strSql .= " SUM(CASE WHEN bet_win_money > 0 THEN bet_win_money-bet_money ELSE 0 END) AS benefit_money_sum ";
+        }
+
         $strSql .= " FROM ".$this->table;
         $strSql .= $strCondition;
         if($_ENV['CI_ENVIRONMENT'] == ENV_DEVELOPMENT)
@@ -116,8 +130,10 @@ class EbalBet_Model extends Model
         if(strlen($arrReqData['user']) > 0){
             $strWhere.=" AND bet_mb_fid = '".$arrReqData['user']."' ";
         }
-        if(array_key_exists('type', $arrReqData) && intval($arrReqData['type']) >= 0){
-            $strWhere.=" AND bet_type = '".$arrReqData['type']."' ";            
+        if(intval($arrReqData['type']) >= 0){
+            if(intval($arrReqData['type']) == 1)
+                $strWhere.=" AND bet_type = '".$arrReqData['type']."' AND bet_balance > 0 ";            
+            else $strWhere.=" AND bet_money <> bet_balance ";     
         }
         // $strWhere.=" AND bet_mb_level = 0 ";  
         if(array_key_exists('room', $arrReqData) && strlen($arrReqData['room']) > 0)
@@ -129,7 +145,7 @@ class EbalBet_Model extends Model
         
         $strSql = "";
         $strSql .= "SELECT bet_fid, bet_idx, bet_mb_uid, bet_round_no, bet_time, bet_money, bet_win_money, bet_player_id, bet_game_id, bet_game_type, bet_table_code, ";
-        $strSql .= " bet_type, bet_choice, bet_result, point_amount, company_amount, obj_id, bet_table_name as game_name, rw_mb_uid, rw_point, '에볼루션' as prd_name";
+        $strSql .= " bet_type, bet_choice, bet_result, bet_balance, bet_win_balance, point_amount, company_amount, obj_id, bet_table_name as game_name, rw_mb_uid, rw_point, '에볼루션' as prd_name";
         $strSql .= " FROM ( ";
 
         $tbBetSearch = "bet_search";
@@ -216,8 +232,10 @@ class EbalBet_Model extends Model
         if(strlen($arrReqData['user']) > 0){
             $strSql.=" AND bet_mb_fid = '".$arrReqData['user']."' ";
         }
-        if(array_key_exists('type', $arrReqData) && intval($arrReqData['type']) >= 0){
-            $strSql.=" AND bet_type = '".$arrReqData['type']."' ";            
+        if(intval($arrReqData['type']) >= 0){
+            if(intval($arrReqData['type']) == 1)
+                $strSql.=" AND bet_type = '".$arrReqData['type']."' AND bet_balance > 0 ";            
+            else $strSql.=" AND bet_money <> bet_balance ";     
         }
         // $strSql.=" AND bet_mb_level = 0 ";
         if(array_key_exists('room', $arrReqData) && strlen($arrReqData['room']) > 0) {

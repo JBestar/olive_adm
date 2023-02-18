@@ -532,7 +532,7 @@ class UserApi extends BaseController
 
                     if($_ENV['app.type'] == APP_TYPE_1 || $_ENV['app.type'] = APP_TYPE_3){
 
-                            $gameId = GAME_SLOT_THEPLUS;
+                        $gameId = GAME_SLOT_THEPLUS;
                         if($_ENV['app.slot'] == APP_SLOT_KGON)
                             $gameId = GAME_SLOT_KGON;
                         else if($_ENV['app.slot'] == APP_SLOT_STAR)
@@ -542,7 +542,7 @@ class UserApi extends BaseController
                         $arrSumData[15] = $betModel->getBetSumByDay($arrReqData, $objConfPb);
                     }
 
-                    if($_ENV['app.type'] == APP_TYPE_2){
+                    if($_ENV['app.type'] == APP_TYPE_1 || $_ENV['app.type'] == APP_TYPE_2){
                         $gameId = GAME_SLOT_GSPLAY;
                         if($_ENV['app.fslot'] == APP_FSLOT_GOLD)
                             $gameId = GAME_SLOT_GOLD;

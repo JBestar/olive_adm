@@ -29,6 +29,10 @@ function ShowBetHistory(jsonBetData) {
     }
     $("#pbbet-table-head-id").html(strHead);
 
+    var type = -1;
+    if ($("#pbhistory-type-select-id").length > 0) {
+        type = $("#pbhistory-type-select-id").val();
+    }
 
     var elemBetDataTb = document.getElementById("pbbet-table-id");
     var strBuf = "";
@@ -59,19 +63,38 @@ function ShowBetHistory(jsonBetData) {
             if(jsonBetData[nRow].obj_id > 0)
                 strBuf += parseInt(jsonBetData[nRow].obj_id).toLocaleString() + "원";
             strBuf += "</td><td>";
-            strBuf += parseInt(jsonBetData[nRow].bet_money).toLocaleString() + "원";
+            if(type == 0){              //누르기
+                strBuf += parseInt(jsonBetData[nRow].bet_money-jsonBetData[nRow].bet_balance).toLocaleString() + "원";
+            } else if(type == 1){       //넘기기
+                strBuf += parseInt(jsonBetData[nRow].bet_balance).toLocaleString() + "원";
+            } else 
+                strBuf += parseInt(jsonBetData[nRow].bet_money).toLocaleString() + "원";
+            
             strBuf += "</td>";
-            if(parseInt(jsonBetData[nRow].bet_type) == 0) {
+            if(type == 0){
                 strBuf += "<td  class = 'pb-home-table-betstate-wait'>누르기";
-            } else {
+            } else if(type == 1){
                 strBuf += "<td  class = 'pb-home-table-betstate-loss'>넘기기";
+            } else {
+                if(parseInt(jsonBetData[nRow].bet_type) == 0) {
+                    strBuf += "<td  class = 'pb-home-table-betstate-wait'>누르기";
+                } else {
+                    strBuf += "<td  class = 'pb-home-table-betstate-loss'>넘기기";
+                }
             }
+            
             strBuf += "</td><td>";
             strBuf += getEvolSide(jsonBetData[nRow].bet_choice);
             strBuf += "</td><td>";
             strBuf += getEvolSide(jsonBetData[nRow].bet_result);
             strBuf += "</td><td>";
-            strBuf += parseInt(jsonBetData[nRow].bet_win_money).toLocaleString() + "원";
+            if(type == 0){              //누르기
+                strBuf += parseInt(jsonBetData[nRow].bet_win_money-jsonBetData[nRow].bet_win_balance).toLocaleString() + "원";
+            } else if(type == 1){       //넘기기
+                strBuf += parseInt(jsonBetData[nRow].bet_win_balance).toLocaleString() + "원";
+            } else 
+                strBuf += parseInt(jsonBetData[nRow].bet_win_money).toLocaleString() + "원";
+            
             strBuf += "</td>";
             strResult = "<td>";
             if(state == 1) {
@@ -339,7 +362,6 @@ function requestBetProcess(jsData) {
         data: { json_: jsonData },
         success: function(jResult) {
             // console.log(jResult);
-
             if (jResult.status == "success") {
                 requestBetHistory();
             } else if (jResult.status == "logout") {

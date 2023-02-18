@@ -39,6 +39,10 @@ class Api extends BaseController{
 			$this->response->redirect( $_ENV['app.furl'].'/pages/login');
 		}	
 	}
+
+	public function login(){ 
+		writeLog($_SERVER['HTTP_HOST']);
+	}
 	/*
     //관리자 로그인
 	public function login(){ 
