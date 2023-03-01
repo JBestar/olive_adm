@@ -123,7 +123,7 @@ function ShowLogHistory(arrInfo){
         if(parseInt(arrInfo[nRow].log_type) == 2)
             strBuf += "자동";
         else
-            strBuf += "수동";
+            strBuf += "회원수정";
         strBuf += "</td><td>";
         strBuf += arrInfo[nRow].log_time;
         strBuf += "</td><td>";

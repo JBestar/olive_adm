@@ -9,16 +9,20 @@ class SlotPrd_Model extends Model {
     protected $primaryKey = 'id';
 
     protected $returnType = 'object'; 
-    protected $allowedFields = ['hidden'];
+    protected $allowedFields = ['hidden', 'maintain'];
 
     public function gets($cat){
-        return $this->where('cat', $cat)
+        $where = [
+            'cat' => $cat,
+            'maintain' => STATE_DISABLE,
+        ];
+        return $this->where($where)
                     ->orderBy('id', 'ASC')
                     ->findAll(); 
     }
 
     public function getByCode($cat, $bGroup = false){
-        $strSql = "SELECT  * FROM ".$this->table." WHERE cat = '".$cat."'";
+        $strSql = "SELECT  * FROM ".$this->table." WHERE cat = '".$cat."' AND maintain = '0' ";
         // if($bGroup){
         //     $strSql .= " GROUP BY ref_code ";
         // }
@@ -51,7 +55,7 @@ class SlotPrd_Model extends Model {
 			$gameId = GAME_SLOT_STAR;
 
         $strSql = " SELECT * FROM ".$this->table;
-        $strSql.= " WHERE cat = ".$gameId;
+        $strSql.= " WHERE maintain = '0' AND cat = ".$gameId;
         if(strlen($arrReqData['name']) > 0){
             $strSql.= " AND (name LIKE '%".$arrReqData['name']."%' OR name_kr LIKE '%".$arrReqData['name']."%' ) ";
         }
@@ -74,7 +78,7 @@ class SlotPrd_Model extends Model {
 			$gameId = GAME_SLOT_STAR;
 
         $strSql = "SELECT count(*) as count FROM ".$this->table;
-        $strSql.= " WHERE cat = ".$gameId;
+        $strSql.= " WHERE maintain = '0' AND cat = ".$gameId;
         if(strlen($arrReqData['name']) > 0){
             $strSql.= " AND (name LIKE '%".$arrReqData['name']."%' OR name_kr LIKE '%".$arrReqData['name']."%' ) ";
         }
