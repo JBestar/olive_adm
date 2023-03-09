@@ -253,6 +253,9 @@ defined('STATUS_LOGOUT')       || define('STATUS_LOGOUT', 'logout');
 
 defined('TM_OFFSET')    	   || define('TM_OFFSET', 20);
 
+defined('SESS_TYPE_SITE')       || define('SESS_TYPE_SITE', 0);
+defined('SESS_TYPE_APP')       || define('SESS_TYPE_APP', 1);
+
 defined('LOG_WRITE')            || define('LOG_WRITE', true);
 defined('LOG_FILE')             || define('LOG_FILE', ROOTPATH."logs".DIRECTORY_SEPARATOR);
 
