@@ -554,7 +554,9 @@ function showMemEdit(idx, mbFid){
 
     $("#bank_name").val(member.mb_bank_name);
     $("#bank_owner").val(member.mb_bank_own);
+    $("#bank_owner").attr("disabled", true);
     $("#bank_number").val(member.mb_bank_num);
+    $("#bank_number").attr("disabled", true);
     $("#bank_password").val(member.mb_bank_pwd);
 
     $("#btn-mem-apply").text("수정 ");
@@ -616,7 +618,9 @@ function initMemEditDlg(){
 
     $("#bank_name").val('');
     $("#bank_owner").val('');
+    $("#bank_owner").attr("disabled", false);
     $("#bank_number").val('');
+    $("#bank_number").attr("disabled", false);
     $("#bank_password").val('');
 
 }

@@ -266,10 +266,6 @@
 									<div class="col-md-2">
 										<input type="number" id="pb2_ratio" step="0.01" class="form-control" value="0.00" min="0" />
 									</div>
-									<!-- <div class="col-md-2">파워사다리 배당율 (%)</div>
-									<div class="col-md-2">
-										<input type="number" id="ps_ratio" step="0.01" class="form-control" value="0.00" min="0" />
-									</div> -->
 								</div>
 							</div>
 						<?php if(!$gameper_full) :?>
@@ -283,10 +279,6 @@
 									<div class="col-md-2">
 										<input type="number" id="pb2_percent" class="form-control" value="100" min="0" />
 									</div>
-									<!-- <div class="col-md-2">파워사다리 누름율 (%)</div>
-									<div class="col-md-2">
-										<input type="number" id="ps_percent" class="form-control" value="100" min="0" />
-									</div> -->
 								</div>
 							</div>
 						<?php endif ?>
