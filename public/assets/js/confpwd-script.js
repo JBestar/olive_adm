@@ -26,12 +26,12 @@ function addBtnEvent() {
         var jsonData = readPasswordToObject();
 
         if (jsonData.password.length < 1) {
-            alert("현재 비밀번호를 입력하세요.");
+            alert("현재 비밀번호를 입력해주세요.");
             return;
         }
 
         if (jsonData.password_new.length > 0 && jsonData.password_new != jsonData.password_newok) {
-            alert("새 비밀번호를 정확히 입력하세요.");
+            alert("새 비밀번호를 정확히 입력해주세요.");
             return;
         }
 
@@ -49,10 +49,8 @@ function addBtnEvent() {
                 //console.log(jResult);
                 if (jResult.status == "success") {
                     alert("정보가 변경되었습니다.");
-                } else if (jResult.status == "mistake") {
-                    alert("입력된 비밀번호가 틀립니다.");
                 } else if (jResult.status == "fail") {
-                    alert("저장이 실패되었습니다.");
+                    alert(jResult.msg);
                 }
             },
             error: function(request, status, error) {
@@ -80,20 +78,20 @@ function addBtnEvent() {
             data: { json_: jsonData },
             success: function(jResult) {
                 $("#recovery_useregg").removeClass("refresh");
-                //console.log(jResult);
+                // console.log(jResult);
                 if (jResult.status == "success") {
                     $("#confsite-egg-input-id").val(jResult.money);
-                    if(ipInfo.egg > 0)
-                        $("#recovery_useregg").hide();
-                    else 
+                    if(jResult.egg > 0)
                         $("#recovery_useregg").show();
+                    else 
+                        $("#recovery_useregg").hide();
                 } else if (jResult.status == "fail") {
                     alert("회수가 실패되었습니다.");
                 }
             },
             error: function(request, status, error) {
                 $("#recovery_useregg").removeClass("refresh");
-                console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                // console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
             }
 
         });

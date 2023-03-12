@@ -71,14 +71,11 @@ class UserApi extends BaseController
                 $confsiteModel = new ConfSite_Model();
                 $confsiteModel->readMemConf();
 
-                $checkOk = preg_match("/^[A-Za-z0-9_+]{4,16}$/", $arrData['mb_uid']);
+                $checkOk = validUserId($arrData['mb_uid']);
                 if(!$checkOk){
                     $strError  = ["아이디는 4자~16자, 영문 또는 숫자만 사용 가능합니다."];
                 } else {
-                    $pwdLen = strlen($arrData['mb_pwd']);
-                    if($pwdLen < 8 || $pwdLen > 20 )
-                        $checkOk = false;
-                    else $checkOk = preg_match("/^[A-Za-z0-9]*[\W]+[A-Za-z0-9]*$/", $arrData['mb_pwd']);
+                    $checkOk = validUserPw($arrData['mb_pwd']);
         
                     if(!$checkOk)
                         $strError  = ["비밀번호는 8자~20자, 특수문자 한개 이상 입력하셔야 합니다."];
@@ -162,10 +159,7 @@ class UserApi extends BaseController
 
                     $checkOk = true;
                     if($arrData['mb_pwd'] !== $objReqUser->mb_pwd){
-                        $pwdLen = strlen($arrData['mb_pwd']);
-                        if($pwdLen < 8 || $pwdLen > 20 )
-                            $checkOk = false;
-                        else $checkOk = preg_match("/^[A-Za-z0-9]*[\W]+[A-Za-z0-9]*$/", $arrData['mb_pwd']);
+                        $checkOk = validUserPw($arrData['mb_pwd']);
             
                         if(!$checkOk)
                             $strError  = ["비밀번호는 8자~20자, 특수문자 한개 이상 입력하셔야 합니다."];
@@ -899,7 +893,6 @@ class UserApi extends BaseController
 		$arrReqData = json_decode($jsonData, true);
 		if(is_login())
 		{
-            
 
             $strUid = $this->session->user_id;
             $objUser = $this->modelMember->getInfo($strUid);

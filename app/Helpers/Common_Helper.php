@@ -293,4 +293,19 @@
       return date("Y-m-d", $tmDate);;    
     }
 
+    function validUserId($userId){
+      return preg_match("/^[A-Za-z0-9_]{4,16}$/", $userId);
+    }
+
+    function validUserPw($userPw){
+      $checkOk = true;
+			$pwdLen = strlen($userPw);
+      if($pwdLen < 8 || $pwdLen > 20 )
+				$checkOk = false;
+
+      if($checkOk)
+        $checkOk = preg_match("/^[A-Za-z0-9]*[\W]+[A-Za-z0-9]*$/", $userPw);
+        return $checkOk;
+    }
+    
 ?>

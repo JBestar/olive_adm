@@ -573,15 +573,22 @@ class Api extends BaseController{
 			
 			$strUid = $this->session->user_id;
 			$query = "";
-			$iResult = $this->modelMember->changepassword($strUid, $arrData, $query);
+            
+			$iResult = 0;
+			if(strlen($arrData['password_new']) > 0 && !validUserPw($arrData['password_new']) ){
+				$iResult = -1;
+			} else $iResult = $this->modelMember->changepassword($strUid, $arrData, $query);
 			
+			$arrResult['status'] = "fail";
 			if($iResult == 1){
 				$this->modelModify->add($this->session->user_id, MOD_MB_PWD, $query, $this->request->getIPAddress());
 				$arrResult['status'] = "success";
-			}
-			else if($iResult == 2)
-				$arrResult['status'] = "mistake";
-			else $arrResult['status'] = "fail";
+			} else if($iResult == 2)
+				$arrResult['msg'] = "입력된 비밀번호가 틀립니다.";
+			else if($iResult == -1)
+				$arrResult['msg'] = "비밀번호는 8자~20자, 특수문자 한개 이상 입력하셔야 합니다.";
+			else
+				$arrResult['msg'] = "저장이 실패되었습니다.";
 			
 		}
 		else {

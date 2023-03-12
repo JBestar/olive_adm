@@ -25,14 +25,19 @@ function showMember(arrMember) {
         strBuf += "</td> <td>";
         strBuf += arrMember[nRow].mb_nickname;
         strBuf += "</td> <td>";
-        strBuf += arrMember[nRow].log_ip;
+        if(parseInt(arrMember[nRow].log_type) == 1)
+            strBuf += "앱";
+        else 
+            strBuf += arrMember[nRow].log_ip;
         strBuf += "</td> <td>";
         strBuf += arrMember[nRow].log_time;
         strBuf += "</td> <td>";
-        if (arrMember[nRow].block_state == 1) {
-            strBuf += "<button name='" + arrMember[nRow].log_ip + "' >차단해제</button>";
-        } else
-            strBuf += "<button name='" + arrMember[nRow].log_ip + "' >IP차단</button>";
+        if(parseInt(arrMember[nRow].log_type) == 0){
+            if (arrMember[nRow].block_state == 1) {
+                strBuf += "<button name='" + arrMember[nRow].log_ip + "' >차단해제</button>";
+            } else
+                strBuf += "<button name='" + arrMember[nRow].log_ip + "' >IP차단</button>";
+        }
         strBuf += "</td></tr>";
     }
 
