@@ -146,7 +146,8 @@ class Home extends StdController
 			"4"=> "NINEBAR",
 			"5"=> "CHROMA",
 			"6"=> "CITY",
-			"7"=> "CJ"
+			"7"=> "CJ",
+			"8"=> "K-82"
 		];
 		$confsiteModel = new ConfSite_Model();
 
