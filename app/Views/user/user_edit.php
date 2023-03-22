@@ -359,6 +359,25 @@
 					<?php else :?>
 					<input type = "number" min="0" step="1000" id="useredit-rangemax-input-id" value="<?=$objMember->mb_range_max?>">
 					<?php endif ?>
+					
+					<?php if($_ENV['app.ebal'] > 3 ) :?>
+						</div>
+
+						<div class="useredit-percent-div">
+							
+							<p></p> 
+							<?php if(!is_null($objMember) && $objMember->mb_exc_check == 1) :  ?>
+								<input type="checkbox" id="useredit-exc-check-id" style="zoom:140%; margin-top:4px; margin-right:0; width:50px;" checked>
+							<?php else :  ?>
+								<input type="checkbox" id="useredit-exc-check-id" style="zoom:140%; margin-top:4px; margin-right:0; width:50px;" >
+							<?php endif ?>
+							<!-- <label>  </label> -->
+							<?php if(is_null($objMember)) :  ?>
+							<input type = "number" min="0" step="1000" id="useredit-exc-input-id" value="0">
+							<?php else :?>
+							<input type = "number" min="0" step="1000" id="useredit-exc-input-id" value="<?=$objMember->mb_exc_amount?>">
+							<?php endif ?>
+					<?php endif ?>
 
 				<?php else :?>
 					<?php if(!is_null($objMember) && $objMember->mb_state_delete == 1) :  ?>

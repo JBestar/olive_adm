@@ -39,10 +39,16 @@ class User extends StdController
 			if ($objMember != null){
 				$objMember->mb_range_min = 0;
 				$objMember->mb_range_max = 0;
+				$objMember->mb_exc_amount = 0;
+				$objMember->mb_exc_check = false;
 				$range = explode(":", $objMember->mb_range_ev);
-				if(count($range) == 2){
+				if(count($range) >= 2){
 					$objMember->mb_range_min = intval($range[0]);
 					$objMember->mb_range_max = intval($range[1]);
+					if(count($range) >= 4){
+						$objMember->mb_exc_check = intval($range[2]) == STATE_ACTIVE;
+						$objMember->mb_exc_amount = intval($range[3]) ;
+					}
 				}
 
 				$objEmpMember = $this->modelMember->find($objMember->mb_emp_fid);
