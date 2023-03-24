@@ -99,9 +99,13 @@ function readConfigToObject() {
         let min = $("#useredit-rangemin-input-id").val();
         let max = $("#useredit-rangemax-input-id").val();
         
-        let excEnable = $("#useredit-exc-check-id").prop('checked') ? 1 : 0;
-        
-        let excAmount = $("#useredit-exc-input-id").val();
+        let excEnable = 0;
+        let excAmount = 0;
+        if($("#useredit-exc-check-id").length > 0){
+            excEnable = $("#useredit-exc-check-id").prop('checked') ? 1 : 0;
+            excAmount = $("#useredit-exc-input-id").val();
+        }
+
         if(min < 0) min = 0;
         if(max < 0) max = 0;
         if(excAmount < 0) excAmount = 0;
