@@ -1,6 +1,9 @@
 $(document).ready(function() {
     setNavBarElement();
     requestRooms();
+    setTimeout(function() {
+        requestLoop();
+    }, 300000);
 });
 
 function ShowRooms(arrRoom){
@@ -19,6 +22,13 @@ function ShowRooms(arrRoom){
             strBuf += (parseInt(idx)+1);
             strBuf += "</td><td>";
             strBuf += room.name;
+            strBuf += "</td><td>";
+            if(room.open == 0){
+                strBuf += '<button class="button" style="background: rgb(87, 97, 97); width:30px; height:30px; border-radius:15px; "></button>';
+
+            } else {
+                strBuf += '<button class="button" style="background: rgb(0, 255, 0); width:30px; height:30px;  border-radius:15px; "></button>';
+            }
             strBuf += '</td><td style="border-right:2px solid #aaa">';
             if(room.stop == 0){
                 strBuf += '<button class="user-table button" onclick="setRoomState('+room.fid+', 1);" style="margin:0;">승인</button>';
@@ -27,15 +37,22 @@ function ShowRooms(arrRoom){
                 strBuf += '<button class="user-table button" onclick="setRoomState('+room.fid+', 0);" style="background: rgb(255, 58, 90); color: #edff00; margin:0;">차단</button>';
             }
             strBuf += "</td><td>";
-
+            
             idx = i+rowCnt;
             if(idx >= totalCnt){
-                strBuf += "</td><td></td><td>";
+                strBuf += "</td><td></td><td></td><td>";
             } else {
                 room = arrRoom[idx];
                 strBuf += (parseInt(idx)+1);
                 strBuf += "</td><td>";
                 strBuf += room.name;
+                strBuf += "</td><td>";
+                if(room.open == 0){
+                    strBuf += '<button class="button" style="background: rgb(87, 97, 97); width:30px; height:30px; border-radius:15px; "></button>';
+    
+                } else {
+                    strBuf += '<button class="button" style="background: rgb(0, 255, 0); width:30px; height:30px;  border-radius:15px; "></button>';
+                }
                 strBuf += "</td><td>";
                 if(room.stop == 0){
                     strBuf += '<button class="user-table button" onclick="setRoomState('+room.fid+', 1);" style="margin:0;">승인</button>';
@@ -112,4 +129,14 @@ function setRoomState(fid, state){
         }
 
     });
+}
+
+function requestLoop() {
+
+    requestRooms();
+
+    // 1초뒤에 다시 실행
+    setTimeout(function() {
+        requestLoop();
+    }, 300000);
 }

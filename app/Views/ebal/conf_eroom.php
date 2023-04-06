@@ -19,9 +19,11 @@
 				<tr>
 					<th>번호</th>
 					<th>방</th>
+					<th>상태</th>
 					<th style="border-right:2px solid #aaa">설정</th>
 					<th>번호</th>
 					<th>방</th>
+					<th>상태</th>
 					<th>설정</th>
 				</tr>
 			</thead>
