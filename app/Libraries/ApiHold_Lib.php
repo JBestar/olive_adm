@@ -94,6 +94,9 @@ class ApiHold_Lib {
 			if($arrResult['error'] == 0){
                 $arrResult['status'] = 1;
                 $arrResult['balance'] = $arrResult['result']['balance'];
+
+                if(array_key_exists("playing_balance", $arrResult['result']) && $arrResult['result']['playing_balance'] > 0)
+                    $arrResult['balance'] += $arrResult['result']['playing_balance'];
                 // "result": {
                 //     "balance": 100000,
                 //     "playing_balance": 0
@@ -162,6 +165,37 @@ class ApiHold_Lib {
         return $arrResult;
     }
 
+    public function logout($id){
+        if(strlen($this->mHost) < 1){
+            return array('status' => 0, 'error'=>-1);
+        }
+
+        $url = $this->mHost."/interface/logout/".$id;
+        $header =  ['Content-Type: application/json',
+                'Accept: */*'];
+
+        $response = getCurlRequest($url, $header);
+        
+        $arrResult = json_decode($response, true);
+		
+		if(!is_null($arrResult) && array_key_exists("error", $arrResult)) {
+			if($arrResult['error'] == 0){
+                $arrResult['status'] = 1;
+                // "result": "TLu_1",
+	            // "error": 0
+                writeLog("logout=". $arrResult['result']);
+            } else { 
+                $arrResult['status'] = 0;
+                //"error": 0,
+                writeLog("logout error=". $arrResult['error']);
+            }
+		} else {
+            writeLog("logout=". $response);
+            $arrResult['status'] = 0;
+            $arrResult['error'] = CONNECT_ERROR;
+        }
+        return $arrResult;
+    }
 
     public function getLink($id)
     {
