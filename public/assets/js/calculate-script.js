@@ -192,7 +192,7 @@ function addRow(nTbRow, arrCalcData, level) {
         var elemCell1 = elemNewRow.insertCell(1);
         elemCell1.innerHTML = arrCalcData[nRow].mb_uid; //
         if (getMemberLevelString(arrCalcData[nRow].mb_level) != null)
-            elemCell1.innerHTML += getMemberLevelString(arrCalcData[nRow].mb_level);
+            elemCell1.innerHTML +=  " | " + getMemberLevelString(arrCalcData[nRow].mb_level);
 
         var elemCell2 = elemNewRow.insertCell(2);
         elemCell2.innerHTML = arrCalcData[nRow].mb_nickname; //
