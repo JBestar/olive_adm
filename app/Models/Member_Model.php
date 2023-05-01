@@ -523,7 +523,7 @@ class Member_Model extends Model
     private function calcCommonSql($objEmp, $arrReqData){
 
         $getFields = ['mb_fid', 'mb_uid', 'mb_level', 'mb_emp_fid', 'mb_state_active', 'mb_money', 'mb_point', 
-            'mb_live_money', 'mb_slot_money', 'mb_fslot_money', 'mb_kgon_money', 'mb_gslot_money', 'mb_hslot_money'];
+            'mb_live_money', 'mb_slot_money', 'mb_fslot_money', 'mb_kgon_money', 'mb_gslot_money', 'mb_hslot_money', 'mb_hold_money'];
         $strTbColum = " ".implode(", ", $getFields);
         $strTbRColum = " r.".implode(", r.", $getFields);
   
@@ -533,8 +533,8 @@ class Member_Model extends Model
         $strSQL .= ' UNION ALL SELECT '.$strTbRColum.' FROM '.$this->table.' r ';
         $strSQL .= ' INNER JOIN tbmember ON r.mb_emp_fid = tbmember.mb_fid )';
         //보유금액
-        $strSQL .= " SELECT SUM(mb_money+mb_live_money+mb_slot_money+mb_fslot_money+mb_kgon_money+mb_gslot_money+mb_hslot_money) AS result_1, ";
-        $strSQL .= " SUM(CASE WHEN mb_fid = ".$objEmp->mb_fid." THEN mb_money+mb_live_money+mb_slot_money+mb_fslot_money+mb_kgon_money+mb_gslot_money+mb_hslot_money ELSE 0 END) AS result_2 "; 
+        $strSQL .= " SELECT SUM(".allMoneySql().") AS result_1, ";
+        $strSQL .= " SUM(CASE WHEN mb_fid = ".$objEmp->mb_fid." THEN ".allMoneySql()." ELSE 0 END) AS result_2 "; 
         $strSQL .= " FROM tbmember  WHERE mb_state_active != '".PERMIT_DELETE."' ";
         //포인트
         $strSQL .= " UNION ALL ( SELECT SUM(mb_point) AS result_1, ";
@@ -1099,7 +1099,7 @@ class Member_Model extends Model
                 $strError = "코인파워볼 배당율이 하위설정값 ".$chRatio->mb_game_co2_ratio."보다 작을수 없습니다.";
                 return 5;
             } elseif (array_key_exists('mb_game_hl_ratio', $arrRegData) && $chRatio->mb_game_hl_ratio != null && $chRatio->mb_game_hl_ratio > $arrRegData['mb_game_hl_ratio']) {
-                $strError = "슬롯 배당율이 하위설정값 ".$chRatio->mb_game_hl_ratio."보다 작을수 없습니다.";
+                $strError = "홀덤 배당율이 하위설정값 ".$chRatio->mb_game_hl_ratio."보다 작을수 없습니다.";
                 return 5;
             }
         }
@@ -1263,7 +1263,7 @@ class Member_Model extends Model
 
     public function register($arrRegData, &$strError)
     {
-        // 결과 -1: query error 0:오류 1:성공 3:추천인 오류 4:파워볼 배당율오류 5:파워사다리 배당율오류 6:키노사다리 배당율 오류
+        // 결과 -1: query error 0:오류 1:성공 3:추천인 오류 4:상위 배당율오류 5:하위 배당율오류 6:추천인 오류
         $objEmployee = null;
         if (LEVEL_COMPANY == $arrRegData['mb_level']) {
             $arrRegData['mb_emp_fid'] = 0;
@@ -1334,48 +1334,65 @@ class Member_Model extends Model
         return 1;
     }
 
-    public function modifyMember($arrData, &$strError, &$query)
+    public function modifyMember($objMember, $arrData, &$strError, &$query)
     {
         // 결과 0:오류 1:성공 2:아이디중복 3:추천인 오류 4:파워볼 배당율오류 5:파워사다리 배당율오류 6:키노사다리 배당율 오류, 12 중복닉네임
 
-        // 아이디체크
-        $objMember = $this->getInfoByFid($arrData['mb_fid']);
-        if (is_null($objMember)) {
-            return 0;
-        }
-
         $objEmployee = null;
-        if ($objMember->mb_level == LEVEL_COMPANY) {
-            $arrData['mb_emp_fid'] = 0;
-
-            // $objUser = $this->getByNickname($arrData['mb_nickname']);
-            // if (!is_null($objUser) && $objUser->mb_fid != $arrData['mb_fid']) {
-            //     return 12;
-            // }
+        $diffLv = 0;
+        $fids = [$objMember->mb_fid];
+        if ($arrData['mb_emp_fid'] == 0) {
+            $diffLv = LEVEL_COMPANY - $objMember->mb_level;
         } elseif ($arrData['mb_emp_fid'] > 0) {
             // 추천인 체크
             $objEmployee = $this->getInfoByFid($arrData['mb_emp_fid']);
             if (is_null($objEmployee) || $objEmployee->mb_level < LEVEL_MIN) {
                 return 3;
             }
-
-            // 닉네임 체크
-            // $objUser = $this->getByNickname($arrData['mb_nickname']);
-            // if (!is_null($objUser) && $objUser->mb_fid != $arrData['mb_fid']) {
-            //     return 12;
-            // }
-           
+            $diffLv = $objEmployee->mb_level - 1 - $objMember->mb_level;
         } else {
             return 0;
         }
 
-        $this->setZeroGameRatio($arrData);
-        $this->setZeroGamePercent($arrData);
-        $resultRatio = $this->checkGameRatio($objEmployee, $arrData, $strError);
-        if ($resultRatio != 1) {
-            return $resultRatio;
+        if($objMember->mb_emp_fid != $arrData['mb_emp_fid']){
+
+            if($objEmployee != null && $objEmployee->mb_fid == $objMember->mb_fid)
+                    return 6;
+
+            $minLv = LEVEL_COMPANY;
+            $arrMem = $this->getMemberByEmpFid($objMember->mb_fid, $objMember->mb_level,  $objMember->mb_level, true);
+            foreach($arrMem as $chMem) {
+                if($objEmployee != null && $objEmployee->mb_fid == $chMem->mb_fid)
+                    return 6;
+                if($minLv > intval($chMem->mb_level)){
+                    $minLv = $chMem->mb_level;
+                }
+                array_push($fids, $chMem->mb_fid);
+            }
+
+            if($diffLv < 0 && array_key_exists('app.level_limit', $_ENV) && intval($_ENV['app.level_limit']) > 0){
+                // writeLog("MinLevel = ".$minLv);
+                $minLv += $diffLv;
+                // writeLog("MinLevel = ".$minLv);
+                if($minLv < LEVEL_MAX - intval($_ENV['app.level_limit']) ){
+                    
+                    $strError = LEVEL_MAX - intval($_ENV['app.level_limit']) + $objMember->mb_level - $minLv; 
+                    return 7;
+                }
+            }
+
         }
 
+        $this->setZeroGameRatio($arrData);
+        $this->setZeroGamePercent($arrData);
+
+        if($objMember->mb_emp_fid == $arrData['mb_emp_fid']){
+            $resultRatio = $this->checkGameRatio($objEmployee, $arrData, $strError);
+            if ($resultRatio != 1) {
+                return $resultRatio;
+            }
+        }
+        
         $arrData['mb_bank_name'] = trim($arrData['mb_bank_name']);
         $arrData['mb_bank_own'] = trim($arrData['mb_bank_own']);
         $arrData['mb_bank_num'] = trim($arrData['mb_bank_num']);
@@ -1394,7 +1411,11 @@ class Member_Model extends Model
         $bResult = $this->update($arrData['mb_fid'], $arrData);
         
         if ($bResult) {
+            
             $query = $this->db->getLastQuery();
+            if($objMember->mb_emp_fid != $arrData['mb_emp_fid']){
+                $query .= "; ". $this->modifyLevel($fids, $diffLv);
+            }
             return 1;
         }
         $strError = $this->errors();
@@ -1402,18 +1423,39 @@ class Member_Model extends Model
         return -1;
     }
 
-    public function modifyMemberRatio($arrData, &$strError, &$query)
+    
+    public function modifyLevel($fids, $diffLv)
+    {
+        // if($diffLv == 0)
+        //     return true;
+        
+        $strSql = "UPDATE ".$this->table." SET " ;
+        if($diffLv >= 0)
+            $strSql.=  " mb_level = mb_level + ".abs($diffLv);
+        else
+            $strSql.=  " mb_level = mb_level - ".abs($diffLv);
+        $strSql.=  ", mb_game_pb_ratio = 0, mb_game_pb2_ratio=0, ";
+        $strSql.=  " mb_game_ps_ratio = 0, ";
+        $strSql.=  " mb_game_bb_ratio = 0, mb_game_bb2_ratio=0, ";
+        $strSql.=  " mb_game_bs_ratio = 0, ";
+        $strSql.=  " mb_game_cs_ratio = 0, mb_game_sl_ratio=0, ";
+        $strSql.=  " mb_game_eo_ratio = 0, mb_game_eo2_ratio=0, ";
+        $strSql.=  " mb_game_co_ratio = 0, mb_game_co2_ratio=0, ";
+        $strSql.=  " mb_game_hl_ratio = 0 ";
+
+        $strSql.= " WHERE mb_fid IN (".implode(", ", $fids).")";
+        writeLog($strSql);
+
+        $bResult = $this->db->query($strSql);
+
+        return $strSql;
+    }
+
+    public function modifyMemberRatio($objMember, $arrData, &$strError, &$query)
     {
         // 결과 0:오류 1:성공 2:아이디중복 3:추천인 오류 4:파워볼 배당율오류 5:파워사다리 배당율오류 6:키노사다리 배당율 오류
 
-        $arrData['mb_fid'] = intval($arrData['mb_fid']);
-        // 아이디체크
-        $objMember = $this->getInfoByFid($arrData['mb_fid']);
-        if (is_null($objMember)) {
-            return 0;
-        }
-
-        if ($objMember->mb_level < LEVEL_ADMIN) {
+        if ($objMember->mb_level < LEVEL_COMPANY) {
             // 추천인 체크
             $objEmployee = $this->getInfoByFid($objMember->mb_emp_fid);
             if (is_null($objEmployee)) {
@@ -1435,9 +1477,7 @@ class Member_Model extends Model
         if(array_key_exists('mb_state_delete', $arrData)){
             $this->builder()->set('mb_state_delete', $arrData['mb_state_delete']);
         }
-        // if(array_key_exists('mb_state_view', $arrData)){
-        //     $this->builder()->set('mb_state_view', $arrData['mb_state_view']);
-        // }
+
         $this->builderSetGameRatioAndPercent($arrData);
 
         $this->builder()->where('mb_fid', $arrData['mb_fid']);
@@ -1537,11 +1577,12 @@ class Member_Model extends Model
         return $bResult;
     }
 
+
     public function updateMemberByFids($arrData, &$query)
     {
         if (array_key_exists('mb_state_active', $arrData)) {
             $this->builder()->set('mb_state_active', $arrData['mb_state_active']);
-        }else return false;
+        } else return false;
 
         $this->builder()->whereIn('mb_fid', $arrData['mb_fids']);
         $bResult = $this->builder()->update();
@@ -1576,7 +1617,7 @@ class Member_Model extends Model
     // 관리자 보유금
     public function calcAdminMoney()
     {
-        $strSQL = 'SELECT SUM(mb_money+mb_live_money+mb_slot_money+mb_fslot_money+mb_kgon_money+mb_gslot_money+mb_hslot_money+mb_hold_money) AS emp_money, SUM(mb_point) AS emp_point FROM '.$this->table;
+        $strSQL = 'SELECT SUM('.allMoneySql().') AS emp_money, SUM(mb_point) AS emp_point FROM '.$this->table;
         $strSQL .= ' WHERE mb_level < '.LEVEL_ADMIN;
         $strSQL .=" AND mb_state_active != '".PERMIT_DELETE."' ";
 

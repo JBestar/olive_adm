@@ -143,7 +143,7 @@ class Exchange_Model extends Model {
 
     function search($arrReqData)
     {
-        $strSql = "SELECT ".$this->table.".*, member.mb_fid, member.mb_nickname, (".allMoneySql().") AS mb_money FROM ".$this->table;
+        $strSql = "SELECT ".$this->table.".*, member.mb_fid, member.mb_nickname, (".allMoneySql($this->mMemberTable).") AS mb_money FROM ".$this->table;
         $strSql .= " JOIN member ON ".$this->table.".exchange_mb_uid = member.mb_uid ";
         $strSql .= " WHERE ( exchange_state_delete = '0' ";
         if(array_key_exists('start', $arrReqData) && strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){

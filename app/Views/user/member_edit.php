@@ -5,11 +5,10 @@
 <?php echo $this->section('user-edit-form-section0'); ?>
 <div class="useredit-text-div">
 	<p>추천인:</p>
-	<?php if (is_null($objMember)) {  ?>
-	<input type="text" id="useredit-sort-select-id" value="<?php echo $emp_uid; ?>">
-	<?php } else { ?>
-	<input type="text" id="useredit-sort-select-id" value="<?php echo $emp_uid; ?>" disabled>
-	<?php } ?>
+	<input type="text" id="useredit-sort-select-id" value="<?=$emp_uid; ?>" 
+	<?= ($mb_level < LEVEL_ADMIN?'disabled':'')?>
+	/>
+
 </div>
 <?php echo $this->endSection(); ?>
 <?php echo $this->section('user-edit-form-section1'); ?>

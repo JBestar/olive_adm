@@ -250,8 +250,10 @@
          + $member->mb_kgon_money + $member->mb_gslot_money + $member->mb_hslot_money + $member->mb_hold_money;
       return round($nMoney, NUM_POINT_CNT);
     }
-    function allMoneySql(){
-      return "member.mb_money+member.mb_live_money+member.mb_slot_money+member.mb_fslot_money+member.mb_kgon_money+member.mb_gslot_money+member.mb_hslot_money+member.mb_hold_money";
+    function allMoneySql($table=""){
+      if(strlen($table) > 0)
+        $table .= '.';
+      return $table."mb_money+".$table."mb_live_money+".$table."mb_slot_money+".$table."mb_fslot_money+".$table."mb_kgon_money+".$table."mb_gslot_money+".$table."mb_hslot_money+".$table."mb_hold_money";
     }
     function allEgg($member){
       $nMoney = 0;

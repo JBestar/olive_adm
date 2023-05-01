@@ -512,7 +512,7 @@ function showMemEdit(idx, mbFid){
         return;
         
     $("#partner_id").val(member.mb_empname);
-    $("#partner_id").attr("disabled", true);
+    // $("#partner_id").attr("disabled", true);
 
     $("#offline_user").prop('checked', member.mb_state_delete == 1);
     $("#user_fid").val(member.mb_fid);

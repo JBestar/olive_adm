@@ -142,7 +142,7 @@ class UserApi extends BaseController
                     $arrResult['status'] = 'employee_error';
                     echo json_encode($arrResult);
                     return;
-                }
+                } 
                 $arrData['mb_emp_fid'] = $objEmp->mb_fid;
             }
             
@@ -167,28 +167,31 @@ class UserApi extends BaseController
                     }
 
                     if($checkOk)
-                        $iResult = $this->modelMember->modifyMember($arrData, $strError, $query);
+                        $iResult = $this->modelMember->modifyMember($objReqUser, $arrData, $strError, $query);
                     else $iResult = -1;
 
-                    if(array_key_exists('app.ebal', $_ENV) && $_ENV['app.ebal'] > 0 && array_key_exists('mb_state_view', $arrData) ){
+                    if($iResult==1){
 
-                        if($objReqUser->mb_state_view != $arrData['mb_state_view']){
-                            $ebalLogModel = new EbalLog_Model();
+                        if(array_key_exists('app.ebal', $_ENV) && $_ENV['app.ebal'] > 0 && array_key_exists('mb_state_view', $arrData) ){
 
-                            $data =[
-                                'log_mb_fid' => $objReqUser->mb_fid,
-                                'log_mb_uid' => $objReqUser->mb_uid,
-                                'log_data' => $arrData['mb_state_view'] == 1 ? "누르기":"넘기기",
-                                'log_type' => EBAL_LOGTYPE_PRESSMANUAL,
-                                'log_memo' => $objAdmin->mb_uid,
-                                'log_time' => date("Y-m-d H:i:s"),
-                            ];
-                            $ebalLogModel->register($data);
+                            if($objReqUser->mb_state_view != $arrData['mb_state_view']){
+                                $ebalLogModel = new EbalLog_Model();
+    
+                                $data =[
+                                    'log_mb_fid' => $objReqUser->mb_fid,
+                                    'log_mb_uid' => $objReqUser->mb_uid,
+                                    'log_data' => $arrData['mb_state_view'] == 1 ? "누르기":"넘기기",
+                                    'log_type' => EBAL_LOGTYPE_PRESSMANUAL,
+                                    'log_memo' => $objAdmin->mb_uid,
+                                    'log_time' => date("Y-m-d H:i:s"),
+                                ];
+                                $ebalLogModel->register($data);
+                            }
                         }
                     }
 
                 } else {
-                    $iResult = $this->modelMember->modifyMemberRatio($arrData, $strError,  $query);
+                    $iResult = $this->modelMember->modifyMemberRatio($objReqUser, $arrData, $strError,  $query);
                 }
 
                 if ($iResult == 1) {
@@ -196,6 +199,9 @@ class UserApi extends BaseController
                     $arrResult['status'] = 'success';
                 } elseif ( $iResult == 4 || $iResult == 5 ) {
                     $arrResult['status'] = 'ratio_error';
+                    $arrResult['error'] = $strError;
+                } elseif ( $iResult == 7 ) {
+                    $arrResult['status'] = 'level_error';
                     $arrResult['error'] = $strError;
                 } elseif ( $iResult == -1 ) {
                     $arrResult['status'] = 'val_error';
@@ -504,7 +510,7 @@ class UserApi extends BaseController
                 $arrSumData = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0] ];
                 
                 $tmNow = microtime(true) * 1000;
-                writeLog("empbetinfo");
+                // writeLog("empbetinfo");
 
                 if(!$siteConfs['hpg_deny']){
                     $betModel = new PbBet_Model();
@@ -663,7 +669,7 @@ class UserApi extends BaseController
                         $arrSumData[5][2] = $agConf->conf_active;
 
                 }
-                writeLog("empbetinfo end duration = ".(microtime(true) * 1000 - $tmNow));
+                // writeLog("empbetinfo end duration = ".(microtime(true) * 1000 - $tmNow));
 
                 $objResult->data = $arrSumData;
                 $objResult->status = 'success';

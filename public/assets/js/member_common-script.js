@@ -355,7 +355,8 @@ function reqMemSave(objMember, closeDlg = null){
                         requestMember();
                     }
                     else 
-                        alert("회원정보가 변경되었습니다.");
+                        window.location.reload();
+                        // alert("회원정보가 변경되었습니다.");
                         // window.location.replace( FURL +'/user/member/0');
                 } else if (jResult.status == "logout") {
                     alert("로그아웃되었습니다. 다시 로그인해주세요");
@@ -368,6 +369,8 @@ function reqMemSave(objMember, closeDlg = null){
                         alert("중복된 아이디입니다.");
                     else if (jResult.error == 3)
                         alert("등록된 추천인이 아닙니다.");
+                    else if (jResult.error == 6)
+                        alert("추천인 오류입니다.");
                     else if (jResult.error == 12)
                         alert("중복된 닉네임입니다.");
                     else alert("수정이 실패되었습니다.");
@@ -377,6 +380,11 @@ function reqMemSave(objMember, closeDlg = null){
                         errString += `${jResult.error[property]}\n`;
                     }
                     alert(errString);
+                } else if (jResult.status == "level_error") {
+                    if(jResult.error > LEVEL_COMPANY){
+                        alert("추천인을 변경할수 없습니다.");
+                    } else 
+                        alert(getMemberLevelString(jResult.error)+"이상 회원을 추천인으로 해주세요.");
                 } else if (jResult.status == "ratio_error") {
                     alert(jResult.error);
                 } else if (jResult.status == "employee_error") {

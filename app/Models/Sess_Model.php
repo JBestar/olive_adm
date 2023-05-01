@@ -10,6 +10,7 @@ class Sess_Model extends Model {
     protected $returnType = 'object'; 
 
     protected $allowedFields = ['sess_id', 'sess_mb_fid', 'sess_mb_uid', 'sess_ip', 'sess_join', 'sess_update']; 
+    private $mMemberTable = 'member';
 
     public function add($member, $sessId){
         $this->deleteBySess($sessId);
@@ -84,7 +85,7 @@ class Sess_Model extends Model {
     function search($arrReqData, $mbLv=LEVEL_ADMIN)
     {
         $strSql = "SELECT ".$this->table.".*, member.mb_nickname, member.mb_level, ";
-        $strSql .= " (".allMoneySql().") AS mb_money, member.mb_point FROM ".$this->table;
+        $strSql .= " (".allMoneySql($this->mMemberTable).") AS mb_money, member.mb_point FROM ".$this->table;
         $strSql .= " JOIN member ON ".$this->table.".sess_mb_fid = member.mb_fid ";
         $strSql .= " WHERE mb_level < ".$mbLv;
         

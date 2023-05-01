@@ -42,7 +42,7 @@ function showDepositList(arrData) {
         strBuf += "<tr><td>";
         strBuf += (parseInt(nRow) + firstIdx + 1);
         strBuf += "</td><td>";
-        strBuf += "<a onclick='popupMemberDetail(" + arrData[nRow].mb_fid + ")' class='link-member'>"+ arrData[nRow].mb_nickname+ "</a>";
+        strBuf += "<a onclick='popupMemberEdit(" + arrData[nRow].mb_fid + ")' class='link-member'>"+ arrData[nRow].mb_nickname+ "</a>";
         strBuf += "</td><td>";
         strBuf += arrData[nRow].charge_mb_uid;
         strBuf += "</td><td>";
