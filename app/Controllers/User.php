@@ -79,7 +79,8 @@ class User extends StdController
 		}
 		
 		if (!$bPermit){
-			$this->response->redirect( $_ENV['app.furl'].'/pages/nopermit');
+			// $this->response->redirect( $_ENV['app.furl'].'/pages/nopermit');
+			print "<script language=javascript> alert('존재하지 않는 회원입니다.'); self.close(); </script>";
 		}
 		else {
 			$this->load_view_page(
@@ -165,7 +166,22 @@ class User extends StdController
 			$mbFid,
 			LEVEL_MIN);		
 	}
-	
+
+	public function member_uid($mbUid){
+		
+		$objMember = $this->modelMember->getInfo($mbUid);
+		if(is_null($objMember))
+			print "<script language=javascript> alert('존재하지 않는 회원입니다.'); self.close(); </script>";
+		else if($objMember->mb_level > LEVEL_ADMIN)
+			print "<script language=javascript> alert('접근권한이 없습니다.'); self.close(); </script>";
+		else 
+			$this->user_edit_page(
+				'user/member_edit', 
+				'user_member', 
+				$objMember->mb_fid,
+				LEVEL_MIN);	
+
+	}
 
 	function member_ctrl($strEmpFid){
 		if (is_login() === false){
@@ -210,7 +226,8 @@ class User extends StdController
 		}
 		
 		if (!$bPermit){
-			$this->response->redirect( $_ENV['app.furl'].'/pages/nopermit');
+			// $this->response->redirect( $_ENV['app.furl'].'/pages/nopermit');
+			print "<script language=javascript> alert('존재하지 않는 회원입니다.'); self.close(); </script>";
 		}
 		else {
 			$this->load_view_page(

@@ -105,6 +105,12 @@ function popupMemberEdit(fid, title="회원정보"){
   popup(popUrl, title, w, h);
 }
 
+function popupMemberUid(uid, title="회원정보"){
+  let popUrl = FURL+"/user/member_uid/"+uid;
+  let w = 820, h=800;
+  popup(popUrl, title, w, h);
+}
+
 function popup(url, title, w, h){
 
   var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;

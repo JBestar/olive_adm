@@ -12,13 +12,6 @@ function showMoneyHistory(jsonBetData) {
     var elemBetDataTb = document.getElementById("bank-exchange-table-id");
     var strBuf = "";
 
-    // var nCurBetCnt = 0;
-    // var nCurBetMoney = 0;
-    // var strBetMode = "";
-    // var strBetTarget = "";
-    // var strResultTarget = "";
-    // var strWinMoney = "";
-    // var strResult = "";
     var curPage = getActivePage();
     var firstIdx = (curPage - 1) * CountPerPage;
 
@@ -27,7 +20,11 @@ function showMoneyHistory(jsonBetData) {
         strBuf += "<tr><td>";
         strBuf += (parseInt(nRow) + firstIdx + 1);
         strBuf += "</td><td>";
-        strBuf += jsonBetData[nRow].money_mb_uid;
+        if(mObjUser && mObjUser.mb_level > LEVEL_ADMIN){
+            strBuf += "<a onclick='popupMemberUid(\"" + jsonBetData[nRow].money_mb_uid + "\")' class='link-member'>"+ jsonBetData[nRow].money_mb_uid+ "</a>";
+        } else 
+            strBuf += jsonBetData[nRow].money_mb_uid;
+
         strBuf += "</td><td>";
         strBuf += parseFloat(jsonBetData[nRow].money_amount).toLocaleString();
         strBuf += "</td><td>";
@@ -87,7 +84,10 @@ function showMoneyHistory(jsonBetData) {
                     strBuf += "<br>" + jsonBetData[nRow].money_bet_round;
         } else if (jsonBetData[nRow].money_change_type == 19 || jsonBetData[nRow].money_change_type == 20 ||
             jsonBetData[nRow].money_change_type == 27 || jsonBetData[nRow].money_change_type == 28) {
-            strBuf += jsonBetData[nRow].money_bet_target;
+            if(mObjUser && mObjUser.mb_level > LEVEL_ADMIN){
+                strBuf += "<a onclick='popupMemberUid(\"" + jsonBetData[nRow].money_bet_target + "\")' class='link-member'>"+ jsonBetData[nRow].money_bet_target+ "</a>";
+            } else 
+                strBuf += jsonBetData[nRow].money_bet_target;
         } 
         strBuf += "</td></tr>";
 

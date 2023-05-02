@@ -43,7 +43,8 @@ function showNotice(arrNotice) {
         strBuf += "</td> <td>";
         if (arrNotice[nRow].notice_mb_uid == '*')
             strBuf += "전체";
-        else strBuf += arrNotice[nRow].notice_mb_uid;
+        else 
+            strBuf += "<a onclick='popupMemberUid(\"" + arrNotice[nRow].notice_mb_uid + "\")' class='link-member'>"+ arrNotice[nRow].notice_mb_uid+ "</a>";
         strBuf += "</td> <td>";
         if (arrNotice[nRow].notice_type == 0)
             strBuf += "<a href='"+FURL+"/board/message_edit/" + arrNotice[nRow].notice_fid + "/0' >수정</a>";

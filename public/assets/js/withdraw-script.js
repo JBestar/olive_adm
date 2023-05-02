@@ -39,7 +39,7 @@ function showWithdrawList(arrData) {
         strBuf += "<tr><td>";
         strBuf += (++index);
         strBuf += "</td><td>";
-        strBuf += "<a onclick='popupMemberEdit(" + arrData[nRow].mb_fid + ")' class='link-member'>"+ arrData[nRow].mb_nickname+ "</a>";
+        strBuf += "<a onclick='popupMemberUid(\"" + arrData[nRow].exchange_mb_uid + "\")' class='link-member'>"+ arrData[nRow].mb_nickname+ "</a>";
         strBuf += "</td><td>";
         strBuf += arrData[nRow].exchange_mb_uid;
         strBuf += "</td><td>";
