@@ -29,7 +29,8 @@
 				<option value="20">상부이동</option>
 				<option value="27">하부환수</option>
 				<option value="28">상부환수</option>
-				<?php if($mb_level >= LEVEL_ADMIN) :  ?>
+
+				<?php if($mb_level >= LEVEL_ADMIN && array_key_exists('app.ebal', $_ENV) && $_ENV['app.ebal'] > 0) :  ?>
 					<option value="43">에볼배팅</option>				
 					<option value="45">에볼정산</option>
 				<?php endif ?> 
@@ -62,10 +63,9 @@
 			</select>
 
 			<select name="pbresult-number" class="pbresult-number-select" id="exchange-number-select-id">
-				<option value="10">10개</option>
-				<option value="20">20개</option>
-				<option value="50">50개</option>
-				<option value="100">100개</option>
+				<?php foreach($select_nums as $num=>$select):?>
+					<option value="<?=$num?>" <?=$select?>><?=$num?>개</option>
+				<?php endforeach?>
 			</select>
 			<button class="pbresult-list-view-but" id="exchange-list-view-but-id">검색</button>	  
 		</div>

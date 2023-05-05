@@ -159,6 +159,33 @@ class User extends StdController
 			['emp_uid' => $empUid, 'adm_fid' => $admFid]);
 	}
 
+	function member_list($empFid){
+		if (is_login() === false){
+			return $this->response->redirect($_ENV['app.furl'].'/pages/login');
+		}
+		$strUid = $this->session->user_id;
+		$objAdmin = $this->modelMember->getInfo($strUid);
+		$admFid = 0;
+		if($objAdmin->mb_level >= LEVEL_MASTER){
+			$arrMem = $this->modelMember->getMemberByLevel(LEVEL_ADMIN);
+			 if(count($arrMem) > 0){
+				$objMember = reset($arrMem);	
+				$admFid = $objMember->mb_fid;
+			 }
+				 
+		}
+		$objEmp = $this->modelMember->find($empFid);
+		$empUid = "";
+		if ($objEmp != null){
+			$empUid = $objEmp->mb_uid;
+		}
+		$this->load_view_page(
+			'user/member_list', 
+			'user_member', 
+			LEVEL_MIN, 
+			['emp_uid' => $empUid, 'adm_fid' => $admFid]);
+	}
+
 	public function member_edit($mbFid){
 		$this->user_edit_page(
 			'user/member_edit', 

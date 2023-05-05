@@ -3,44 +3,49 @@
 	<!--Sub Navbar-->
 	<div class = "sub-navbar" value="<?= $this->renderSection('calculate-active') ?>">
 		<p><i class="glyphicon glyphicon-tag"></i> 정산</p>
-		<a href="<?php echo site_furl('bet/allcalculate');?>" class="sub-navbar-a" >전체</a>
-		<?php if(!$hpg_deny) :?>
-			<a href="<?php echo site_furl('bet/pbcalculate');?>" class="sub-navbar-a" >해피볼</a>
-		<?php endif ?>  
-    	<?php if(!$bpg_deny) :?>
-			<a href="<?php echo site_furl('bet/bbcalculate');?>" class="sub-navbar-a" >보글볼</a>
-			<a href="<?php echo site_furl('bet/bscalculate');?>" class="sub-navbar-a" >보글사다리</a>
-   		<?php endif ?>   
-		<?php if(!$eos5_deny) :?>
-			<a href="<?php echo site_furl('bet/e5calculate');?>" class="sub-navbar-a" >EOS5분</a>
-   		<?php endif ?>
-		<?php if(!$eos3_deny) :?>
-			<a href="<?php echo site_furl('bet/e3calculate');?>" class="sub-navbar-a" >EOS3분</a>
-   		<?php endif ?>
-		<?php if(!$coin5_deny) :?>
-			<a href="<?php echo site_furl('bet/c5calculate');?>" class="sub-navbar-a" >코인5분</a>
-   		<?php endif ?>
-		<?php if(!$coin3_deny) :?>
-			<a href="<?php echo site_furl('bet/c3calculate');?>" class="sub-navbar-a" >코인3분</a>
-   		<?php endif ?>
-		<?php if(!$evol_deny || !$cas_deny) :?>
-		   <a href="<?php echo site_furl('bet/cscalculate');?>" class="sub-navbar-a" >카지노</a>
-   		<?php endif ?>   
-		<?php if(!$slot_deny) :?>
-			<?php if($mb_level >= LEVEL_ADMIN) :  ?>
-				<?php if($_ENV['app.type'] == APP_TYPE_1 || $_ENV['app.type'] == APP_TYPE_3) :?>
-					<a href="<?php echo site_furl('bet/xslcalculate');?>" class="sub-navbar-a" >정품슬롯</a>
-				<?php endif ?>
-				<?php if($_ENV['app.type'] == APP_TYPE_1 || $_ENV['app.type'] == APP_TYPE_2) :?>
-					<a href="<?php echo site_furl('bet/fslcalculate');?>" class="sub-navbar-a" >네츄럴슬롯</a>
-				<?php endif ?>
-				<?php if($_ENV['app.type'] == APP_TYPE_1) :?>
+
+			<?php if(!array_key_exists('app.hold', $_ENV) || $_ENV['app.hold'] == 0) :?>
+				<a href="<?php echo site_furl('bet/allcalculate');?>" class="sub-navbar-a" >전체</a>
+			<?php endif ?> 
+
+			<?php if(!$hpg_deny) :?>
+				<a href="<?php echo site_furl('bet/pbcalculate');?>" class="sub-navbar-a" >해피볼</a>
+			<?php endif ?>  
+			<?php if(!$bpg_deny) :?>
+				<a href="<?php echo site_furl('bet/bbcalculate');?>" class="sub-navbar-a" >보글볼</a>
+				<a href="<?php echo site_furl('bet/bscalculate');?>" class="sub-navbar-a" >보글사다리</a>
+			<?php endif ?>   
+			<?php if(!$eos5_deny) :?>
+				<a href="<?php echo site_furl('bet/e5calculate');?>" class="sub-navbar-a" >EOS5분</a>
+			<?php endif ?>
+			<?php if(!$eos3_deny) :?>
+				<a href="<?php echo site_furl('bet/e3calculate');?>" class="sub-navbar-a" >EOS3분</a>
+			<?php endif ?>
+			<?php if(!$coin5_deny) :?>
+				<a href="<?php echo site_furl('bet/c5calculate');?>" class="sub-navbar-a" >코인5분</a>
+			<?php endif ?>
+			<?php if(!$coin3_deny) :?>
+				<a href="<?php echo site_furl('bet/c3calculate');?>" class="sub-navbar-a" >코인3분</a>
+			<?php endif ?>
+			<?php if(!$evol_deny || !$cas_deny) :?>
+			<a href="<?php echo site_furl('bet/cscalculate');?>" class="sub-navbar-a" >카지노</a>
+			<?php endif ?>   
+			<?php if(!$slot_deny) :?>
+				<?php if($mb_level >= LEVEL_ADMIN) :  ?>
+					<?php if($_ENV['app.type'] == APP_TYPE_1 || $_ENV['app.type'] == APP_TYPE_3) :?>
+						<a href="<?php echo site_furl('bet/xslcalculate');?>" class="sub-navbar-a" >정품슬롯</a>
+					<?php endif ?>
+					<?php if($_ENV['app.type'] == APP_TYPE_1 || $_ENV['app.type'] == APP_TYPE_2) :?>
+						<a href="<?php echo site_furl('bet/fslcalculate');?>" class="sub-navbar-a" >네츄럴슬롯</a>
+					<?php endif ?>
+					<?php if($_ENV['app.type'] == APP_TYPE_1) :?>
+						<a href="<?php echo site_furl('bet/slcalculate');?>" class="sub-navbar-a" >슬롯</a>
+					<?php endif ?>
+				<?php else: ?>
 					<a href="<?php echo site_furl('bet/slcalculate');?>" class="sub-navbar-a" >슬롯</a>
 				<?php endif ?>
-			<?php else: ?>
-				<a href="<?php echo site_furl('bet/slcalculate');?>" class="sub-navbar-a" >슬롯</a>
-			<?php endif ?>
-		<?php endif ?>   
+			<?php endif ?>   
+
 		<?php if(!$hold_deny) :?>
 			<a href="<?php echo site_furl('bet/hlcalculate');?>" class="sub-navbar-a" >홀덤</a>
 		<?php endif ?> 

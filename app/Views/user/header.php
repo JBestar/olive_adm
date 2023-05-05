@@ -36,6 +36,11 @@
 <body>
 <?php endif ?>
 
+<style>
+	.useredit-panel{
+		min-height:660px;
+	}
+</style>
 <div class="main-container" style="margin-left:0px; padding:0px; min-width:800px;" id="main-container-id">
 <div class="loading" style="display: none;">
 	<div class="load lds-ellipsis"></div>

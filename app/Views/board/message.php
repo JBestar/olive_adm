@@ -18,10 +18,9 @@
 				<option value="2">쪽지</option>
 			</select>
             <select name="pbresult-number" class="pbresult-number-select" id="message-number-select-id">
-				<option value="10">10개</option>
-				<option value="20">20개</option>
-				<option value="50">50개</option>
-				<option value="100">100개</option>
+				<?php foreach($select_nums as $num=>$select):?>
+					<option value="<?=$num?>" <?=$select?>><?=$num?>개</option>
+				<?php endforeach?>
 			</select>
 			<button class="pbresult-list-view-but" id="message-list-view-but-id">검색</button>  
 

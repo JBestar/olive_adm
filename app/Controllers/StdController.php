@@ -12,8 +12,15 @@ class StdController extends BaseController
 		{
 			$arrData = getSidebarLinkArray();
 			$arrData['confdropdownbtn'] = " main-dropdown-active-btn";
-			$arrData['confdropdown'] = "style=\"display:block\"";
+			$arrData['confdropdown'] = "style='display:block'";
 			$arrData[$activePage] = " sidebar-a-active";
+			$arrNum = [
+				"10"=> "",
+				"20"=> "",
+				"50"=> "",
+				"100"=> "selected",
+			];
+			$arrData['select_nums'] = $arrNum;
 			
 			$confsiteModel = new ConfSite_Model();
 

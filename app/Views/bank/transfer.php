@@ -27,17 +27,16 @@
 					<option value="3">사이트 => 슬롯</option>
 					<option value="4">슬롯 => 사이트</option>
 				<?php endif ?>
-				<?php if(!$slot_deny) :?>
+				<?php if(!$hold_deny) :?>
 					<option value="5">사이트 => 홀덤</option>
 					<option value="6">홀덤 => 사이트</option>
 				<?php endif ?>
 			</select>
 
 			<select name="pbresult-number" class="pbresult-number-select" id="transfer-number-select-id">
-				<option value="10">10개</option>
-				<option value="20">20개</option>
-				<option value="50">50개</option>
-				<option value="100">100개</option>
+				<?php foreach($select_nums as $num=>$select):?>
+					<option value="<?=$num?>" <?=$select?>><?=$num?>개</option>
+				<?php endforeach?>
 			</select>
 			<button class="pbresult-list-view-but" id="transfer-list-view-but-id">검색</button>
 		</div>

@@ -41,7 +41,8 @@ function getMemberLevelString(nLevel, bNeed=false) {
         else if (nLevel == LEVEL_MARKET)
             return "매장";
         else 
-            return (LEVEL_MARKET-nLevel)+"레벨";
+            return "회원";
+            // return (LEVEL_MARKET-nLevel)+"레벨";
     } else if(mLevelType !== undefined && mLevelType == 2){
         if (nLevel >= LEVEL_ADMIN)
              return "관리자";

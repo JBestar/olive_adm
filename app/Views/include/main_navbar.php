@@ -8,14 +8,6 @@
 		<h4 style="float: left; margin: 5px 20px 5px 10px;  font-weight: bold; color: #0090ff; font-size: 20px;"
 			id="main-navbar-level-id"></h4>
 
-	<!-- style="box-shadow: -1px -1px 1px 1px #adaeaf inset;" border:solid #000 2px;-->
-	<!-- <style>
-		#main-navbar-table-id {
-			background-color:#c7ccd4; 
-			outline: 2px solid #9ea1a5;
-			border-radius: 5px;
-		}
-	</style> -->
 		<Table class="main-navbar-info-table" id="main-navbar-table-id" style=" ">
 			<tr>
 				<td>보유금액 <span id="main-navbar-emp_money-id">0 원 </span></td>
@@ -25,12 +17,12 @@
 					<?php if(!$bpg_deny) :?>
 						<td>보글볼<span id="main-navbar-emp_bbrate-id">0 % | 0 %</span></td>
 					<?php endif ?>  
+					<?php if(!$hold_deny) :?>
+						<td>홀덤<span id="main-navbar-emp_hlrate-id">0 %</span></td>
+					<?php endif ?> 
 					<?php if(!$evol_deny || !$cas_deny) :?>
 						<td>카지노<span id="main-navbar-emp_evrate-id">0 %</span></td>
-					<?php endif ?>   
-					<?php if(!$eos5_deny || !$eos3_deny) :?>
-						<td>EOS<span id="main-navbar-emp_eorate-id">0 % | 0 %</span></td>
-					<?php endif ?>  
+					<?php endif ?>
 					<?php if(!$coin5_deny || !$coin3_deny) :?>
 						<td>코인<span id="main-navbar-emp_corate-id">0 % | 0 %</span></td>
 					<?php endif ?>
@@ -45,16 +37,16 @@
 					<td>환전금액<span id="main-navbar-emp_exchange-id">0 원</span></td>
 					<?php if(!$bpg_deny) :?>
 						<td>보글사다리<span id="main-navbar-emp_bsrate-id">0 % </span></td>
-					<?php endif ?>     
+					<?php endif ?>
 					<?php if(!$slot_deny) :?>
 						<td>슬롯<span id="main-navbar-emp_slrate-id">0 %</span></td>
 					<?php endif ?> 
-					<?php if(!$hold_deny) :?>
-						<td>홀덤<span id="main-navbar-emp_hlrate-id">0 %</span></td>
-					<?php endif ?> 
+					<?php if(!$eos5_deny || !$eos3_deny) :?>
+						<td>EOS<span id="main-navbar-emp_eorate-id">0 % | 0 %</span></td>
+					<?php endif ?>     
 					<?php if(!$hpg_deny) :?>
 						<td>해피볼<span id="main-navbar-emp_pbrate-id">0 % | 0 %</span></td>
-					<?php endif ?>    
+					<?php endif ?>
 				<?php else : ?>
 					<td>문의<a href="<?php echo site_furl('/board/message');?>" id="main-navbar-newmessage-id">0 신청</a></td>
 				<?php endif ?>
@@ -85,62 +77,64 @@
 					<td>보유알<span id="main-navbar-hluser-id">0 원</span><span>|</span><span id="main-navbar-hlegg-id">0 원</span></td>
 				</tr>
     			<?php endif ?>  
-    			<?php if(!$evol_deny) :?>
-				<tr>
-					<td style="font-weight: bold; color: #0090ff; font-size: 14px;">에볼루션:</td>
-					<td>배팅<span id="main-navbar-evbet-id">0 원</span></td>
-					<td>적중<span id="main-navbar-evbetearn-id">0 원</span></td>
-					<td>보유알<span id="main-navbar-evuser-id">0 원</span><span>|</span><span id="main-navbar-evegg-id">0 원</span></td>
-				</tr>
-    			<?php endif ?>   
-    			  
-    			<?php if(!$slot_deny) :?>
-				<tr>
-					<td style="font-weight: bold; color: #0090ff; font-size: 14px;">정품슬롯:</td>
-					<td>배팅<span id="main-navbar-slbet-id">0 원</span></td>
-					<td>적중<span id="main-navbar-slbetearn-id">0 원</span></td>
-					<td>보유알<span id="main-navbar-sluser-id">0 원</span><span>|</span><span id="main-navbar-slegg-id">0 원</span></td>
-				</tr>
-				<tr>
-					<td style="font-weight: bold; color: #0090ff; font-size: 14px;">네츌슬롯:</td>
-					<td>배팅<span id="main-navbar-fslbet-id">0 원</span></td>
-					<td>적중<span id="main-navbar-fslbetearn-id">0 원</span></td>
-					<td>보유알<span id="main-navbar-fsluser-id">0 원</span><span>|</span><span id="main-navbar-fslegg-id">0 원</span></td>
-				</tr>
-    			<?php endif ?>  
-				<?php if(!isEBalMode() && !$cas_deny) :?>
-				<tr>
-					<td style="font-weight: bold; color: #0090ff; font-size: 14px;">카지노:</td>
-					<td>배팅<span id="main-navbar-kgbet-id">0 원</span></td>
-					<td>적중<span id="main-navbar-kgbetearn-id">0 원</span></td>
-					<td>보유알<span id="main-navbar-kguser-id">0 원</span><span>|</span><span id="main-navbar-kgegg-id">0 원</span></td>
-				</tr>
-    			<?php endif ?>  
-				
-				<?php if(array_key_exists('app.site', $_ENV) && $_ENV['app.site'] == 2 ) :?>
-					<?php if(!$bpg_deny || !$hpg_deny || !$eos5_deny || !$eos3_deny || !$coin5_deny || !$coin3_deny) :?>
-						<tr>
-							<td style="font-weight: bold; color: #0090ff; font-size: 14px;">미니게임:</td>
-							<td style="vertical-align:top;">배팅<span id="main-navbar-minibet-id">0 원</span></td>
-							<td style="vertical-align:top;">적중<span id="main-navbar-minibetearn-id">0 원</span></td>
-						</tr>
+
+
+					<?php if(!$evol_deny) :?>
+					<tr>
+						<td style="font-weight: bold; color: #0090ff; font-size: 14px;">에볼루션:</td>
+						<td>배팅<span id="main-navbar-evbet-id">0 원</span></td>
+						<td>적중<span id="main-navbar-evbetearn-id">0 원</span></td>
+						<td>보유알<span id="main-navbar-evuser-id">0 원</span><span>|</span><span id="main-navbar-evegg-id">0 원</span></td>
+					</tr>
+					<?php endif ?>   
+					
+					<?php if(!$slot_deny) :?>
+					<tr>
+						<td style="font-weight: bold; color: #0090ff; font-size: 14px;">정품슬롯:</td>
+						<td>배팅<span id="main-navbar-slbet-id">0 원</span></td>
+						<td>적중<span id="main-navbar-slbetearn-id">0 원</span></td>
+						<td>보유알<span id="main-navbar-sluser-id">0 원</span><span>|</span><span id="main-navbar-slegg-id">0 원</span></td>
+					</tr>
+					<tr>
+						<td style="font-weight: bold; color: #0090ff; font-size: 14px;">네츌슬롯:</td>
+						<td>배팅<span id="main-navbar-fslbet-id">0 원</span></td>
+						<td>적중<span id="main-navbar-fslbetearn-id">0 원</span></td>
+						<td>보유알<span id="main-navbar-fsluser-id">0 원</span><span>|</span><span id="main-navbar-fslegg-id">0 원</span></td>
+					</tr>
 					<?php endif ?>  
-				<?php endif ?>  
+					<?php if(!isEBalMode() && !$cas_deny) :?>
+					<tr>
+						<td style="font-weight: bold; color: #0090ff; font-size: 14px;">카지노:</td>
+						<td>배팅<span id="main-navbar-kgbet-id">0 원</span></td>
+						<td>적중<span id="main-navbar-kgbetearn-id">0 원</span></td>
+						<td>보유알<span id="main-navbar-kguser-id">0 원</span><span>|</span><span id="main-navbar-kgegg-id">0 원</span></td>
+					</tr>
+					<?php endif ?>  
+					
+					<?php if(array_key_exists('app.site', $_ENV) && $_ENV['app.site'] == 2 ) :?>
+						<?php if(!$bpg_deny || !$hpg_deny || !$eos5_deny || !$eos3_deny || !$coin5_deny || !$coin3_deny) :?>
+							<tr>
+								<td style="font-weight: bold; color: #0090ff; font-size: 14px;">미니게임:</td>
+								<td style="vertical-align:top;">배팅<span id="main-navbar-minibet-id">0 원</span></td>
+								<td style="vertical-align:top;">적중<span id="main-navbar-minibetearn-id">0 원</span></td>
+							</tr>
+						<?php endif ?>  
+					<?php endif ?>  
 				
 			</Table>
 			<?php endif ?>     
 			
-			<?php if(!array_key_exists('app.site', $_ENV) || $_ENV['app.site'] != 2 ) :?>
-				<?php if(!$bpg_deny || !$hpg_deny || !$eos5_deny || !$eos3_deny || !$coin5_deny || !$coin3_deny) :?>
-					<Table class="main-navbar-betinfo-table" style="">
-						<tr>
-							<td style="font-weight: bold; color: #0090ff; font-size: 14px; vertical-align:top;">미니게임:</td>
-							<td style="vertical-align:top;">배팅<span id="main-navbar-minibet-id">0 원</span></td>
-							<td style="vertical-align:top;">적중<span id="main-navbar-minibetearn-id">0 원</span></td>
-						</tr>
-					</Table>
+				<?php if(!array_key_exists('app.site', $_ENV) || $_ENV['app.site'] != 2 ) :?>
+					<?php if(!$bpg_deny || !$hpg_deny || !$eos5_deny || !$eos3_deny || !$coin5_deny || !$coin3_deny) :?>
+						<Table class="main-navbar-betinfo-table" style="">
+							<tr>
+								<td style="font-weight: bold; color: #0090ff; font-size: 14px; vertical-align:top;">미니게임:</td>
+								<td style="vertical-align:top;">배팅<span id="main-navbar-minibet-id">0 원</span></td>
+								<td style="vertical-align:top;">적중<span id="main-navbar-minibetearn-id">0 원</span></td>
+							</tr>
+						</Table>
+					<?php endif ?>  
 				<?php endif ?>  
-			<?php endif ?>  
 
 		<?php endif ?>
 
