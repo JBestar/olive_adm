@@ -26,11 +26,18 @@ function readConfigToObject() {
 
     jsonData.sitename = $("#confsite-sitename-input-id").val();
     jsonData.domainname = $("#confsite-domainname-input-id").val();
-    // jsonData.homepage = $("#confsite-homepage-input-id").val();
-    // jsonData.adminpage = $("#confsite-adminpage-input-id").val();
-    jsonData.bank = $("#confsite-bankname-input-id").val().trim() + "#" + $("#confsite-bankown-input-id").val().trim() +
-        "#" + $("#confsite-banknum-input-id").val().trim();
 
+    if($("#confsite-bankapi-url-id").length > 0){
+        let url = $("#confsite-bankapi-url-id").val().trim();
+        if(url.length > 10 && url.endsWith('/')){
+            url = url.substr(0, url.length-1);
+        }
+        jsonData.bankapi = url + "#" + $("#confsite-bankapi-key-id").val().trim() ;
+    } else if($("#confsite-bankname-input-id").length > 0){
+        jsonData.bank = $("#confsite-bankname-input-id").val().trim() + "#" + $("#confsite-bankown-input-id").val().trim() +
+        "#" + $("#confsite-banknum-input-id").val().trim();
+    }
+    
     jsonData.mainnotice = $("#confsite-mainnotice-text-id").val();
     jsonData.mainnotice_ok = $("#confsite-mainnotice-check-id").prop('checked') ? 1 : 0;
     jsonData.depositenotice = $("#confsite-deposite-text-id").summernote('code');

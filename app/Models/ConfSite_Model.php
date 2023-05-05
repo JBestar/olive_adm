@@ -266,11 +266,18 @@ class ConfSite_Model extends Model
         $arrBatch[] = $updateData;
         
     
-        $updateData = array();
-        $updateData['conf_id'] = CONF_CHARGEINFO;
-        $updateData['conf_content'] = $arrData['bank'];
-        $arrBatch[] = $updateData;
-        
+        if(array_key_exists('bank', $arrData)){
+            $updateData = array();
+            $updateData['conf_id'] = CONF_CHARGEINFO;
+            $updateData['conf_content'] = $arrData['bank'];
+            $arrBatch[] = $updateData;
+        } else if(array_key_exists('bankapi', $arrData)){
+            $updateData = array();
+            $updateData['conf_id'] = CONF_API_VACC;
+            $updateData['conf_content'] = $arrData['bankapi'];
+            $arrBatch[] = $updateData;
+        }
+
         $updateData = array();
         $updateData['conf_id'] = CONF_NOTICE_BANK;
         $updateData['conf_content'] = $arrData['depositenotice'];

@@ -35,17 +35,16 @@
 		<?php } ?>
 	</div>
 	<div class="confsite-site-text-div">
-		<p>입금통장:</p>
-		<?php if(is_null($arrConfig)) {  ?>
-		<input type="text" placeholder="은행명" id="confsite-bankname-input-id">
-		<input type="text" placeholder="예금주" id="confsite-bankown-input-id">
-		<input type="text" placeholder="계좌번호" id="confsite-banknum-input-id">
-
-		<?php } else {?>
-		<input type="text" style="width:20%; margin-right:1px;" placeholder="은행명" id="confsite-bankname-input-id" value="<?=explode("#", trim($arrConfig[CONF_CHARGEINFO-1]->conf_content))[0]?>">
-		<input type="text" style="width:25%; margin-right:1px;" placeholder="예금주" id="confsite-bankown-input-id" value="<?=explode("#", trim($arrConfig[CONF_CHARGEINFO-1]->conf_content))[1]?>">
-		<input type="text" style="width:25%; " placeholder="계좌번호" id="confsite-banknum-input-id" value="<?=explode("#", trim($arrConfig[CONF_CHARGEINFO-1]->conf_content))[2]?>">
-		<?php } ?>
+		<?php if(intval($arrConfig[CONF_API_VACC-1]->conf_active) == STATE_ACTIVE) :  ?>
+			<p>가상계좌API:</p>
+			<input type="text" style="width:20%; margin-right:1px;" placeholder="URL" id="confsite-bankapi-url-id" value="<?=explode("#", trim($arrConfig[CONF_API_VACC-1]->conf_content))[0]?>">
+			<input type="text" style="width:25%; " placeholder="API-KEY" id="confsite-bankapi-key-id" value="<?=explode("#", trim($arrConfig[CONF_API_VACC-1]->conf_content))[1]?>">
+		<?php else :?>
+			<p>입금통장:</p>
+			<input type="text" style="width:20%; margin-right:1px;" placeholder="은행명" id="confsite-bankname-input-id" value="<?=explode("#", trim($arrConfig[CONF_CHARGEINFO-1]->conf_content))[0]?>">
+			<input type="text" style="width:25%; margin-right:1px;" placeholder="예금주" id="confsite-bankown-input-id" value="<?=explode("#", trim($arrConfig[CONF_CHARGEINFO-1]->conf_content))[1]?>">
+			<input type="text" style="width:25%; " placeholder="계좌번호" id="confsite-banknum-input-id" value="<?=explode("#", trim($arrConfig[CONF_CHARGEINFO-1]->conf_content))[2]?>">
+		<?php endif ?>
 	</div>
 
 	<?php if(count($arrConfig) >= CONF_CHARGE_URL && $arrConfig[CONF_CHARGE_URL-1]->conf_active == 1) :  ?>
