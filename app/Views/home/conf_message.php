@@ -12,12 +12,12 @@
 	<div class="useredit-panel">
 
 		<div style="width:100%; clear:both;">
-			<div class="useredit-text-div">
+			<div style="width:100%; clear:both;">
 				<p style="width:100px; float:left; padding:5px;">매크로제목:</p> 
 				<input type = "text" id="macro-title" style="width:600px; float:left;background-color:white;">
 				<button class="useredit-ok-button" id="notice-save-btn-id">등록</button>
 			</div>
-			<div class="useredit-text-div">
+			<div style="width:100%; clear:both;">
 				<p style="width:100px; float:left; padding:5px;">매크로내용:</p> 
 
 				<form method="post" style="width:600px; float:left;background-color:white;">

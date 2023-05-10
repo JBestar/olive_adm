@@ -257,7 +257,7 @@ function modifyMacro(idx){
     if(!objMacro)
         return;
 
-    $("#macro-title").val(objMacro.memo);
+    $("#macro-title").val(objMacro.conf_memo);
     $("#macro-content").summernote('code', objMacro.conf_content);
     $("#notice-modify-btn-id").show();
     $("#notice-modify-btn-id").attr("name", objMacro.conf_id);
