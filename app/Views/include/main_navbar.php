@@ -58,11 +58,11 @@
 
 			<?php if($mb_level >= LEVEL_ADMIN) :  ?>
 			<tr>
-				<td>충전 환전<span id="main-navbar-emp_exchange-id">0 원</span><span>|</span><span id="main-navbar-emp_charge-id">0 원</span></td>
+				<td>충전｜환전<span id="main-navbar-emp_exchange-id">0 원</span><span>|</span><span id="main-navbar-emp_charge-id">0 원</span></td>
 				<td>충전<a href="<?php echo site_furl('/bank/deposit');?>" id="main-navbar-charge_wait-id">0 대기</a></td>
 			</tr>
 			<tr>
-				<td>지급 회수<span id="main-navbar-emp_withdraw-id">0 원</span><span>|</span><span id="main-navbar-emp_give-id">0 원</span></td>
+				<td>지급｜회수<span id="main-navbar-emp_withdraw-id">0 원</span><span>|</span><span id="main-navbar-emp_give-id">0 원</span></td>
 				<td>환전<a href="<?php echo site_furl('/bank/withdraw');?>" id="main-navbar-exchange_wait-id">0 대기</a></td>
 			</tr>
 			<?php endif ?>
