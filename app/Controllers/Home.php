@@ -183,7 +183,7 @@ class Home extends StdController
 			"9"=> "투다리",
 			"13"=> "로이스",
 			"14"=> "MISSION",
-			// "15"=> "MONEY",
+			"15"=> "MONEY",
 			"16"=> "알로하",
 			"17"=> "KING",
 		];
