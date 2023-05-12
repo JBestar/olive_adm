@@ -70,7 +70,7 @@
 					<th>Lv</th>
 					<th>현재금액</th>
 					<th>포인트</th>
-					<th>요율<span style="word-break: keep-all;">(%)</span></th>
+					<th>배당율<span style="word-break: keep-all;">(%)</span></th>
 					<?php if ($mb_level >= LEVEL_ADMIN) :?>	
 						<?php if(!$slot_deny) :?>
 							<th style="width:130px;">공배팅</th>
@@ -155,21 +155,20 @@
 							<div class="row">
 								<!-- <div class="col-md-2"></div> -->
 								<div style="text-align:right; padding-right:15px;">
-									<a onclick="reqMemCharge()" class="btn btn-primary btn-charge"><span class="c_type">1만원</span></a>
-									<a onclick="reqMemCharge()" class="btn btn-primary btn-charge"><span class="c_type">5만원</span></a>
-									<a onclick="reqMemCharge()" class="btn btn-primary btn-charge"><span class="c_type">10만원</span></a>
-									<a onclick="reqMemCharge()" class="btn btn-primary btn-charge"><span class="c_type">50만원</span></a>
-									<a onclick="reqMemCharge()" class="btn btn-primary btn-charge"><span class="c_type">100만원</span></a>
-									<a onclick="reqMemCharge()" class="btn btn-primary btn-charge"><span class="c_type">전체</span></a>
-									<a onclick="reqMemCharge()" class="btn btn-primary btn-charge"><span class="c_type">정정</span></a>
+									<a onclick="tr_price(10000)" class="btn btn-primary btn-charge"><span class="c_type">1만원</span></a>
+									<a onclick="tr_price(50000)" class="btn btn-primary btn-charge"><span class="c_type">5만원</span></a>
+									<a onclick="tr_price(100000)" class="btn btn-primary btn-charge"><span class="c_type">10만원</span></a>
+									<a onclick="tr_price(500000)" class="btn btn-primary btn-charge"><span class="c_type">50만원</span></a>
+									<a onclick="tr_price(1000000)" class="btn btn-primary btn-charge"><span class="c_type">100만원</span></a>
+									<a onclick="tr_price(0)" class="btn btn-primary btn-charge"><span class="c_type">정정</span></a>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer" style="padding: 10px !important;">
-					<a id="btn-charge-apply" onclick="reqMemCharge()" class="btn btn-primary btn-charge"><span class="c_type">이동</span></a>
-					<a id="btn-discharge-apply" onclick="reqMemDischarge()" class="btn btn-primary btn-discharge"><span class="c_type">환수</span></a>
+					<a id="btn-charge-apply" onclick="reqMemGive()" class="btn btn-primary btn-charge"><span class="c_type">이동</span></a>
+					<a id="btn-discharge-apply" onclick="reqMemWithdraw()" class="btn btn-primary btn-discharge"><span class="c_type">환수</span></a>
 					<a data-dismiss="modal" class="btn btn-warning"  onclick="closeChargeDlg();">취소 </a>
 				</div>
 			</div>

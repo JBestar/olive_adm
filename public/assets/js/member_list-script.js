@@ -52,7 +52,13 @@ function getMemberTr(objMember, bChild = false, bShow=false){
     strBuf += "</td> <td id='mp_" + objMember.mb_fid + "'>";
     strBuf += parseFloat(objMember.mb_point).toLocaleString();
     strBuf += "</td> <td>";
-    strBuf += objMember.mb_game_hl_ratio ;
+    if (!mConfs.slot_deny)
+        strBuf += "<span style='word-break: keep-all;'>슬롯:" + objMember.mb_game_sl_ratio + "</span><br>" ;
+    if (!mConfs.evol_deny || !mConfs.cas_deny)
+        strBuf += "<span style='word-break: keep-all;'>카지노:" + objMember.mb_game_cs_ratio + "</span><br>" ;
+    if (!mConfs.hold_deny)
+        strBuf += "<span style='word-break: keep-all;'>홀덤:" + objMember.mb_game_hl_ratio + "</span><br>" ;
+
     strBuf += "</td> <td>";
     if (mConfs.emp_level >= LEVEL_ADMIN) {
         if (!mConfs.slot_deny) {
@@ -343,7 +349,7 @@ function showMemGive(mbFid){
     $("#charge_user_name").val(member.mb_nickname);
     $("#charge_user_id").val(member.mb_uid);
     $("#charge_user_fid").val(member.mb_fid);
-    $("#charge_user_money").val(parseFloat(member.mb_money).toLocaleString());
+    $("#charge_user_money").val(parseFloat(member.mb_money_all).toLocaleString());
     $("#charge_money").val('');
     $("#btn-charge-apply").show();
     $("#btn-discharge-apply").hide();
@@ -371,7 +377,7 @@ function showMemWithdraw(mbFid){
     $("#charge_user_name").val(member.mb_nickname);
     $("#charge_user_id").val(member.mb_uid);
     $("#charge_user_fid").val(member.mb_fid);
-    $("#charge_user_money").val(parseFloat(member.mb_money).toLocaleString());
+    $("#charge_user_money").val(parseFloat(member.mb_money_all).toLocaleString());
     $("#charge_money").val('');
     $("#btn-charge-apply").hide();
     $("#btn-discharge-apply").show();
@@ -385,4 +391,64 @@ function closeChargeDlg(){
 
 function showChargeDlg(){
     $('#charge_modal').slideDown(200);
+}
+
+function tr_price(price) {
+    if (price == 0) {
+        $("#charge_money").val("0");
+    } else {
+        tmp_price = parseInt($("#charge_money").val().replace(/,/g, ""));
+
+        if (isNaN(tmp_price) == false) {
+            price += tmp_price;
+        }
+
+        $("#charge_money").val(price);
+        calcAmount("#charge_money");
+    }
+}
+
+function reqMemGive(){
+    var nAmount = parseInt($("#charge_money").val().replace(/,/g, ""));
+    if (isNaN(nAmount) || nAmount == "") {
+        nAmount = 0;
+    }
+    if (nAmount == 0) {
+        alert("이동금액을 입력 해주세요.");
+        return false;
+    }
+
+    if (!confirm(nAmount.toLocaleString() + "원을 회원에게 이동하시겠습니까?"))
+        return;
+
+    var jsonData = {
+        'mb_fid': $("#charge_user_fid").val(),
+        'amount': nAmount,
+        'type':2
+    }
+    requestTrasnfer(jsonData, false);
+    closeChargeDlg();
+}
+
+function reqMemWithdraw(){
+    var nAmount = parseInt($("#charge_money").val().replace(/,/g, ""));
+    if (isNaN(nAmount) || nAmount == "") {
+        nAmount = 0;
+    }
+    if (nAmount == 0) {
+        alert("환수금액을 입력 해주세요.");
+        return false;
+    }
+
+    if (!confirm(nAmount.toLocaleString() + "원을 회원에게서 환수하시겠습니까?"))
+        return;
+
+    var jsonData = {
+        'mb_fid': $("#charge_user_fid").val(),
+        'amount': nAmount,
+        'type':3
+    }
+    requestTrasnfer(jsonData, false);
+    closeChargeDlg();
+
 }

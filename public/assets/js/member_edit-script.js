@@ -384,7 +384,7 @@ function tr_price(price) {
     if (price == 0) {
         $("#useredit-transfer-input-id").val("0");
     } else {
-        tmp_price = parseInt($("#useredit-transfer-input-id").val().replace(/,/g, ""));
+        let tmp_price = parseInt($("#useredit-transfer-input-id").val().replace(/,/g, ""));
 
         if (isNaN(tmp_price) == false) {
             price += tmp_price;
