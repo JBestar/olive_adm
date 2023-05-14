@@ -350,21 +350,46 @@
 					<input type = "number" min="0" step="1000" id="useredit-rangemax-input-id" value="<?=$objMember->mb_range_max?>">
 					<?php endif ?>
 					
-					<?php if($_ENV['app.ebal'] > 3 ) :?>
+					<?php if($press_en > 0 ) :?>
 						</div>
 						<div class="useredit-percent-div">
 							<p></p> 
-							<?php if(!is_null($objMember) && $objMember->mb_exc_check == 1) :  ?>
-								<input type="checkbox" id="useredit-exc-check-id" style="zoom:140%; margin-top:4px; margin-right:0; width:50px;" checked>
+							<?php if(!is_null($objMember) && $objMember->mb_press_active == 1) :  ?>
+								<input type="checkbox" id="useredit-press-check-id" style="zoom:140%; margin-top:4px; margin-right:0; width:50px;" checked>
 							<?php else :  ?>
-								<input type="checkbox" id="useredit-exc-check-id" style="zoom:140%; margin-top:4px; margin-right:0; width:50px;" >
+								<input type="checkbox" id="useredit-press-check-id" style="zoom:140%; margin-top:4px; margin-right:0; width:50px;" >
 							<?php endif ?>
 
 							<?php if(is_null($objMember)) :  ?>
-							<input type = "number" min="0" step="1000" id="useredit-exc-input-id" value="0">
+							<input type = "number" min="0" step="1000" id="useredit-press-input-id" value="0" style="margin-right:5px">
 							<?php else :?>
-							<input type = "number" min="0" step="1000" id="useredit-exc-input-id" value="<?=$objMember->mb_exc_amount?>">
+							<input type = "number" min="0" step="1000" id="useredit-press-input-id" value="<?=$objMember->mb_press_amount?>" style="margin-right:5px">
 							<?php endif ?>
+
+							<?php if($press_en == 2 ) :?>
+								<label>이하</label>
+							<?php endif ?>
+							<button class="pbresult-list-view-but" id="useredit-press-but-id"  style="margin-left:5px; padding:5px 10px;">전체 적용</button>  
+
+					<?php endif ?>
+
+					<?php if($follow_en > 0 ) :?>
+						</div>
+						<div class="useredit-percent-div">
+							<?php if(!is_null($objMember) && $objMember->mb_follow_active == 1) :  ?>
+								<input type="checkbox" id="useredit-follow-check-id" style="zoom:140%; margin-top:4px; margin-right:0; width:20px;" checked>
+							<?php else :  ?>
+								<input type="checkbox" id="useredit-follow-check-id" style="zoom:140%; margin-top:4px; margin-right:0; width:20px;" >
+							<?php endif ?>
+							<p style="width:133px">에볼 따라가기</p> 
+
+							<label style="text-align:right; width:89px;"> 아이디</label>
+							<?php if(is_null($objMember)) : ?>
+							<input type = "text" id="useredit-follow-input-id" value="">
+							<?php else :?>
+							<input type = "text" id="useredit-follow-input-id" value="<?=$objMember->mb_follow_id?>">
+							<?php endif ?>
+
 					<?php endif ?>
 
 				<?php else :?>

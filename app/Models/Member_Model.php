@@ -25,7 +25,7 @@ class Member_Model extends Model
         'mb_game_co_ratio', 'mb_game_co2_ratio', 'mb_game_hl_ratio', 
         'mb_game_pb_percent', 'mb_game_pb2_percent', 'mb_game_ps_percent', 'mb_game_bb_percent', 'mb_game_bb2_percent',
         'mb_game_bs_percent', 'mb_game_eo_percent', 'mb_game_eo2_percent', 'mb_game_co_percent', 'mb_game_co2_percent',
-        'mb_blank_count', 'mb_range_ev', 
+        'mb_blank_count', 'mb_range_ev', 'mb_press_ev', 'mb_follow_ev', 
         'mb_live_id', 'mb_live_uid', 'mb_live_money',
         'mb_slot_uid', 'mb_slot_money',
         'mb_fslot_id', 'mb_fslot_uid', 'mb_fslot_money',
@@ -983,7 +983,8 @@ class Member_Model extends Model
                 'mb_game_pb_ratio', 'mb_game_pb2_ratio','mb_game_ps_ratio', 'mb_game_bb_ratio', 'mb_game_bb2_ratio', 'mb_game_bs_ratio', 'mb_game_cs_ratio', 
                 'mb_game_sl_ratio', 'mb_game_eo_ratio', 'mb_game_eo2_ratio', 'mb_game_co_ratio', 'mb_game_co2_ratio', 'mb_game_hl_ratio', 
                 'mb_game_pb_percent', 'mb_game_pb2_percent', 'mb_game_ps_percent', 'mb_game_bb_percent',
-                'mb_game_bb2_percent', 'mb_game_bs_percent', 'mb_game_eo_percent', 'mb_game_eo2_percent', 'mb_game_co_percent', 'mb_game_co2_percent', 'mb_range_ev',
+                'mb_game_bb2_percent', 'mb_game_bs_percent', 'mb_game_eo_percent', 'mb_game_eo2_percent', 'mb_game_co_percent', 'mb_game_co2_percent', 
+                'mb_range_ev', 'mb_press_ev', 'mb_follow_ev',
                 'mb_live_money', 'mb_slot_money', 'mb_fslot_money', 'mb_kgon_money', 'mb_gslot_money', 'mb_hslot_money', 'mb_hold_money'
             ]; 
 

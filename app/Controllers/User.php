@@ -37,20 +37,31 @@ class User extends StdController
 				$objMember = reset($arrMem);					
 			
 			if ($objMember != null){
-				$objMember->mb_range_min = 0;
-				$objMember->mb_range_max = 0;
-				$objMember->mb_exc_amount = 0;
-				$objMember->mb_exc_check = false;
-				$range = explode(":", $objMember->mb_range_ev);
-				if(count($range) >= 2){
-					$objMember->mb_range_min = intval($range[0]);
-					$objMember->mb_range_max = intval($range[1]);
-					if(count($range) >= 4){
-						$objMember->mb_exc_check = intval($range[2]) == STATE_ACTIVE;
-						$objMember->mb_exc_amount = intval($range[3]) ;
+				if($_ENV['app.ebal'] > 0 && $objAdmin->mb_level >= LEVEL_ADMIN){
+					$objMember->mb_range_min = 0;
+					$objMember->mb_range_max = 0;
+					$info = explode(":", $objMember->mb_range_ev);
+					if(count($info) >= 2){
+						$objMember->mb_range_min = intval($info[0]);
+						$objMember->mb_range_max = intval($info[1]);
 					}
+					$objMember->mb_press_active = false;
+					$objMember->mb_press_amount = 0;
+					$info = explode(":", $objMember->mb_press_ev);
+					if(count($info) >= 2){
+						$objMember->mb_press_active = intval($info[0]) == STATE_ACTIVE;
+						$objMember->mb_press_amount = intval($info[1]) ;
+					}
+					$objMember->mb_follow_active = false;
+					$objMember->mb_follow_id = "";
+					$info = explode(":", $objMember->mb_follow_ev);
+					if(count($info) >= 2){
+						$objMember->mb_follow_active = intval($info[0]);
+						$objMember->mb_follow_id = trim($info[1]);
+					}
+	
 				}
-
+				
 				$objEmpMember = $this->modelMember->find($objMember->mb_emp_fid);
 				if ($objEmpMember != null)
 					$empUid = $objEmpMember->mb_uid;
@@ -83,14 +94,29 @@ class User extends StdController
 			print "<script language=javascript> alert('존재하지 않는 회원입니다.'); self.close(); </script>";
 		}
 		else {
+			$follow_en = false;
+			$press_en = 0;
+			$confFollow = $confsiteModel->getConf(CONF_EVOLFOLLOW);
+			if($confFollow != null){
+				$follow_en = intval($confFollow->conf_active) == STATE_ACTIVE ;
+				$info = explode('#', $confFollow->conf_idx);
+				if(count($info) >= 1){
+					$press_en = intval($info[0]);
+				}
+			}
+
+
 			$this->load_view_page(
 				$url, 
 				$activePage, 
 				$userLevel, 
 				[ 'objMember' => $objMember,
-				'emp_uid' => $empUid,
-				'trnas_en' => $bTrans, 
-				'return_en' => $bReturn,]
+					'emp_uid' => $empUid,
+					'trnas_en' => $bTrans, 
+					'return_en' => $bReturn,
+					'follow_en' => $follow_en,
+					'press_en' => $press_en,
+				]
 			);  
 		}
 		

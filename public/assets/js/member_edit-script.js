@@ -41,13 +41,11 @@ function readConfigToObject() {
     if($("#useredit-pbbetrate-input-id").length > 0){
         objMember.mb_game_pb_ratio = $("#useredit-pbbetrate-input-id").val();
         objMember.mb_game_pb2_ratio = $("#useredit-pbbetrate2-input-id").val();
-        // objMember.mb_game_ps_ratio = $("#useredit-psbetrate-input-id").val();
     }  
 
     if($("#useredit-pbbetpercent-input-id").length > 0){
         objMember.mb_game_pb_percent = $("#useredit-pbbetpercent-input-id").val();
         objMember.mb_game_pb2_percent = $("#useredit-pbbetpercent2-input-id").val();
-        // objMember.mb_game_ps_percent = $("#useredit-psbetpercent-input-id").val();
     } 
     
     if($("#useredit-bbbetrate-input-id").length > 0){
@@ -106,21 +104,31 @@ function readConfigToObject() {
         objMember.mb_state_view = $("#useredit-balance-check-id").prop('checked') ? 1 : 0;
         let min = $("#useredit-rangemin-input-id").val();
         let max = $("#useredit-rangemax-input-id").val();
-        
-        let excEnable = 0;
-        let excAmount = 0;
-        if($("#useredit-exc-check-id").length > 0){
-            excEnable = $("#useredit-exc-check-id").prop('checked') ? 1 : 0;
-            excAmount = $("#useredit-exc-input-id").val();
-        }
 
         if(min < 0) min = 0;
         if(max < 0) max = 0;
-        if(excAmount < 0) excAmount = 0;
 
-        objMember.mb_range_ev = min + ":" + max + ":" + excEnable + ":" + excAmount; 
+        objMember.mb_range_ev = min + ":" + max; 
     } 
 
+    if($("#useredit-press-check-id").length > 0){
+        let pressEnable = 0;
+        let pressAmount = 0;
+        pressEnable = $("#useredit-press-check-id").prop('checked') ? 1 : 0;
+        pressAmount = $("#useredit-press-input-id").val();
+        if(pressAmount < 0) pressAmount = 0;
+
+        objMember.mb_press_ev = pressEnable + ":" + pressAmount; 
+    }
+
+    if($("#useredit-follow-check-id").length > 0){
+        let followEnable = 0;
+        let followId = 0;
+        followEnable = $("#useredit-follow-check-id").prop('checked') ? 1 : 0;
+        followId = $("#useredit-follow-input-id").val();
+
+        objMember.mb_follow_ev = followEnable + ":" + followId.trim(); 
+    }
     return objMember;
 
 }

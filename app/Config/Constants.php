@@ -169,14 +169,15 @@ defined('CONF_CHARGE_URL')      || define('CONF_CHARGE_URL', 56);       //코인
 defined('CONF_TELE_ID')         || define('CONF_TELE_ID', 57);          //텔레그램 아이디
 defined('CONF_QNA_DENY')        || define('CONF_QNA_DENY', 58);         //고객센터 제거
 defined('CONF_AUTO_PERMIT')     || define('CONF_AUTO_PERMIT', 59);      //회원자동승인
-defined('CONF_EVOLSITE_1')      || define('CONF_EVOLSITE_1', 60);         //에볼루션 밸런스 계정
-defined('CONF_EVOLRUN_1')       || define('CONF_EVOLRUN_1', 61);          //에볼루션 밸런스 상태
+defined('CONF_EVOLSITE_1')      || define('CONF_EVOLSITE_1', 60);         //에볼루션 밸런스 계정1
+defined('CONF_EVOLRUN_1')       || define('CONF_EVOLRUN_1', 61);          //에볼루션 밸런스 상태1
 defined('CONF_AUTOAPPS')        || define('CONF_AUTOAPPS', 62);         //메인홈 게임이미지
-defined('CONF_EVOLSITE_2')      || define('CONF_EVOLSITE_2', 63);         //에볼루션 밸런스 상태
-defined('CONF_EVOLRUN_2')       || define('CONF_EVOLRUN_2', 64);         //에볼루션 밸런스 상태
-defined('CONF_EVOLSITE_3')      || define('CONF_EVOLSITE_3', 65);         //에볼루션 밸런스 상태
-defined('CONF_EVOLRUN_3')       || define('CONF_EVOLRUN_3', 66);         //에볼루션 밸런스 상태
-defined('CONF_EVOLPRESS')       || define('CONF_EVOLPRESS', 67);         //에볼루션 밸런스 상태
+defined('CONF_EVOLSITE_2')      || define('CONF_EVOLSITE_2', 63);         //에볼루션 밸런스 계정2
+defined('CONF_EVOLRUN_2')       || define('CONF_EVOLRUN_2', 64);         //에볼루션 밸런스 상태2
+defined('CONF_EVOLSITE_3')      || define('CONF_EVOLSITE_3', 65);         //에볼루션 밸런스 계정3
+defined('CONF_EVOLRUN_3')       || define('CONF_EVOLRUN_3', 66);         //에볼루션 밸런스 상태3
+defined('CONF_EVOLPRESS')       || define('CONF_EVOLPRESS', 67);         //에볼루션 누르기 상태
+defined('CONF_EVOLFOLLOW')       || define('CONF_EVOLFOLLOW', 70);         //에볼루션 따라가기 상태
 
 defined('LEVEL_MAX')           || define('LEVEL_MAX', 100);
 defined('LEVEL_MASTER')        || define('LEVEL_MASTER', 101);
