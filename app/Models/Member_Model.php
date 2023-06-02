@@ -1337,6 +1337,8 @@ class Member_Model extends Model
         $arrRegData['mb_game_sl'] = 1;
         $arrRegData['mb_game_eo'] = 1;
         $arrRegData['mb_game_co'] = 1;
+        $arrRegData['mb_game_hl'] = 1;
+
         $result = $this->insert($arrRegData);
         if (!$result) {
             $strError = $this->errors();
@@ -1344,6 +1346,77 @@ class Member_Model extends Model
             return -1;
         }
 
+        return 1;
+    }
+
+    function registerInfo($info, &$strError) {
+
+        $emp = trim($info[5]);
+
+        $arrRegData['mb_uid'] = trim($info[0]);
+        $arrRegData['mb_nickname'] = trim($info[1]);
+
+        $objMember = $this->getInfoByUid($arrRegData['mb_uid']);
+        if(!is_null($objMember)){
+            writeLog("Duplicated-".$arrRegData['mb_uid']);
+            return -1;
+        }
+
+        $arrRegData['mb_emp_fid'] = 0;
+        $arrRegData['mb_level'] = LEVEL_COMPANY;
+        $objEmployee = $this->getInfoByUid($emp);
+        if(!is_null($objEmployee) && $objEmployee->mb_state_active != PERMIT_DELETE){
+            $arrRegData['mb_emp_fid'] = $objEmployee->mb_fid;
+            $arrRegData['mb_level'] = $objEmployee->mb_level - 1;
+            writeLog(">>>>>".$arrRegData['mb_uid']." emp=".$objEmployee->mb_fid);
+        } else {
+            writeLog(">>>>>".$arrRegData['mb_uid']." emp=null");
+
+        }
+        
+        $arrRegData['mb_pwd'] = trim($info[2]);
+        $arrRegData['mb_bank_pwd'] = trim($info[3]);
+        $arrRegData['mb_bank_name'] = trim($info[6]);
+        if(strlen($arrRegData['mb_bank_name']) < 1)
+            $arrRegData['mb_bank_name'] = "-";
+
+        $arrRegData['mb_bank_num'] = trim($info[7]);
+        if(strlen($arrRegData['mb_bank_num']) < 1)
+            $arrRegData['mb_bank_num'] = "-";
+
+        $arrRegData['mb_bank_own'] = trim($info[8]);
+        if(strlen($arrRegData['mb_bank_own']) < 1)
+            $arrRegData['mb_bank_own'] = "-";
+
+        $arrRegData['mb_phone'] = trim($info[9]);
+        if(strlen($arrRegData['mb_phone']) < 1)
+            $arrRegData['mb_phone'] = "111";
+            
+        $arrRegData['mb_money'] = floatval($info[10]);
+        $arrRegData['mb_point'] = floatval($info[11]);
+
+        $arrRegData['mb_time_join'] = date('Y-m-d H:i:s');
+        $arrRegData['mb_time_join'] = date('Y-m-d H:i:s');
+
+        $arrRegData['mb_grade'] = 1;
+        $arrRegData['mb_color'] = '#ffffff';
+
+        $arrRegData['mb_state_active'] = PERMIT_OK;
+        $arrRegData['mb_game_pb'] = 1;
+        $arrRegData['mb_game_ps'] = 1;
+        $arrRegData['mb_game_bb'] = 1;
+        $arrRegData['mb_game_bs'] = 1;
+        $arrRegData['mb_game_cs'] = 1;
+        $arrRegData['mb_game_sl'] = 1;
+        $arrRegData['mb_game_eo'] = 1;
+        $arrRegData['mb_game_co'] = 1;
+        $arrRegData['mb_game_hl'] = 1;
+
+        $result = $this->insert($arrRegData);
+        if (!$result) {
+            $strError = $this->errors();
+            return -1;
+        }
         return 1;
     }
 
