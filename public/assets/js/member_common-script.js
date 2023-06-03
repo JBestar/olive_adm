@@ -205,8 +205,8 @@ function refreshEgg(mbFid, elBtn) {
                 if(parseInt(jResult.egg) > 0)
                     $("#mm_" + mbFid).css('color', 'red');
                 else $("#mm_" + mbFid).css('color', 'black');
-                $("#mm_" + mbFid).text(parseInt(jResult.money).toLocaleString());
-                $("#mp_" + mbFid).text(parseInt(jResult.point).toLocaleString());
+                $("#mm_" + mbFid).text(Math.floor(jResult.money).toLocaleString());
+                $("#mp_" + mbFid).text(Math.floor(jResult.point).toLocaleString());
 
             } else if (jResult.status == "fail") {
 
@@ -239,7 +239,7 @@ function collectEgg(elem, mbFid) {
             // console.log(jResult);
             $(".loading").hide();
             if (jResult.status == "success") {
-                $("#mm_" + mbFid).text(parseInt(jResult.money).toLocaleString());
+                $("#mm_" + mbFid).text(Math.floor(jResult.money).toLocaleString());
                 if(parseInt(jResult.egg) > 0)
                     $("#mm_" + mbFid).css('color', 'red');
                 else $("#mm_" + mbFid).css('color', 'black');

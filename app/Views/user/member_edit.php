@@ -31,14 +31,17 @@
 </div>
 <?php echo $this->endSection(); ?>
 <?php echo $this->section('user-edit-form-section2'); ?>
-<div class="useredit-text-div">
-	<p>색깔:</p>
-	<?php if (is_null($objMember) || is_null($objMember->mb_color)) {  ?>
-	<input type="color" value="#ffffff" id="useredit-color-input-id">
-	<?php } else {?>
-	<input type="color" value="<?php echo $objMember->mb_color; ?>" id="useredit-color-input-id">
-	<?php } ?>
-</div>
+
+<?php if ($mb_level >= LEVEL_ADMIN) :  ?>
+	<div class="useredit-text-div">
+		<p>색깔:</p>
+		<?php if (is_null($objMember) || is_null($objMember->mb_color)) {  ?>
+		<input type="color" value="#ffffff" id="useredit-color-input-id">
+		<?php } else {?>
+		<input type="color" value="<?php echo $objMember->mb_color; ?>" id="useredit-color-input-id">
+		<?php } ?>
+	</div>
+<?php endif?>
 
 <?php echo $this->endSection(); ?>
 <?php echo $this->section('user-edit-script'); ?>

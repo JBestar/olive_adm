@@ -23,7 +23,7 @@ function getMemberTr(objMember, bChild = false, bShow=false){
     let strBuf = "<tr id ='tr_" + objMember.mb_fid + "' ";
     if(!bShow)
         strBuf += "class='hidden' ";
-    if (objMember.mb_color != null)
+    if (mConfs.emp_level >= LEVEL_ADMIN && objMember.mb_color != null)
         strBuf += "bgcolor='" + objMember.mb_color + "' ";
     strBuf += ">";
     strBuf += "<td>";
@@ -181,11 +181,6 @@ function requestMember(bRefresh=true) {
 
     var search = $("#userpanel-userid-input-id").val();
     var type = $("#userpanel-type-select-id").val();
-    // var iState = $("#userpanel-state-select-id").val();
-    // var empIdEle = document.getElementById("userpanel-empid-input-id");
-    // var strEmpUid = "";
-    // if (typeof(empIdEle) != undefined && empIdEle != null)
-    //     strEmpUid = empIdEle.value;
     var jsonData = {
         "search": search,
         "type":type

@@ -37,6 +37,7 @@ class User extends StdController
 				$objMember = reset($arrMem);					
 			
 			if ($objMember != null){
+				$objMember->mb_point = floor($objMember->mb_point);
 				if($_ENV['app.ebal'] > 0 && $objAdmin->mb_level >= LEVEL_ADMIN){
 					$objMember->mb_range_min = 0;
 					$objMember->mb_range_max = 0;

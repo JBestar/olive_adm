@@ -249,7 +249,7 @@
 
       $nMoney = floatval($member->mb_money) + $member->mb_live_money + $member->mb_slot_money + $member->mb_fslot_money
          + $member->mb_kgon_money + $member->mb_gslot_money + $member->mb_hslot_money + $member->mb_hold_money;
-      return round($nMoney, NUM_POINT_CNT);
+      return floor($nMoney); // round($nMoney, NUM_POINT_CNT);
     }
     function allMoneySql($table=""){
       if(strlen($table) > 0)

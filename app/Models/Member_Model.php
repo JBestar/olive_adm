@@ -154,6 +154,14 @@ class Member_Model extends Model
         return $this->select($this->getFields)->where('mb_nickname', $strName)->first();
     }
 
+    public function getByBankOwner($owner, $bAll = false)
+    {
+        $where =" mb_state_active != '".PERMIT_DELETE."' ";
+        $where.=" AND mb_bank_own = '".$owner."' ";
+
+        return $this->select($this->getFields)->where($where)->first();
+    }
+
     public function login($strUserId, $strPwd)
     {
         return $this->where([
@@ -1391,7 +1399,7 @@ class Member_Model extends Model
         $arrRegData['mb_phone'] = trim($info[9]);
         if(strlen($arrRegData['mb_phone']) < 1)
             $arrRegData['mb_phone'] = "111";
-            
+
         $arrRegData['mb_money'] = floatval($info[10]);
         $arrRegData['mb_point'] = floatval($info[11]);
 
@@ -1538,7 +1546,7 @@ class Member_Model extends Model
         $strSql.=  " mb_game_hl_ratio = 0 ";
 
         $strSql.= " WHERE mb_fid IN (".implode(", ", $fids).")";
-        writeLog($strSql);
+        // writeLog($strSql);
 
         $bResult = $this->db->query($strSql);
 
@@ -1567,7 +1575,7 @@ class Member_Model extends Model
             return 0;
         }
 
-        $this->builder()->set('mb_color', $arrData['mb_color']);
+        // $this->builder()->set('mb_color', $arrData['mb_color']);
         if(array_key_exists('mb_state_delete', $arrData)){
             $this->builder()->set('mb_state_delete', $arrData['mb_state_delete']);
         }
@@ -1971,10 +1979,7 @@ class Member_Model extends Model
 
         $strSQL .= " ORDER BY mb_level DESC, mb_fid ASC ";
 
-        // $nStartRow = ($arrReqData['page']-1) * $arrReqData['count'] ;
-        // $strSQL .= ' LIMIT '.$nStartRow.', '.$arrReqData['count'];
-        
-        writeLog($strSQL);
+        // writeLog($strSQL);
         
         return $this -> db -> query($strSQL)->getResult();
           
@@ -2098,7 +2103,7 @@ class Member_Model extends Model
 
         $strSQL .= " ORDER BY mb_level DESC, mb_fid ASC ";
 
-        writeLog($strSQL);
+        // writeLog($strSQL);
         
         return $this -> db -> query($strSQL)->getResult();
           

@@ -80,11 +80,11 @@ function getMemberTr(objMember, bChild = false, bShow=false){
     strBuf += "</td> <td>";
     if(objMember.rw_point == null)
         objMember.rw_point = 0;
-    strBuf += parseFloat(objMember.rw_point).toLocaleString();
+    strBuf += Math.floor(objMember.rw_point).toLocaleString();
     strBuf += "</td> <td>";
     if(objMember.chg_point == null)
         objMember.chg_point = 0;
-    strBuf += parseFloat(objMember.chg_point).toLocaleString();
+    strBuf += Math.floor(objMember.chg_point).toLocaleString();
     strBuf += "</td> <td>";
     strBuf += objMember.mb_time_join;
     strBuf += "</td> <td>";
@@ -154,10 +154,7 @@ function requestMember() {
 
     var search = $("#userpanel-userid-input-id").val();
     var type = $("#userpanel-type-select-id").val();
-    // var empIdEle = document.getElementById("userpanel-empid-input-id");
-    // var strEmpUid = "";
-    // if (typeof(empIdEle) != undefined && empIdEle != null)
-    //     strEmpUid = empIdEle.value;
+    
     var jsonData = {
         "search": search,
         "type": type,

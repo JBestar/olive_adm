@@ -19,7 +19,6 @@ function requestPageInfo() {
 function ShowBetHistory(jsonBetData) {
     var elemBetDataTb = document.getElementById("pbbet-table-id");
     var strBuf = "";
-    var strWinMoney = "";
     var curPage = getActivePage();
     var firstIdx = (curPage - 1) * CountPerPage;
 
@@ -49,10 +48,8 @@ function ShowBetHistory(jsonBetData) {
         strBuf += parseInt(jsonBetData[nRow].bet_win_money).toLocaleString() + "원";
         strBuf += "</td>";
         strResult = "<td>";
-        // strWinMoney = "";
         if (parseInt(jsonBetData[nRow].bet_win_money) > parseInt(jsonBetData[nRow].bet_money)) {
             strResult = "<td  class = 'pb-home-table-betstate-earn'>적중";
-            // strWinMoney = (parseInt(jsonBetData[nRow].bet_win_money) - parseInt(jsonBetData[nRow].bet_money)).toLocaleString() + "원";
         } else if (jsonBetData[nRow].bet_win_money == jsonBetData[nRow].bet_money) {
             strResult = "<td  class = 'pb-home-table-betstate-wait'>타이";
         } else {

@@ -33,48 +33,48 @@ function showCalcualte(arrCalcData, empLv) {
         strBuf += "</td><td>";
         strBuf += arrCalcData[nRow].mb_nickname; //
         strBuf += "</td><td>";
-            tAmt = parseFloat(arrCalcData[nRow].mb_money_all);
+            tAmt = Math.floor(arrCalcData[nRow].mb_money_all);
             sumMon += tAmt;
-        strBuf += parseFloat(arrCalcData[nRow].mb_money_single).toLocaleString() + " / " + tAmt.toLocaleString();
+        strBuf += Math.floor(arrCalcData[nRow].mb_money_single).toLocaleString() + " / " + tAmt.toLocaleString();
         strBuf += "</td><td>";
-            tAmt = parseFloat(arrCalcData[nRow].mb_point_all);
+            tAmt = Math.floor(arrCalcData[nRow].mb_point_all);
             sumPot += tAmt;
-        strBuf += parseFloat(arrCalcData[nRow].mb_point_single).toLocaleString() + " / " + tAmt.toLocaleString();
+        strBuf += Math.floor(arrCalcData[nRow].mb_point_single).toLocaleString() + " / " + tAmt.toLocaleString();
         strBuf += "</td><td>";
-             tAmt = parseFloat(arrCalcData[nRow].mb_charge);
+             tAmt = Math.floor(arrCalcData[nRow].mb_charge);
              sumChg += tAmt;
         strBuf += tAmt.toLocaleString(); //
         strBuf += " | ";
-            tAmt2 = parseFloat(arrCalcData[nRow].mb_exchange);
+            tAmt2 = Math.floor(arrCalcData[nRow].mb_exchange);
             sumExg += tAmt2;
         strBuf += tAmt2.toLocaleString();
         strBuf += "</td><td>";
-        strBuf += parseFloat(arrCalcData[nRow].mb_charge_benefit).toLocaleString();
+        strBuf += Math.floor(arrCalcData[nRow].mb_charge_benefit).toLocaleString();
         strBuf += "</td><td>";
-             tAmt = parseFloat(arrCalcData[nRow].mb_give);
+             tAmt = Math.floor(arrCalcData[nRow].mb_give);
              sumGiv += tAmt;
         strBuf += tAmt.toLocaleString(); //
         strBuf += " | ";
-            tAmt2 = parseFloat(arrCalcData[nRow].mb_withdraw);
+            tAmt2 = Math.floor(arrCalcData[nRow].mb_withdraw);
             sumWit += tAmt2;
         strBuf += tAmt2.toLocaleString();
 
         strBuf += "</td><td>";
-            tAmt = parseFloat(arrCalcData[nRow].mb_bet_money);
+            tAmt = Math.floor(arrCalcData[nRow].mb_bet_money);
             sumBet += tAmt;
         strBuf += tAmt.toLocaleString();
         strBuf += "</td><td>";
-            tAmt = parseFloat(arrCalcData[nRow].mb_bet_win_money);
+            tAmt = Math.floor(arrCalcData[nRow].mb_bet_win_money);
             sumWin += tAmt;
         strBuf += tAmt.toLocaleString();
         strBuf += "</td><td>";
-        strBuf += parseFloat(arrCalcData[nRow].mb_bet_benefit_money).toLocaleString();
+        strBuf += Math.floor(arrCalcData[nRow].mb_bet_benefit_money).toLocaleString();
         strBuf += "</td><td>";
-            tAmt = parseFloat(arrCalcData[nRow].mb_rate_all);
+            tAmt = Math.floor(arrCalcData[nRow].mb_rate_all);
             sumRat += tAmt;
-        strBuf += parseFloat(arrCalcData[nRow].mb_rate_single).toLocaleString() + " / " + tAmt.toLocaleString();
+        strBuf += Math.floor(arrCalcData[nRow].mb_rate_single).toLocaleString() + " / " + tAmt.toLocaleString();
         strBuf += "</td><td>";
-            tAmt = parseFloat(arrCalcData[nRow].mb_last_money);
+            tAmt = Math.floor(arrCalcData[nRow].mb_last_money);
             sumLast += tAmt;
         strBuf += tAmt.toLocaleString();
         strBuf += "</td></tr>";
@@ -215,34 +215,34 @@ function addRow(nTbRow, arrCalcData, level) {
         elemCell2.innerHTML = arrCalcData[nRow].mb_nickname; //
         
         var elemCell4 = elemNewRow.insertCell(3);
-        elemCell4.innerHTML = parseFloat(arrCalcData[nRow].mb_money_single).toLocaleString() + " / " + parseFloat(arrCalcData[nRow].mb_money_all).toLocaleString();
+        elemCell4.innerHTML = Math.floor(arrCalcData[nRow].mb_money_single).toLocaleString() + " / " + Math.floor(arrCalcData[nRow].mb_money_all).toLocaleString();
 
         var elemCell5 = elemNewRow.insertCell(4);
-        elemCell5.innerHTML = parseFloat(arrCalcData[nRow].mb_point_single).toLocaleString() + " / " + parseFloat(arrCalcData[nRow].mb_point_all).toLocaleString();
+        elemCell5.innerHTML = Math.floor(arrCalcData[nRow].mb_point_single).toLocaleString() + " / " + Math.floor(arrCalcData[nRow].mb_point_all).toLocaleString();
         
         var elemCell6 = elemNewRow.insertCell(5);
-        elemCell6.innerHTML = parseInt(arrCalcData[nRow].mb_charge).toLocaleString() + " | " + parseInt(arrCalcData[nRow].mb_exchange).toLocaleString(); 
+        elemCell6.innerHTML = Math.floor(arrCalcData[nRow].mb_charge).toLocaleString() + " | " + Math.floor(arrCalcData[nRow].mb_exchange).toLocaleString(); 
 
         var elemCell7 = elemNewRow.insertCell(6);
-        elemCell7.innerHTML = parseInt(arrCalcData[nRow].mb_charge_benefit).toLocaleString();
+        elemCell7.innerHTML = Math.floor(arrCalcData[nRow].mb_charge_benefit).toLocaleString();
 
         var elemCell8 = elemNewRow.insertCell(7);
-        elemCell8.innerHTML = parseInt(arrCalcData[nRow].mb_give).toLocaleString() + " | " + parseInt(arrCalcData[nRow].mb_withdraw).toLocaleString();
+        elemCell8.innerHTML = Math.floor(arrCalcData[nRow].mb_give).toLocaleString() + " | " + Math.floor(arrCalcData[nRow].mb_withdraw).toLocaleString();
         
         var elemCell9 = elemNewRow.insertCell(8);
-        elemCell9.innerHTML = parseInt(arrCalcData[nRow].mb_bet_money).toLocaleString();
+        elemCell9.innerHTML = Math.floor(arrCalcData[nRow].mb_bet_money).toLocaleString();
 
         var elemCell10 = elemNewRow.insertCell(9);
-        elemCell10.innerHTML = parseInt(arrCalcData[nRow].mb_bet_win_money).toLocaleString();
+        elemCell10.innerHTML = Math.floor(arrCalcData[nRow].mb_bet_win_money).toLocaleString();
 
         var elemCell11 = elemNewRow.insertCell(10);
-        elemCell11.innerHTML = parseFloat(arrCalcData[nRow].mb_bet_benefit_money).toLocaleString();
+        elemCell11.innerHTML = Math.floor(arrCalcData[nRow].mb_bet_benefit_money).toLocaleString();
 
         var elemCell12 = elemNewRow.insertCell(11);
-        elemCell12.innerHTML = parseFloat(arrCalcData[nRow].mb_rate_single).toLocaleString() + " / " + parseFloat(arrCalcData[nRow].mb_rate_all).toLocaleString();
+        elemCell12.innerHTML = Math.floor(arrCalcData[nRow].mb_rate_single).toLocaleString() + " / " + Math.floor(arrCalcData[nRow].mb_rate_all).toLocaleString();
 
         var elemCell13 = elemNewRow.insertCell(12);
-        elemCell13.innerHTML = parseFloat(arrCalcData[nRow].mb_last_money).toLocaleString();
+        elemCell13.innerHTML = Math.floor(arrCalcData[nRow].mb_last_money).toLocaleString();
 
         elemNewRow.addEventListener("click", rowEventHander);
 

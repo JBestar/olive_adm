@@ -56,6 +56,7 @@
 				<option value="0">아이디</option>
 				<option value="1">닉네임</option>
 				<option value="2">등록번호</option>
+				<option value="3">예금주</option>
 			</select>
             <input type="text" class="pbresult-text-input" id="userpanel-userid-input-id" value= "<?=$emp_uid?>">
 			<button class="pbresult-list-view-but" id="userpanel-list-view-but-id">검색</button>  
@@ -376,7 +377,7 @@
 								<div class="row">
 									<div class="col-md-2">메모:</div>
 									<div class="col-md-10">
-										<textarea rows="2" id="memo" style="width:100%; resize: vertical;" class="form-control"></textarea>					
+										<textarea rows="6" id="memo" style="width:100%; resize: vertical;" class="form-control"></textarea>					
 									</div>
 								</div>
 							</div>

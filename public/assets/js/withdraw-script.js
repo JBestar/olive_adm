@@ -43,11 +43,11 @@ function showWithdrawList(arrData) {
         strBuf += "</td><td>";
         strBuf += arrData[nRow].exchange_mb_uid;
         strBuf += "</td><td>";
-        strBuf += parseFloat(arrData[nRow].mb_money).toLocaleString() + " 원";
+        strBuf += Math.floor(arrData[nRow].mb_money).toLocaleString() + " 원";
         strBuf += "</td><td>";
         strBuf += arrData[nRow].exchange_time_require;
         strBuf += "</td><td>";
-        strBuf += parseInt(arrData[nRow].exchange_money).toLocaleString() + " 원";
+        strBuf += Math.floor(arrData[nRow].exchange_money).toLocaleString() + " 원";
         strBuf += "</td><td>";
         strBuf += arrData[nRow].exchange_bank_name + ":" + arrData[nRow].exchange_bank_account + ":" + arrData[nRow].exchange_bank_serial;
         strBuf += "</td><td>";

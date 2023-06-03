@@ -501,8 +501,8 @@ class UserApi extends BaseController
                     $arrEmpInfo['wait_exchange'] = $arrResult[2]->result_1 != null ? $arrResult[2]->result_1 : 0 ;		//환전대기
                     $arrEmpInfo['moment_exchange'] = $arrResult[2]->result_2 != null ? $arrResult[2]->result_2 : 0 ;   //환전대기
                     $arrEmpInfo['new_message'] = $arrResult[3]->result_1 != null ? $arrResult[3]->result_1 : 0 ;		//문의대기
-                    $arrEmpInfo['emp_money'] = $arrResult[4]->result_1 != null ? $arrResult[4]->result_1 : 0 ;		//보유머니
-                    $arrEmpInfo['emp_point'] = $arrResult[4]->result_2 != null ? $arrResult[4]->result_2 : 0 ;		//포유포인트
+                    $arrEmpInfo['emp_money'] = $arrResult[4]->result_1 != null ? intval($arrResult[4]->result_1) : 0 ;		//보유머니
+                    $arrEmpInfo['emp_point'] = $arrResult[4]->result_2 != null ? intval($arrResult[4]->result_2) : 0 ;		//포유포인트
                     $arrEmpInfo['emp_money_charge'] = $arrResult[5]->result_1 != null ? $arrResult[5]->result_1 : 0 ;     //충전금액
                     $arrEmpInfo['emp_money_exchange'] = $arrResult[6]->result_1 != null ? $arrResult[6]->result_1 : 0 ;		//환전금액
                     $arrEmpInfo['emp_money_give'] = $arrResult[7]->result_1 != null ? $arrResult[7]->result_1 : 0 ;     //지급
@@ -973,6 +973,8 @@ class UserApi extends BaseController
                     $objUser = $this->modelMember->getByNickname($arrData['search']);
                 } else if($arrData['type'] == 2){
                     $objUser = $this->modelMember->getInfoByFid($arrData['search']);
+                } else if($arrData['type'] == 3){
+                    $objUser = $this->modelMember->getByBankOwner($arrData['search']);
                 } else 
                     $objUser = $this->modelMember->getInfo($arrData['search']);
                 
@@ -995,6 +997,7 @@ class UserApi extends BaseController
                 }
                 foreach ($arrMember as $objMember) {
                     $objMember->mb_money_all = allMoney($objMember);
+                    $objMember->mb_point = floor($objMember->mb_point);
                     $objEmpInfo = $this->modelMember->find($objMember->mb_emp_fid);
                     if ($objEmpInfo != null){
                         $objMember->mb_empname = $objEmpInfo->mb_uid;
@@ -1042,6 +1045,8 @@ class UserApi extends BaseController
                     $objUser = $this->modelMember->getByNickname($arrData['search']);
                 } else if($arrData['type'] == 2){
                     $objUser = $this->modelMember->getInfoByFid($arrData['search']);
+                } else if($arrData['type'] == 3){
+                    $objUser = $this->modelMember->getByBankOwner($arrData['search']);
                 } else 
                     $objUser = $this->modelMember->getInfo($arrData['search']);
             
@@ -1062,6 +1067,8 @@ class UserApi extends BaseController
                     $arrMember = [];
                 }
                 foreach ($arrMember as $objMember) {
+                    $objMember->mb_money = floor($objMember->mb_money);
+                    $objMember->mb_point = floor($objMember->mb_point);
                     $objEmpInfo = $this->modelMember->find($objMember->mb_emp_fid);
                     if ($objEmpInfo != null){
                         $objMember->mb_empname = $objEmpInfo->mb_uid;

@@ -56,13 +56,13 @@ function showMoneyHistory(arrData) {
         strBuf += "</td><td>";
         strBuf += Math.abs(parseInt(arrData[nRow].trans_amount)).toLocaleString();
         strBuf += "</td><td>";
-        strBuf += parseFloat(arrData[nRow].money_before).toLocaleString();
+        strBuf += Math.floor(arrData[nRow].money_before).toLocaleString();
         strBuf += "</td><td>";
-        strBuf += parseFloat(arrData[nRow].money_after).toLocaleString();
+        strBuf += Math.floor(arrData[nRow].money_after).toLocaleString();
         strBuf += "</td><td>";
-        strBuf += parseFloat(arrData[nRow].egg_before).toLocaleString();
+        strBuf += Math.floor(arrData[nRow].egg_before).toLocaleString();
         strBuf += "</td><td>";
-        strBuf += parseFloat(arrData[nRow].egg_after).toLocaleString();
+        strBuf += Math.floor(arrData[nRow].egg_after).toLocaleString();
         strBuf += "</td><td>";
         strBuf += arrData[nRow].trans_time;
         strBuf += "</td></tr>";

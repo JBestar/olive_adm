@@ -124,7 +124,7 @@ function ShowBetHistory(jsonBetData) {
                 strBuf += "<button data-fid='" + jsonBetData[nRow].bet_fid + "'>타이</button> ";
             } else {
                 if (jsonBetData[nRow].rw_point != null)
-                    strBuf += jsonBetData[nRow].rw_point;
+                    strBuf += Math.floor(jsonBetData[nRow].rw_point).toLocaleString();
                 else strBuf += "0";
             }
             strBuf += "</td></tr>";

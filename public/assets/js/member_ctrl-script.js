@@ -63,7 +63,7 @@ function showMember(arrMember, confs) {
         if(parseInt(arrMember[nRow].mb_egg) > 0 )
             strBuf += "</td><td> <span id='mm_" + arrMember[nRow].mb_fid + "' style='color:red'>";
         else strBuf += "</td><td> <span id='mm_" + arrMember[nRow].mb_fid + "' style='color:black'>";
-        strBuf += parseFloat(arrMember[nRow].mb_money).toLocaleString() + "</span>";
+        strBuf += Math.floor(arrMember[nRow].mb_money).toLocaleString() + "</span>";
         strBuf += '<button class="refresh_btn" onclick="refreshEgg(' + arrMember[nRow].mb_fid + ', this);"></button>';
         if (confs.emp_level >= LEVEL_ADMIN) {
             strBuf += "</td><td>";
@@ -71,7 +71,7 @@ function showMember(arrMember, confs) {
                 strBuf += "<button name='" + arrMember[nRow].mb_fid + "'>알회수</button>";
         }
         strBuf += "</td> <td id='mp_" + arrMember[nRow].mb_fid + "'>";
-        strBuf += parseFloat(arrMember[nRow].mb_point).toLocaleString();
+        strBuf += Math.floor(arrMember[nRow].mb_point).toLocaleString();
         strBuf += "</td> <td>";
         arrMember[nRow].bet_sum = 0;
         arrMember[nRow].bet_sum += (arrMember[nRow].bet_pb_m?parseFloat(arrMember[nRow].bet_pb_m):0);

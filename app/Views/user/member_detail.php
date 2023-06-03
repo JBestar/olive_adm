@@ -196,7 +196,7 @@
                                         <td>보유머니 </td>
                                         <td><label id="money"><?=num_format(allMoney($objMember), NUM_POINT_CNT)?></label></td>
                                         <td>보유포인트 </td>
-                                        <td><label id="money"><?=num_format($objMember->mb_point, NUM_POINT_CNT)?></label></td>
+                                        <td><label id="money"><?=num_format(floor($objMember->mb_point), NUM_POINT_CNT)?></label></td>
                                         
                                     </tr>
                                     <tr>

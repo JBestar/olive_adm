@@ -44,12 +44,13 @@
 			<?php if($mb_level >= LEVEL_ADMIN) :  ?>
 				<a href="" onclick="popupMemberEdit(0);" class="user-panel-add-a" >회원 등록</a>
 			<?php endif ?>
-			<!-- <label>추천인</label>
-            <input type="text" class="pbresult-text-input" id="userpanel-empid-input-id" value= "<?=$emp_uid ?>"> -->
 			<select name="pbresult-level" class="pbresult-number-select" id="userpanel-type-select-id" stype="width:80px">
 				<option value="0">아이디</option>
 				<option value="1">닉네임</option>
 				<option value="2">등록번호</option>
+				<?php if($mb_level >= LEVEL_ADMIN) :  ?>
+					<option value="3">예금주</option>
+				<?php endif ?>
 			</select>
             <input type="text" class="pbresult-text-input" id="userpanel-userid-input-id" style="width:150px" value= "<?=$emp_uid ?>" >
 

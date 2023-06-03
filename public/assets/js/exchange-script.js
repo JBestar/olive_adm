@@ -26,11 +26,11 @@ function showMoneyHistory(jsonBetData) {
             strBuf += jsonBetData[nRow].money_mb_uid;
 
         strBuf += "</td><td>";
-        strBuf += parseFloat(jsonBetData[nRow].money_amount).toLocaleString();
+        strBuf += Math.floor(jsonBetData[nRow].money_amount).toLocaleString();
         strBuf += "</td><td>";
-        strBuf += parseFloat(jsonBetData[nRow].money_before).toLocaleString();
+        strBuf += Math.floor(jsonBetData[nRow].money_before).toLocaleString();
         strBuf += "</td><td>";
-        strBuf += parseFloat(jsonBetData[nRow].money_after).toLocaleString();
+        strBuf += Math.floor(jsonBetData[nRow].money_after).toLocaleString();
         strBuf += "</td><td>";
         strBuf += jsonBetData[nRow].money_update_time;
         strBuf += "</td><td>";
