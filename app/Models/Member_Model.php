@@ -1808,7 +1808,7 @@ class Member_Model extends Model
         if ($iEmpFid != 0)
             $sqlBuilder->where('mb_emp_fid', $iEmpFid);
 
-        if ($arrReqData['mb_grade'] != 0){
+        if ($arrReqData['mb_grade'] > 0){
             $sqlBuilder->where('mb_grade', $arrReqData['mb_grade']);
         }
         if ($arrReqData['mb_state'] >= 0){
@@ -1842,7 +1842,7 @@ class Member_Model extends Model
             if ($iEmpFid != 0)
                 $strSQL.=" AND mb_emp_fid = '".$iEmpFid."' ";
 
-            if($arrReqData['mb_grade'] != 0){            
+            if($arrReqData['mb_grade'] > 0){            
                 $strSQL.=" AND mb_grade = ".$this->db->escape($arrReqData['mb_grade']);
             }
             if ($arrReqData['mb_state'] >= 0){
