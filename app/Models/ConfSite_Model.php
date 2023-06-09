@@ -297,12 +297,22 @@ class ConfSite_Model extends Model
             $updateData['conf_id'] = CONF_CHARGE_MANUAL;
             $updateData['conf_content'] = $arrData['chargemanual'];
             $arrBatch[] = $updateData;
+        } else if(array_key_exists('exchange_delay', $arrData)){
+            $updateData = array();
+            $updateData['conf_id'] = CONF_CHARGE_MANUAL;
+            $updateData['conf_idx'] = $arrData['exchange_delay'];
+            $arrBatch[] = $updateData;
         }
 
         if(array_key_exists('discharmanual', $arrData)){
             $updateData = array();
             $updateData['conf_id'] = CONF_DISCHA_MANUAL;
             $updateData['conf_content'] = $arrData['discharmanual'];
+            $arrBatch[] = $updateData;
+        } else if(array_key_exists('bank_rest', $arrData)){
+            $updateData = array();
+            $updateData['conf_id'] = CONF_DISCHA_MANUAL;
+            $updateData['conf_idx'] = $arrData['bank_rest'];
             $arrBatch[] = $updateData;
         }
         

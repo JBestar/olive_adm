@@ -909,13 +909,11 @@ public function withdrawlist(){
 			$strUid = $this->session->user_id;
 			$objUser = $this->modelMember->getInfo($strUid);
 			
-			//현재 가입한 유저가 요청한 유저보다 레벨이 높은 경우에 변경이 가능하다.
 			if(!is_null($objUser))
 			{				
 				if($objUser->mb_level >= LEVEL_ADMIN )
 					$bPermit = true;					
 			}
-			
 
 			if($bPermit){
 				
@@ -948,7 +946,6 @@ public function withdrawlist(){
 			$strUid = $this->session->user_id;
 			$objUser = $this->modelMember->getInfo($strUid);
 			
-			//현재 가입한 유저가 요청한 유저보다 레벨이 높은 경우에 변경이 가능하다.
 			if(!is_null($objUser))
 			{				
 				if($objUser->mb_level >= LEVEL_ADMIN )
@@ -986,7 +983,6 @@ public function withdrawlist(){
 			$strUid = $this->session->user_id;
 			$objUser = $this->modelMember->getInfo($strUid);
 			
-			//현재 가입한 유저가 요청한 유저보다 레벨이 높은 경우에 변경이 가능하다.
 			if(!is_null($objUser))
 			{				
 				if($objUser->mb_level >= LEVEL_ADMIN )

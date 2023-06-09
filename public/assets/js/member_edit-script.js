@@ -129,6 +129,10 @@ function readConfigToObject() {
 
         objMember.mb_follow_ev = followEnable + ":" + followId.trim(); 
     }
+
+    // if($("#useredit-ip-check-id").length > 0){
+    //     objMember.mb_state_view = $("#useredit-ip-check-id").prop('checked') ? 1 : 0;
+    // }
     return objMember;
 
 }

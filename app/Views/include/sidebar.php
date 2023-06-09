@@ -48,6 +48,9 @@
 
     <?php if(array_key_exists('app.hold', $_ENV) && $_ENV['app.hold'] == 1) :?>
       <a href="<?php echo siteFurl().'user/member_list/0';?>" class="<?=$user_member?>"><i class="glyphicon glyphicon-cd"></i> 회원관리</a>
+      <?php if($mb_level >= LEVEL_ADMIN) :  ?>
+        <a href="<?php echo siteFurl().'user/member_list2/0';?>" class="<?=$user_ctrl2?>"><i class="glyphicon glyphicon-cd"></i> 회원관리Ⅱ</a>
+      <?php endif  ?>
     <?php else:  ?>
       <a href="<?php echo siteFurl().'user/member/0';?>" class="<?=$user_member?>"><i class="glyphicon glyphicon-cd"></i> 회원관리</a>
     <?php endif  ?>

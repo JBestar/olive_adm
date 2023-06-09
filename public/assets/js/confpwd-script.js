@@ -100,6 +100,48 @@ function addBtnEvent() {
 
     });
 
+    $("#confsite-give-but-id").click(function() {
+        var nAmount = parseFloat($("#confsite-money-input-id").val().replace(/,/g, ""));
+        if (isNaN(nAmount) || nAmount == "" || !mObjUser) {
+            nAmount = 0;
+        }
+        if (nAmount == 0) {
+            alert("지급금액을 입력 해주세요.");
+            return false;
+        }
+
+        if (!confirm(nAmount.toLocaleString() + "원을 지급하시겠습니까?"))
+            return;
+    
+        var jsonData = {
+            'mb_fid': mObjUser.mb_fid,
+            'amount': nAmount,
+            'type':4
+        }
+        requestTrasnfer(jsonData);
+    });
+
+    $("#confsite-collect-but-id").click(function() {
+        var nAmount = parseFloat($("#confsite-money-input-id").val().replace(/,/g, ""));
+        if (isNaN(nAmount) || nAmount == "" || !mObjUser) {
+            nAmount = 0;
+        }
+        if (nAmount == 0) {
+            alert("회수금액을 입력 해주세요.");
+            return false;
+        }
+
+        if (!confirm(nAmount.toLocaleString() + "원을 회수하시겠습니까?"))
+            return;
+    
+        var jsonData = {
+            'mb_fid': mObjUser.mb_fid,
+            'amount': nAmount,
+            'type':5
+        }
+        requestTrasnfer(jsonData);
+    });
+
 }
 
 function setJoinIp(ipInfo) {

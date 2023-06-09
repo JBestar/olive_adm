@@ -184,14 +184,14 @@ class ApiHold_Lib {
                 $arrResult['status'] = 1;
                 // "result": "TLu_1",
 	            // "error": 0
-                writeLog("logout=". $arrResult['result']);
+                writeLog("holdem logout=". $arrResult['result']);
             } else { 
                 $arrResult['status'] = 0;
                 //"error": 0,
-                writeLog("logout error=". $arrResult['error']);
+                writeLog("holdem logout error=". $arrResult['error']);
             }
 		} else {
-            writeLog("logout=". $response);
+            writeLog("holdem logout no=". $response);
             $arrResult['status'] = 0;
             $arrResult['error'] = CONNECT_ERROR;
         }

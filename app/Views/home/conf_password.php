@@ -23,7 +23,11 @@
 	</div>
 	<div class="confsite-password-text-div">
 		<p>보유금액:</p> <input type="text" id="confsite-egg-input-id" disabled>
-		<button class="recovery_btn" title="회수" id="recovery_useregg" style="margin-left:10px; margin-top:2px; display:none;"></button>
+		<button class="recovery_btn" title="알회수" id="recovery_useregg" style="margin-left:10px; margin-top:2px; display:none;"></button>
+
+		<input type="number" id="confsite-money-input-id" placeholder="금액입력" style="width:115px; margin-left:5px;">
+		<button class="pbresult-list-view-but" id="confsite-give-but-id" style="margin-left:5px; margin-right:0px; margin-top:-2px;">지급</button>  
+		<button class="pbresult-list-view-but" id="confsite-collect-but-id"  style="margin-left:5px; margin-top:-2px;">회수</button> 
 	</div>
 	<?php } ?>
 	<div class="confsite-password-text-div" style="margin-top:20px">
@@ -47,8 +51,10 @@
 </div>
 
 <?php if(array_key_exists("app.produce", $_ENV)) :?>
+    <script src="<?php echo site_furl('/assets/js/member_common-script.js?t='.time());?>"></script>
     <script src="<?php echo site_furl('/assets/js/confpwd-script.js?t='.time());?>"></script>
 <?php else : ?>
+    <script src="<?php echo site_furl('/assets/js/member_common-script.js?v=1');?>"></script>
     <script src="<?php echo site_furl('/assets/js/confpwd-script.js?v=2');?>"></script>
 <?php endif ?>
 <?= $this->endSection() ?>

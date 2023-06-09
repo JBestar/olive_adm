@@ -391,8 +391,7 @@
 							<?php endif ?>
 
 					<?php endif ?>
-
-				<?php elseif(!array_key_exists('app.site', $_ENV) || $_ENV['app.site'] == 0 ) :?>
+				<?php else: ?>
 					<?php if(!is_null($objMember) && $objMember->mb_state_delete == 1) :  ?>
 						<input type="checkbox" id="useredit-offline-check-id" style="zoom:140%; margin-top:4px; width:20px; margin-right:5px; " checked>
 					<?php else :  ?>
@@ -407,6 +406,12 @@
 				<p style="">메모:</p> 
 				<textarea rows="6" id="useredit-memo-text-id" style="width:510px; resize: vertical;" ><?php if(!is_null($objMember)) : echo $objMember->mb_memo ?><?php endif ?></textarea>					
 			</div>
+			<?php if(!is_null($objMember) && $objMember->mb_level >= LEVEL_ADMIN) :  ?>
+				<!-- <div class="useredit-percent-div">
+					<input type="checkbox" id="useredit-ip-check-id" style="zoom:140%; margin-top:4px; width:20px; margin-right:5px; " <?= $objMember->mb_state_view == 1? "checked":"" ?>>
+					<p>로그인시 아이피검사</p> 
+				</div> -->
+			<?php endif ?>
 
 			<!---->
 			<p class="useredit-seperate-div"></p>

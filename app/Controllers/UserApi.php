@@ -61,7 +61,7 @@ class UserApi extends BaseController
                 $arrData['mb_emp_fid'] = $objEmp->mb_fid;
                 $arrData['mb_level'] = $objEmp->mb_level - 1;                
             }
-            // 현재 가입한 유저가 요청한 유저보다 레벨이 높은 경우에 변경이 가능하다.
+
             if (!is_null($objUser)) {
                 if ($objUser->mb_level >= LEVEL_ADMIN) {
                     $bPermit = true;
@@ -146,7 +146,6 @@ class UserApi extends BaseController
                 $arrData['mb_emp_fid'] = $objEmp->mb_fid;
             }
             
-            // 현재 가입한 유저가 요청한 유저보다 레벨이 높은 경우에 변경이 가능하다.
             if (!is_null($objAdmin) && !is_null($objReqUser)) {
                 if ($objAdmin->mb_level > $objReqUser->mb_level) {
                     $bPermit = true;
@@ -232,7 +231,6 @@ class UserApi extends BaseController
             $objUser = $this->modelMember->getInfo($strUid);
             $objReqUser = $this->modelMember->getInfoByFid($arrData['mb_fid']);
 
-            // 현재 가입한 유저가 요청한 유저보다 레벨이 높은 경우에 변경이 가능하다.
             if (!is_null($objUser) && !is_null($objReqUser)) {
                 if ($objUser->mb_level >= LEVEL_ADMIN) {
                     $bPermit = true;
@@ -267,7 +265,6 @@ class UserApi extends BaseController
             $strUid = $this->session->user_id;
             $objAdmin = $this->modelMember->getInfo($strUid);
 
-            // 현재 가입한 유저가 요청한 유저보다 레벨이 높은 경우에 삭제가 가능하다.
             if (!is_null($objAdmin)) {
                 if ($objAdmin->mb_level >= LEVEL_ADMIN) {
                     $bPermit = true;
@@ -306,7 +303,6 @@ class UserApi extends BaseController
             $objAdmin = $this->modelMember->getInfo($strUid);
             $objReqUser = $this->modelMember->getInfoByFid($arrData['mb_fid']);
 
-            // 현재 가입한 유저가 요청한 유저보다 레벨이 높은 경우에 삭제가 가능하다.
             if (!is_null($objAdmin) && !is_null($objReqUser)) {
                 if ($objAdmin->mb_level >= LEVEL_ADMIN) {
                     $bPermit = true;
@@ -345,19 +341,24 @@ class UserApi extends BaseController
 
         if (is_login()) {
             $bPermit = false;
+            $confsiteModel = new ConfSite_Model();
             
             $strUid = $this->session->user_id;
             $objUser = $this->modelMember->getInfo($strUid);
             $objReqUser = $this->modelMember->getInfoByFid($arrData['mb_fid']);
 
-            // 현재 가입한 유저가 요청한 유저보다 레벨이 높은 경우에 삭제가 가능하다.
             if (!is_null($objUser) && !is_null($objReqUser)) {
                 if ($objUser->mb_level >= LEVEL_ADMIN) {
                     $bPermit = true;
                 }
             }
             if ($bPermit) {
+                $siteConfs = $this->getSiteConf($confsiteModel);
                 
+                if(!$siteConfs['hold_deny']){
+                    $this->libApiHold->logout($objReqUser->mb_hold_uid);
+                }
+
                 $bResult = $this->modelSess->deleteByMember($objReqUser->mb_fid);
                 
                 if ($bResult) {
@@ -374,7 +375,6 @@ class UserApi extends BaseController
         echo json_encode($arrResult);
     }
 
-    // 회원정보  대기 승인 라이브게임아이디 생성한다.
     public function wait_permit()
     {
         $jsonData = $_REQUEST['json_'];
@@ -390,7 +390,7 @@ class UserApi extends BaseController
             $bPermit = false;
             $bResult = false;
             $iCreated = 0;
-            // 현재 가입한 유저가 요청한 유저보다 레벨이 높은 경우에 변경이 가능하다.
+
             if (!is_null($objUser) && !is_null($objReqUser)) {
                 if (2 != $objReqUser->mb_state_active) {
                     $bPermit = false;

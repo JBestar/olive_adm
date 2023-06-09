@@ -99,6 +99,16 @@ function readConfigToObject() {
         jsonData.teleid = $("#confsite-teleid-input-id").val();
     }
 
+    if($("#confsite-exchange-check-id").length > 0){
+        jsonData.exchange_delay = $("#confsite-exchange-check-id").prop('checked') ? 1 : 0;
+        jsonData.exchange_delay += "#"+$("#confsite-exchange-input-id").val();
+    }
+    if($("#confsite-bank-check-id").length > 0){
+        jsonData.bank_rest = $("#confsite-bank-check-id").prop('checked') ? 1 : 0;
+        jsonData.bank_rest += "#"+$("#confsite-bankstart-input-id").val();
+        jsonData.bank_rest += "#"+$("#confsite-bankend-input-id").val();
+    }
+
     return jsonData;
 
 }

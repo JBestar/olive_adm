@@ -256,6 +256,22 @@ class User extends StdController
 			['emp_uid' => $strEmpUid]);
 	}
 
+	function member_list2($strEmpFid){
+		if (is_login() === false){
+			return $this->response->redirect($_ENV['app.furl'].'/pages/login');
+		}
+		$objEmp = $this->modelMember->find($strEmpFid);
+		$strEmpUid = "";
+		if ($objEmp != null){
+			$strEmpUid = $objEmp->mb_uid;
+		}
+		$this->load_view_page(
+			'user/member_ctrl2', 
+			'user_ctrl2', 
+			LEVEL_ADMIN, 
+			['emp_uid' => $strEmpUid]);
+	}
+
 	function member_class($strEmpFid){
 		if (is_login() === false){
 			return $this->response->redirect($_ENV['app.furl'].'/pages/login');

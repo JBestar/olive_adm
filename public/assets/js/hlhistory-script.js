@@ -1,5 +1,7 @@
 $(document).ready(function() {
     setNavBarElement();
+    $("#pbhistory-userid-input-id").css("width", "115px");
+    $("#pbhistory-userid-input-id").attr("placeholder", "아아디||등록번호");
     addEventListner();
     requestPageInfo();
     setTimeout(function() {
@@ -28,6 +30,8 @@ function ShowBetHistory(jsonBetData, level) {
         strBuf += (parseInt(nRow) + firstIdx + 1);
         strBuf += "</td><td>";
         strBuf += jsonBetData[nRow].bet_mb_uid;
+        strBuf += "</td><td>";
+        strBuf += jsonBetData[nRow].bet_mb_fid;
         strBuf += "</td><td>";
         strBuf += jsonBetData[nRow].bet_time;
         strBuf += "</td><td>";

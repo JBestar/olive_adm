@@ -10,6 +10,7 @@ class HlBet_Model extends Model
         'bet_idx', 
         'bet_emp_fid', 
         'bet_mb_uid', 
+        'bet_mb_fid', 
         'bet_round_no', 
         'bet_time', 
         'bet_money', 
@@ -91,7 +92,7 @@ class HlBet_Model extends Model
 
         $strWhere =" WHERE ".getBetTimeRange($arrReqData, $this->db);
         if(strlen($arrReqData['user']) > 0){
-            $strWhere.=" AND bet_mb_uid = ".$this->db->escape($arrReqData['user']);
+            $strWhere.=" AND ( bet_mb_uid = ".$this->db->escape($arrReqData['user'])." OR bet_mb_fid = ".$this->db->escape($arrReqData['user']).") ";
         }
         if($objEmp->mb_level < LEVEL_ADMIN){
             $strWhere.=" AND bet_mb_uid in ( SELECT mb_uid FROM  tbmember UNION ALL SELECT '".$objEmp->mb_uid."' AS mb_uid ) ";
@@ -101,12 +102,12 @@ class HlBet_Model extends Model
         $strWhere.=" ORDER BY bet_fid DESC LIMIT ".$nStartRow.", ".$arrReqData['count'];
         
         if($bAll){
-            $fields = [ 'bet_idx', 'bet_emp_fid', 'bet_mb_uid', 'bet_round_no', 'bet_time', 'bet_money', 
+            $fields = [ 'bet_idx', 'bet_emp_fid', 'bet_mb_uid', 'bet_mb_fid', 'bet_round_no', 'bet_time', 'bet_money', 
                 'bet_win_money', 'bet_player_1', 'bet_player_2', 
                 'bet_player_3',  'bet_player_4', 'bet_player_5', 'bet_player_6', 'bet_player_7', 'bet_player_8', 
                 'bet_player_9',  'bet_community', 'bet_player_seat', 'bet_order' ];
         } else {
-            $fields = [ 'bet_idx', 'bet_emp_fid', 'bet_mb_uid', 'bet_round_no', 'bet_time', 'bet_money', 
+            $fields = [ 'bet_idx', 'bet_emp_fid', 'bet_mb_uid', 'bet_mb_fid', 'bet_round_no', 'bet_time', 'bet_money', 
             'bet_win_money'];
         }
 

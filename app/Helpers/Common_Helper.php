@@ -32,6 +32,7 @@
                'userdropdown' => "style=\"display:block\"", 
                'user_member' => '',
                'user_ctrl' => '',
+               'user_ctrl2' => '',
                'user_log' => '',
                'user_block' => '',
                'bankdropdownbtn' => " main-dropdown-active-btn",

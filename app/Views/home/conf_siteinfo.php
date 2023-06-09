@@ -63,11 +63,11 @@
 
 	<h4><i class="glyphicon glyphicon-hand-right"></i> 공지사항 </h4>
 	<div class="confsite-site-check-div">
-		<?php if(is_null($arrConfig) || $arrConfig[CONF_NOTICE_MAIN-1]->conf_active != 1) {  ?>
+		<?php if(is_null($arrConfig) || $arrConfig[CONF_NOTICE_MAIN-1]->conf_active != 1) : ?>
 		<input type="checkbox" id="confsite-mainnotice-check-id">
-		<?php } else {?>
+		<?php else :?>
 		<input type="checkbox" id="confsite-mainnotice-check-id" checked>				
-		<?php } ?>
+		<?php endif ?>
 
 		<label for="confsite-mainnotice-check-id"> 회원로그인시 메인공지사항</label>			
 	</div>
@@ -75,20 +75,20 @@
 		<textarea rows="" id="confsite-mainnotice-text-id"><?php if(!is_null($arrConfig)) {  ?><?=$arrConfig[CONF_NOTICE_MAIN-1]->conf_content?><?php } ?></textarea>					
 	</div>
 	<div class="confsite-site-check-div" style="margin-top:15px">
-		<?php if (is_null($arrConfig) || $arrConfig[CONF_NOTICE_BANK-1]->conf_active != 1) {?>
+		<?php if (is_null($arrConfig) || $arrConfig[CONF_NOTICE_BANK-1]->conf_active != 1) : ?>
 		<input type="checkbox" id="confsite-deposite-check-id">
-		<?php } else {?>
+		<?php else :?>
 		<input type="checkbox" id="confsite-deposite-check-id" checked>
-		<?php }?>
+		<?php endif ?>
 		<label for="confsite-deposite-check-id"> 회원로그인시 충환전공지사항</label>
 		
 		<span style="float:right; margin-right:19%; ">
 			<label> 배경색</label>
-			<?php if (strlen($arrConfig[CONF_NOTICE_BANK-1]->conf_idx) > 3){ ?>
+			<?php if (strlen($arrConfig[CONF_NOTICE_BANK-1]->conf_idx) > 3) : ?>
 				<input type="color" value="<?php echo $arrConfig[CONF_NOTICE_BANK-1]->conf_idx; ?>" id="confsite-deposite-color-id" style="padding:0; width:80px;">
-			<?php } else {?>
+			<?php else :?>
 				<input type="color" value="#2A2A2A" id="confsite-deposite-color-id" style="padding:0; width:80px;">
-			<?php }?>
+			<?php endif ?>
 		</span>
 	</div>
 	<style>
@@ -97,37 +97,37 @@
 		}
 	</style>
 	<div class="width:100%; clear:both; ">
-		<?php if (strlen($arrConfig[CONF_NOTICE_BANK-1]->conf_idx) > 3){ ?>
+		<?php if (strlen($arrConfig[CONF_NOTICE_BANK-1]->conf_idx) > 3) : ?>
 			<form method="post" id="confsite-deposite-id" style="width:80%; margin-left:20px; background-color:<?php echo $arrConfig[CONF_NOTICE_BANK-1]->conf_idx; ?>;">
-		<?php } else {?>
+		<?php else :?>
 			<form method="post" id="confsite-deposite-id" style="width:80%; margin-left:20px; background-color:#2A2A2A;">
-		<?php }?>
+		<?php endif ?>
 			<textarea id="confsite-deposite-text-id" name="editordata"><?php if(!is_null($arrConfig)) {  ?><?=$arrConfig[CONF_NOTICE_BANK-1]->conf_content?><?php } ?></textarea>
 		</form>
 	</div>
 	
 	<div class="confsite-site-check-div">
-		<?php if (is_null($arrConfig) || $arrConfig[CONF_NOTICE_URGENT-1]->conf_active != 1){ ?>
+		<?php if (is_null($arrConfig) || $arrConfig[CONF_NOTICE_URGENT-1]->conf_active != 1) : ?>
 			<input type="checkbox" id="confsite-urgentnotice-check-id">
-		<?php } else {?>
+		<?php else :?>
 			<input type="checkbox" id="confsite-urgentnotice-check-id" checked>
-		<?php }?>
+		<?php endif ?>
 		<label for="confsite-urgentnotice-check-id"> 회원로그인시 긴급공지사항</label>
 		<span style="float:right; margin-right:19%; ">
 			<label> 배경색</label>
-		<?php if (strlen($arrConfig[CONF_NOTICE_URGENT-1]->conf_idx) > 3){ ?>
+		<?php if (strlen($arrConfig[CONF_NOTICE_URGENT-1]->conf_idx) > 3) : ?>
 			<input type="color" value="<?php echo $arrConfig[CONF_NOTICE_URGENT-1]->conf_idx; ?>" id="confsite-urgentnotice-color-id" style="padding:0; width:80px;">
-		<?php } else {?>
+		<?php else :?>
 			<input type="color" value="#2A2A2A" id="confsite-urgentnotice-color-id" style="padding:0; width:80px;">
-		<?php }?>
+		<?php endif ?>
 		</span>
 	</div>
 	<div class="width:100%; clear:both; ">
-		<?php if (strlen($arrConfig[CONF_NOTICE_URGENT-1]->conf_idx) > 3){ ?>
+		<?php if (strlen($arrConfig[CONF_NOTICE_URGENT-1]->conf_idx) > 3) : ?>
 			<form method="post"  id="confsite-urgentnotice-id" style="width:80%; margin-left:20px; background-color:<?php echo $arrConfig[CONF_NOTICE_URGENT-1]->conf_idx; ?>;">
-		<?php } else {?>
+		<?php else :?>
 			<form method="post"  id="confsite-urgentnotice-id" style="width:80%; margin-left:20px; background-color:#2A2A2A;">
-		<?php }?>
+		<?php endif ?>
 			<textarea id="confsite-urgentnotice-text-id" name="editordata"><?php if(!is_null($arrConfig)) {  ?><?=$arrConfig[CONF_NOTICE_URGENT-1]->conf_content?><?php } ?></textarea>
 		</form>
 	</div>
@@ -161,45 +161,78 @@
 	</div>
 	<h4><i class="glyphicon glyphicon-hand-right"></i> 회원이용정책</h4>
 	<div class="confsite-site-check-div">
-		<?php if (is_null($arrConfig) || $arrConfig[CONF_MULTI_LOGIN-1]->conf_active != 1){ ?>
+		<?php if (is_null($arrConfig) || $arrConfig[CONF_MULTI_LOGIN-1]->conf_active != 1) : ?>
 			<input type="checkbox" id="confsite-multilog-check-id">
-		<?php } else {?>
+		<?php else :?>
 			<input type="checkbox" id="confsite-multilog-check-id" checked>
-		<?php }?>
+		<?php endif ?>
 		<label for="confsite-multilog-check-id"> 중복로그인 허용</label>
 	</div>
 	<div class="confsite-site-check-div">
-		<?php if (is_null($arrConfig) || $arrConfig[CONF_TRANS_DENY-1]->conf_active == 1){ ?>
+		<?php if (is_null($arrConfig) || $arrConfig[CONF_TRANS_DENY-1]->conf_active == 1) : ?>
 			<input type="checkbox" id="confsite-transdeny-check-id">
-		<?php } else {?>
+		<?php else :?>
 			<input type="checkbox" id="confsite-transdeny-check-id" checked>
-		<?php }?>
+		<?php endif ?>
 		<label for="confsite-transdeny-check-id"> 하부회원 머니이동 허용</label>
 	</div>
 	<div class="confsite-site-check-div" style="padding-left:50px;">
-		<?php if (is_null($arrConfig) || $arrConfig[CONF_TRANS_LV1-1]->conf_active != 1){ ?>
+		<?php if (is_null($arrConfig) || $arrConfig[CONF_TRANS_LV1-1]->conf_active != 1) : ?>
 			<input type="checkbox" id="confsite-translv1-check-id">
-		<?php } else {?>
+		<?php else :?>
 			<input type="checkbox" id="confsite-translv1-check-id" checked>
-		<?php }?>
+		<?php endif ?>
 		<label for="confsite-translv1-check-id"> 1단계만 허용</label>
 	</div>
 	<div class="confsite-site-check-div">
-		<?php if (is_null($arrConfig) || $arrConfig[CONF_RETURN_DENY-1]->conf_active == 1){ ?>
+		<?php if (is_null($arrConfig) || $arrConfig[CONF_RETURN_DENY-1]->conf_active == 1) : ?>
 			<input type="checkbox" id="confsite-returndeny-check-id" >
-		<?php } else {?>
+		<?php else :?>
 			<input type="checkbox" id="confsite-returndeny-check-id" checked>
-		<?php }?>
+		<?php endif ?>
 		<label for="confsite-returndeny-check-id"> 하부회원 머니환수 허용</label>
 	</div>
 	<div class="confsite-site-check-div" style="padding-left:50px;">
-		<?php if (is_null($arrConfig) || $arrConfig[CONF_RETURN_LV1-1]->conf_active != 1){ ?>
+		<?php if (is_null($arrConfig) || $arrConfig[CONF_RETURN_LV1-1]->conf_active != 1) : ?>
 			<input type="checkbox" id="confsite-returnlv1-check-id">
-		<?php } else {?>
+		<?php else :?>
 			<input type="checkbox" id="confsite-returnlv1-check-id" checked>
-		<?php }?>
+		<?php endif ?>
 		<label for="confsite-returnlv1-check-id"> 1단계만 허용</label>
 	</div>
+
+	<?php if(array_key_exists('app.hold', $_ENV) && $_ENV['app.hold'] == 1) :  ?>
+	<h4><i class="glyphicon glyphicon-hand-right"></i> 은행이용정책</h4>
+	<div class="confsite-site-check-div">
+		<?php if (count( explode("#", trim($arrConfig[CONF_CHARGE_MANUAL-1]->conf_idx)) ) >= 2 ) : ?>
+			<input type="checkbox" id="confsite-exchange-check-id" <?=explode("#", trim($arrConfig[CONF_CHARGE_MANUAL-1]->conf_idx))[0] == 1 ? "checked":""?>>
+			<label for="confsite-exchange-check-id"> 환전시간설정</label>
+			<input type="number" style="width:105px; margin-left:10px;" placeholder="환전시간" id="confsite-exchange-input-id" value="<?=explode("#", trim($arrConfig[CONF_CHARGE_MANUAL-1]->conf_idx))[1]?>">
+		<?php else:?>
+			<input type="checkbox" id="confsite-exchange-check-id" >
+			<label for="confsite-exchange-check-id"> 환전시간설정</label>
+			<input type="number" style="width:105px; margin-left:10px;" placeholder="환전시간" id="confsite-exchange-input-id" value="">
+		<?php endif?>
+		<label> 시간</label>
+	</div>
+	<div class="confsite-site-check-div">
+		<?php if (count( explode("#", trim($arrConfig[CONF_DISCHA_MANUAL-1]->conf_idx)) ) >= 3 ) : ?>
+			<input type="checkbox" id="confsite-bank-check-id" <?=explode("#", trim($arrConfig[CONF_DISCHA_MANUAL-1]->conf_idx))[0] == 1 ? "checked":""?>>
+			<label for="confsite-bank-check-id"> 은행점검시간</label>
+			<input type="time" id="confsite-bankstart-input-id" style="margin-left:10px;"   value="<?=explode("#", trim($arrConfig[CONF_DISCHA_MANUAL-1]->conf_idx))[1]?>">
+			<label> ~ </label>
+			<input type="time" id="confsite-bankend-input-id"  value="<?=explode("#", trim($arrConfig[CONF_DISCHA_MANUAL-1]->conf_idx))[2]?>">
+		<?php else :?>
+			<input type="checkbox" id="confsite-bank-check-id" >
+			<label for="confsite-bank-check-id"> 은행점검시간</label>
+			<input type="time" id="confsite-bankstart-input-id" style="margin-left:10px;"   value="">
+			<label> ~ </label>
+			<input type="time" id="confsite-bankend-input-id"  value="">
+		<?php endif?>
+	</div>
+	<?php endif ?>
+
+
 	<div class="confsite-button-group">
 		<button class="confsite-cancel-button" id="confsite-cancel-btn-id">취소</button>
 		<button class="confsite-ok-button" id="confsite-ok-btn-id">저장</button>
