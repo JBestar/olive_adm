@@ -148,7 +148,7 @@ function toggle(level, fid){
 }
 
 
-function subIds(tdLevel, empId, bChild=false){
+function subIds(tdLevel, empId, bChild=false, minLevel = 0){
 
     let ids = ""; 
     if(tdLevel < 1 || mArrMember.length < 1)
@@ -170,8 +170,8 @@ function subIds(tdLevel, empId, bChild=false){
         if(mArrMember[nRow].mb_state_active == 2)
             continue;
 
-        if(bChild)
-            chIds = subIds(mArrMember[nRow].mb_level-1, mArrMember[nRow].mb_fid, bChild);
+        if(bChild && mArrMember[nRow].mb_level > minLevel)
+            chIds = subIds(mArrMember[nRow].mb_level-1, mArrMember[nRow].mb_fid, bChild, minLevel);
         ids += mArrMember[nRow].mb_fid + ","+chIds;
     }
     return ids;
@@ -208,6 +208,14 @@ function togleList(open = true){
         }
     }
 
+    if(open){
+        for (let objMember of mArrMember) {
+            if(parseInt(objMember.mb_level) == LEVEL_EMPLOYEE){
+                setToggle(LEVEL_EMPLOYEE, objMember.mb_fid, false);
+            }
+        }
+    
+    }
 }
 
 function setToggle(level, fid, open=true){
@@ -215,11 +223,12 @@ function setToggle(level, fid, open=true){
     if(!theButton)
         return;
 
-    let bChild = false;
-        bChild = true;
+    let bChild = true;
 
-    let strIds = subIds(level-1, fid, bChild);
-    // console.log(strIds);
+    let minLevel = 0;
+
+    let strIds = subIds(level-1, fid, bChild, minLevel);
+    // console.log("open="+open + " ids = "+ strIds);
 
     let trRows = [];
     let trIds = "";

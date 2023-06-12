@@ -15,9 +15,15 @@ class Clean_Model extends Model {
         $strSql = " DELETE FROM bet_slot WHERE bet_time < '".$strDate."' ";
         $this -> db -> query($strSql);
         
+        $strSql = " DELETE FROM bet_holdem WHERE bet_time < '".$strDate."' ";
+        $this -> db -> query($strSql);
+
         $strSql = " DELETE FROM bet_reward WHERE rw_time < '".$strDate."' ";
         $this -> db -> query($strSql);
         
+        $strSql = " DELETE FROM bet_happyball WHERE bet_time < '".$strDate."' ";
+        $this -> db -> query($strSql);
+
         $strSql = " DELETE FROM bet_powerball WHERE bet_time < '".$strDate."' ";
         $this -> db -> query($strSql);
         
@@ -48,41 +54,7 @@ class Clean_Model extends Model {
         $strSql = " DELETE FROM bet_balance WHERE bet_time < '".$strDate."' ";
         $this -> db -> query($strSql);
 
-        // $strSql = " DELETE FROM board_notice WHERE notice_time_create < '".$strDate."'  AND notice_type != '".NOTICE_BOARD."' ";
-        // $this -> db -> query($strSql);
-
-        // $strSql = " DELETE FROM member_charge WHERE charge_time_require < '".$strDate."' ";
-        // $this -> db -> query($strSql);
-        
-        // $strSql = " DELETE FROM member_exchange WHERE exchange_time_require < '".$strDate."' ";
-        // $this -> db -> query($strSql);
-        
-        // $strSql = " DELETE FROM money_history WHERE money_update_time < '".$strDate."' ";
-        // $this -> db -> query($strSql);
-        
-        // $strSql = " DELETE FROM transfer_history WHERE money_update_time < '".$strDate."' ";
-        // $this -> db -> query($strSql);
-                
-        // $strSql = " DELETE FROM round_powerball WHERE round_date < '".$strDate."' ";
-        // $this -> db -> query($strSql);
-
-        // $strSql = " DELETE FROM round_powerladder WHERE round_date < '".$strDate."' ";
-        // $this -> db -> query($strSql);
-
-        // $strSql = " DELETE FROM round_bogleball WHERE round_date < '".$strDate."' ";
-        // $this -> db -> query($strSql);
-
-        // $strSql = " DELETE FROM round_bogleladder WHERE round_date < '".$strDate."' ";
-        // $this -> db -> query($strSql);
-
-        // $strSql = " DELETE FROM sess_try WHERE log_time < '".$strDate."' ";
-        // $this -> db -> query($strSql);
-        
-        // $strSql = " DELETE FROM sess_log WHERE log_time < '".$strDate."' ";
-        // $this -> db -> query($strSql);
-
         $this->db->query("TRUNCATE sessions");
-
         
         return 1;
     }
@@ -93,6 +65,7 @@ class Clean_Model extends Model {
         $this->db->query("TRUNCATE bet_balance");
         $this->db->query("TRUNCATE bet_powerball");
         $this->db->query("TRUNCATE bet_happyball");
+        $this->db->query("TRUNCATE bet_holdem");
         $this->db->query("TRUNCATE bet_powerladder");
         $this->db->query("TRUNCATE bet_bogleball");
         $this->db->query("TRUNCATE bet_bogleladder");
@@ -107,6 +80,7 @@ class Clean_Model extends Model {
         $this->db->query("TRUNCATE member_charge");
         $this->db->query("TRUNCATE member_exchange");
         $this->db->query("TRUNCATE money_history");
+        $this->db->query("TRUNCATE money_tansfer");
         $this->db->query("TRUNCATE sessions");
         $this->db->query("TRUNCATE sess");
         $this->db->query("TRUNCATE sess_log");
@@ -152,42 +126,34 @@ class Clean_Model extends Model {
             $this->db->query("TRUNCATE bet_balance");
             $this->db->query("TRUNCATE bet_reward");
             $this->db->query("TRUNCATE money_history");
+            $this->db->query("TRUNCATE bet_casino");
+            $this->db->query("TRUNCATE bet_slot");
+            $this->db->query("TRUNCATE bet_holdem");
         } else if(strlen($date) > 0) {
 
             $partName = "P_".str_replace("-", "", $date)."_000000";
             writeLog("clean Partition:".$partName);
 
             $table = "bet_ebal";
-            $parts = $this->getPartition($table);
-            for ($i=0; $i<count($parts)-2; $i++) {
-                if($parts[$i]->PARTITION_NAME < $partName){
-                    $this->dropPartition($parts[$i]->TABLE_NAME, $parts[$i]->PARTITION_NAME);
-                }
-            }
+            $this->dropPartitions($table, $partName);
 
             $table = "bet_balance";
-            $parts = $this->getPartition($table);
-            for ($i=0; $i<count($parts)-2; $i++) {
-                if($parts[$i]->PARTITION_NAME < $partName){
-                    $this->dropPartition($parts[$i]->TABLE_NAME, $parts[$i]->PARTITION_NAME);
-                }
-            }
+            $this->dropPartitions($table, $partName);
 
             $table = "bet_reward";
-            $parts = $this->getPartition($table);
-            for ($i=0; $i<count($parts)-2; $i++) {
-                if($parts[$i]->PARTITION_NAME < $partName){
-                    $this->dropPartition($parts[$i]->TABLE_NAME, $parts[$i]->PARTITION_NAME);
-                }
-            }
+            $this->dropPartitions($table, $partName);
 
             $table = "money_history";
-            $parts = $this->getPartition($table);
-            for ($i=0; $i<count($parts)-2; $i++) {
-                if($parts[$i]->PARTITION_NAME < $partName){
-                    $this->dropPartition($parts[$i]->TABLE_NAME, $parts[$i]->PARTITION_NAME);
-                }
-            }
+            $this->dropPartitions($table, $partName);
+
+            $table = "bet_casino";
+            $this->dropPartitions($table, $partName);
+
+            $table = "bet_slot";
+            $this->dropPartitions($table, $partName);
+
+            $table = "bet_holdem";
+            $this->dropPartitions($table, $partName);
 
             writeLog("clean Partition END");
 
@@ -197,6 +163,14 @@ class Clean_Model extends Model {
         return 1;
     }
 
+    public function dropPartitions($table, $partName){
+        $parts = $this->getPartition($table);
+        for ($i=0; $i<count($parts)-2; $i++) {
+            if($parts[$i]->PARTITION_NAME < $partName){
+                $this->dropPartition($parts[$i]->TABLE_NAME, $parts[$i]->PARTITION_NAME);
+            }
+        }
+    }
 
     public function getPartition($table){
         $sql = "SELECT TABLE_SCHEMA, TABLE_NAME, PARTITION_NAME, PARTITION_ORDINAL_POSITION, TABLE_ROWS FROM INFORMATION_SCHEMA.PARTITIONS";
