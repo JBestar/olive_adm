@@ -41,11 +41,11 @@ function ShowBetHistory(jsonBetData, level) {
         strBuf += "</td>";
         strResult = "<td>";
         if (parseInt(jsonBetData[nRow].bet_win_money) > parseInt(jsonBetData[nRow].bet_money)) {
-            strResult = "<td  class = 'pb-home-table-betstate-earn'>적중";
+            strResult = "<td  class = 'pb-home-table-betstate-earn'>승리";
         } else if (jsonBetData[nRow].bet_win_money == jsonBetData[nRow].bet_money) {
             strResult = "<td  class = 'pb-home-table-betstate-wait'>비김";
         } else {
-            strResult = "<td  class = 'pb-home-table-betstate-loss'>미적중"; //
+            strResult = "<td  class = 'pb-home-table-betstate-loss'>패배"; //
         }
         strBuf += strResult;
         strBuf += "</td><td>";

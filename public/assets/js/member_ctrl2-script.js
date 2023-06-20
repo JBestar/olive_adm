@@ -30,11 +30,7 @@ function showMember(arrMember, confs) {
         strBuf += "<td>";
         strBuf += (parseInt(nRow) + firstIdx + 1);
         strBuf += "</td> <td>";
-        strBuf += "<a href='"+FURL+"/user/member_list2/";
-        strBuf += arrMember[nRow].mb_fid;
-        strBuf += "' class='link-member'>"
-        strBuf += arrMember[nRow].mb_uid;
-        strBuf += "</a>";
+        strBuf += "<a onclick='showMemEdit(" + arrMember[nRow].mb_fid + ")' class='link-member'>"+ arrMember[nRow].mb_uid+ "</a>";
         strBuf += "</td> <td>";
         strBuf += "<a onclick='showMemEdit(" + arrMember[nRow].mb_fid + ")' class='link-member'>"+ arrMember[nRow].mb_nickname+ "</a>";
         if(arrMember[nRow].mb_state_delete > 0){
@@ -66,11 +62,11 @@ function showMember(arrMember, confs) {
         strBuf += "</td> <td id='mp_" + arrMember[nRow].mb_fid + "'>";
         strBuf += Math.floor(arrMember[nRow].mb_point).toLocaleString();
         strBuf += "</td> <td>";
+        strBuf += arrMember[nRow].mb_time_last ;
+        strBuf += "</td> <td>";
         strBuf += "<button name='" + nRow + "' data-fid='" + arrMember[nRow].mb_fid + "' >충전</button>";
         strBuf += "</td> <td>";
         strBuf += "<button name='" + nRow + "' data-fid='" + arrMember[nRow].mb_fid + "' >환전</button>";
-        strBuf += "</td> <td>";
-        strBuf += "<button onclick='popupMemberDetail("+ arrMember[nRow].mb_fid + ")' >상세</button>";
         strBuf += "</td> <td>";
         strBuf += "<button name='" + nRow + "' data-fid='" + arrMember[nRow].mb_fid + "' >수정</button>";
         strBuf += "</td> <td>";
@@ -154,6 +150,7 @@ function addEventListner() {
             case "총롤링금": item='rw_point'; break;
             case "환전롤링금": item='chg_point'; break;
             case "등록날짜": item='mb_time_join'; break;
+            case "최근접속": item='mb_time_last'; break;
             case "공배팅": item='mb_blank_count'; break;
             default:break;
         }

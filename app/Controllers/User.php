@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\ConfSite_Model;
+use App\Models\Charge_Model;
+use App\Models\Exchange_Model;
 
 class User extends StdController
 {
@@ -23,14 +25,14 @@ class User extends StdController
 
 		$objMember = null;
 		$bPermit = false;
-		
+		$strUid = $this->session->user_id;
+		$objAdmin = $this->modelMember->getInfo($strUid);
 		if(!is_numeric($mbFid)){
 			$bPermit = false;
 		} else if($mbFid == 0){
 			$bPermit = true;
 		} else {
-			$strUid = $this->session->user_id;
-			$objAdmin = $this->modelMember->getInfo($strUid);
+			
 
 			$arrMem = $this->modelMember->getMemberByEmpFid($objAdmin->mb_fid, $objAdmin->mb_level,  $objAdmin->mb_level, true, $mbFid);
 			if(count($arrMem) > 0)
@@ -97,15 +99,46 @@ class User extends StdController
 		else {
 			$follow_en = false;
 			$press_en = 0;
-			$confFollow = $confsiteModel->getConf(CONF_EVOLFOLLOW);
-			if($confFollow != null){
-				$follow_en = intval($confFollow->conf_active) == STATE_ACTIVE ;
-				$info = explode('#', $confFollow->conf_idx);
-				if(count($info) >= 1){
-					$press_en = intval($info[0]);
-				}
-			}
 
+			if($objAdmin->mb_level >= LEVEL_ADMIN && array_key_exists('app.hold', $_ENV) && $_ENV['app.hold'] == 1 ){
+				$url = 'user/user_detail'; 
+
+				if(!is_null($objMember)){
+					$chargeModel = new Charge_Model();
+            		$exchangeModel = new Exchange_Model();
+
+					$arrReqData['mb_uid'] = $objMember->mb_uid; 
+					$objMember->mb_charge_total = $chargeModel->calcAdminCharge($arrReqData);
+					$objMember->mb_exchange_total = $exchangeModel->calcAdminExchange($arrReqData);
+	
+					$arrReqData['start'] = date('Y-m-d');
+                	$arrReqData['end'] = $arrReqData['start'];
+					$objMember->mb_charge_day = $chargeModel->calcAdminCharge($arrReqData);
+					$objMember->mb_exchange_day = $exchangeModel->calcAdminExchange($arrReqData);
+
+					$arrReqData['start'] = date('Y-m')."-01";
+					$tmStart = strtotime($arrReqData['start']);
+      				$tmStart = strtotime("+1 month", $tmStart);
+                	$arrReqData['end'] = date("Y-m-d", $tmStart);
+
+					$objMember->mb_charge_month = $chargeModel->calcAdminCharge($arrReqData);
+					$objMember->mb_exchange_month = $exchangeModel->calcAdminExchange($arrReqData);
+
+					if($objMember->mb_level >= LEVEL_ADMIN)
+						$objMember->mb_ip_join = "";
+				}
+				
+			} else {
+				$confFollow = $confsiteModel->getConf(CONF_EVOLFOLLOW);
+				if($confFollow != null){
+					$follow_en = intval($confFollow->conf_active) == STATE_ACTIVE ;
+					$info = explode('#', $confFollow->conf_idx);
+					if(count($info) >= 1){
+						$press_en = intval($info[0]);
+					}
+				}
+				
+			}
 
 			$this->load_view_page(
 				$url, 
@@ -127,8 +160,13 @@ class User extends StdController
 	{
 		if(is_login())
 		{
-			if(array_key_exists('app.hold', $_ENV) && $_ENV['app.hold'] == 1)
-				$this->response->redirect($_ENV['app.furl'].'/user/member_list/0');
+			if(array_key_exists('app.hold', $_ENV) && $_ENV['app.hold'] == 1){
+				$strUid = $this->session->user_id;
+				$objMember = $this->modelMember->getInfo($strUid);
+				if(!is_null($objMember) && ($objMember->mb_level >= LEVEL_ADMIN || floatval($objMember->mb_game_hl_ratio) > 0) )
+					$this->response->redirect($_ENV['app.furl'].'/user/member_list/0');
+				else print "<script language=javascript> self.close(); </script>";
+			}
 			else 
 				$this->response->redirect($_ENV['app.furl'].'/user/member/0');
 		}
@@ -154,6 +192,14 @@ class User extends StdController
 			LEVEL_ADMIN);
 	}
 	
+	function member_ip(){
+		
+		$this->load_view_page(
+			'user/member_log2', 
+			'user_ip', 
+			LEVEL_ADMIN);
+	}
+
 	function member_block(){
 		
 		$this->load_view_page(
@@ -196,27 +242,34 @@ class User extends StdController
 		$strUid = $this->session->user_id;
 		$objAdmin = $this->modelMember->getInfo($strUid);
 		$admFid = 0;
-		if($objAdmin->mb_level >= LEVEL_MASTER){
-			$arrMem = $this->modelMember->getMemberByLevel(LEVEL_ADMIN);
-			 if(count($arrMem) > 0){
-				$objMember = reset($arrMem);	
-				$admFid = $objMember->mb_fid;
-			 }
-				 
+
+		if(!is_null($objAdmin) && $objAdmin->mb_level < LEVEL_ADMIN && floatval($objAdmin->mb_game_hl_ratio) == 0 ){
+			print "<script language=javascript> self.close(); </script>";
+		} else {
+			if($objAdmin->mb_level >= LEVEL_MASTER){
+				$arrMem = $this->modelMember->getMemberByLevel(LEVEL_ADMIN);
+				 if(count($arrMem) > 0){
+					$objMember = reset($arrMem);	
+					$admFid = $objMember->mb_fid;
+				 }
+					 
+			}
+			$objEmp = $this->modelMember->find($empFid);
+			$empUid = "";
+			if ($objEmp != null){
+				$empUid = $objEmp->mb_uid;
+			}
+			$this->load_view_page(
+				'user/member_list', 
+				'user_member', 
+				LEVEL_MIN, 
+				['emp_uid' => $empUid, 'adm_fid' => $admFid]);
 		}
-		$objEmp = $this->modelMember->find($empFid);
-		$empUid = "";
-		if ($objEmp != null){
-			$empUid = $objEmp->mb_uid;
-		}
-		$this->load_view_page(
-			'user/member_list', 
-			'user_member', 
-			LEVEL_MIN, 
-			['emp_uid' => $empUid, 'adm_fid' => $admFid]);
+		
 	}
 
 	public function member_edit($mbFid){
+
 		$this->user_edit_page(
 			'user/member_edit', 
 			'user_member', 
@@ -226,6 +279,7 @@ class User extends StdController
 
 	public function member_uid($mbUid){
 		
+			
 		$objMember = $this->modelMember->getInfo($mbUid);
 		if(is_null($objMember))
 			print "<script language=javascript> alert('존재하지 않는 회원입니다.'); self.close(); </script>";

@@ -29,15 +29,24 @@ class SessLog_Model extends Model {
     {
         $tbBlock = "block_list";
 
-        $strSql = "SELECT ".$this->table.".*, member.mb_nickname, member.mb_level, block_ip, block_state FROM ".$this->table;
+        $strSql = "SELECT ".$this->table.".*, member.mb_fid, member.mb_nickname, member.mb_level, block_ip, block_state FROM ".$this->table;
         $strSql .= " JOIN member ON ".$this->table.".log_mb_uid = member.mb_uid ";
         $strSql .= ' LEFT JOIN '.$tbBlock.' ON '.$this->table.'.log_ip = '.$tbBlock.'.block_ip ';
-        $strSql .= " WHERE log_delete = '0' AND mb_level < ".$mbLv ;
+        $strSql .= " WHERE log_delete = '0' AND mb_level <= ".$mbLv ;
         if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
             $strSql.=" AND log_time >= ".$this->db->escape($arrReqData['start']." 00:00:00")." AND log_time <= ".$this->db->escape($arrReqData['end']." 23:59:59") ; 
         }
-        if(strlen($arrReqData['mb_uid']) > 0){
-            $strSql.=" AND log_mb_uid = ".$this->db->escape($arrReqData['mb_uid']);
+        if(strlen($arrReqData['search']) > 0){
+            $search = trim($arrReqData['search']);
+
+            if($arrReqData['type'] == 0)
+                $strSql.=" AND log_mb_uid = ".$this->db->escape($search);
+            else if($arrReqData['type'] == 1)
+                $strSql.=" AND mb_nickname = ".$this->db->escape($search);
+            else if($arrReqData['type'] == 2)
+                $strSql.=" AND mb_fid = ".$this->db->escape($search);
+            else if($arrReqData['type'] == 3)
+                $strSql.=" AND log_ip = ".$this->db->escape($search);
         }
         $nStartRow = ($arrReqData['page']-1) * $arrReqData['count'] ;
 
@@ -55,12 +64,21 @@ class SessLog_Model extends Model {
     {
         $strSql = "SELECT count(*) as count FROM ".$this->table;
         $strSql .= " JOIN member ON ".$this->table.".log_mb_uid = member.mb_uid ";
-        $strSql .= " WHERE log_delete = '0' AND mb_level < ".$mbLv ;
+        $strSql .= " WHERE log_delete = '0' AND mb_level <= ".$mbLv ;
         if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
             $strSql.=" AND log_time >= ".$this->db->escape($arrReqData['start']." 00:00:00")." AND log_time <= ".$this->db->escape($arrReqData['end']." 23:59:59") ; 
         }
-        if(strlen($arrReqData['mb_uid']) > 0){
-            $strSql.=" AND log_mb_uid = ".$this->db->escape($arrReqData['mb_uid']);
+        if(strlen($arrReqData['search']) > 0){
+            $search = trim($arrReqData['search']);
+            
+            if($arrReqData['type'] == 0)
+                $strSql.=" AND log_mb_uid = ".$this->db->escape($search);
+            else if($arrReqData['type'] == 1)
+                $strSql.=" AND mb_nickname = ".$this->db->escape($search);
+            else if($arrReqData['type'] == 2)
+                $strSql.=" AND mb_fid = ".$this->db->escape($search);
+            else if($arrReqData['type'] == 3)
+                $strSql.=" AND log_ip = ".$this->db->escape($search);
         }
         $query = $this -> db -> query($strSql);
         $result = $query -> getRow();

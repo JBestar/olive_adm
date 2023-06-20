@@ -1409,7 +1409,6 @@ class Member_Model extends Model
         $arrRegData['mb_point'] = floatval($info[11]);
 
         $arrRegData['mb_time_join'] = date('Y-m-d H:i:s');
-        $arrRegData['mb_time_join'] = date('Y-m-d H:i:s');
 
         $arrRegData['mb_grade'] = 1;
         $arrRegData['mb_color'] = '#ffffff';
@@ -2001,7 +2000,7 @@ class Member_Model extends Model
         } 
 
         $fields = ['mb_fid', 'mb_uid', 'mb_pwd', 'mb_level','mb_emp_fid','mb_nickname', 'mb_phone',
-            'mb_bank_name', 'mb_bank_own', 'mb_bank_num', 'mb_bank_pwd', 'mb_time_join', 
+            'mb_bank_name', 'mb_bank_own', 'mb_bank_num', 'mb_bank_pwd', 'mb_time_join', 'mb_time_last', 
             'mb_money', 'mb_point', 'mb_grade', 'mb_color', 'mb_memo', 'mb_state_active', 'mb_state_delete', 
             'mb_game_pb', 'mb_game_ps', 'mb_game_bb', 'mb_game_bs', 'mb_game_cs', 'mb_game_sl', 'mb_game_eo', 'mb_game_co', 'mb_game_hl', 
             'mb_game_pb_ratio', 'mb_game_pb2_ratio', 'mb_game_ps_ratio', 'mb_game_bb_ratio', 'mb_game_bb2_ratio', 'mb_game_bs_ratio', 'mb_game_cs_ratio', 
@@ -2026,7 +2025,7 @@ class Member_Model extends Model
         $strSQL .= " INNER JOIN tbmember ON r.mb_emp_fid = tbmember.mb_fid )";
 
         $strTbColum = ' mb_fid, mb_uid, mb_pwd, mb_level, mb_emp_fid, mb_nickname, mb_phone, ';
-        $strTbColum.= ' mb_bank_name, mb_bank_own, mb_bank_num, mb_bank_pwd, mb_time_join, ';
+        $strTbColum.= ' mb_bank_name, mb_bank_own, mb_bank_num, mb_bank_pwd, mb_time_join, mb_time_last, ';
         $strTbColum.= ' ('.allMoneySql().') as mb_money, ';
         $strTbColum.= ' ('.allEggSql().') as mb_egg, ';
         $strTbColum.= ' mb_point, mb_grade, mb_color, mb_memo, mb_state_active, mb_state_delete, ' ;
@@ -2156,7 +2155,7 @@ class Member_Model extends Model
     public function searchUserByLevel($arrReqData, $iEmpFid, $confs)
     {
         $strTbColum = ' mb_fid, mb_uid, mb_pwd, mb_level, mb_emp_fid, mb_nickname, mb_phone, ';
-        $strTbColum.= ' mb_bank_name, mb_bank_own, mb_bank_num, mb_bank_pwd, mb_time_join, ';
+        $strTbColum.= ' mb_bank_name, mb_bank_own, mb_bank_num, mb_bank_pwd, mb_time_join, mb_time_last, ';
         $strTbColum.= ' ('.allMoneySql().') as mb_money, ';
         $strTbColum.= ' ('.allEggSql().') as mb_egg, ';
         $strTbColum.= ' mb_point, mb_grade, mb_color, mb_memo, mb_state_active, mb_state_delete, ' ;

@@ -179,7 +179,9 @@ function subIds(tdLevel, empId, bChild=false, minLevel = 0){
 
 function getLevelTd(objMember, subUrl){
 
-    let link = "<a href='"+FURL+subUrl+objMember.mb_fid+"' class='link-member'>"+objMember.mb_uid+"</a>";
+    // let link = "<a href='"+FURL+subUrl+objMember.mb_fid+"' class='link-member'>"+objMember.mb_uid+"</a>";
+    let link = "<a onclick='"+subUrl+"(" + objMember.mb_fid + ", "+objMember.mb_fid+ ")' class='link-member'>"+ objMember.mb_uid+ "</a>";
+
     let td = "</td> <td>";
     let html = "";
     if(objMember.mb_level == LEVEL_COMPANY){
@@ -211,21 +213,34 @@ function togleList(open = true){
     if(open){
         for (let objMember of mArrMember) {
             if(parseInt(objMember.mb_level) == LEVEL_EMPLOYEE){
-                setToggle(LEVEL_EMPLOYEE, objMember.mb_fid, false);
+                setToggle(LEVEL_EMPLOYEE, objMember.mb_fid, !open);
             }
         }
-    
+    } else {
+        if(lvTop == LEVEL_COMPANY){
+            for (let objMember of mArrMember) {
+                if(parseInt(objMember.mb_level) == LEVEL_COMPANY){
+                    setToggle(LEVEL_COMPANY, objMember.mb_fid, true);
+                }
+            }
+            for (let objMember of mArrMember) {
+                if(parseInt(objMember.mb_level) == LEVEL_AGENCY){
+                    setToggle(LEVEL_AGENCY, objMember.mb_fid, false);
+                }
+            }
+        }
+        
     }
 }
 
-function setToggle(level, fid, open=true){
+function setToggle(level, fid, open=true, minLevel = 0){
     let theButton = document.getElementById("exp-btn_"+fid);
     if(!theButton)
         return;
 
     let bChild = true;
 
-    let minLevel = 0;
+    // let minLevel = 0;
 
     let strIds = subIds(level-1, fid, bChild, minLevel);
     // console.log("open="+open + " ids = "+ strIds);

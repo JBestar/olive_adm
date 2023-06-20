@@ -4,7 +4,7 @@
 	
 	<!--Sub Navbar-->
 	<div class = "sub-navbar">
-		<p><i class="glyphicon glyphicon-user"></i> 매장전용</p>
+		<p><i class="glyphicon glyphicon-user"></i> 회원관리Ⅱ</p>
 	</div>
 	<style>
 		.user-table{
@@ -108,9 +108,9 @@
 						<th>알회수</th>
 						<?php } ?>
 						<th class="sort-by">포인트</th>
+						<th class="sort-by">최근접속</th>
 						<th>충전</th>
 						<th>환전</th>
-						<th>상세</th>
 						<th>수정</th>
 						<th>삭제</th>
 						<th>상태</th>

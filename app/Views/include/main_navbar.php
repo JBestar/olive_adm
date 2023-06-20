@@ -5,7 +5,7 @@
 		<div class="load lds-ellipsis"></div>
 	</div>
 	<div class="main-navbar" id="main-navbar-id">
-		<h4 style="float: left; margin: 5px 20px 5px 10px;  font-weight: bold; color: #0090ff; font-size: 20px;"
+		<h4 style="float: left; margin: 5px 20px 5px 10px;  font-weight: bold; color: #0090ff; font-size: 24px;"
 			id="main-navbar-level-id"></h4>
 
 		<Table class="main-navbar-info-table" id="main-navbar-table-id" style=" ">

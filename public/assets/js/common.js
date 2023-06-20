@@ -48,7 +48,7 @@ function getMemberLevelString(nLevel, bNeed=false) {
              return "관리자";
         else
             return (LEVEL_ADMIN-nLevel)+"레벨";
-    }  else if(mLevelType !== undefined && mLevelType == 3){
+    } else if(mLevelType !== undefined && mLevelType == 3){
         if(bNeed){
             if (nLevel >= LEVEL_ADMIN)
                 return "관리자";
@@ -63,6 +63,19 @@ function getMemberLevelString(nLevel, bNeed=false) {
                 return "관리자";
             else return null;
         }
+    } else if(mLevelType !== undefined && mLevelType == 4){
+        if (nLevel >= LEVEL_ADMIN)
+            return "관리자";
+        else if (nLevel == LEVEL_COMPANY)
+            return "파트너1";
+        else if (nLevel == LEVEL_AGENCY)
+            return "파트너2";
+        else if (nLevel == LEVEL_EMPLOYEE)
+            return "파트너3";
+        else if (nLevel == LEVEL_MARKET)
+            return "파트너4";
+        else 
+            return "파트너5";
         
     } else {
         if (nLevel >= LEVEL_ADMIN)

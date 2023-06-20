@@ -64,6 +64,9 @@
     <?php endif  ?>
 
     <a href="<?php echo siteFurl().'user/member_connect';?>" class="<?=$user_log?>"><i class="glyphicon glyphicon-time"></i> 실시간접속</a>
+    <?php if(array_key_exists('app.hold', $_ENV) && $_ENV['app.hold'] == 1) :?>
+      <a href="<?php echo siteFurl().'user/member_ip';?>" class="<?=$user_ip?>"><i class="glyphicon glyphicon-info-sign"></i> 아이피관리</a>
+    <?php endif  ?>
     <a href="<?php echo siteFurl().'user/member_block';?>" class="<?=$user_block?>"><i class="glyphicon glyphicon-ban-circle"></i> 블록아이피</a>
     <?php endif  ?>
   </div>

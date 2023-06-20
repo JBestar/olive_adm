@@ -34,6 +34,7 @@
                'user_ctrl' => '',
                'user_ctrl2' => '',
                'user_log' => '',
+               'user_ip' => '',
                'user_block' => '',
                'bankdropdownbtn' => " main-dropdown-active-btn",
                'bankdropdown' => "style=\"display:block\"", 

@@ -65,11 +65,11 @@
 			<thead>
 				<tr>
 					<th></th>
-					<th>본사</th>
-					<th>부본사</th>
-					<th>총판</th>
-					<th>매장</th>
-					<th>회원</th>
+					<th>파트너1</th>
+					<th>파트너2</th>
+					<th>파트너3</th>
+					<th>파트너4</th>
+					<th>파트너5</th>
 					<th>추천인</th>
 					<th>등록<span style="word-break: keep-all;">번호</span></th>
 					<th>닉네임</th>

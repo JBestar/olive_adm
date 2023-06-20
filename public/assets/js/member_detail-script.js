@@ -162,7 +162,8 @@ function reqIpLog(){
     var jsonData = {
         "count": 100,
         "page": 1,
-        "mb_uid": strUid,
+        "type": 0,
+        "search": strUid,
         "start": getToday(),
         "end": getToday()
     };

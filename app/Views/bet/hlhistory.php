@@ -7,7 +7,7 @@
 	<th>등록번호</th>
 	<th>배팅시간</th>
 	<th>배팅금</th>
-	<th>적중금</th>
+	<th>승리금액</th>
 	<th>배팅결과</th>
 	<th>포인트</th>
 <?php if($mb_level >= LEVEL_ADMIN) :  ?>

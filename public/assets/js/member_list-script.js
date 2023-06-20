@@ -33,7 +33,7 @@ function getMemberTr(objMember, bChild = false, bShow=false){
     }
     // strBuf += (mOrder ++);
     strBuf += "</td> <td>";
-    strBuf += getLevelTd(objMember, "/user/member_list/");
+    strBuf += getLevelTd(objMember, "popupMemberEdit"); //"/user/member_list/"
     strBuf += "</td> <td>";
     if(objMember.mb_empname !== undefined && objMember.mb_empname.length > 0)
         strBuf += "<a href='"+FURL+"/user/member_list/"+objMember.mb_emp_fid+"' class='link-member'>"+objMember.mb_empname+"</a>";

@@ -25,6 +25,8 @@ function showMember(arrMember) {
         strBuf += "</td> <td>";
         strBuf += arrMember[nRow].mb_nickname;
         strBuf += "</td> <td>";
+        strBuf += arrMember[nRow].mb_fid;
+        strBuf += "</td> <td>";
         if(parseInt(arrMember[nRow].log_type) == 1)
             strBuf += "앱";
         else 
@@ -66,15 +68,21 @@ function addEventListner() {
 function requestMember() {
 
     var nPage = getActivePage();
+    var dtStart = "";
+    if($("#userpanel-datestart-input-id").length > 0)
+        dtStart = $("#userpanel-datestart-input-id").val();
+    var dtEnd = "";
+    if($("#userpanel-datestart-input-id").length > 0)
+        dtEnd = $("#userpanel-datestart-input-id").val();
     var search = $("#userpanel-userid-input-id").val();
-    var dtStart = $("#userpanel-datestart-input-id").val();
-    var dtEnd = $("#userpanel-dateend-input-id").val();
+    var type = $("#userpanel-type-select-id").val();
+    
 
     var jsonData = {
         "count": CountPerPage,
         "page": nPage,
-        "type": 0,
         "search": search,
+        "type": type,
         "start": dtStart,
         "end": dtEnd
     };
@@ -110,14 +118,20 @@ function requestMember() {
 //Function to Request Game Result History to WebServer
 function requestTotalPage() {
     CountPerPage = $("#userpanel-number-select-id").val();
+    var strUid = $("#userpanel-userid-input-id").val();
+    var dtStart = "";
+    if($("#userpanel-datestart-input-id").length > 0)
+        dtStart = $("#userpanel-datestart-input-id").val();
+    var dtEnd = "";
+    if($("#userpanel-datestart-input-id").length > 0)
+        dtEnd = $("#userpanel-datestart-input-id").val();
     var search = $("#userpanel-userid-input-id").val();
-    var dtStart = $("#userpanel-datestart-input-id").val();
-    var dtEnd = $("#userpanel-dateend-input-id").val();
+    var type = $("#userpanel-type-select-id").val();
 
     var jsonData = {
         "count": CountPerPage,
         "search": search,
-        "type": 0,
+        "type": type,
         "start": dtStart,
         "end": dtEnd
     };

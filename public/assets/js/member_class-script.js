@@ -22,7 +22,7 @@ function getMemberTr(objMember, bChild = false, bShow=false){
     }
     // strBuf += (mOrder++);
     strBuf += "</td> <td>";
-    strBuf += getLevelTd(objMember, "/user/member_class/");
+    strBuf += getLevelTd(objMember, "showMemEdit"); //"/user/member_class/"
     strBuf += "</td> <td>";
     if(objMember.mb_empname !== undefined && objMember.mb_empname.length > 0)
         strBuf += "<a href='"+FURL+"/user/member_class/"+objMember.mb_emp_fid+"' class='link-member'>"+objMember.mb_empname+"</a>";
@@ -88,7 +88,7 @@ function getMemberTr(objMember, bChild = false, bShow=false){
     strBuf += "</td> <td>";
     strBuf += objMember.mb_time_join;
     strBuf += "</td> <td>";
-    strBuf += "<button onclick='popupMemberDetail("+ objMember.mb_fid + ")' >상세</button>";
+    strBuf += objMember.mb_time_last;
     strBuf += "</td> <td>";
     strBuf += "<button name='" + objMember.mb_fid + "' data-fid='" + objMember.mb_fid + "' >수정</button>";
     strBuf += "</td> <td>";

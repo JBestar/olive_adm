@@ -68,11 +68,11 @@
 				<thead>
 					<tr>
 						<th></th>
-						<th>본사</th>
-						<th>부본사</th>
-						<th>총판</th>
-						<th>매장</th>
-						<th>회원</th>
+						<th>파트너1</th>
+						<th>파트너2</th>
+						<th>파트너3</th>
+						<th>파트너4</th>
+						<th>파트너5</th>
 						<th>추천인</th>
 						<th>등록번호</th>
 						<th>닉네임</th>
@@ -90,9 +90,9 @@
 						<th>총롤링금</th>
 						<th>환전롤링금</th>
 						<th>등록날짜</th>
-						<th >상세</th>
-						<th >수정</th>
-						<th >삭제</th>
+						<th>최근접속</th>
+						<th>수정</th>
+						<th>삭제</th>
 						<th>상태</th>
 						<?php if(!$slot_deny) :?>
 							<th>공배팅</th>
