@@ -10403,7 +10403,7 @@ button.close {
 html,
 body {
     background: none repeat scroll 0 0 #fff;
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
     -webkit-font-smoothing: antialiased;
     min-height: 100%;
     -webkit-transition: all .25s ease-out;

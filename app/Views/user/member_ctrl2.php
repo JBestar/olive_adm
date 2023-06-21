@@ -1,6 +1,6 @@
 <?= $this->extend('header') ?>
 <?= $this->section('content') ?>
-<link rel="stylesheet" href="<?php echo site_furl('assets/css/app.css?v=1');?>">
+<link rel="stylesheet" href="<?php echo site_furl('assets/css/app.css?v=2');?>">
 	
 	<!--Sub Navbar-->
 	<div class = "sub-navbar">
@@ -55,7 +55,7 @@
 		}
 		html, body {
 			background: none repeat scroll 0 0 #fff;
-			overflow-x: hidden;
+			/* overflow-x: hidden; */
 			-webkit-font-smoothing: antialiased;
 			min-height: 100%;
 		}
@@ -92,7 +92,7 @@
 			</select>
 			<button class="pbresult-list-view-but" id="userpanel-list-view-but-id">검색</button>  
 		</div>	
-		<div style="position: relative; overflow: auto; width: 100%;">	
+		<!-- <div style="position: relative; overflow: auto; width: 100%;">	 -->
 			<Table class="user-table" id="user-member-table" style="margin-top: 15px;">
 				<thead>
 					<tr>
@@ -121,7 +121,7 @@
 				</tbody>
 
 			</Table>
-		</div>
+		<!-- </div> -->
 		<div class="pbresult-list-page-div">
 			
 			<div class="pagination" id="list-page" style="display:none">

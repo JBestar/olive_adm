@@ -1,6 +1,6 @@
 <?= $this->extend('user/header') ?>
 <?= $this->section('content') ?>
-<link rel="stylesheet" href="<?php echo site_furl('assets/css/app.css?v=1');?>">
+<link rel="stylesheet" href="<?php echo site_furl('assets/css/app.css?v=2');?>">
 <link rel="stylesheet" href="<?php echo site_furl('assets/css/admin.css?v=1');?>">
 
 	<!--Sub Navbar-->
