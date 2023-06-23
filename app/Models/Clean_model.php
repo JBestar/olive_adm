@@ -80,7 +80,7 @@ class Clean_Model extends Model {
         $this->db->query("TRUNCATE member_charge");
         $this->db->query("TRUNCATE member_exchange");
         $this->db->query("TRUNCATE money_history");
-        $this->db->query("TRUNCATE money_tansfer");
+        $this->db->query("TRUNCATE money_transfer");
         $this->db->query("TRUNCATE sessions");
         $this->db->query("TRUNCATE sess");
         $this->db->query("TRUNCATE sess_log");
