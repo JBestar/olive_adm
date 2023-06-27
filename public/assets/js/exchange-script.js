@@ -59,6 +59,7 @@ function showMoneyHistory(jsonBetData) {
             case 27: strBuf += "하부환수"; break;
             case 28: strBuf += "상부환수"; break;
             case 29: strBuf += "머니지급"; break;
+            case 30: strBuf += "머니전환"; break;
             case 31: strBuf += "EOS5분파워볼 배팅"; break;
             case 32: strBuf += "EOS5분파워볼 배팅취소"; break;
             case 33: strBuf += "EOS5분파워볼 정산"; break;

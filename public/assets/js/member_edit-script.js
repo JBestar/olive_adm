@@ -192,7 +192,6 @@ function addBtnEvent() {
         }
         requestTrasnfer(jsonData);
     });
-    
 
     //직환전
     $("#useredit-withdraw-but-id").click(function() {
@@ -217,6 +216,29 @@ function addBtnEvent() {
 
     });
     
+    //머니전환
+    $("#useredit-change-money-id").click(function() {
+        var nAmount = parseFloat($("#useredit-transfer-input-id").val().replace(/,/g, ""));
+        if (isNaN(nAmount) || nAmount == "") {
+            nAmount = 0;
+        }
+        if (nAmount == 0) {
+            alert("전환금액을 입력 해주세요.");
+            return false;
+        }
+
+        if (!confirm(nAmount.toLocaleString() + "원을 포인트로 전환하시겠습니까?"))
+            return;
+    
+        var jsonData = {
+            'mb_fid': $("#subnavbar-fid-p-id").html(),
+            'amount': nAmount,
+            'type':6
+        }
+        requestTrasnfer(jsonData);
+
+    });
+
     $("#useredit-transfer-but-id").click(function() {
         var nAmount = parseFloat($("#useredit-transfer-input-id").val().replace(/,/g, ""));
         if (isNaN(nAmount) || nAmount == "") {

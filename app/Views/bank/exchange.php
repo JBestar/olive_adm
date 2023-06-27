@@ -22,6 +22,7 @@
 				<option value="2">환전</option>
 				<option value="26">직환전</option>
 				<option value="3">포인트전환</option>
+				<option value="30">머니전환</option>
 				<option value="29">머니지급</option>
 				<option value="24">머니회수</option>
 				<option value="25">포인트회수</option>

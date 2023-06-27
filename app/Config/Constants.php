@@ -290,6 +290,7 @@ defined('MONEYCHANGE_DEC')       || define('MONEYCHANGE_DEC', 26);     //직환�
 defined('MONEYCHANGE_WITHDRAW')  || define('MONEYCHANGE_WITHDRAW', 24); //머니회수
 defined('POINTHANGE_WITHDRAW')   || define('POINTHANGE_WITHDRAW', 25);  //포인트회수
 defined('MONEYCHANGE_GIVE')      || define('MONEYCHANGE_GIVE', 29);     //머니지급
+defined('MONEYCHANGE_CONVERT')  || define('MONEYCHANGE_CONVERT', 30); //머니전환 
 
 defined('MONEYCHANGE_BET_EO5')    || define('MONEYCHANGE_BET_EO5', 31);
 defined('MONEYCHANGE_DENY_EO5')   || define('MONEYCHANGE_DENY_EO5', 32);

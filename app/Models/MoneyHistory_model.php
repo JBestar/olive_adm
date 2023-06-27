@@ -172,7 +172,7 @@ class MoneyHistory_Model extends Model
         return $this->builder()->insert();        
     }
     
-    function registerPointToMoney($objMember, $nPoint, $empId)
+    function registerPointToMoney($objMember, $nPoint, $empId, $iType)
     {
         if($nPoint == 0)
             return true;
@@ -185,7 +185,7 @@ class MoneyHistory_Model extends Model
                 'money_amount' => $nPoint,
                 'money_before' => allMoney($objMember),
                 'money_after' => allMoney($objMember) + $nPoint,
-                'money_change_type' => POINTCHANGE_EXCHANGE,
+                'money_change_type' => $iType,
                 'money_bet_target'=> $empId,
                 'money_update_time' => date("Y-m-d H:i:s")
             ];

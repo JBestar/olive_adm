@@ -1510,6 +1510,35 @@ class UserApi extends BaseController
 
                     }
                     
+                } else if($arrData['type'] == 6){          //Change Money to Point
+                    $iResult = 1;
+                    if(floatval($objMember->mb_money) < $arrData['amount']){
+                        if($_ENV['mem.delay_play'] > 0 && $_ENV['mem.withdeny_play'] && diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet) < $_ENV['mem.delay_play']){
+                            $iResult = 2;
+                        } 
+                        else 
+                            $iResult = $this->alltoGame($objMember); 
+                    } 
+                    
+                    if($iResult == 1){
+                        
+                        if(floatval($objMember->mb_money) < $arrData['amount']){
+                            $arrData['amount'] = $objMember->mb_money;
+                        }
+                        if($arrData['amount'] > 0 && $this->modelMember->moneyProc($objMember, 0-$arrData['amount'], $arrData['amount']))
+                        {
+                            $moneyhistoryModel->registerPointToMoney($objMember, 0-$arrData['amount'], $objEmp->mb_uid, MONEYCHANGE_CONVERT);
+                            $objResult->status = 'success';
+                        }
+                    } else if($iResult == 2) {
+                        $objResult->status = 'fail';
+                        $objResult->msg = '회원이 게임플레이중이므로 환전 하실수 없습니다. '.intval(($_ENV['mem.delay_play']-diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet))/60+1)."분후 다시 시도해주세요.";
+                    } else {
+                        $objResult->status = 'fail';
+                        $objResult->msg = '게임서버가 응답하지 않습니다. 잠시후 다시 시도해주세요..';
+
+                    }
+
                 } 
                  
             } else {
@@ -1666,7 +1695,7 @@ class UserApi extends BaseController
                         $objResult->status = 'success';
                     } 
                     else if($this->modelMember->moneyProc($objMember, $nAmount, 0-$nAmount)){
-                        $moneyhistoryModel->registerPointToMoney($objMember, $nAmount, $objEmp->mb_uid);
+                        $moneyhistoryModel->registerPointToMoney($objMember, $nAmount, $objEmp->mb_uid, POINTCHANGE_EXCHANGE);
                         $objResult->status = 'success';
                     }
                 } else {

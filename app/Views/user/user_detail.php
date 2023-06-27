@@ -276,7 +276,7 @@
 
 			<?php if(!is_null($objMember)) :  ?>	
 				<div class="useredit-text-div">
-					<p>충환전금액:</p> 
+					<p>변동금액:</p> 
 					<input type = "text" id="useredit-transfer-input-id" value="0" >
 					<label>원</label>
 				</div>
@@ -292,10 +292,11 @@
 				</div>
 				<div class="useredit-text-div">
 					<p></p> 
-					<button class="pbresult-list-view-but" id="useredit-give-but-id" style="margin-left:0px; margin-right:0px; margin-top:10px;">지급</button>  
-					<button class="pbresult-list-view-but" id="useredit-collect-but-id"  style="margin-left:5px;">회수</button>  
-					<button class="pbresult-list-view-but" id="useredit-deposit-but-id" style="margin-left:65px; margin-right:0px;">직충전</button>  
-					<button class="pbresult-list-view-but" id="useredit-withdraw-but-id"  style="margin-left:5px;">직환전</button>  
+					<button class="pbresult-list-view-but" id="useredit-give-but-id" style="margin-left:0px; margin-right:0px; margin-top:10px; padding:5px 20px;">지급</button>  
+					<button class="pbresult-list-view-but" id="useredit-collect-but-id"  style="margin-left:5px; padding:5px 20px;">회수</button> 
+					<button class="pbresult-list-view-but" id="useredit-deposit-but-id" style="margin-left:15px; margin-right:0px; padding:5px 15px;">직충전</button>  
+					<button class="pbresult-list-view-but" id="useredit-withdraw-but-id"  style="margin-left:5px; padding:5px 15px;">직환전</button>  
+					<button class="pbresult-list-view-but" id="useredit-change-money-id"  style="margin-left:5px; padding:5px 12px;">머니전환</button>  
 				</div>
 
 			<?php endif ?>
