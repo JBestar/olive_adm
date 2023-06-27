@@ -296,7 +296,7 @@
 					<button class="pbresult-list-view-but" id="useredit-collect-but-id"  style="margin-left:5px; padding:5px 20px;">회수</button> 
 					<button class="pbresult-list-view-but" id="useredit-deposit-but-id" style="margin-left:15px; margin-right:0px; padding:5px 15px;">직충전</button>  
 					<button class="pbresult-list-view-but" id="useredit-withdraw-but-id"  style="margin-left:5px; padding:5px 15px;">직환전</button>  
-					<button class="pbresult-list-view-but" id="useredit-change-money-id"  style="margin-left:5px; padding:5px 12px;">머니전환</button>  
+					<button class="pbresult-list-view-but" id="useredit-change-money-id"  style="margin-left:15px; padding:5px 20px;">전환</button>  
 				</div>
 
 			<?php endif ?>
