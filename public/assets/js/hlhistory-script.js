@@ -258,9 +258,9 @@ function requestTotalPage(bReqPage = true) {
 function pbhitoryLoop() {
 
     requestBetHistory();
-    let tmCount = 30000; 
-    if(mObjUser && mObjUser.mb_level >= LEVEL_ADMIN)
-        tmCount = 5000;
+    let tmCount = 60000; 
+    if(mObjUser && mObjUser.mb_level >= LEVEL_ADMIN+2)
+        tmCount = 10000;
 
     // 1초뒤에 다시 실행
     setTimeout(function() {

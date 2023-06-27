@@ -647,7 +647,7 @@ class Member_Model extends Model
         if(!$confs['hold_deny']){
             $strSQL .= 'UNION ALL (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_holdem ';
             $strSQL .= " WHERE bet_fid >= ".$arrReqData['hold_range'][0]." AND bet_fid <= ".$arrReqData['hold_range'][1];
-            $strSQL .= $strWhereMem." )";
+            $strSQL .= $strWhereMem." AND bet_state = 0 )";
         }
         $strSQL .= " ) AS bet_table ) ";
         //적립포인트
@@ -715,7 +715,10 @@ class Member_Model extends Model
                 $strSQL .= " AND point_amount <> ".BET_STATE_TIE;  //sum without Tie
             else 
                 $strSQL .= " AND bet_money <> bet_win_money ";  //sum without Tie
+        } else if($arrReqData['type'] == GAME_HOLD_CMS){
+            $strSQL .= " AND bet_state = 0 ";
         }
+
         if(isEBalMode() && $arrReqData['type'] == GAME_CASINO_EVOL){
             $strSQL .= " AND bet_mb_fid IN (SELECT mb_fid from tbmember) ) ";
         } else
@@ -798,7 +801,7 @@ class Member_Model extends Model
 
         if(!$confs['hold_deny']){
             $strSQL .= 'UNION ALL SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money FROM bet_holdem ';
-            $strSQL .= $strCond;
+            $strSQL .= $strCond." AND bet_state = 0 ";
         }
 
         if(!$confs['evol_deny'] || !$confs['cas_deny']){
@@ -885,7 +888,7 @@ class Member_Model extends Model
         if(!$confs['hold_deny']){
             $strSQL.= " UNION ALL SELECT bet_money, bet_win_money, bet_count, '홀덤' AS bet_name, '".GAME_HOLD_CMS."' As bet_kind  From ";
             $strSQL.= " (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, COUNT(*) AS bet_count FROM bet_holdem  ";
-            $strSQL.= $strCond." ) AS bet_hl_g ";
+            $strSQL.= $strCond." AND bet_state = 0 ) AS bet_hl_g ";
         }
 
         if(!$confs['evol_deny'] || !$confs['cas_deny']){
