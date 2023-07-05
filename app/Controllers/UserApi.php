@@ -1039,7 +1039,6 @@ class UserApi extends BaseController
                 } else if($arrData['type'] == 3){
                     $arrData['mb_bank_own'] = $arrData['search'];
                 } else {
-                    $objUser = $this->modelMember->getInfo($arrData['search']);
                     $arrData['mb_uid'] = $arrData['search'];
                 }
 
@@ -1113,6 +1112,7 @@ class UserApi extends BaseController
                 
             } 
             
+            $bTree = true;
             if($mbFid >= 0){
                 $arrMember = $this->modelMember->searchMemberClass($objAdmin, $arrData, $mbFid, $confs);
                 if (is_null($arrMember)) {
@@ -1130,6 +1130,42 @@ class UserApi extends BaseController
                     }
                 }
                 
+            } else if(strlen($arrData['search']) > 0){
+                $bTree = false;
+
+                $empFid = 0;
+                $arrData['mb_uid'] = "";
+                $arrData['mb_grade'] = -1;
+                $arrData['mb_state'] = -1;
+                $arrData['order'] = "";
+                $arrData['dir'] = "";
+                $arrData['page'] = 1;
+                $arrData['count'] = 1000;
+                if($arrData['type'] == 1){
+                    $arrData['mb_nickname'] = $arrData['search'];
+                } else if($arrData['type'] == 2){
+                    $arrData['mb_fid'] = $arrData['search'];
+                } else if($arrData['type'] == 3){
+                    $arrData['mb_bank_own'] = $arrData['search'];
+                } else {
+                    $arrData['mb_uid'] = $arrData['search'];
+                }
+
+                $arrMember = $this->modelMember->searchUserByLevel($arrData, $empFid, $confs);
+                if (is_null($arrMember)) {
+                    $arrMember = [];
+                }
+                foreach ($arrMember as $objMember) {
+                    $objMember->mb_money = floor($objMember->mb_money);
+                    $objMember->mb_point = floor($objMember->mb_point);
+                    $objEmpInfo = $this->modelMember->find($objMember->mb_emp_fid);
+                    if ($objEmpInfo != null){
+                        $objMember->mb_empname = $objEmpInfo->mb_uid;
+                    }
+                    else {
+                        $objMember->mb_empname = '';
+                    }
+                }
             } else {
                 $arrMember = [];
             }
@@ -1139,6 +1175,7 @@ class UserApi extends BaseController
             $objResult->status = 'success';
             $objResult->confs = $confs;
             $objResult->data = $arrMember;
+            $objResult->tree = $bTree;
 
             echo json_encode($objResult);
         } else {

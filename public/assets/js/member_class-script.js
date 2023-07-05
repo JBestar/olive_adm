@@ -179,7 +179,7 @@ function requestMember() {
             $(".loading").hide();
             // console.log(jResult);
             if (jResult.status == "success") {
-                showMember(jResult.data, jResult.confs);
+                showMember(jResult.data, jResult.confs, true, jResult.tree);
             } else if (jResult.status == "fail") {
 
             }

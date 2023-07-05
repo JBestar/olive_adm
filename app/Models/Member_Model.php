@@ -2214,6 +2214,12 @@ class Member_Model extends Model
         }
         if (strlen($arrReqData['mb_uid']) > 0) {
             $where .= " AND ( mb_uid LIKE '%".$arrReqData['mb_uid']."%' OR mb_fid = '".$arrReqData['mb_uid']."') ";
+        } else if(array_key_exists('mb_nickname', $arrReqData) && strlen($arrReqData['mb_nickname']) > 0){
+            $where .= " AND mb_nickname LIKE '%".$this->db->escapeLikeString($arrReqData['mb_nickname'])."%'";
+        } else if(array_key_exists('mb_bank_own', $arrReqData) && strlen($arrReqData['mb_bank_own']) > 0){
+            $where .= " AND mb_bank_own LIKE '%".$this->db->escapeLikeString($arrReqData['mb_bank_own'])."%'";
+        } else if(array_key_exists('mb_fid', $arrReqData) && strlen($arrReqData['mb_fid']) > 0){
+            $where .= " AND mb_fid LIKE '%".$this->db->escapeLikeString($arrReqData['mb_fid'])."%'";
         }
         if ($arrReqData['mb_grade'] > 0){
             $where .= " AND mb_grade = '".$arrReqData['mb_grade']."'";
