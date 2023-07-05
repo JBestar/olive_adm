@@ -189,9 +189,11 @@ function requestMember(bRefresh=true) {
 
     var search = $("#userpanel-userid-input-id").val();
     var type = $("#userpanel-type-select-id").val();
+    var mode = $("#userpanel-mode-select-id").val();
     var jsonData = {
         "search": search,
-        "type":type
+        "type":type,
+        "mode":mode,
     };
 
     jsonData = JSON.stringify(jsonData);

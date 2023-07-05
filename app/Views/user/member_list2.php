@@ -44,7 +44,7 @@
 			<?php if($mb_level >= LEVEL_ADMIN) :  ?>
 				<a href="" onclick="popupMemberEdit(0);" class="user-panel-add-a" >회원 등록</a>
 			<?php endif ?>
-			<select name="pbresult-level" class="pbresult-number-select" id="userpanel-type-select-id" stype="width:80px">
+			<select name="pbresult-level" class="pbresult-number-select" id="userpanel-type-select-id" style="width:90px">
 				<option value="0">아이디</option>
 				<option value="1">닉네임</option>
 				<option value="2">등록번호</option>
@@ -53,8 +53,11 @@
 				<?php endif ?>
 			</select>
             <input type="text" class="pbresult-text-input" id="userpanel-userid-input-id" style="width:150px" value= "<?=$emp_uid ?>" >
-
-			<button class="pbresult-list-view-but" id="userpanel-list-view-but-id">검색</button>  
+			<select name="pbresult-level" class="pbresult-number-select" id="userpanel-mode-select-id" style="width:70px; margin-left:3px;">
+				<option value="0">일치</option>
+				<option value="1">포함</option>
+			</select>
+			<button class="pbresult-list-view-but" id="userpanel-list-view-but-id" style="margin-left:1px;">검색</button>  
 			<?php if($mb_level >= LEVEL_ADMIN) :  ?>
 				<button class="pbresult-list-view-but" id="userpanel-list-open-but-id" style="margin-right:0px;">펼치기</button>  
 				<button class="pbresult-list-view-but" id="userpanel-list-close-but-id">감추기</button>  
