@@ -100,7 +100,6 @@ class CsBet_Model extends Model
         $strTbColum = " mb_fid, mb_uid, mb_level, mb_emp_fid, mb_nickname, mb_live_id ";
         $strTbRColum = " r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid, r.mb_nickname, r.mb_live_id ";
 
-        $bWhere = true;
         $strWhere=" WHERE ";
         $strWhere .= " bet_fid >= ".$arrReqData['gm_range'][0]." AND bet_fid <= ".$arrReqData['gm_range'][1];
 
@@ -204,8 +203,7 @@ class CsBet_Model extends Model
             $strSql .= "SELECT count(bet_fid) as count  FROM ".$this->table;
         }
         
-        $bWhere = true;
-        $strSql .= " bet_fid >= ".$arrReqData['gm_range'][0]." AND bet_fid <= ".$arrReqData['gm_range'][1];
+        $strSql .= " WHERE bet_fid >= ".$arrReqData['gm_range'][0]." AND bet_fid <= ".$arrReqData['gm_range'][1];
 
         if(strlen($arrReqData['user']) > 0){
             $strSql.=" AND bet_mb_uid = ".$this->db->escape($arrReqData['user']);
@@ -225,6 +223,8 @@ class CsBet_Model extends Model
         } else {
             $strSql.=" AND company_amount = 0 ";
         }
+
+        writeLog($strSql);
 
         $query = $this -> db -> query($strSql);
         $result = $query -> getRow();
