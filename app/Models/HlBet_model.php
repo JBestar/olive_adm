@@ -40,7 +40,7 @@ class HlBet_Model extends Model
         $strCondition.= getBetTimeRange($arrReqData, $this->db);
         $strCondition .= " AND bet_state = 0 ";
         if(strlen($arrReqData['user']) > 0){
-            $strCondition.=" AND bet_mb_uid = ".$this->db->escape($arrReqData['user']);
+            $strCondition.=" AND ( bet_mb_uid = ".$this->db->escape($arrReqData['user'])." OR bet_mb_fid = ".$this->db->escape($arrReqData['user']).") ";
         }
         
         //총배팅금, 적중금
@@ -190,7 +190,7 @@ class HlBet_Model extends Model
             $strSql.=" AND bet_state = 0 ";
         }
         if(strlen($arrReqData['user']) > 0){
-            $strSql.=" AND bet_mb_uid = ".$this->db->escape($arrReqData['user']);
+            $strSql.=" AND ( bet_mb_uid = ".$this->db->escape($arrReqData['user'])." OR bet_mb_fid = ".$this->db->escape($arrReqData['user']).") ";
         }
         if($objEmp->mb_level < LEVEL_ADMIN){
             $strSql.=" AND bet_mb_uid in ( SELECT mb_uid FROM  tbmember UNION ALL SELECT '".$objEmp->mb_uid."' AS mb_uid ) ";

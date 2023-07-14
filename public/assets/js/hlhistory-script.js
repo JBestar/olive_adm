@@ -197,6 +197,7 @@ function requestBetHistory() {
             // console.log(jResult);
             if (jResult.status == "success") {
                 ShowBetHistory(jResult.data, jResult.level);
+                ShowBetAccount(jResult.account);
             }
         },
         error: function(request, status, error) {
@@ -243,7 +244,7 @@ function requestTotalPage(bReqPage = true) {
                 setFirstPage();
                 if(bReqPage)
                     requestBetHistory();
-                ShowBetAccount(jResult.account);
+                // ShowBetAccount(jResult.account);
             }
         },
         error: function(request, status, error) {
@@ -259,8 +260,8 @@ function pbhitoryLoop() {
 
     requestBetHistory();
     let tmCount = 60000; 
-    if(mObjUser && mObjUser.mb_level >= LEVEL_ADMIN+2)
-        tmCount = 10000;
+    // if(mObjUser && mObjUser.mb_level >= LEVEL_ADMIN+2)
+    //     tmCount = 10000;
 
     // 1초뒤에 다시 실행
     setTimeout(function() {
