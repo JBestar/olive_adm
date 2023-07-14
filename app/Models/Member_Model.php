@@ -706,7 +706,10 @@ class Member_Model extends Model
         } else {
             return null;
         }
-        $strSQL .= " WHERE bet_fid >= ".$arrReqData['gm_range'][0]." AND bet_fid <= ".$arrReqData['gm_range'][1];
+        // if ($arrReqData['type'] == GAME_HOLD_CMS )
+            $strSQL .= " WHERE ".getBetTimeRange($arrReqData, $this->db);
+        // else 
+        //     $strSQL .= " WHERE bet_fid >= ".$arrReqData['gm_range'][0]." AND bet_fid <= ".$arrReqData['gm_range'][1];
         if ($arrReqData['type'] == GAME_SLOT_THEPLUS || $arrReqData['type'] == GAME_SLOT_GSPLAY || $arrReqData['type'] == GAME_SLOT_GOLD || $arrReqData['type'] == GAME_SLOT_KGON || $arrReqData['type'] == GAME_SLOT_STAR){
             $strSQL .= " AND bet_game_id = '".$arrReqData['type']."' ";
         } else if ($arrReqData['type'] == GAME_CASINO_EVOL ) {
@@ -726,7 +729,8 @@ class Member_Model extends Model
         //포인트
         $strSQL .= " UNION ALL ( SELECT SUM(rw_point) AS result_1, ";
         $strSQL .= " SUM(CASE WHEN rw_mb_fid = ".$objEmp->mb_fid." THEN rw_point ELSE 0 END) AS result_2 FROM ".$this->rewardTb;
-        $strSQL .= " WHERE rw_fid >= ".$arrReqData['rw_range'][0]." AND rw_fid <= ".$arrReqData['rw_range'][1];
+        // $strSQL .= " WHERE rw_fid >= ".$arrReqData['rw_range'][0]." AND rw_fid <= ".$arrReqData['rw_range'][1];
+        $strSQL .= " WHERE ".getTimeRange("rw_time", $arrReqData, $this->db);
         $strSQL .= " AND rw_mb_fid IN (SELECT mb_fid from tbmember) ";
         if($arrReqData['type'] == GAME_SLOT_ALL){
             $gameId1 = GAME_SLOT_THEPLUS;

@@ -1213,7 +1213,7 @@ public function withdrawlist(){
 					$siteConfs = $this->getSiteConf($confsiteModel);
 					$this->modelMember->allGameRange($arrReqData, $siteConfs);
 				} else 
-					$this->modelMember->gameRange($arrReqData);
+					// $this->modelMember->gameRange($arrReqData);
 
 				foreach ($arrEmp as $objEmp) {
             		$objCalc['mb_fid'] = $objEmp->mb_fid;
