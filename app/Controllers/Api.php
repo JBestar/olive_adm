@@ -764,8 +764,7 @@ class Api extends BaseController{
 							$objCharge->charge_money_after = allMoney($objUser);
 							$bResult = $chargeModel->permit($objCharge);	
 						}		
-					}
-						else if($arrReqData['process'] == 3){	//임시대기
+					} else if($arrReqData['process'] == 3){	//임시대기
 						if($objCharge->charge_action_state == 1){//대기 상태에서만 진행
 							//charge Table 
 							$objCharge->charge_action_state = 4;
@@ -779,14 +778,109 @@ class Api extends BaseController{
 
 			$arrResult['status'] = $bResult?"success":"fail";
 			echo json_encode($arrResult);
-		}else {
+		} else {
 			$arrResult['status'] = "logout";	
 			echo json_encode($arrResult);			
 		}
 
 	}
 
-public function withdrawlist(){
+	
+	public function depositsproc(){
+		$jsonData = $_REQUEST['json_'];
+		$arrReqData = json_decode($jsonData, true);
+
+		if(is_login())
+		{
+			$strUid = $this->session->user_id;
+			$chargeModel = new Charge_Model();
+			
+			$moneyhistoryModel = new MoneyHistory_Model();
+			$objAdmin = $this->modelMember->getInfo($strUid);
+
+			$fids = $arrReqData['charge_fids'];
+			$procCnt = 0;
+			$totalCnt = 0;
+
+			if(!is_null($fids) && is_array($fids) && count($fids) > 0){
+				$totalCnt = count($fids);
+
+				foreach($fids as $fid){
+					$objCharge = $chargeModel->get($fid);
+
+					$bPermit = true;
+					if(is_null($objAdmin) || $objAdmin->mb_level < LEVEL_ADMIN){
+						$bPermit = false;
+					} else if(is_null($objCharge)){
+						$bPermit = false;
+					} 
+					
+					$bResult = false;
+					if(!$bPermit){
+						$arrResult['status'] = "fail";
+					} else {
+						$objUser = $this->modelMember->getInfo($objCharge->charge_mb_uid);
+						if(!is_null($objUser)){
+							if($arrReqData['process'] == 0){//취소
+								
+							} else if($arrReqData['process'] == 1){//승인
+								$confsiteModel = new ConfSite_Model();
+								$confsiteModel->readMemConf();
+					
+								if($_ENV['mem.delay_play'] > 0 && $_ENV['mem.depodeny_play'] && diffDt(date('Y-m-d H:i:s'), $objUser->mb_time_bet) < $_ENV['mem.delay_play']){
+									$arrResult['status'] = 'fail';
+									$arrResult['msg'] = '회원이 게임플레이중이므로 충전승인 하실수 없습니다. '.intval(($_ENV['mem.delay_play']-diffDt(date('Y-m-d H:i:s'), $objUser->mb_time_bet))/60+1)."분후 다시 시도해주세요.";
+								} else if($objCharge->charge_action_state == 1 || $objCharge->charge_action_state == 3 || $objCharge->charge_action_state == 4){ //대기이거나 거절된 상태에서만 진행
+										
+									$dtMoney = $objCharge->charge_money;
+									$nCharge = $objCharge->charge_money;
+									if($this->modelMember->moneyProc($objUser, $dtMoney, 0, $nCharge, 0)){
+										//moneyhistory Table
+										$moneyhistoryModel->registerCharge($objUser, $objCharge->charge_money);
+										//charge Table 
+										$objCharge->charge_action_state = 2;
+										$objCharge->charge_action_uid = $strUid;
+										$objCharge->charge_money_after = allMoney($objUser) + $dtMoney;
+										$bResult = $chargeModel->permit($objCharge);
+									}
+								} 
+							} else if($arrReqData['process'] == 2){	//거절
+								if($objCharge->charge_action_state == 1 || $objCharge->charge_action_state == 4){//대기 상태에서만 진행
+									//charge Table 
+									$objCharge->charge_action_state = 3;
+									$objCharge->charge_action_uid = $strUid;
+									$objCharge->charge_money_after = allMoney($objUser);
+									$bResult = $chargeModel->permit($objCharge);	
+								}		
+							} else if($arrReqData['process'] == 3){	//임시대기
+								if($objCharge->charge_action_state == 1){//대기 상태에서만 진행
+									//charge Table 
+									$objCharge->charge_action_state = 4;
+									$objCharge->charge_action_uid = $strUid;
+									$objCharge->charge_money_after = allMoney($objUser);
+									$bResult = $chargeModel->permit($objCharge);	
+								}		
+							}
+						}
+					} 
+					if($bResult)
+						$procCnt ++;
+
+				}
+				
+			}
+
+			$arrResult['status'] = "success";
+			$arrResult['msg'] = $totalCnt."건중 ".$procCnt."건이 처리되었습니다.";
+			echo json_encode($arrResult);
+		} else {
+			$arrResult['status'] = "logout";	
+			echo json_encode($arrResult);			
+		}
+
+	}
+
+	public function withdrawlist(){
 		$jsonData = $_REQUEST['json_'];
 		$arrReqData = json_decode($jsonData, true);
 
@@ -894,6 +988,91 @@ public function withdrawlist(){
 
 	}
 
+	public function withdrawsproc(){
+		$jsonData = $_REQUEST['json_'];
+		$arrReqData = json_decode($jsonData, true);
+
+		if(is_login())
+		{
+			$strUid = $this->session->user_id;
+			$exchangeModel = new Exchange_Model();
+			
+			$moneyhistoryModel = new MoneyHistory_Model();
+			
+			$objAdmin = $this->modelMember->getInfo($strUid);
+
+			$fids = $arrReqData['exchange_fids'];
+			$procCnt = 0;
+			$totalCnt = 0;
+
+			if(!is_null($fids) && is_array($fids) && count($fids) > 0){
+				$totalCnt = count($fids);
+
+				foreach($fids as $fid){
+
+					$objExchange = $exchangeModel->get($fid);
+
+					$bPermit = true;
+					if(is_null($objAdmin) || $objAdmin->mb_level < LEVEL_ADMIN){
+						$bPermit = false;
+					} else if(is_null($objExchange)){
+						$bPermit = false;
+					} 
+					
+					$bResult = false;
+					if(!$bPermit){
+						$arrResult['status'] = "fail";
+					} else {
+						$objUser = $this->modelMember->getInfo($objExchange->exchange_mb_uid);
+						if(!is_null($objUser)){
+							if($arrReqData['process'] == 0){	//취소
+								
+							}
+							else if($arrReqData['process'] == 1){		//승인
+
+								if($objExchange->exchange_action_state == 1 || $objExchange->exchange_action_state == 3  || $objExchange->exchange_action_state == 4){ //대기이거나 거절된 상태에서만 진행
+									//moneyhistory Table
+									$moneyhistoryModel->registerExchange($objUser, $objExchange);
+									//exchange Table 
+									$objExchange->exchange_action_state = 2;
+									$objExchange->exchange_action_uid = $strUid;
+									$bResult = $exchangeModel->permit($objExchange);
+								}
+							} else if($arrReqData['process'] == 2){					//거절
+								if($objExchange->exchange_action_state == 1 || $objExchange->exchange_action_state == 4 ){		//대기상태에서만 진행
+									//거절되면 신청머니를 보상
+									if($this->modelMember->moneyProc($objUser, $objExchange->exchange_money)){
+										//exchange Table 
+										$objExchange->exchange_action_state = 3;
+										$objExchange->exchange_action_uid = $strUid;
+										$objExchange->exchange_money_after = $objExchange->exchange_money_before;
+										$bResult = $exchangeModel->permit($objExchange);
+									}
+								}			
+							} else if($arrReqData['process'] == 3){					//임시대기
+								if($objExchange->exchange_action_state == 1 ){		//대기상태에서만 진행
+									//charge Table 
+									$objExchange->exchange_action_state = 4;
+									$objExchange->exchange_action_uid = $strUid;
+									// $objExchange->exchange_money_after = allMoney($objUser);
+									$bResult = $exchangeModel->permit($objExchange);
+								}			
+							} 
+						}
+					}
+					if($bResult)
+						$procCnt ++;
+				}
+				$arrResult['status'] = "success";
+				$arrResult['msg'] = $totalCnt."건중 ".$procCnt."건이 처리되었습니다.";
+			}
+			echo json_encode($arrResult);
+		} else {
+			$arrResult['status'] = "logout";	
+			echo json_encode($arrResult);			
+		}
+
+	}
 
 
 		//사용자 정보 변경  

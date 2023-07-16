@@ -21,10 +21,14 @@
 				<?php endforeach?>
 			</select>
 			<button class="pbresult-list-view-but" id="withdraw-list-view-but-id">검색</button>
+			<button class="pbresult-list-view-but" style="padding: 5px 10px; margin:0 5px 0 0; float:right;" id="withdraw-list-wait-but-id">대기</button>
+			<button class="pbresult-list-view-but" style="padding: 5px 10px; margin:0 5px 0 0; float:right;" id="withdraw-list-refuse-but-id">거절</button>
+			<button class="pbresult-list-view-but" style="padding: 5px 10px; margin:0 5px 0 0; float:right;" id="withdraw-list-permit-but-id">승인</button>
 		</div>		
 		<Table class="user-table">
 			<thead>
 				<tr>
+					<th></th>
 					<th>번호</th>
 					<th>닉네임</th>
 					<th>아이디</th>

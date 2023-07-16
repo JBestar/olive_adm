@@ -28,8 +28,55 @@ function addEventListner() {
     $("#deposit-number-select-id").change(function() {
         requestTotalPage();
     });
+    
+    $("#deposit-list-permit-but-id").click(function() {
+        let items = getCheckedItems();
+        if(items.length < 1){
+            alert("일괄 처리대상들을 선택해 주세요.");
+            return;
+        }
+
+        if (confirm("선택된 대상들을 승인하시겠습니까?")) {
+            var jsonData = { "charge_fids": items, "process": 1 };
+            requestProcDeposits(jsonData);
+        }
+    });
+
+    $("#deposit-list-refuse-but-id").click(function() {
+        let items = getCheckedItems();
+        if(items.length < 1){
+            alert("일괄 처리대상들을 선택해 주세요.");
+            return;
+        }
+        if (confirm("선택된 대상들을 거절하시겠습니까?")) {
+            var jsonData = { "charge_fids": items, "process": 2 };
+            requestProcDeposits(jsonData);
+        }
+    });
+
+    $("#deposit-list-wait-but-id").click(function() {
+        let items = getCheckedItems();
+        if(items.length < 1){
+            alert("일괄 처리대상들을 선택해 주세요.");
+            return;
+        }
+        if (confirm("선택된 대상들을 임시대기시키겠습니까?")) {
+            var jsonData = { "charge_fids": items, "process": 3 };
+            requestProcDeposits(jsonData);
+        }
+    });
 }
 
+function getCheckedItems(){
+    let list = [];
+    let items = $(".user-table input[type='checkbox']");
+    for (let item of items) {
+        console.log(item);
+        if($(item).is(":checked") == true)
+            list.push(item.name);
+    }
+    return list;
+}
 
 
 function showDepositList(arrData) {
@@ -40,6 +87,9 @@ function showDepositList(arrData) {
 
     for (nRow in arrData) {
         strBuf += "<tr><td>";
+        if(arrData[nRow].charge_action_state == 1 || arrData[nRow].charge_action_state == 4)
+            strBuf += "<input type='checkbox' style='zoom:120%;' name='" + arrData[nRow].charge_fid + "'>";
+        strBuf += "</td><td>";
         strBuf += (parseInt(nRow) + firstIdx + 1);
         strBuf += "</td><td>";
         strBuf += "<a onclick='popupMemberUid(\"" + arrData[nRow].charge_mb_uid + "\")' class='link-member'>"+ arrData[nRow].charge_mb_uid+ "</a>";
@@ -224,6 +274,44 @@ function requestProcDeposit(jsData) {
             // console.log(jResult);
             if (jResult.status == "success") {
                 requestEmployeeInfo();
+                setTimeout(function() { requestDepositList(); }, 500);
+            } else if (jResult.status == "fail") {
+                if(jResult.msg){
+                    alert(jResult.msg);
+                }
+                else alert("충전처리가 실패되었습니다.");
+            } else if (jResult.status == "logout") {
+                window.location.replace( FURL +'/');
+            }
+        },
+        error: function(request, status, error) {
+            $(".loading").hide();
+            // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+        }
+
+    });
+
+}
+
+function requestProcDeposits(jsData) {
+    if (mAudio != undefined && mAudio != null) {
+        mAudio.pause();
+    }
+    $(".loading").show();
+    var jsonData = JSON.stringify(jsData);
+    $.ajax({
+        type: "POST",
+        data: { json_: jsonData },
+        dataType: "json",
+        url: FURL + "/api/depositsproc",
+        success: function(jResult) {
+            $(".loading").hide();
+            // console.log(jResult);
+            if (jResult.status == "success") {
+                requestEmployeeInfo();
+                if(jResult.msg){
+                    alert(jResult.msg);
+                }
                 setTimeout(function() { requestDepositList(); }, 500);
             } else if (jResult.status == "fail") {
                 if(jResult.msg){
