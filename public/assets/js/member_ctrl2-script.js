@@ -63,15 +63,36 @@ function showMember(arrMember, confs) {
         strBuf += "</td> <td id='mp_" + arrMember[nRow].mb_fid + "'>";
         strBuf += Math.floor(arrMember[nRow].mb_point).toLocaleString();
         strBuf += "</td> <td>";
-        strBuf += arrMember[nRow].mb_time_last ;
+        if(arrMember[nRow].bet_sum == null)
+            arrMember[nRow].bet_sum = 0;
+        strBuf += Math.floor(arrMember[nRow].bet_sum).toLocaleString();
         strBuf += "</td> <td>";
-        strBuf += "<button name='" + nRow + "' data-fid='" + arrMember[nRow].mb_fid + "' >충전</button>";
+        if(arrMember[nRow].win_sum == null)
+            arrMember[nRow].win_sum = 0;
+        strBuf += Math.floor(arrMember[nRow].win_sum).toLocaleString();
         strBuf += "</td> <td>";
-        strBuf += "<button name='" + nRow + "' data-fid='" + arrMember[nRow].mb_fid + "' >환전</button>";
+        if(arrMember[nRow].rw_point == null)
+            arrMember[nRow].rw_point = 0;
+        strBuf += Math.floor(arrMember[nRow].rw_point).toLocaleString();
+        strBuf += "</td> <td>";
+        if(arrMember[nRow].chg_point == null)
+            arrMember[nRow].chg_point = 0;
+        strBuf += Math.floor(arrMember[nRow].chg_point).toLocaleString();
+        strBuf += "</td> <td>";
+        strBuf += arrMember[nRow].mb_time_join.substring(0, 16);
+        strBuf += "</td> <td>";
+        strBuf += arrMember[nRow].mb_time_last.substring(0, 16);
+        // strBuf += "</td> <td>";
+        // strBuf += "<button name='" + nRow + "' data-fid='" + arrMember[nRow].mb_fid + "' >충전</button>";
+        // strBuf += "</td> <td>";
+        // strBuf += "<button name='" + nRow + "' data-fid='" + arrMember[nRow].mb_fid + "' >환전</button>";
         strBuf += "</td> <td>";
         strBuf += "<button name='" + nRow + "' data-fid='" + arrMember[nRow].mb_fid + "' >수정</button>";
         strBuf += "</td> <td>";
-        strBuf += "<button name='" + arrMember[nRow].mb_fid + "'>삭제</button>   ";
+        if (arrMember[nRow].mb_state_active == 4)
+            strBuf += "<button name='" + arrMember[nRow].mb_fid + "' data-nickname='"+arrMember[nRow].mb_nickname+"'>회복</button>   ";
+        else 
+            strBuf += "<button name='" + arrMember[nRow].mb_fid + "'>삭제</button>   ";
         strBuf += "</td> <td>";
         strBuf += "<button name='" + arrMember[nRow].mb_fid + "'";
         if (confs.emp_level < LEVEL_ADMIN) {
@@ -81,6 +102,8 @@ function showMember(arrMember, confs) {
             strBuf += " class='button-active'>승인</button>";
         } else if (arrMember[nRow].mb_state_active == 2) {
             strBuf += ">대기</button>";
+        } else if (arrMember[nRow].mb_state_active == 4) {
+            strBuf += "disabled >삭제</button>";
         } else {
             strBuf += ">차단</button>";
         }
@@ -199,7 +222,7 @@ function requestMember() {
         "page": nPage,
         "order":mOrdItem,
         "dir":mOrdDir,
-        "mb_grade": -1,
+        "mb_grade": 0,
         "mb_uid": strMbUid,
         "mb_emp_uid": strEmpUid,
         "mb_state": iState
@@ -244,7 +267,7 @@ function requestTotalPage() {
         strEmpUid = empIdEle.value;
     var jsonData = {
         "count": CountPerPage,
-        "mb_grade": -1,
+        "mb_grade": 0,
         "mb_uid": strMbUid,
         "mb_emp_uid": strEmpUid,
         "mb_state": iState,
@@ -286,6 +309,12 @@ function addButtonElementListener(buttonElement) {
         } else if (tHtml.search("차단") >= 0) {
             var jsonData = { "mb_fid": this.name, "mb_state_active": 1 };
             requestUpdateMember(jsonData);
+        } else if (tHtml.search("회복") >= 0) {
+            let nickname  = $(this).data('nickname');
+            if (!confirm(nickname+" 회원을 회복시키겠습니까?"))
+                return;
+            var jsonData = { "mb_fid": this.name, "mb_state_active": 1 };
+            requestDeleteRestore(this, jsonData);
         } else if (tHtml.search("대기") >= 0) {
             var jsonData = { "mb_fid": this.name, "mb_state_active": 1 };
             requestWaitToPermit(this, jsonData);
@@ -457,6 +486,7 @@ function closeMemEditDlg(){
 function showMemCreate(){
 
     initMemEditDlg();
+    $("#btn-mem-apply").show();
     $("#btn-mem-apply").text("추가 ");
     $("#edit_member_modal #type").text("회원정보 추가");
     showMemEditDlg();
@@ -526,6 +556,11 @@ function showMemEdit(mbFid){
     $("#bank_password").val(member.mb_bank_pwd);
 
     $("#btn-mem-apply").text("수정 ");
+    if(member.mb_state_active == 4)
+        $("#btn-mem-apply").hide();
+    else 
+        $("#btn-mem-apply").show();
+
     $("#edit_member_modal #type").text("회원정보 수정");
     showMemEditDlg();
 }
@@ -693,15 +728,25 @@ function exportTableToExcel(filename = ''){
 
     let strLevel = "";
     let data = [];
-    let info = ['아이디', '닉네임', '비밀번호', '등급', '추천인', '등록번호', 'Lv', '보유금액', '포인트', '연락처', '은행명', '예금주', '계좌번호', '출금비번']
+    let info = ['아이디', '닉네임', '비밀번호', '등급', '추천인', '등록번호', 'Lv', '보유금액', '포인트', '연락처', '은행명', '예금주', '계좌번호', '출금비번', '상태']
     data.push(info);
     for(objMember of mArrMember){
         strLevel = getMemberLevelString(objMember.mb_level);
         if(strLevel == null)
             strLevel = "";
+        strState = "";
+        if(objMember.mb_state_active == 1)
+            strState = "승인";
+        else if(objMember.mb_state_active == 2)
+            strState = "대기";
+        else if(objMember.mb_state_active == 4)
+            strState = "삭제";
+        else 
+            strState = "차단";
+
         info = [objMember.mb_uid, objMember.mb_nickname, objMember.mb_pwd,  strLevel, objMember.mb_empname,
             objMember.mb_fid, objMember.mb_grade, Math.floor(objMember.mb_money).toLocaleString(), Math.floor(objMember.mb_point).toLocaleString(), 
-            objMember.mb_phone, objMember.mb_bank_name, objMember.mb_bank_own, objMember.mb_bank_num, objMember.mb_bank_pwd, ];
+            objMember.mb_phone, objMember.mb_bank_name, objMember.mb_bank_own, objMember.mb_bank_num, objMember.mb_bank_pwd, strState];
         data.push(info);
     }
 

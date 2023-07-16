@@ -54,29 +54,13 @@ function getMemberTr(objMember, bChild = false, bShow=false){
     strBuf += "</td> <td id='mp_" + objMember.mb_fid + "'>";
     strBuf += parseFloat(objMember.mb_point).toLocaleString();
     strBuf += "</td> <td>";
-    objMember.bet_sum = 0;
-    objMember.bet_sum += (objMember.bet_pb_m?parseFloat(objMember.bet_pb_m):0);
-    objMember.bet_sum += (objMember.bet_bb_m?parseFloat(objMember.bet_bb_m):0);
-    objMember.bet_sum += (objMember.bet_bl_m?parseFloat(objMember.bet_bl_m):0);
-    objMember.bet_sum += (objMember.bet_e5_m?parseFloat(objMember.bet_e5_m):0);
-    objMember.bet_sum += (objMember.bet_e3_m?parseFloat(objMember.bet_e3_m):0);
-    objMember.bet_sum += (objMember.bet_c5_m?parseFloat(objMember.bet_c5_m):0);
-    objMember.bet_sum += (objMember.bet_c3_m?parseFloat(objMember.bet_c3_m):0);
-    objMember.bet_sum += (objMember.bet_cs_m?parseFloat(objMember.bet_cs_m):0);
-    objMember.bet_sum += (objMember.bet_sl_m?parseFloat(objMember.bet_sl_m):0);
-    strBuf += objMember.bet_sum.toLocaleString();
+    if(objMember.bet_sum == null)
+        objMember.bet_sum = 0;
+    strBuf += Math.floor(objMember.bet_sum).toLocaleString();
     strBuf += "</td> <td>";
-    objMember.win_sum = 0;
-    objMember.win_sum += (objMember.bet_pb_w?parseFloat(objMember.bet_pb_w):0);
-    objMember.win_sum += (objMember.bet_bb_w?parseFloat(objMember.bet_bb_w):0);
-    objMember.win_sum += (objMember.bet_bl_w?parseFloat(objMember.bet_bl_w):0);
-    objMember.win_sum += (objMember.bet_e5_w?parseFloat(objMember.bet_e5_w):0);
-    objMember.win_sum += (objMember.bet_e3_w?parseFloat(objMember.bet_e3_w):0);
-    objMember.win_sum += (objMember.bet_c5_w?parseFloat(objMember.bet_c5_w):0);
-    objMember.win_sum += (objMember.bet_c3_w?parseFloat(objMember.bet_c3_w):0);
-    objMember.win_sum += (objMember.bet_cs_w?parseFloat(objMember.bet_cs_w):0);
-    objMember.win_sum += (objMember.bet_sl_w?parseFloat(objMember.bet_sl_w):0);
-    strBuf += objMember.win_sum.toLocaleString();
+    if(objMember.win_sum == null)
+        objMember.win_sum = 0;
+    strBuf += Math.floor(objMember.win_sum).toLocaleString();
     strBuf += "</td> <td>";
     if(objMember.rw_point == null)
         objMember.rw_point = 0;

@@ -10,7 +10,9 @@
 		<?php endif ?>
 	</div>
 	<style>
-			
+	body {
+		overflow-x: hidden;
+	}
 	button.refresh_btn {
 		float:right;
 		margin-left: 1px;
@@ -54,8 +56,8 @@
 			</select>
             <input type="text" class="pbresult-text-input" id="userpanel-userid-input-id" style="width:150px" value= "<?=$emp_uid ?>" >
 			<select name="pbresult-level" class="pbresult-number-select" id="userpanel-mode-select-id" style="width:70px; margin-left:3px;">
-				<option value="0">일치</option>
 				<option value="1">포함</option>
+				<option value="0" <?=strlen($emp_uid)>0?"selected":"" ?>>일치</option>
 			</select>
 			<button class="pbresult-list-view-but" id="userpanel-list-view-but-id" style="margin-left:1px;">검색</button>  
 			<?php if($mb_level >= LEVEL_ADMIN) :  ?>

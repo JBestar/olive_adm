@@ -213,7 +213,7 @@
                                     </tr>
                                     <tr>
                                         <td>메모 </td>
-                                        <td  colspan='3' style="white-space: pre-line;"><?=$objMember->mb_memo?></td>
+                                        <td  colspan='10' style="white-space: pre-line;"><?=$objMember->mb_memo?></td>
                                     </tr>
                                 </tbody></table>
 

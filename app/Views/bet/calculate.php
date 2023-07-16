@@ -7,7 +7,9 @@
 			<?php if(!array_key_exists('app.hold', $_ENV) || $_ENV['app.hold'] == 0) :?>
 				<a href="<?php echo site_furl('bet/allcalculate');?>" class="sub-navbar-a" >전체</a>
 			<?php endif ?> 
-
+			<?php if(!$hold_deny) :?>
+			<a href="<?php echo site_furl('bet/hlcalculate');?>" class="sub-navbar-a" >홀덤</a>
+			<?php endif ?> 
 			<?php if(!$hpg_deny) :?>
 				<a href="<?php echo site_furl('bet/pbcalculate');?>" class="sub-navbar-a" >해피볼</a>
 			<?php endif ?>  
@@ -46,9 +48,6 @@
 				<?php endif ?>
 			<?php endif ?>   
 
-		<?php if(!$hold_deny) :?>
-			<a href="<?php echo site_furl('bet/hlcalculate');?>" class="sub-navbar-a" >홀덤</a>
-		<?php endif ?> 
 	</div>
 
 	<div class="bet-panel">

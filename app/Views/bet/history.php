@@ -3,6 +3,9 @@
 	<!--Sub Navbar-->
 	<div class = "sub-navbar" value="<?= $this->renderSection('history-active') ?>">
 		<p><i class="glyphicon glyphicon-book"></i> 배팅내역</p>
+		<?php if(!$hold_deny) :?>
+			<a href="<?php echo site_furl('bet/hlhistory');?>" class="sub-navbar-a" >홀덤</a>
+		<?php endif ?> 
 		<?php if(!$hpg_deny) :?>
 			<a href="<?php echo site_furl('bet/pbhistory');?>" class="sub-navbar-a" >해피볼</a>
 		<?php endif ?>  
@@ -40,10 +43,7 @@
 				<a href="<?php echo site_furl('bet/slhistory');?>" class="sub-navbar-a" >슬롯</a>
 			<?php endif ?>
 		<?php endif ?>   
-
-		<?php if(!$hold_deny) :?>
-			<a href="<?php echo site_furl('bet/hlhistory');?>" class="sub-navbar-a" >홀덤</a>
-		<?php endif ?>   
+  
 	</div>
 
 	<div class="bet-panel">
@@ -84,13 +84,13 @@
 			</tbody>
 		</Table>
 		<div class="pbresult-list-page-div">
-			<?php if($mb_level >= LEVEL_ADMIN) {  ?>
 			<p>배팅금: <span id="total-betmoney-id">0</span></p>
 			<p>적중금: <span id="total-winmoney-id">0</span></p>
 			<p>미적중금: <span id="total-lossmoney-id">0</span></p>
 			<p>당첨금: <span id="total-benefit-id">0</span></p>
+			<?php if($mb_level >= LEVEL_ADMIN) :  ?>
 			<?= $this->renderSection('history-bet-sum') ?>
-			<?php } ?>
+			<?php endif ?>
 			<div class="pagination"  id="list-page"  style="display:none">
 				<button class="list-page-button" id="page-first"  onclick="firstPage()"><<</button>
 				<button class="list-page-button" id="page-prev"  onclick="prevPage()"><</button>

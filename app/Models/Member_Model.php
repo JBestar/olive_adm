@@ -1815,7 +1815,8 @@ class Member_Model extends Model
     {
         $sqlBuilder = $this->builder()->selectCount('*', 'count');
         $sqlBuilder = $sqlBuilder->where('mb_level <', LEVEL_ADMIN);
-        $sqlBuilder = $sqlBuilder->where('mb_state_active !=', PERMIT_DELETE);
+        if ($arrReqData['mb_state'] != PERMIT_DELETE)
+            $sqlBuilder = $sqlBuilder->where('mb_state_active !=', PERMIT_DELETE);
         if ($iEmpFid != 0)
             $sqlBuilder->where('mb_emp_fid', $iEmpFid);
 
@@ -2052,33 +2053,55 @@ class Member_Model extends Model
         $strTbColum .= ' mb_game_pb_ratio, mb_game_pb2_ratio, mb_game_ps_ratio, mb_game_bb_ratio, mb_game_bb2_ratio, mb_game_bs_ratio, mb_game_cs_ratio, ';
         $strTbColum .= ' mb_game_sl_ratio, mb_game_eo_ratio, mb_game_eo2_ratio, mb_game_co_ratio, mb_game_co2_ratio, mb_game_hl_ratio, ';
         $strTbColum .= ' mb_game_pb_percent, mb_game_pb2_percent, mb_game_ps_percent, mb_game_bb_percent, mb_game_bb2_percent, mb_game_bs_percent, mb_game_eo_percent, mb_game_eo2_percent, ';
-        $strTbColum .= ' mb_game_co_percent, mb_game_co2_percent, mb_blank_count, ';
-        $strTbColum .= " bet_sl.bet_sl_m, bet_sl.bet_sl_w, ";
-        $strTbColum .= "  ";
-        
+        $strTbColum .= ' mb_game_co_percent, mb_game_co2_percent, mb_blank_count ';
+        // $strTbColum .= " bet_sl.bet_sl_m, bet_sl.bet_sl_w, ";
+        $betSum = " (IFNULL(bet_sl.bet_sl_m, 0)";
+        $winSum = " (IFNULL(bet_sl.bet_sl_w, 0)";
+
         if(!$confs['hpg_deny']){
-            $strTbColum.= " bet_pb.bet_pb_m, bet_pb.bet_pb_w, ";
-            $strTbColum.= "  "; 
+            // $strTbColum.= " bet_pb.bet_pb_m, bet_pb.bet_pb_w, ";
+            $betSum .= "+IFNULL(bet_pb.bet_pb_m, 0)";
+            $winSum .= "+IFNULL(bet_pb.bet_pb_w, 0)";
         }
         if(!$confs['bpg_deny']){
-            $strTbColum.= " bet_bb.bet_bb_m, bet_bb.bet_bb_w, "; 
-            $strTbColum.= " bet_bl.bet_bl_m, bet_bl.bet_bl_w, "; 
+            // $strTbColum.= " bet_bb.bet_bb_m, bet_bb.bet_bb_w, "; 
+            // $strTbColum.= " bet_bl.bet_bl_m, bet_bl.bet_bl_w, "; 
+            $betSum .= "+IFNULL(bet_bb.bet_bb_m, 0)+IFNULL(bet_bl.bet_bl_m, 0)";
+            $winSum .= "+IFNULL(bet_bb.bet_bb_w, 0)+IFNULL(bet_bl.bet_bl_w, 0)";
         }
         if(!$confs['eos5_deny']){
-            $strTbColum.= " bet_e5.bet_e5_m, bet_e5.bet_e5_w, "; 
+            // $strTbColum.= " bet_e5.bet_e5_m, bet_e5.bet_e5_w, "; 
+            $betSum .= "+IFNULL(bet_e5.bet_e5_m, 0)";
+            $winSum .= "+IFNULL(bet_e5.bet_e5_w, 0)";
         }
         if(!$confs['eos3_deny']){
-            $strTbColum.= " bet_e3.bet_e3_m, bet_e3.bet_e3_w, "; 
+            // $strTbColum.= " bet_e3.bet_e3_m, bet_e3.bet_e3_w, "; 
+            $betSum .= "+IFNULL(bet_e3.bet_e3_m, 0)";
+            $winSum .= "+IFNULL(bet_e3.bet_e3_w, 0)";
         }
         if(!$confs['coin5_deny']){
-            $strTbColum.= " bet_c5.bet_c5_m, bet_c5.bet_c5_w, "; 
+            // $strTbColum.= " bet_c5.bet_c5_m, bet_c5.bet_c5_w, "; 
+            $betSum .= "+IFNULL(bet_c5.bet_c5_m, 0)";
+            $winSum .= "+IFNULL(bet_c5.bet_c5_w, 0)";
         }
         if(!$confs['coin3_deny']){
-            $strTbColum.= " bet_c3.bet_c3_m, bet_c3.bet_c3_w, "; 
+            // $strTbColum.= " bet_c3.bet_c3_m, bet_c3.bet_c3_w, "; 
+            $betSum .= "+IFNULL(bet_c3.bet_c3_m, 0)";
+            $winSum .= "+IFNULL(bet_c3.bet_c3_w, 0)";
+        }
+        if(!$confs['hold_deny']){
+            // $strTbColum.= " bet_hl.bet_hl_m, bet_hl.bet_hl_w, "; 
+            $betSum .= "+IFNULL(bet_hl.bet_hl_m, 0)";
+            $winSum .= "+IFNULL(bet_hl.bet_hl_w, 0)";
         }
         if(!$confs['evol_deny'] || !$confs['cas_deny']){
-            $strTbColum.= " bet_cs.bet_cs_m, bet_cs.bet_cs_w, "; 
+            // $strTbColum.= " bet_cs.bet_cs_m, bet_cs.bet_cs_w, "; 
+            $betSum .= "+IFNULL(bet_cs.bet_cs_m, 0)";
+            $winSum .= "+IFNULL(bet_cs.bet_cs_w, 0)";
         }
+        $betSum .= ") AS bet_sum";
+        $winSum .= ") AS win_sum";
+        $strTbColum .= ", ".$betSum.", ".$winSum.", ";
         $strTbColum.= " rw_point, chg_point ";
 
         $tbMember = "tbmember";
@@ -2103,6 +2126,9 @@ class Member_Model extends Model
         }
         if(!$confs['coin3_deny']){
             $strSQL.= " LEFT JOIN ( select bet_mb_uid, sum(bet_money) AS bet_c3_m, sum(bet_win_money) AS bet_c3_w from bet_coin3ball group by bet_mb_uid ) bet_c3 ON bet_c3.bet_mb_uid = ".$tbMember.".mb_uid";
+        }
+        if(!$confs['hold_deny']){
+            $strSQL.= " LEFT JOIN ( select bet_mb_fid, sum(bet_money) AS bet_hl_m, sum(bet_win_money) AS bet_hl_w from bet_holdem group by bet_mb_fid ) bet_hl ON bet_hl.bet_mb_fid = ".$tbMember.".mb_fid";
         }
         if(!$confs['evol_deny'] || !$confs['cas_deny']){
             if(isEBalMode()){
@@ -2184,31 +2210,55 @@ class Member_Model extends Model
         $strTbColum .= ' mb_game_pb_percent, mb_game_pb2_percent, mb_game_ps_percent, mb_game_bb_percent, mb_game_bb2_percent, mb_game_bs_percent, mb_game_eo_percent, mb_game_eo2_percent, ';
         $strTbColum .= ' mb_game_co_percent, mb_game_co2_percent, mb_blank_count';
 
-        if ($arrReqData['mb_grade'] > 0){
-            $strTbColum .= ", bet_sl.bet_sl_m, bet_sl.bet_sl_w, ";
-        
+        if ($arrReqData['mb_grade'] >= 0){
+            $betSum = " (IFNULL(bet_sl.bet_sl_m, 0)";
+            $winSum = " (IFNULL(bet_sl.bet_sl_w, 0)";
+
+            // $strTbColum .= ", bet_sl.bet_sl_m, bet_sl.bet_sl_w, ";
             if(!$confs['hpg_deny']){
-                $strTbColum.= " bet_pb.bet_pb_m, bet_pb.bet_pb_w, ";
+                // $strTbColum.= " bet_pb.bet_pb_m, bet_pb.bet_pb_w, ";
+                $betSum .= "+IFNULL(bet_pb.bet_pb_m, 0)";
+                $winSum .= "+IFNULL(bet_pb.bet_pb_w, 0)";
             }
             if(!$confs['bpg_deny']){
-                $strTbColum.= " bet_bb.bet_bb_m, bet_bb.bet_bb_w, "; 
-                $strTbColum.= " bet_bl.bet_bl_m, bet_bl.bet_bl_w, "; 
+                // $strTbColum.= " bet_bb.bet_bb_m, bet_bb.bet_bb_w, "; 
+                // $strTbColum.= " bet_bl.bet_bl_m, bet_bl.bet_bl_w, "; 
+                $betSum .= "+IFNULL(bet_bb.bet_bb_m, 0)+IFNULL(bet_bl.bet_bl_m, 0)";
+                $winSum .= "+IFNULL(bet_bb.bet_bb_w, 0)+IFNULL(bet_bl.bet_bl_w, 0)";
             }
             if(!$confs['eos5_deny']){
-                $strTbColum.= " bet_e5.bet_e5_m, bet_e5.bet_e5_w, "; 
+                // $strTbColum.= " bet_e5.bet_e5_m, bet_e5.bet_e5_w, "; 
+                $betSum .= "+IFNULL(bet_e5.bet_e5_m, 0)";
+                $winSum .= "+IFNULL(bet_e5.bet_e5_w, 0)";
             }
             if(!$confs['eos3_deny']){
-                $strTbColum.= " bet_e3.bet_e3_m, bet_e3.bet_e3_w, "; 
+                // $strTbColum.= " bet_e3.bet_e3_m, bet_e3.bet_e3_w, "; 
+                $betSum .= "+IFNULL(bet_e3.bet_e3_m, 0)";
+                $winSum .= "+IFNULL(bet_e3.bet_e3_w, 0)";
             }
             if(!$confs['coin5_deny']){
-                $strTbColum.= " bet_c5.bet_c5_m, bet_c5.bet_c5_w, "; 
+                // $strTbColum.= " bet_c5.bet_c5_m, bet_c5.bet_c5_w, "; 
+                $betSum .= "+IFNULL(bet_c5.bet_c5_m, 0)";
+                $winSum .= "+IFNULL(bet_c5.bet_c5_w, 0)";
             }
             if(!$confs['coin3_deny']){
-                $strTbColum.= " bet_c3.bet_c3_m, bet_c3.bet_c3_w, "; 
+                // $strTbColum.= " bet_c3.bet_c3_m, bet_c3.bet_c3_w, "; 
+                $betSum .= "+IFNULL(bet_c3.bet_c3_m, 0)";
+                $winSum .= "+IFNULL(bet_c3.bet_c3_w, 0)";
+            }
+            if(!$confs['hold_deny']){
+                // $strTbColum.= " bet_hl.bet_hl_m, bet_hl.bet_hl_w, "; 
+                $betSum .= "+IFNULL(bet_hl.bet_hl_m, 0)";
+                $winSum .= "+IFNULL(bet_hl.bet_hl_w, 0)";
             }
             if(!$confs['evol_deny'] || !$confs['cas_deny']){
-                $strTbColum.= " bet_cs.bet_cs_m, bet_cs.bet_cs_w, "; 
+                // $strTbColum.= " bet_cs.bet_cs_m, bet_cs.bet_cs_w, "; 
+                $betSum .= "+IFNULL(bet_cs.bet_cs_m, 0)";
+                $winSum .= "+IFNULL(bet_cs.bet_cs_w, 0)";
             }
+            $betSum .= ") AS bet_sum";
+            $winSum .= ") AS win_sum";
+            $strTbColum .= ", ".$betSum.", ".$winSum.", ";
             $strTbColum.= " rw_point, chg_point ";
         }
         
@@ -2234,7 +2284,7 @@ class Member_Model extends Model
 
 
         $strSQL = "SELECT ".$strTbColum." FROM ".$this->table;
-        if ($arrReqData['mb_grade'] > 0){
+        if ($arrReqData['mb_grade'] >= 0){
 
             $strSQL.= " LEFT JOIN ( select bet_mb_uid, sum(bet_money) AS bet_sl_m, sum(bet_win_money) AS bet_sl_w from bet_slot group by bet_mb_uid ) bet_sl ON bet_sl.bet_mb_uid = member.mb_uid";
 
@@ -2257,6 +2307,9 @@ class Member_Model extends Model
             if(!$confs['coin3_deny']){
                 $strSQL.= " LEFT JOIN ( select bet_mb_uid, sum(bet_money) AS bet_c3_m, sum(bet_win_money) AS bet_c3_w from bet_coin3ball group by bet_mb_uid ) bet_c3 ON bet_c3.bet_mb_uid = member.mb_uid";
             }
+            if(!$confs['hold_deny']){
+                $strSQL.= " LEFT JOIN ( select bet_mb_fid, sum(bet_money) AS bet_hl_m, sum(bet_win_money) AS bet_hl_w from bet_holdem group by bet_mb_fid ) bet_hl ON bet_hl.bet_mb_fid = member.mb_fid";
+            }
             if(!$confs['evol_deny'] || !$confs['cas_deny']){
                 if(isEBalMode()){
                     $tbName = "bet_ebal";
@@ -2275,7 +2328,8 @@ class Member_Model extends Model
             $strSQL.= " LEFT JOIN ( select money_mb_fid, sum(money_amount) AS chg_point from money_history where money_change_type = ".POINTCHANGE_EXCHANGE." group by money_mb_fid ) chg_point ON chg_point.money_mb_fid = member.mb_fid";
         }
         $strSQL.= " WHERE mb_level < '".LEVEL_ADMIN."' ";
-        $strSQL .=" AND mb_state_active != '".PERMIT_DELETE."' ";
+        if ($arrReqData['mb_state'] != PERMIT_DELETE)
+            $strSQL .=" AND mb_state_active != '".PERMIT_DELETE."' ";
         $strSQL.= $where;
 
         $strSQL .= " ORDER BY (CASE WHEN mb_state_active = 2 THEN 0 ELSE 1 END) ";

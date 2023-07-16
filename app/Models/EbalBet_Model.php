@@ -37,10 +37,13 @@ class EbalBet_Model extends Model
     private $mPrdTable = 'casino_prd';
     private $mRewardTable = 'bet_reward';
 
-    function getBetAccount($arrReqData){
+    function getBetAccount($objEmp, $arrReqData){
         
         if(array_key_exists("state", $arrReqData) && $arrReqData['state'] > 0)
             return null;
+        if(is_null($objEmp)){
+            return null;
+        }
 
         $strCondition = " WHERE ";
         $strCondition.= getBetTimeRange($arrReqData, $this->db);
@@ -52,20 +55,32 @@ class EbalBet_Model extends Model
         if(array_key_exists('room', $arrReqData) && strlen($arrReqData['room']) > 0) {
             $strCondition.=" AND bet_table_name = ".$this->db->escape($arrReqData['room']);
         }
+        $strSql = "";
+        if($objEmp->mb_level < LEVEL_ADMIN){
+            $strCondition.=" AND bet_mb_fid in ( SELECT mb_fid FROM  tbmember UNION ALL SELECT '".$objEmp->mb_fid."' AS mb_fid ) ";
+
+            $strTbColum = " mb_fid, mb_uid, mb_level, mb_emp_fid, mb_nickname ";
+            $strTbRColum = " r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid, r.mb_nickname ";
+
+            $strSql = " WITH RECURSIVE tbmember (".$strTbColum.") AS";
+            $strSql .= " ( SELECT ".$strTbColum." FROM ".$this->mMemberTable." WHERE mb_emp_fid = '".$objEmp->mb_fid."'";
+            $strSql .= " UNION ALL SELECT ".$strTbRColum." FROM ".$this->mMemberTable." r ";
+            $strSql .= " INNER JOIN tbmember ON r.mb_emp_fid = tbmember.mb_fid )";
+        }
 
         //총배팅금, 적중금
         $arrSum = array();
         
         if(array_key_exists('type', $arrReqData) && intval($arrReqData['type']) == 1){               //only balance betting
-            $strSql = " SELECT SUM(bet_balance) AS bet_money_sum, SUM(bet_win_balance) AS win_money_sum, ";
+            $strSql .= " SELECT SUM(bet_balance) AS bet_money_sum, SUM(bet_win_balance) AS win_money_sum, ";
             $strSql .= " SUM(CASE WHEN bet_win_balance= 0 THEN bet_balance ELSE 0 END) AS loss_money_sum, ";
             $strSql .= " SUM(CASE WHEN bet_win_balance > 0 THEN bet_win_balance-bet_balance ELSE 0 END) AS benefit_money_sum ";
         } else if(array_key_exists('type', $arrReqData) && intval($arrReqData['type']) == 0){        //only press betting
-            $strSql = " SELECT SUM(bet_money-bet_balance) AS bet_money_sum, SUM(bet_win_money-bet_win_balance) AS win_money_sum, ";
+            $strSql .= " SELECT SUM(bet_money-bet_balance) AS bet_money_sum, SUM(bet_win_money-bet_win_balance) AS win_money_sum, ";
             $strSql .= " SUM(CASE WHEN bet_win_money = 0 AND bet_money <> bet_balance THEN bet_money-bet_balance ELSE 0 END) AS loss_money_sum, ";
             $strSql .= " SUM(CASE WHEN bet_win_money > 0 AND bet_money <> bet_balance THEN bet_win_money-bet_money-bet_balance+bet_win_balance ELSE 0 END) AS benefit_money_sum ";
         } else {                                            //all betting
-            $strSql = " SELECT SUM(bet_money) AS bet_money_sum, SUM(bet_win_money) AS win_money_sum, ";
+            $strSql .= " SELECT SUM(bet_money) AS bet_money_sum, SUM(bet_win_money) AS win_money_sum, ";
             $strSql .= " SUM(CASE WHEN bet_win_money= 0 THEN bet_money ELSE 0 END) AS loss_money_sum, ";
             $strSql .= " SUM(CASE WHEN bet_win_money > 0 THEN bet_win_money-bet_money ELSE 0 END) AS benefit_money_sum ";
         }

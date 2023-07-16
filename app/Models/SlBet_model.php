@@ -30,7 +30,10 @@ class SlBet_Model extends Model
     private $mPrdTable = 'slot_prd';
     private $mRewardTable = 'bet_reward';
     
-    function getBetAccount($arrReqData){
+    function getBetAccount($objEmp, $arrReqData){
+        if(is_null($objEmp)){
+            return null;
+        }
 
         $strWhere = "";
         if($arrReqData['game'] == GAME_SLOT_ALL){
@@ -60,11 +63,22 @@ class SlBet_Model extends Model
                 $strWhere.="  AND bet_game_type = ".$this->db->escape($arrReqData['mode']);
             }
         }
-        
+        $strSql = "";
+        if($objEmp->mb_level < LEVEL_ADMIN){
+            $strWhere.=" AND bet_mb_uid in ( SELECT mb_uid FROM  tbmember UNION ALL SELECT '".$objEmp->mb_uid."' AS mb_uid ) ";
+
+            $strTbColum = " mb_fid, mb_uid, mb_level, mb_emp_fid, mb_nickname ";
+            $strTbRColum = " r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid, r.mb_nickname ";
+
+            $strSql = " WITH RECURSIVE tbmember (".$strTbColum.") AS";
+            $strSql .= " ( SELECT ".$strTbColum." FROM ".$this->mMemberTable." WHERE mb_emp_fid = '".$objEmp->mb_fid."'";
+            $strSql .= " UNION ALL SELECT ".$strTbRColum." FROM ".$this->mMemberTable." r ";
+            $strSql .= " INNER JOIN tbmember ON r.mb_emp_fid = tbmember.mb_fid )";
+        }
 
         //총배팅금, 적중금
         $arrSum = array();
-        $strSql = " SELECT SUM(bet_money) AS bet_money_sum, SUM(bet_win_money) AS win_money_sum, SUM(company_amount) AS company_amount, ";
+        $strSql .= " SELECT SUM(bet_money) AS bet_money_sum, SUM(bet_win_money) AS win_money_sum, SUM(company_amount) AS company_amount, ";
         $strSql .= " SUM(CASE WHEN bet_win_money= 0 THEN bet_money ELSE 0 END) AS loss_money_sum, ";
         $strSql .= " SUM(CASE WHEN bet_win_money > 0 THEN bet_win_money-bet_money ELSE 0 END) AS benefit_money_sum ";
         $strSql .= " FROM ".$this->table;

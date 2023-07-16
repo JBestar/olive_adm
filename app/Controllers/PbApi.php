@@ -213,10 +213,8 @@ class PbApi extends BaseController {
 					if(strlen(trim($arrReqData['emp'])) > 0){
 						$objAdmin = $this->modelMember->getInfo(trim($arrReqData['emp']));
 					}
-					else 	
-						$arrBetAccount = $betModel->getBetAccount($arrReqData);
 				} 
-				
+				$arrBetAccount = $betModel->getBetAccount($objAdmin, $arrReqData);
 				$objCount = $betModel->searchCount($objAdmin, $arrReqData);
 				
 				$arrResult['data'] = $objCount;

@@ -8,7 +8,7 @@
 	</div>
 	<style>
 		.user-table{
-			min-width:2400px;		
+			min-width:1800px;		
 		}
 		.user-table td{
 			border-right:solid 0.4px #888;
@@ -383,7 +383,7 @@
 								<div class="row">
 									<div class="col-md-2">메모:</div>
 									<div class="col-md-10">
-										<textarea rows="6" id="memo" style="width:100%; resize: vertical;" class="form-control"></textarea>					
+										<textarea rows="10" id="memo" style="width:100%; resize: vertical;" class="form-control"></textarea>					
 									</div>
 								</div>
 							</div>

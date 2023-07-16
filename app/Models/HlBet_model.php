@@ -34,21 +34,37 @@ class HlBet_Model extends Model
     private $mRewardTable = 'bet_reward';
     private $mGameId = GAME_HOLD_CMS;
 
-    function getBetAccount($arrReqData){
-
+    function getBetAccount($objEmp, $arrReqData){
+        
+        if(is_null($objEmp)){
+            return null;
+        }
         $strCondition = " WHERE ";
         $strCondition.= getBetTimeRange($arrReqData, $this->db);
         $strCondition .= " AND bet_state = 0 ";
         if(strlen($arrReqData['user']) > 0){
             $strCondition.=" AND ( bet_mb_uid = ".$this->db->escape($arrReqData['user'])." OR bet_mb_fid = ".$this->db->escape($arrReqData['user']).") ";
         }
-        
+        $strSql = "";
+        if($objEmp->mb_level < LEVEL_ADMIN){
+            $strCondition.=" AND bet_mb_fid in ( SELECT mb_fid FROM  tbmember UNION ALL SELECT '".$objEmp->mb_fid."' AS mb_fid ) ";
+
+            $strTbColum = " mb_fid, mb_uid, mb_level, mb_emp_fid, mb_nickname ";
+            $strTbRColum = " r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid, r.mb_nickname ";
+
+            $strSql = " WITH RECURSIVE tbmember (".$strTbColum.") AS";
+            $strSql .= " ( SELECT ".$strTbColum." FROM ".$this->mMemberTable." WHERE mb_emp_fid = '".$objEmp->mb_fid."'";
+            $strSql .= " UNION ALL SELECT ".$strTbRColum." FROM ".$this->mMemberTable." r ";
+            $strSql .= " INNER JOIN tbmember ON r.mb_emp_fid = tbmember.mb_fid )";
+        }
         //총배팅금, 적중금
         $arrSum = array();
-        $strSql = " SELECT SUM(bet_money) AS bet_money_sum, SUM(bet_win_money) AS win_money_sum, ";
+        $strSql .= " SELECT SUM(bet_money) AS bet_money_sum, SUM(bet_win_money) AS win_money_sum, ";
         $strSql .= " SUM(CASE WHEN bet_win_money= 0 THEN bet_money ELSE 0 END) AS loss_money_sum, ";
         $strSql .= " SUM(CASE WHEN bet_win_money > 0 THEN bet_win_money-bet_money ELSE 0 END) AS benefit_money_sum ";
+
         $strSql .= " FROM ".$this->table;
+        
         $strSql .= $strCondition;
         $objResult = $this -> db -> query($strSql)->getRow();
 
@@ -75,7 +91,7 @@ class HlBet_Model extends Model
         }
         $arrSum[3] = $nSum;
         
-        writeLog($strSql);
+        // writeLog($strSql);
         return $arrSum;
     }
 
@@ -149,10 +165,10 @@ class HlBet_Model extends Model
 
         $strSql .= " ORDER BY bet_time DESC";
 
-        writeLog($strSql);
+        // writeLog($strSql);
         $query = $this -> db -> query($strSql);
         $result = $query -> getResult();
-        writeLog("search End");
+        // writeLog("search End");
         
         return $result; 
 

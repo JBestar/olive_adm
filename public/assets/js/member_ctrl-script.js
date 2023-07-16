@@ -74,37 +74,21 @@ function showMember(arrMember, confs) {
         strBuf += "</td> <td id='mp_" + arrMember[nRow].mb_fid + "'>";
         strBuf += Math.floor(arrMember[nRow].mb_point).toLocaleString();
         strBuf += "</td> <td>";
-        arrMember[nRow].bet_sum = 0;
-        arrMember[nRow].bet_sum += (arrMember[nRow].bet_pb_m?parseFloat(arrMember[nRow].bet_pb_m):0);
-        arrMember[nRow].bet_sum += (arrMember[nRow].bet_bb_m?parseFloat(arrMember[nRow].bet_bb_m):0);
-        arrMember[nRow].bet_sum += (arrMember[nRow].bet_bl_m?parseFloat(arrMember[nRow].bet_bl_m):0);
-        arrMember[nRow].bet_sum += (arrMember[nRow].bet_e5_m?parseFloat(arrMember[nRow].bet_e5_m):0);
-        arrMember[nRow].bet_sum += (arrMember[nRow].bet_e3_m?parseFloat(arrMember[nRow].bet_e3_m):0);
-        arrMember[nRow].bet_sum += (arrMember[nRow].bet_c5_m?parseFloat(arrMember[nRow].bet_c5_m):0);
-        arrMember[nRow].bet_sum += (arrMember[nRow].bet_c3_m?parseFloat(arrMember[nRow].bet_c3_m):0);
-        arrMember[nRow].bet_sum += (arrMember[nRow].bet_cs_m?parseFloat(arrMember[nRow].bet_cs_m):0);
-        arrMember[nRow].bet_sum += (arrMember[nRow].bet_sl_m?parseFloat(arrMember[nRow].bet_sl_m):0);
-        strBuf += arrMember[nRow].bet_sum.toLocaleString();
+        if(arrMember[nRow].bet_sum == null)
+            arrMember[nRow].bet_sum = 0;
+        strBuf += Math.floor(arrMember[nRow].bet_sum).toLocaleString();
         strBuf += "</td> <td>";
-        arrMember[nRow].win_sum = 0;
-        arrMember[nRow].win_sum += (arrMember[nRow].bet_pb_w?parseFloat(arrMember[nRow].bet_pb_w):0);
-        arrMember[nRow].win_sum += (arrMember[nRow].bet_bb_w?parseFloat(arrMember[nRow].bet_bb_w):0);
-        arrMember[nRow].win_sum += (arrMember[nRow].bet_bl_w?parseFloat(arrMember[nRow].bet_bl_w):0);
-        arrMember[nRow].win_sum += (arrMember[nRow].bet_e5_w?parseFloat(arrMember[nRow].bet_e5_w):0);
-        arrMember[nRow].win_sum += (arrMember[nRow].bet_e3_w?parseFloat(arrMember[nRow].bet_e3_w):0);
-        arrMember[nRow].win_sum += (arrMember[nRow].bet_c5_w?parseFloat(arrMember[nRow].bet_c5_w):0);
-        arrMember[nRow].win_sum += (arrMember[nRow].bet_c3_w?parseFloat(arrMember[nRow].bet_c3_w):0);
-        arrMember[nRow].win_sum += (arrMember[nRow].bet_cs_w?parseFloat(arrMember[nRow].bet_cs_w):0);
-        arrMember[nRow].win_sum += (arrMember[nRow].bet_sl_w?parseFloat(arrMember[nRow].bet_sl_w):0);
-        strBuf += arrMember[nRow].win_sum.toLocaleString();
+        if(arrMember[nRow].win_sum == null)
+            arrMember[nRow].win_sum = 0;
+        strBuf += Math.floor(arrMember[nRow].win_sum).toLocaleString();
         strBuf += "</td> <td>";
         if(arrMember[nRow].rw_point == null)
             arrMember[nRow].rw_point = 0;
-        strBuf += parseFloat(arrMember[nRow].rw_point).toLocaleString();
+        strBuf += Math.floor(arrMember[nRow].rw_point).toLocaleString();
         strBuf += "</td> <td>";
         if(arrMember[nRow].chg_point == null)
             arrMember[nRow].chg_point = 0;
-        strBuf += parseFloat(arrMember[nRow].chg_point).toLocaleString();
+        strBuf += Math.floor(arrMember[nRow].chg_point).toLocaleString();
         strBuf += "</td> <td>";
         strBuf += arrMember[nRow].mb_time_join;
         strBuf += "</td> <td>";

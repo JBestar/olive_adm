@@ -240,7 +240,7 @@
 			<tr>
 				<td>메모 </td>
 				<td rowspan="3" colspan="3">
-					<textarea rows="4" id="useredit-memo-text-id" style="width:510px; resize: vertical;" ><?php if(!is_null($objMember)) : echo $objMember->mb_memo ?><?php endif ?></textarea>					
+					<textarea rows="10" id="useredit-memo-text-id" style="width:510px; resize: vertical;" ><?php if(!is_null($objMember)) : echo $objMember->mb_memo ?><?php endif ?></textarea>					
 				</td>
 			</tr>
 		</tbody>

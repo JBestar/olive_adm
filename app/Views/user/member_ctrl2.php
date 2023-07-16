@@ -8,7 +8,7 @@
 	</div>
 	<style>
 		.user-table{
-			/* min-width:1700px;		 */
+			min-width:1400px;		
 		}
 		.user-table td{
 			border-right:solid 0.4px #888;
@@ -53,11 +53,11 @@
 		.sort-by.desc:after{
 			border-top-color: rgb(0, 153, 255);
 		}
-		html, body {
-			background: none repeat scroll 0 0 #fff;
-			/* overflow-x: hidden; */
-			-webkit-font-smoothing: antialiased;
-			min-height: 100%;
+		body {
+			/* background: none repeat scroll 0 0 #fff; */
+			overflow-x: hidden;
+			/* -webkit-font-smoothing: antialiased; */
+			/* min-height: 100%; */
 		}
 		.modal{
 			background: rgb(0 0 0 / 50%);
@@ -69,7 +69,6 @@
 		<div>
 			<?php if($mb_level >= LEVEL_ADMIN) {  ?>
 			<a href="javascript:exportTableToExcel();" class="user-panel-add-a">다운로드</a>
-			<!-- <a href="javascript:showMemCreate();" class="user-panel-add-a" >회원 등록</a> -->
 			<?php } ?>
 			<label>추천인</label>
             <input type="text" class="pbresult-text-input" id="userpanel-empid-input-id" value= "<?=$emp_uid ?>">
@@ -81,6 +80,7 @@
 				<option value="1">승인</option>
 				<option value="0">차단</option>
 				<option value="2">대기</option>
+				<option value="4">삭제</option>
 			</select>
 
 			<select name="pbresult-number" class="pbresult-number-select" id="userpanel-number-select-id">
@@ -92,7 +92,7 @@
 			</select>
 			<button class="pbresult-list-view-but" id="userpanel-list-view-but-id">검색</button>  
 		</div>	
-		<!-- <div style="position: relative; overflow: auto; width: 100%;">	 -->
+		<div style="position: relative; overflow: auto; width: 100%;">	
 			<Table class="user-table" id="user-member-table" style="margin-top: 15px;">
 				<thead>
 					<tr>
@@ -108,9 +108,12 @@
 						<th>알회수</th>
 						<?php } ?>
 						<th class="sort-by">포인트</th>
+						<th class="sort-by">총배팅금</th>
+						<th class="sort-by">총획득금</th>
+						<th class="sort-by">총롤링금</th>
+						<th class="sort-by">환전롤링금</th>
+						<th class="sort-by">등록날짜</th>
 						<th class="sort-by">최근접속</th>
-						<th>충전</th>
-						<th>환전</th>
 						<th>수정</th>
 						<th>삭제</th>
 						<th>상태</th>
@@ -121,7 +124,7 @@
 				</tbody>
 
 			</Table>
-		<!-- </div> -->
+		</div>
 		<div class="pbresult-list-page-div">
 			
 			<div class="pagination" id="list-page" style="display:none">
@@ -395,7 +398,7 @@
 								<div class="row">
 									<div class="col-md-2">메모:</div>
 									<div class="col-md-10">
-										<textarea rows="2" id="memo" style="width:100%; resize: vertical;" class="form-control"></textarea>					
+										<textarea rows="10" id="memo" style="width:100%; resize: vertical;" class="form-control"></textarea>					
 									</div>
 								</div>
 							</div>

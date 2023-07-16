@@ -423,6 +423,56 @@ class UserApi extends BaseController
         echo json_encode($arrResult);
     }
 
+    public function delete_restore()
+    {
+        $jsonData = $_REQUEST['json_'];
+        $arrData = json_decode($jsonData, true);
+
+        if (is_login()) {
+
+            $strUid = $this->session->user_id;
+            $objUser = $this->modelMember->getInfo($strUid);
+            $objReqUser = $this->modelMember->getInfoByFid($arrData['mb_fid']);
+
+            $bPermit = false;
+
+            $objEmp = null;
+            if (!is_null($objUser) && !is_null($objReqUser)) {
+
+                if($objReqUser->mb_level < LEVEL_COMPANY)
+                    $objEmp = $this->modelMember->getInfoByFid($objReqUser->mb_emp_fid);
+                else $objEmp = $objUser;
+
+                if ($objUser->mb_level >= LEVEL_ADMIN && !is_null($objEmp) && $objEmp->mb_state_active != PERMIT_DELETE) {
+                    $bPermit = true;
+                    
+                }
+            }
+
+            if ($bPermit) {
+			    $query = "";
+
+                $bResult = $this->modelMember->updateMemberByFid($arrData, $query);
+
+                if ($bResult) {
+                    $this->modelModify->add($this->session->user_id, MOD_MB_STATE, $query, $this->request->getIPAddress());
+
+                    $arrResult['status'] = 'success';
+                } else {
+                    $arrResult['status'] = 'fail';
+                }
+            } else if (!is_null($objReqUser) && $objReqUser->mb_state_active != PERMIT_DELETE) {
+                $arrResult['status'] = 'success';
+            } else if (!is_null($objEmp) && $objEmp->mb_state_active == PERMIT_DELETE) {
+                $arrResult['status'] = 'usererror';
+            } else {
+                $arrResult['status'] = 'nopermit';
+            }
+        } else {
+            $arrResult['status'] = 'logout';
+        }
+        echo json_encode($arrResult);
+    }
     // 사용자정보
     public function assets()
     {

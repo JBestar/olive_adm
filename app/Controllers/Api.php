@@ -1487,9 +1487,8 @@ public function withdrawlist(){
 				if(strlen(trim($arrGetData['emp'])) > 0){
 					$objAdmin = $this->modelMember->getInfo(trim($arrGetData['emp']));
 				}
-				else 	
-					$arrBetAccount = $csbetModel->getBetAccount($arrGetData);
 			}
+			$arrBetAccount = $csbetModel->getBetAccount($objAdmin, $arrGetData);
 			$objCount = $csbetModel->searchCount($objAdmin, $arrGetData);
 			// writeLog("csbetlistcnt end duration = ".(microtime(true) * 1000 - $tmNow));
 			
@@ -1713,9 +1712,8 @@ public function withdrawlist(){
 				if(strlen(trim($arrGetData['emp'])) > 0){
 					$objAdmin = $this->modelMember->getInfo(trim($arrGetData['emp']));
 				}
-				else 	
-					$arrBetAccount = $slbetModel->getBetAccount($arrGetData);
 			} 
+			$arrBetAccount = $slbetModel->getBetAccount($objAdmin, $arrGetData);
 			$objCount = $slbetModel->searchCount($objAdmin, $arrGetData);
 			
 			$arrResult['data'] = $objCount;
@@ -1747,20 +1745,20 @@ public function withdrawlist(){
 			$objAdmin = $this->modelMember->getInfo($strUid);
 
 			$arrBetAccount = null;
+			$lvAdmin = $objAdmin->mb_level;
 			if($objAdmin->mb_level >= LEVEL_ADMIN){
 				if(strlen(trim($arrGetData['emp'])) > 0){
 					$objAdmin = $this->modelMember->getInfo(trim($arrGetData['emp']));
 				}
-				else 	
-					$arrBetAccount = $hlbetModel->getBetAccount($arrGetData);
 			}
-			$arrBetResults = $hlbetModel->search($objAdmin, $arrGetData, $objAdmin->mb_level >= LEVEL_ADMIN);
+			$arrBetAccount = $hlbetModel->getBetAccount($objAdmin, $arrGetData);
+			$arrBetResults = $hlbetModel->search($objAdmin, $arrGetData, $lvAdmin>=LEVEL_ADMIN);
 			
 			$objResult = new \StdClass;
 			$objResult->data = $arrBetResults;	
 			$objResult->status = "success";
 			$objResult->account = $arrBetAccount;	
-			$objResult->level = $objAdmin->mb_level;
+			$objResult->level = $lvAdmin;
 		
 			echo json_encode($objResult);
 		}
@@ -1787,18 +1785,14 @@ public function withdrawlist(){
 			$strUid = $this->session->user_id;
 			$objAdmin = $this->modelMember->getInfo($strUid);
 			
-			$arrBetAccount = null;
 			if($objAdmin->mb_level >= LEVEL_ADMIN){
 				if(strlen(trim($arrGetData['emp'])) > 0){
 					$objAdmin = $this->modelMember->getInfo(trim($arrGetData['emp']));
 				}
-				else 	
-					$arrBetAccount = $hlbetModel->getBetAccount($arrGetData);
 			} 
 			$objCount = $hlbetModel->searchCount($objAdmin, $arrGetData);
 			
 			$arrResult['data'] = $objCount;
-			$arrResult['account'] = $arrBetAccount;	
 			$arrResult['status'] = "success";
 		
 			echo json_encode($arrResult);

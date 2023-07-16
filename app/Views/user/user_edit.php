@@ -404,7 +404,7 @@
 
 			<div class="useredit-text-div" style="padding-top:10px">
 				<p style="">메모:</p> 
-				<textarea rows="6" id="useredit-memo-text-id" style="width:510px; resize: vertical;" ><?php if(!is_null($objMember)) : echo $objMember->mb_memo ?><?php endif ?></textarea>					
+				<textarea rows="10" id="useredit-memo-text-id" style="width:510px; resize: vertical;" ><?php if(!is_null($objMember)) : echo $objMember->mb_memo ?><?php endif ?></textarea>					
 			</div>
 
 			<!---->

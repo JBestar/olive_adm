@@ -244,7 +244,6 @@ function requestTotalPage(bReqPage = true) {
                 setFirstPage();
                 if(bReqPage)
                     requestBetHistory();
-                // ShowBetAccount(jResult.account);
             }
         },
         error: function(request, status, error) {

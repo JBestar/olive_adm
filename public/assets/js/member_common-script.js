@@ -121,6 +121,39 @@ function requestDeleteMember(jsData) {
 
 }
 
+function requestDeleteRestore(elemBut, jsData) {
+
+    $(elemBut).attr('disabled', true);
+    jsonData = JSON.stringify(jsData);
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: FURL + "/userapi/delete_restore",
+        data: { json_: jsonData },
+        success: function(jResult) {
+            //console.log(jResult);
+            $(elemBut).attr('disabled', false);
+
+            if (jResult.status == "success") {
+                alert('회복되었습니다.');
+                requestMember();
+            } else if (jResult.status == "usererror") {
+                alert('추천인이 이미 삭제되었습니다. \n 먼저 추천인을 확인해주세요.');
+            } else if (jResult.status == "fail") {
+                alert('회복이 실패되었습니다.');
+            } else if (jResult.status == "nopermit") {
+                alert('변경권한이 없습니다.');
+            } else if (jResult.status == "logout") {
+                location.replace( FURL +'/');
+            }
+        },
+        error: function(request, status, error) {
+            //console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+        }
+
+    });
+}
 
 function requestAddBlock(jsData) {
 
