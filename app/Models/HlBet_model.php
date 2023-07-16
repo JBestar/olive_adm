@@ -108,9 +108,9 @@ class HlBet_Model extends Model
         $strTbRColum = " r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid, r.mb_nickname ";
 
         $strWhere =" WHERE ".getBetTimeRange($arrReqData, $this->db);
-        if($objEmp->mb_level < LEVEL_ADMIN+2){
-            $strWhere.=" AND bet_state = 0 ";
-        }
+        // if($objEmp->mb_level < LEVEL_ADMIN+2){
+        //     $strWhere.=" AND bet_state = 0 ";
+        // }
         if(strlen($arrReqData['user']) > 0){
             $strWhere.=" AND ( bet_mb_uid = ".$this->db->escape($arrReqData['user'])." OR bet_mb_fid = ".$this->db->escape($arrReqData['user']).") ";
         }
@@ -202,9 +202,9 @@ class HlBet_Model extends Model
         }
 
         $strSql.=" WHERE ".getBetTimeRange($arrReqData, $this->db);
-        if($objEmp->mb_level < LEVEL_ADMIN+2){
-            $strSql.=" AND bet_state = 0 ";
-        }
+        // if($objEmp->mb_level < LEVEL_ADMIN+2){
+        //     $strSql.=" AND bet_state = 0 ";
+        // }
         if(strlen($arrReqData['user']) > 0){
             $strSql.=" AND ( bet_mb_uid = ".$this->db->escape($arrReqData['user'])." OR bet_mb_fid = ".$this->db->escape($arrReqData['user']).") ";
         }
