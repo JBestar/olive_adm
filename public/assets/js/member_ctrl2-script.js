@@ -103,7 +103,7 @@ function showMember(arrMember, confs) {
         } else if (arrMember[nRow].mb_state_active == 2) {
             strBuf += ">대기</button>";
         } else if (arrMember[nRow].mb_state_active == 4) {
-            strBuf += "disabled >삭제</button>";
+            strBuf += "style='color:red;' disabled >삭제</button>";
         } else {
             strBuf += ">차단</button>";
         }
