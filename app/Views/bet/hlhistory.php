@@ -10,7 +10,7 @@
 	<th>승리금액</th>
 	<th>배팅결과</th>
 	<th>포인트</th>
-<?php if($mb_level >= LEVEL_ADMIN) :  ?>
+<?php if($mb_level >= LEVEL_ADMIN+2) :  ?>
 	<th>플레1</th>
 	<th>플레2</th>
 	<th>플레3</th>
