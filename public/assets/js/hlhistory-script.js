@@ -52,7 +52,7 @@ function ShowBetHistory(jsonBetData, level) {
         if (jsonBetData[nRow].rw_point != null)
             strBuf += Math.floor(jsonBetData[nRow].rw_point).toLocaleString();
         else strBuf += "0";
-        if(level >= LEVEL_ADMIN+2){
+        if(level >= LEVEL_ADMIN+1){
             strBuf += "</td>";
             strBuf += toCardInfo(jsonBetData[nRow].bet_player_1, jsonBetData[nRow].bet_player_seat==1);
             strBuf += "</td>";

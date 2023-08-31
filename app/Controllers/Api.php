@@ -1931,7 +1931,7 @@ class Api extends BaseController{
 				}
 			}
 			$arrBetAccount = $hlbetModel->getBetAccount($objAdmin, $arrGetData);
-			$arrBetResults = $hlbetModel->search($objAdmin, $arrGetData, $lvAdmin>=LEVEL_ADMIN+2);
+			$arrBetResults = $hlbetModel->search($objAdmin, $arrGetData, $lvAdmin>=LEVEL_ADMIN+1);
 			
 			$objResult = new \StdClass;
 			$objResult->data = $arrBetResults;	
