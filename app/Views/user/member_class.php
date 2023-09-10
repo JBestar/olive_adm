@@ -41,7 +41,10 @@
 		}
 		tr button.expand{
 			color:blue;
-			/* background:#00ffff; */
+		}
+		.user-table thead tr:nth-child(2) th{
+			background-color: #555;
+			padding:5px 3px;
 		}
 	</style>
 	<!--Site Setting-->
@@ -102,6 +105,39 @@
 							<th>공배팅</th>
 						<?php endif ?> 
 						<th>로그아웃</th>
+					</tr>
+					<tr style="border-color: #fff;">
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th id="sumOfMoney">0</th>
+						<?php if ($mb_level >= LEVEL_ADMIN) {?>	
+						<th></th>
+						<?php } ?>
+						<th id="sumOfPoint"></th>
+						<th id="sumOfBet"></th>
+						<th id="sumOfWin"></th>
+						<th id="sumOfRwPt"></th>
+						<th id="sumOfChgpt"></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<?php if(!$slot_deny) :?>
+							<th></th>
+						<?php endif ?> 
+						<th></th>
 					</tr>
 				</thead>
 				<tbody  id="user-member-table-id">

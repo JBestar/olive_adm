@@ -49,7 +49,6 @@ function showMember(arrMember, confs, refresh=true, bTree=true) {
         }
 
     } else{
-        
         mArrMember = arrMember;
         mConfs = confs;
         mOrder = 1;
@@ -76,7 +75,9 @@ function showMember(arrMember, confs, refresh=true, bTree=true) {
         document.getElementById("user-member-table-id").innerHTML = strBuf;
         addBtnEvent();
     }
-    
+    if(typeof sumOfMember === "function"){
+        sumOfMember();
+    }
 }
 
 function toggle(level, fid){

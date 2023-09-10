@@ -585,3 +585,28 @@ function readConfigToObject() {
 
 }
 
+function sumOfMember(){
+    let sumMoney = 0, sumPoint = 0, sumBet = 0, sumWin = 0, sumRwPt = 0, sumChgPt = 0;
+    for (let objMember of mArrMember) {
+
+        if(objMember.mb_money_all !== undefined){
+            $("#mm_"+objMember.mb_fid).text(parseFloat(objMember.mb_money_all).toLocaleString());
+        }
+        else $("#mm_"+objMember.mb_fid).text(parseFloat(objMember.mb_money).toLocaleString());
+        $("#mp_"+objMember.mb_fid).text(parseFloat(objMember.mb_point).toLocaleString());
+
+        sumMoney += parseFloat(objMember.mb_money);
+        sumPoint += parseFloat(objMember.mb_point);
+        sumBet += parseFloat(objMember.bet_sum);
+        sumWin += parseFloat(objMember.win_sum);
+        sumRwPt += parseFloat(objMember.rw_point);
+        sumChgPt += parseFloat(objMember.chg_point);
+    }
+
+    $("#sumOfMoney").text(sumMoney.toLocaleString());
+    $("#sumOfPoint").text(sumPoint.toLocaleString());
+    $("#sumOfBet").text(sumBet.toLocaleString());
+    $("#sumOfWin").text(sumWin.toLocaleString());
+    $("#sumOfRwPt").text(sumRwPt.toLocaleString());
+    $("#sumOfChgpt").text(sumChgPt.toLocaleString());
+}
