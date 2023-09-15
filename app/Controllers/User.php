@@ -160,14 +160,13 @@ class User extends StdController
 	{
 		if(is_login())
 		{
+			$strUid = $this->session->user_id;
+			$objMember = $this->modelMember->getInfo($strUid);
 			if(array_key_exists('app.hold', $_ENV) && $_ENV['app.hold'] == 1){
-				$strUid = $this->session->user_id;
-				$objMember = $this->modelMember->getInfo($strUid);
 				if(!is_null($objMember) && ($objMember->mb_level >= LEVEL_ADMIN || floatval($objMember->mb_game_hl_ratio) > 0) )
 					$this->response->redirect($_ENV['app.furl'].'/user/member_list/0');
 				else print "<script language=javascript> self.close(); </script>";
-			}
-			if(array_key_exists('app.tree', $_ENV) && $_ENV['app.tree'] == 1){
+			} else if(array_key_exists('app.tree', $_ENV) && $_ENV['app.tree'] == 1){
 				$this->response->redirect($_ENV['app.furl'].'/user/member_list/0');
 			} else 
 				$this->response->redirect($_ENV['app.furl'].'/user/member/0');
@@ -245,7 +244,7 @@ class User extends StdController
 		$objAdmin = $this->modelMember->getInfo($strUid);
 		$admFid = 0;
 
-		if(!is_null($objAdmin) && $objAdmin->mb_level < LEVEL_ADMIN && floatval($objAdmin->mb_game_hl_ratio) == 0 ){
+		if(array_key_exists('app.hold', $_ENV) && $_ENV['app.hold'] == 1 && !is_null($objAdmin) && $objAdmin->mb_level < LEVEL_ADMIN && floatval($objAdmin->mb_game_hl_ratio) == 0 ){
 			print "<script language=javascript> self.close(); </script>";
 		} else {
 			if($objAdmin->mb_level >= LEVEL_MASTER){
