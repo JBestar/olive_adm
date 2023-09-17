@@ -75,8 +75,6 @@
 				</td>
 			</tr>
 
-		<?php if ($mb_level >= LEVEL_ADMIN) :?>
-
 			<tr>
 				<td>비밀번호(8~20자, 특수문자 한개 이상) </td>
 				<td>
@@ -186,7 +184,89 @@
 
 				</td>
 			</tr>
-			<?php endif?>
+
+			<?php if(array_key_exists('app.ebal', $_ENV) && $_ENV['app.ebal'] > 0 ) :?>
+
+			<tr>
+				<td>
+					<p style="width:133px">에볼 누르기</p> 
+				</td>
+				<td>
+					<?php if(!is_null($objMember) && $objMember->mb_state_view == 1) :  ?>
+						<input type="checkbox" id="useredit-balance-check-id" style="zoom:100%; margin-top:4px; margin-right:0; width:20px;height:20px;" checked>
+					<?php else :  ?>
+						<input type="checkbox" id="useredit-balance-check-id" style="zoom:100%; margin-top:4px; margin-right:0; width:20px;height:20px;" >
+					<?php endif ?>
+				</td>
+				<td>
+					최소배팅금액<br> <br>
+					최대배팅금액
+				</td>
+				<td>
+					<?php if(is_null($objMember)) : ?>
+						<input type = "number" min="0" step="1000" id="useredit-rangemin-input-id" value="0">
+					<?php else :?>
+						<input type = "number" min="0" step="1000" id="useredit-rangemin-input-id" value="<?=$objMember->mb_range_min?>">
+					<?php endif ?>
+
+					<?php if(is_null($objMember)) :  ?>
+						<input type = "number" min="0" step="1000" id="useredit-rangemax-input-id" value="0">
+					<?php else :?>
+						<input type = "number" min="0" step="1000" id="useredit-rangemax-input-id" value="<?=$objMember->mb_range_max?>">
+					<?php endif ?>
+				</td>
+			</tr>
+			<?php if($press_en > 0 ) :?>
+				<tr>
+					<td>
+					</td>
+					<td>
+						<?php if(!is_null($objMember) && $objMember->mb_press_active == 1) :  ?>
+							<input type="checkbox" id="useredit-press-check-id" style="zoom:100%; margin-top:4px; margin-right:0; height:20px;" checked>
+						<?php else :  ?>
+							<input type="checkbox" id="useredit-press-check-id" style="zoom:100%; margin-top:4px; margin-right:0; height:20px;" >
+						<?php endif ?>
+					</td>
+					<td colspan="2">
+						<?php if(is_null($objMember)) :  ?>
+						<input type = "number" min="0" step="1000" id="useredit-press-input-id" value="0" style="margin-right:5px">
+						<?php else :?>
+						<input type = "number" min="0" step="1000" id="useredit-press-input-id" value="<?=$objMember->mb_press_amount?>" style="margin-right:5px">
+						<?php endif ?>
+						<?php if($press_en == 2 || $press_en == 4 || $press_en == 5 ) :?>
+							<label>이하</label>
+						<?php endif ?>
+						<button class="pbresult-list-view-but" id="useredit-press-but-id"  style="margin-left:5px; padding:5px 10px;">전체 적용</button>  
+					</td>
+				</tr>
+			<?php endif ?>
+
+			<?php if($follow_en > 0 ) :?>
+				<tr>
+					<td>
+					에볼 따라가기
+					</td>
+					<td>
+						<?php if(!is_null($objMember) && $objMember->mb_follow_active == 1) :  ?>
+							<input type="checkbox" id="useredit-follow-check-id" style="zoom:100%; margin-top:4px; margin-right:0; width:20px; height:20px;" checked>
+						<?php else :  ?>
+							<input type="checkbox" id="useredit-follow-check-id" style="zoom:100%; margin-top:4px; margin-right:0; width:20px; height:20px;" >
+						<?php endif ?>
+					</td>
+					<td>
+					따라가기 아이디
+					</td>
+					<td>
+						<?php if(is_null($objMember)) : ?>
+						<input type = "text" id="useredit-follow-input-id" value="">
+						<?php else :?>
+						<input type = "text" id="useredit-follow-input-id" value="<?=$objMember->mb_follow_id?>">
+						<?php endif ?>
+					</td>
+				</tr>
+				<?php endif ?>
+
+			<?php endif ?>
 
 			<tr>
 				<td>오프라인 유저 </td>

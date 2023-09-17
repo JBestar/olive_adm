@@ -100,6 +100,17 @@ class User extends StdController
 			$follow_en = false;
 			$press_en = 0;
 
+			if($objAdmin->mb_level >= LEVEL_ADMIN){
+				$confFollow = $confsiteModel->getConf(CONF_EVOLFOLLOW);
+				if($confFollow != null){
+					$follow_en = intval($confFollow->conf_active) == STATE_ACTIVE ;
+					$info = explode('#', $confFollow->conf_idx);
+					if(count($info) >= 1){
+						$press_en = intval($info[0]);
+					}
+				}
+			}
+			
 			if($objAdmin->mb_level >= LEVEL_ADMIN && array_key_exists('app.tree', $_ENV) && $_ENV['app.tree'] == 1 ){
 				$url = 'user/user_detail'; 
 
@@ -127,18 +138,7 @@ class User extends StdController
 					if($objMember->mb_level >= LEVEL_ADMIN)
 						$objMember->mb_ip_join = "";
 				}
-				
-			} else {
-				$confFollow = $confsiteModel->getConf(CONF_EVOLFOLLOW);
-				if($confFollow != null){
-					$follow_en = intval($confFollow->conf_active) == STATE_ACTIVE ;
-					$info = explode('#', $confFollow->conf_idx);
-					if(count($info) >= 1){
-						$press_en = intval($info[0]);
-					}
-				}
-				
-			}
+			} 
 
 			$this->load_view_page(
 				$url, 
