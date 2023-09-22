@@ -144,7 +144,7 @@
 
 		<div class="main-navbar-user-div">
 			<div>
-				<?php if(!array_key_exists('app.hold', $_ENV) || $_ENV['app.hold'] == 0 || $mb_level < LEVEL_ADMIN) :?>
+				<?php if((!array_key_exists('app.hold', $_ENV) || $_ENV['app.hold'] == 0) && $mb_level >= LEVEL_ADMIN) :?>
 				<label class="switch">
 					<input class="switch-input" type="checkbox" id="main-navbar-alarm-check-id" />
 					<span class="switch-label" data-on="켜기" data-off="끄기"></span>
