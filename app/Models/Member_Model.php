@@ -738,7 +738,7 @@ class Member_Model extends Model
             $strSQL .= " AND bet_state = 0 ";
         }
 
-        if($arrReqData['type'] == GAME_AUTO_EVOL || $arrReqData['type'] == GAME_CASINO_EVOL){
+        if($arrReqData['type'] == GAME_AUTO_EVOL){
             $strSQL .= " AND bet_mb_fid IN (SELECT mb_fid from tbmember) ) ";
         } else
             $strSQL .= " AND bet_mb_uid IN (SELECT mb_uid from tbmember) ) ";
