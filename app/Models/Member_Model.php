@@ -394,12 +394,12 @@ class Member_Model extends Model
         } elseif ($arrReqData['type'] == GAME_POWER_LADDER ) {
             $arrReqData['gm_range'] = $this->getBetRangeId($arrReqData, "bet_powerladder");
         } elseif ($arrReqData['type'] == GAME_CASINO_EVOL ) {
-            if(isEBalMode()){
-                $tbName = "bet_ebal";
-            } else 
-                $tbName = "bet_casino";
+            $tbName = "bet_casino";
             $arrReqData['gm_range'] = $this->getBetRangeId($arrReqData, $tbName);
-        } elseif ($arrReqData['type'] == GAME_BOGLE_BALL ) {
+        } elseif ($arrReqData['type'] == GAME_AUTO_EVOL ) {
+            $tbName = "bet_ebal";
+            $arrReqData['gm_range'] = $this->getBetRangeId($arrReqData, $tbName);
+        }  elseif ($arrReqData['type'] == GAME_BOGLE_BALL ) {
             $arrReqData['gm_range'] = $this->getBetRangeId($arrReqData, "bet_bogleball");
         } elseif ($arrReqData['type'] == GAME_BOGLE_LADDER ) {
             $arrReqData['gm_range'] = $this->getBetRangeId($arrReqData, "bet_bogleladder");

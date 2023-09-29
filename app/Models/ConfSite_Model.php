@@ -438,23 +438,17 @@ class ConfSite_Model extends Model
 
     public function getSoundConf(){
 
-        
+        $confIds = [CONF_SOUND_1, CONF_SOUND_2, CONF_SOUND_3, CONF_SOUND_4];  
+        $arrConf = $this->find($confIds);
+
         $arrSoundData = array();
-
-        for($i=0 ; $i<4; $i++){
-
+        foreach($arrConf as $objConf){
             $arrSound = ["", 0];
-
-            $nConfigId = CONF_SOUND_1 + $i;    
-            $objConfig = $this->asObject()->where(array('conf_id'=>$nConfigId))->first();
-            if(!is_null($objConfig)){
-                $arrSound[0] = $objConfig->conf_content;
-                $arrSound[1] = $objConfig->conf_active;
-            } 
-
+            $arrSound[0] = $objConf->conf_content;
+            $arrSound[1] = $objConf->conf_active;
             array_push($arrSoundData, $arrSound);
-        }
-       
+		}
+
         return $arrSoundData;
     }
 
