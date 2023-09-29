@@ -105,7 +105,9 @@ function ShowBetHistory(jsonBetData) {
                 } else  if (parseInt(jsonBetData[nRow].point_amount) == 2){
                     strResult = "<td  class = 'pb-home-table-betstate-loss'>미적중"; //
                 } else {
-                    strResult = "<td  class = 'pb-home-table-betstate-loss'>미처리"; //
+                    if(parseInt(jsonBetData[nRow].company_amount) == 8)
+                        strResult = "<td  class = 'pb-home-table-betstate-wait'>취소"; //
+                    else strResult = "<td  class = 'pb-home-table-betstate-loss'>미처리"; //
                 }
             } else{
                 if (parseInt(jsonBetData[nRow].bet_win_money) > parseInt(jsonBetData[nRow].bet_money)) {

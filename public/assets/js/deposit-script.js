@@ -92,7 +92,7 @@ function showDepositList(arrData) {
         strBuf += "</td><td>";
         strBuf += (parseInt(nRow) + firstIdx + 1);
         strBuf += "</td><td>";
-        strBuf += "<a onclick='popupMemberUid(\"" + arrData[nRow].charge_mb_uid + "\")' class='link-member'>"+ arrData[nRow].charge_mb_uid+ "</a>";
+        strBuf += "<a onclick='popupMemberUid(\"" + arrData[nRow].charge_mb_uid + "\")' class='link-member'>"+ arrData[nRow].mb_nickname+ "</a>";
         strBuf += "</td><td>";
         strBuf += arrData[nRow].charge_mb_uid;
         strBuf += "</td><td>";
@@ -212,7 +212,6 @@ function requestDepositList() {
             //console.log(jResult);
             if (jResult.status == "success") {
                 showDepositList(jResult.data);
-
                 $("#bank-deposit-total-id").text(parseInt(jResult.total).toLocaleString() + " 원");
             } else if (jResult.status == "fail") {
 
