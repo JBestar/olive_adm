@@ -141,6 +141,8 @@
 
     <?php if(!$hold_deny) :?>
     <a href="<?php echo siteFurl().'bet/hlhistory';?>" class="<?=$bet_history?>"><i class="glyphicon glyphicon-book"></i>  배팅내역</a>
+    <?php elseif(array_key_exists('app.ebal', $_ENV) && $_ENV['app.ebal'] > 3) :?>
+    <a href="<?php echo siteFurl().'bet/evhistory';?>" class="<?=$bet_history?>"><i class="glyphicon glyphicon-book"></i>  배팅내역</a>
     <?php elseif(!$evol_deny || !$cas_deny) :?>
     <a href="<?php echo siteFurl().'bet/cshistory';?>" class="<?=$bet_history?>"><i class="glyphicon glyphicon-book"></i>  배팅내역</a>
     <?php elseif(!$hpg_deny) :?>

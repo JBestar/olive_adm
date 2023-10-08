@@ -10,7 +10,7 @@
 			<?php if(!$hold_deny) :?>
 			<a href="<?php echo site_furl('bet/hlcalculate');?>" class="sub-navbar-a" >홀덤</a>
 			<?php endif ?> 
-			<?php if(!$evol_deny || !$cas_deny) :?>
+			<?php if(!isEBalMode(3) && (!$evol_deny || !$cas_deny) ) :?>
 			<a href="<?php echo site_furl('bet/cscalculate');?>" class="sub-navbar-a" >카지노</a>
 			<?php endif ?>   
 			<?php if(isEBalMode()) :?>

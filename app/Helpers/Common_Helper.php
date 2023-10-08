@@ -3,7 +3,9 @@
   	function is_login(){ 
       if(!isset($_SESSION['logged_in']))
         return false;
-      else if($_SESSION['logged_in']==TRUE)
+      else if(!isset($_COOKIE['logged']))
+        return false;
+      else if( $_SESSION['logged_in']==TRUE && $_COOKIE['logged'] === 'yes')
         return true;
       else return false;  
   	}
@@ -287,8 +289,8 @@
       return abs( strtotime($dt1) - strtotime($dt2) );
     }
 
-    function isEBalMode(){
-      if(array_key_exists('app.ebal', $_ENV) && $_ENV['app.ebal'] > 0 )
+    function isEBalMode($cnt = 0){
+      if(array_key_exists('app.ebal', $_ENV) && $_ENV['app.ebal'] > $cnt )
         return true;
       return false;
     }
