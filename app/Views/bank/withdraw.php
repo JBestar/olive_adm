@@ -24,6 +24,7 @@
 			<button class="pbresult-list-view-but" style="padding: 5px 10px; margin:0 5px 0 0; float:right;" id="withdraw-list-wait-but-id">대기</button>
 			<button class="pbresult-list-view-but" style="padding: 5px 10px; margin:0 5px 0 0; float:right;" id="withdraw-list-refuse-but-id">거절</button>
 			<button class="pbresult-list-view-but" style="padding: 5px 10px; margin:0 5px 0 0; float:right;" id="withdraw-list-permit-but-id">승인</button>
+			<p style="font-size:14px; font-weight:bold; padding: 5px 10px; margin:2px 10px 0 0; float:right;">대기금액 합계: <span style="font-size:16px; color:#0090ff;" id="bank-withdraw-wait-id">0 원</span></p>
 		</div>		
 		<Table class="user-table">
 			<thead>

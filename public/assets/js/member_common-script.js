@@ -55,7 +55,7 @@ function requestWaitToPermit(elemBut, jsData) {
 }
 
 
-function requestUpdateMember(jsData) {
+function requestUpdateMember(jsData, reload=true) {
 
     let jsonData = JSON.stringify(jsData);
 
@@ -68,7 +68,8 @@ function requestUpdateMember(jsData) {
             // console.log(jResult);
 
             if (jResult.status == "success") {
-                requestMember();
+                if(reload)
+                    requestMember();
                 // updateMember(jResult.data, jResult.level);
             } else if (jResult.status == "fail") {
 

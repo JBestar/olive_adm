@@ -2386,6 +2386,18 @@ class Member_Model extends Model
         return $this->db->query($strSQL)->getResult();
     }
 
+    public function searchFollower($followUid)
+    {
+       
+        $strTbColum = " mb_fid, mb_uid, mb_level, mb_emp_fid, mb_nickname, mb_follow_ev ";
+        
+        $strSQL = " SELECT ".$strTbColum." FROM ".$this->table." WHERE ";
+        // $strSQL .= " mb_level < '".$objUser->mb_level."' AND ";
+        $strSQL.=" mb_state_active != '".PERMIT_DELETE."' ";
+        $strSQL.=" AND mb_follow_ev LIKE '%".$this->db->escapeLikeString($followUid)."%'";
+            
+        return $this->db->query($strSQL)->getResult();
+    }
 
 
 }

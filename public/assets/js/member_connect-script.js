@@ -19,7 +19,7 @@ function hitoryLoop() {
 
 }
 
-function showMember(arrMember) {
+function showMember(arrMember, bFollow=false) {
 
     var strBuf = "";
 
@@ -32,9 +32,15 @@ function showMember(arrMember) {
         strBuf += "<td>";
         strBuf += (parseInt(nRow) + firstIdx + 1);
         strBuf += "</td> <td>";
-        strBuf += arrMember[nRow].sess_mb_uid;
+        if(bFollow){
+            strBuf += "<a onclick=' popupMemberFollow(" + arrMember[nRow].sess_mb_fid + ", "+arrMember[nRow].sess_mb_fid+ ")' class='link-member'>"+ arrMember[nRow].sess_mb_uid+ "</a>";
+        }
+        else strBuf += arrMember[nRow].sess_mb_uid;
         strBuf += "</td> <td>";
-        strBuf += arrMember[nRow].mb_nickname;
+        if(bFollow){
+            strBuf += "<a onclick=' popupMemberFollow(" + arrMember[nRow].sess_mb_fid + ", "+arrMember[nRow].sess_mb_fid+ ")' class='link-member'>"+ arrMember[nRow].mb_nickname+ "</a>";
+        }
+        else strBuf += arrMember[nRow].mb_nickname;
         strBuf += "</td> <td>";
         strBuf += Math.floor(arrMember[nRow].mb_money).toLocaleString();
         strBuf += "</td> <td>";
@@ -137,7 +143,7 @@ function requestMember(auto=false) {
             $(".loading").hide();
             //console.log(jResult);
             if (jResult.status == "success") {
-                showMember(jResult.data);
+                showMember(jResult.data, jResult.follow);
             } else if (jResult.status == "fail") {
 
             }

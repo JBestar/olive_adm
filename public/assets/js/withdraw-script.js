@@ -224,6 +224,7 @@ function requestWithdrawList(auto = true) {
                 showWithdrawList(jResult.data);
 
                 $("#bank-withdraw-total-id").text(parseInt(jResult.total).toLocaleString() + " 원");
+                $("#bank-withdraw-wait-id").text(parseInt(jResult.wait).toLocaleString() + " 원");
             } else if (jResult.status == "fail") {
 
             }

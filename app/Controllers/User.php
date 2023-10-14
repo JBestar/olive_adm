@@ -418,4 +418,43 @@ class User extends StdController
 				]);  
 		}
 	}
+	
+	function member_follow($mbFid){
+		if (is_login() === false){
+			return $this->response->redirect($_ENV['app.furl'].'/pages/login');
+		}
+		$objMaster = $this->modelMember->find($mbFid);
+		if ($objMaster != null && $objMaster->mb_level <= LEVEL_ADMIN){
+
+			$arrMember = $this->modelMember->searchFollower($objMaster->mb_uid);
+
+			$followers = [];
+			foreach($arrMember as $objMember){
+				$objMember->mb_follow_active = false;
+				$objMember->mb_follow_id = "";
+				$objMember->mb_follow_percent = 100;
+				$info = explode(":", $objMember->mb_follow_ev);
+				if(count($info) >= 2){
+					$objMember->mb_follow_active = intval($info[0]);
+					$objMember->mb_follow_id = trim($info[1]);
+					if(count($info) >= 3)
+						$objMember->mb_follow_percent = intval($info[2]);
+				}
+
+				if($objMember->mb_follow_active == 1 && $objMember->mb_follow_id === $objMaster->mb_uid)
+					array_push($followers, $objMember);
+			}
+			
+			
+			$this->load_view_page(
+				'user/member_follow', 
+				'user_member', 
+				LEVEL_ADMIN, 
+				[	'master' => $objMaster,
+					'followers' => $followers]);
+		} else 
+			print "<script language=javascript> alert('접근권한이 없습니다.'); self.close(); </script>";
+		
+	}
+
 }

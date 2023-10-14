@@ -196,7 +196,7 @@ class UserApi extends BaseController
                                 $data =[
                                     'conf_str_1' => $arrData['mb_autoapps'],
                                 ];
-                                $memConfModel->update($memConf, $data);
+                                $memConfModel->updateData($memConf, $data);
                             } else {
                                 $data =[
                                     'conf_mb_fid' => $objReqUser->mb_fid,
@@ -1398,8 +1398,17 @@ class UserApi extends BaseController
                     $this->sess_action();                
                 }
                 $arrData = $this->modelSess->search($arrReqData, $objUser->mb_level);
-                    
+    
+                $follow_en = false;
+                if(isEBalMode()){
+                    $confsiteModel = new ConfSite_Model();
+                    $confFollow = $confsiteModel->getConf(CONF_EVOLFOLLOW);
+                    if($confFollow != null)
+                        $follow_en = intval($confFollow->conf_active) == STATE_ACTIVE ;
+                }
+    			
                 $arrResult['data'] = $arrData;
+                $arrResult['follow'] = $follow_en;
                 $arrResult['status'] = "success";
             } else{
                 $arrResult['status'] = "fail";

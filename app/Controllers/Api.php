@@ -905,9 +905,11 @@ class Api extends BaseController{
 			$exchangeModel = new Exchange_Model();
 			$arrData = $exchangeModel->search($arrReqData);
 			$nTotal = $exchangeModel->calcAdminExchange($arrReqData);
+			$nWaitAmout = $exchangeModel->getWaitAmount();
 			
 			$arrResult['data'] = $arrData;
 			$arrResult['total'] = $nTotal;
+			$arrResult['wait'] = $nWaitAmout;
 			$arrResult['status'] = "success";
 		}
 		else{

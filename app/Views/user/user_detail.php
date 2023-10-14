@@ -188,7 +188,7 @@
 			<?php if(array_key_exists('app.ebal', $_ENV) && $_ENV['app.ebal'] > 0 ) :?>
 
 			<tr>
-				<td>
+				<td rowspan="<?=$press_en > 0?2:1?>">
 					<p style="width:133px">에볼 누르기</p> 
 				</td>
 				<td>
@@ -218,8 +218,6 @@
 			</tr>
 			<?php if($press_en > 0 ) :?>
 				<tr>
-					<td>
-					</td>
 					<td>
 						<?php if(!is_null($objMember) && $objMember->mb_press_active == 1) :  ?>
 							<input type="checkbox" id="useredit-press-check-id" style="zoom:100%; margin-top:4px; margin-right:0; height:20px;" checked>
@@ -264,16 +262,14 @@
 						<input type = "text" id="useredit-follow-input-id" value="<?=$objMember->mb_follow_id?>">
 						<?php endif ?>
 						<select type="text" id="useredit-follow-percent-id">
-							<?php if (is_null($objMember)) : ?>
-								<option value="30">30%</option>
-								<option value="50">50%</option>
-								<option value="70">70%</option>
-								<option value="100" selected>100%</option>
+							<?php $rates = followRates(); if (is_null($objMember)) : ?>
+								<?php foreach($rates as $rate):?>
+									<option value="<?=$rate?>" <?=$rate==100?'selected':''?>><?=$rate?> %</option>
+								<?php endforeach?>
 							<?php else :?>
-								<option value="30" <?=$objMember->mb_follow_percent==30?'selected':''?> >30%</option>
-								<option value="50" <?=$objMember->mb_follow_percent==50?'selected':''?> >50%</option>
-								<option value="70" <?=$objMember->mb_follow_percent==70?'selected':''?> >70%</option>
-								<option value="100" <?=$objMember->mb_follow_percent==100?'selected':''?> >100%</option>
+								<?php foreach($rates as $rate):?>
+									<option value="<?=$rate?>" <?=$objMember->mb_follow_percent==$rate?'selected':''?>><?=$rate?> %</option>
+								<?php endforeach?>
 							<?php endif?>
 						</select>
 					</td>

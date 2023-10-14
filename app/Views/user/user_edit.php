@@ -391,16 +391,14 @@
 
 							<label style="text-align:right; width:89px;"> 금액(%)</label>
 							<select type="text" id="useredit-follow-percent-id" style="padding: 5px 5px; border: none; width:150px;">
-							<?php if (is_null($objMember)) : ?>
-								<option value="30">30%</option>
-								<option value="50">50%</option>
-								<option value="70">70%</option>
-								<option value="100" selected>100%</option>
+							<?php $rates = followRates(); if (is_null($objMember)) : ?>
+								<?php foreach($rates as $rate):?>
+									<option value="<?=$rate?>" <?=$rate==100?'selected':''?>><?=$rate?> %</option>
+								<?php endforeach?>
 							<?php else :?>
-								<option value="30" <?=$objMember->mb_follow_percent==30?'selected':''?> >30%</option>
-								<option value="50" <?=$objMember->mb_follow_percent==50?'selected':''?> >50%</option>
-								<option value="70" <?=$objMember->mb_follow_percent==70?'selected':''?> >70%</option>
-								<option value="100" <?=$objMember->mb_follow_percent==100?'selected':''?> >100%</option>
+								<?php foreach($rates as $rate):?>
+									<option value="<?=$rate?>" <?=$objMember->mb_follow_percent==$rate?'selected':''?>><?=$rate?> %</option>
+								<?php endforeach?>
 							<?php endif?>
 							</select>
 

@@ -83,6 +83,15 @@ class Exchange_Model extends Model {
 
     }
 
+    function getWaitAmount(){
+        $strSql = "SELECT SUM(exchange_money) AS exchange_money FROM ".$this->table;
+        $strSql .= " JOIN member ON ".$this->table.".exchange_mb_uid = member.mb_uid ";
+        $strSql .= " WHERE ( exchange_action_state = '".STATE_ACTIVE."' OR exchange_action_state = '".STATE_WAIT."')  AND exchange_state_delete = '0' ";
+        
+        $objResult = $this -> db -> query($strSql)->getRow();
+        if(is_null($objResult->exchange_money)) return 0;
+        else return  $objResult->exchange_money;
+    }
     
     function getMomentCnt(){
         $strSql = "SELECT COUNT(*)  AS exchange_moment_cnt FROM ".$this->table;
@@ -92,7 +101,6 @@ class Exchange_Model extends Model {
         $objResult = $this -> db -> query($strSql)->getRow();
         if(is_null($objResult->exchange_moment_cnt)) return 0;
         else return  $objResult->exchange_moment_cnt;
-
     }
 
     //금일 환전금액
