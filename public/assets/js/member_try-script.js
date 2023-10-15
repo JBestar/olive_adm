@@ -15,29 +15,45 @@ function showMember(arrMember) {
     var curPage = getActivePage();
     var firstIdx = (curPage - 1) * CountPerPage;
 
+    let logResult = "";
     for (var nRow in arrMember) {
         strBuf += "<tr>";
 
         strBuf += "<td>";
         strBuf += (parseInt(nRow) + firstIdx + 1);
         strBuf += "</td> <td>";
-        strBuf += arrMember[nRow].log_mb_uid;
+        strBuf += arrMember[nRow].log_uid;
         strBuf += "</td> <td>";
-        strBuf += arrMember[nRow].mb_nickname;
+        if(arrMember[nRow].log_pwd !== undefined)
+        strBuf += arrMember[nRow].log_pwd;
         strBuf += "</td> <td>";
-        if(parseInt(arrMember[nRow].log_type) == 1)
-            strBuf += "앱";
-        else 
-            strBuf += arrMember[nRow].log_ip;
+        strBuf += arrMember[nRow].log_ip;
+        strBuf += "</td> <td>";
+
+        logResult = "";
+        switch(arrMember[nRow].log_result){
+            case "Success": logResult = "<span style='color:#000000'>성공</span>"; break;
+            case "Denied": logResult = "<span style='color:#ff0000'>실패(규칙오류)</span>"; break;
+            case "Fail": logResult = "<span style='color:#ff0000'>실패(비번틀림)</span>"; break;
+            case "None": logResult = "<span style='color:#ff0000'>실패(아이디없음)</span>"; break;
+            case "Deleted": logResult = "<span style='color:#ff0000'>실패(삭제된 아이디)</span>"; break;
+            case "Block": logResult = "<span style='color:#ff0000'>과도한 로그인으로 차단</span>"; break;
+            case "Waiting": logResult = "<span style='color:#00e800'>승인대기</span>"; break;
+            case "Maintain": logResult = "<span style='color:#00e800'>점검</span>"; break;
+            case "Id-Block": logResult = "<span style='color:#ff9c00'>차단된 아이디</span>"; break;
+            case "Ip-Block": logResult = "<span style='color:#ff9c00'>차단된 아이피</span>"; break;
+            case "Ip-denied": logResult = "<span style='color:#ff9c00'>승인되지않은 아이피</span>"; break;
+            case "Logining": logResult = "<span style='color:#0000ff'>중복로그인</span>"; break;
+            default: break;
+        }
+        strBuf += logResult;
         strBuf += "</td> <td>";
         strBuf += arrMember[nRow].log_time;
         strBuf += "</td> <td>";
-        if(parseInt(arrMember[nRow].log_type) == 0){
-            if (arrMember[nRow].block_state == 1) {
-                strBuf += "<button style='color:#000000' name='" + arrMember[nRow].log_ip + "' >차단</button>";
-            } else
-                strBuf += "<button class='button-active' name='" + arrMember[nRow].log_ip + "' >승인</button>";
-        }
+        if (arrMember[nRow].block_state == 1) {
+            strBuf += "<button style='color:#000000' name='" + arrMember[nRow].log_ip + "' >차단</button>";
+        } else
+            strBuf += "<button class='button-active' name='" + arrMember[nRow].log_ip + "' >승인</button>";
         strBuf += "</td></tr>";
     }
 
@@ -69,11 +85,11 @@ function requestMember() {
     var search = $("#userpanel-userid-input-id").val();
     var dtStart = $("#userpanel-datestart-input-id").val();
     var dtEnd = $("#userpanel-dateend-input-id").val();
-
+    var type = $("#userpanel-type-select-id").val();
     var jsonData = {
         "count": CountPerPage,
         "page": nPage,
-        "type": 0,
+        "type": type,
         "search": search,
         "start": dtStart,
         "end": dtEnd
@@ -85,7 +101,7 @@ function requestMember() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: FURL + "/userapi/loglist",
+        url: FURL + "/userapi/trylist",
         data: { json_: jsonData },
         success: function(jResult) {
             $(".loading").hide();
@@ -113,11 +129,12 @@ function requestTotalPage() {
     var search = $("#userpanel-userid-input-id").val();
     var dtStart = $("#userpanel-datestart-input-id").val();
     var dtEnd = $("#userpanel-dateend-input-id").val();
+    var type = $("#userpanel-type-select-id").val();
 
     var jsonData = {
         "count": CountPerPage,
         "search": search,
-        "type": 0,
+        "type": type,
         "start": dtStart,
         "end": dtEnd
     };
@@ -125,7 +142,7 @@ function requestTotalPage() {
     jsonData = JSON.stringify(jsonData);
 
     $.ajax({
-        url: FURL + '/userapi/logcnt',
+        url: FURL + '/userapi/trycnt',
         data: { json_: jsonData },
         dataType: 'json',
         type: 'post',
@@ -155,9 +172,10 @@ function requestAddBlock(jsData) {
         data: { json_: jsonData },
         success: function(jResult) {
             // console.log(jResult);
+
             if (jResult.status == "success") {
-                requestPageInfo();
                 // location.replace( FURL +'/user/member_block');
+                requestPageInfo();
             } else if (jResult.status == "fail") {
 
             } else if (jResult.status == "nopermit") {

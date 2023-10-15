@@ -232,6 +232,14 @@ class User extends StdController
 			LEVEL_ADMIN);
 	}
 
+	function member_try(){
+		
+		$this->load_view_page(
+			'user/member_try', 
+			'user_log', 
+			LEVEL_ADMIN);
+	}
+
 	function member_block(){
 		
 		$this->load_view_page(

@@ -28,11 +28,6 @@
 				<option value="2">등록번호</option>
 			</select>
             <input type="text" class="pbresult-text-input" style="width:150px;" id="userpanel-userid-input-id" >
-			<!-- <label>접속일자</label>
-			<input type="date" id="userpanel-datestart-input-id"  value="<?php echo date('Y-m-d'); ?>">
-            <label> ~ </label>
-            <input type="date" id="userpanel-dateend-input-id"  value="<?php echo date('Y-m-d'); ?>"> -->
-            
 			<select name="pbresult-number" class="pbresult-number-select" id="userpanel-number-select-id">
 				<?php foreach($select_nums as $num=>$select):?>
 					<option value="<?=$num?>" <?=$select?>><?=$num?>개</option>
@@ -49,7 +44,7 @@
 					<th>등록번호</th>
 					<th>접속IP</th>
 					<th>접속시간</th>
-					<th>IP차단</th>
+					<th>IP상태</th>
 				</tr>
 			</thead>
 			<tbody  id="user-member-table-id">

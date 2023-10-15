@@ -137,12 +137,12 @@ function requestDeleteRestore(elemBut, jsData) {
             $(elemBut).attr('disabled', false);
 
             if (jResult.status == "success") {
-                alert('회복되었습니다.');
+                alert('복구되었습니다.');
                 requestMember();
             } else if (jResult.status == "usererror") {
                 alert('추천인이 이미 삭제되었습니다. \n 먼저 추천인을 확인해주세요.');
             } else if (jResult.status == "fail") {
-                alert('회복이 실패되었습니다.');
+                alert('복구가 실패되었습니다.');
             } else if (jResult.status == "nopermit") {
                 alert('변경권한이 없습니다.');
             } else if (jResult.status == "logout") {

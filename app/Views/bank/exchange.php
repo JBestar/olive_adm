@@ -17,6 +17,7 @@
 
             <select class="pbresult-game-select" id="exchange-game-select-id">
 				<option value="0">::분류::</option>
+				<option value="-10">배팅제외</option>
 				<option value="1">충전</option>
 				<option value="23">직충전</option>
 				<option value="2">환전</option>

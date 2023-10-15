@@ -27,9 +27,9 @@ function showMember(arrMember) {
         strBuf += arrMember[nRow].block_updated;
         strBuf += "</td> <td>";
         if (arrMember[nRow].block_state == 1) {
-            strBuf += "<button name='" + arrMember[nRow].block_fid + "'  class='button-active'>차단</button>";
+            strBuf += "<button name='" + arrMember[nRow].block_fid + "' style='color:#000000' >차단</button>";
         } else {
-            strBuf += "<button name='" + arrMember[nRow].block_fid + "' >해제</button>";
+            strBuf += "<button name='" + arrMember[nRow].block_fid + "' class='button-active' >승인</button>";
         }
         strBuf += "</td> <td>";
         strBuf += "<button name='" + arrMember[nRow].block_fid + "' >삭제</button>";
@@ -150,7 +150,7 @@ function addButtonElementListener(buttonElement) {
         if (this.innerHTML.search("차단") >= 0) {
             var jsonData = { "block_fid": this.name, "block_state": 0 };
             requestUpdateBlock(jsonData);
-        } else if (this.innerHTML.search("해제") >= 0) {
+        } else if (this.innerHTML.search("승인") >= 0) {
             var jsonData = { "block_fid": this.name, "block_state": 1 };
             requestUpdateBlock(jsonData);
         } else if (this.innerHTML.search("삭제") >= 0) {

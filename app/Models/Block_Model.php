@@ -57,7 +57,7 @@ class Block_Model extends Model {
         }
         $nStartRow = ($arrReqData['page']-1) * $arrReqData['count'] ;
 
-        $strSql.=" ORDER BY block_ip ASC LIMIT ".$nStartRow.", ".$arrReqData['count'];
+        $strSql.=" ORDER BY block_updated DESC LIMIT ".$nStartRow.", ".$arrReqData['count'];
 
         $query = $this -> db -> query($strSql);
         $result = $query -> getResult();

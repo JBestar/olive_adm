@@ -36,9 +36,9 @@ function showMember(arrMember) {
         strBuf += "</td> <td>";
         if(parseInt(arrMember[nRow].log_type) == 0){
             if (arrMember[nRow].block_state == 1) {
-                strBuf += "<button name='" + arrMember[nRow].log_ip + "' >차단해제</button>";
+                strBuf += "<button style='color:#000000' name='" + arrMember[nRow].log_ip + "' >차단</button>";
             } else
-                strBuf += "<button name='" + arrMember[nRow].log_ip + "' >IP차단</button>";
+                strBuf += "<button class='button-active' name='" + arrMember[nRow].log_ip + "' >승인</button>";
         }
         strBuf += "</td></tr>";
     }
@@ -171,7 +171,8 @@ function requestAddBlock(jsData) {
             // console.log(jResult);
 
             if (jResult.status == "success") {
-                location.replace( FURL +'/user/member_block');
+                requestPageInfo();
+                // location.replace( FURL +'/user/member_block');
             } else if (jResult.status == "fail") {
 
             } else if (jResult.status == "nopermit") {
@@ -193,11 +194,11 @@ function requestAddBlock(jsData) {
 function addButtonElementListener(buttonElement) {
     buttonElement.addEventListener("click", function() {
 
-        if (this.innerHTML.search("IP차단") >= 0) {
-            var jsonData = { "block_ip": this.name, "block_state": 1 };
-            requestAddBlock(jsonData);
-        } else if (this.innerHTML.search("차단해제") >= 0) {
+        if (this.innerHTML.search("차단") >= 0) {
             var jsonData = { "block_ip": this.name, "block_state": 0 };
+            requestAddBlock(jsonData);
+        } else if (this.innerHTML.search("승인") >= 0) {
+            var jsonData = { "block_ip": this.name, "block_state": 1 };
             requestAddBlock(jsonData);
         }
     });

@@ -99,10 +99,11 @@ function showMember(arrMember, confs) {
         } else {
             strBuf += ">차단</button>";
         }
-        strBuf += "<button onclick='popupMemberEdit("+arrMember[nRow].mb_fid + ", "+arrMember[nRow].mb_fid+")'>수정</button>";
+        if (arrMember[nRow].mb_state_active != 4)
+            strBuf += "<button onclick='popupMemberEdit("+arrMember[nRow].mb_fid + ", "+arrMember[nRow].mb_fid+")'>수정</button>";
         if(confs.delete == 1){
             if (arrMember[nRow].mb_state_active == 4)
-                strBuf += "<button name='" + arrMember[nRow].mb_fid + "' data-nickname='"+arrMember[nRow].mb_nickname+"'>회복</button>   ";
+                strBuf += "<button name='" + arrMember[nRow].mb_fid + "' data-nickname='"+arrMember[nRow].mb_nickname+"'>복구</button>   ";
             else 
                 strBuf += "<button name='" + arrMember[nRow].mb_fid + "'>삭제</button>   ";
         }
@@ -310,9 +311,9 @@ function addButtonElementListener(buttonElement) {
         } else if (tHtml.search("차단") >= 0) {
             var jsonData = { "mb_fid": this.name, "mb_state_active": 1 };
             requestUpdateMember(jsonData);
-        } else if (tHtml.search("회복") >= 0) {
+        } else if (tHtml.search("복구") >= 0) {
             let nickname  = $(this).data('nickname');
-            if (!confirm(nickname+" 회원을 회복시키겠습니까?"))
+            if (!confirm(nickname+" 회원을 복구하시겠습니까?"))
                 return;
             var jsonData = { "mb_fid": this.name, "mb_state_active": 1 };
             requestDeleteRestore(this, jsonData);

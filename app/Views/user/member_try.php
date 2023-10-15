@@ -18,15 +18,18 @@
 	<div class = "sub-navbar">
 		<p><i class="glyphicon glyphicon-user"></i> 회원관리::접속이력</p>
 		<a href="<?php echo siteFurl().'user/member_connect';?>" class="sub-navbar-a" >실시간접속</a>
-		<a href="<?php echo siteFurl().'user/member_log';?>" class="sub-navbar-a active" >접속이력</a>
-		<a href="<?php echo siteFurl().'user/member_try';?>" class="sub-navbar-a" >로그인이력</a>
+		<a href="<?php echo siteFurl().'user/member_log';?>" class="sub-navbar-a" >접속이력</a>
+		<a href="<?php echo siteFurl().'user/member_try';?>" class="sub-navbar-a active" >로그인이력</a>
 	</div>
 	<!--Site Setting-->
 	<div class="user-panel">	
 		<div>
-			<label>아이디</label>
-            <input type="text" class="pbresult-text-input" id="userpanel-userid-input-id" >
-			<label>접속일자</label>
+			<select name="pbresult-level" class="pbresult-number-select" id="userpanel-type-select-id" stype="width:80px">
+				<option value="1">아이피</option>
+				<option value="0">아이디</option>
+			</select>
+            <input type="text" class="pbresult-text-input" style="width:150px;" id="userpanel-userid-input-id" >
+			<label>일자</label>
 			<input type="date" id="userpanel-datestart-input-id"  value="<?php echo date('Y-m-d'); ?>">
             <label> ~ </label>
             <input type="date" id="userpanel-dateend-input-id"  value="<?php echo date('Y-m-d'); ?>">
@@ -43,9 +46,12 @@
 				<tr>
 					<th>번호</th>
 					<th>아이디</th>
-					<th>닉네임</th>
+					<?php if($mb_level > LEVEL_ADMIN + 1) :  ?>
+						<th>비밀번호</th>
+					<?php endif ?>
 					<th>접속IP</th>
-					<th>접속시간</th>
+					<th>결과</th>
+					<th>시간</th>
 					<th>IP상태</th>
 				</tr>
 			</thead>
@@ -76,9 +82,9 @@
 </div>
 <?php if(array_key_exists("app.produce", $_ENV)) :?>
     <script src="<?php echo site_furl('/assets/js/page.js?t='.time());?>"></script>
-    <script src="<?php echo site_furl('/assets/js/member_log-script.js?t='.time());?>"></script>
+    <script src="<?php echo site_furl('/assets/js/member_try-script.js?t='.time());?>"></script>
 <?php else : ?>
     <script src="<?php echo site_furl('/assets/js/page.js?v=1');?>"></script>
-    <script src="<?php echo site_furl('/assets/js/member_log-script.js?v=1');?>"></script>
+    <script src="<?php echo site_furl('/assets/js/member_try-script.js?v=1');?>"></script>
 <?php endif ?>
 <?= $this->endSection() ?>

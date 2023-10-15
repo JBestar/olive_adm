@@ -47,7 +47,7 @@ function ShowBetHistory(jsonBetData) {
             strBuf += "<tr><td>";
             strBuf += (parseInt(nRow) + firstIdx + 1);
             strBuf += "</td><td>";
-            strBuf += jsonBetData[nRow].bet_mb_uid;
+            strBuf += "<a onclick='popupMemberUid(\"" + jsonBetData[nRow].bet_mb_uid + "\")' class='link-member'>"+ jsonBetData[nRow].bet_mb_uid + "</a>";
             strBuf += "</td><td>";
             strBuf += jsonBetData[nRow].bet_time;
             strBuf += "</td><td>";

@@ -20,10 +20,9 @@
 	<div class="confsite-password-text-div" style="margin-top:20px">
 		<p>따라가기 금액(%):</p> 
 		<select type="text" id="confsite-follow-percent-id" style="padding: 5px 5px; border: none; width:150px;">
-			<option value="30" <?=$mb_follow_percent==30?'selected':''?> >30%</option>
-			<option value="50" <?=$mb_follow_percent==50?'selected':''?> >50%</option>
-			<option value="70" <?=$mb_follow_percent==70?'selected':''?> >70%</option>
-			<option value="100" <?=$mb_follow_percent==100?'selected':''?> >100%</option>
+			<?php $rates = followRates(); foreach($rates as $rate):?>
+				<option value="<?=$rate?>" <?=$mb_follow_percent==$rate?'selected':''?>><?=$rate?> %</option>
+			<?php endforeach?>
 		</select>
 	</div>
 

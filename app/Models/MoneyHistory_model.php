@@ -33,7 +33,7 @@ class MoneyHistory_Model extends Model
         $this->builder()->set('money_amount', $nChargeMoney);
         $this->builder()->set('money_before', allMoney($objUser));
         $this->builder()->set('money_after', allMoney($objUser)+$nChargeMoney);
-        $this->builder()->set('money_change_type', MONEYCHANGE_CHARGE);     //충전일때
+        $this->builder()->set('money_change_type', MONEYCHANGE_CHARGE);     
         $this->builder()->set('money_update_time', 'NOW()', false);
         
         return $this->builder()->insert();
@@ -50,7 +50,7 @@ class MoneyHistory_Model extends Model
         $this->builder()->set('money_amount', (-1) * $nChargeMoney);
         $this->builder()->set('money_before', allMoney($objUser));
         $this->builder()->set('money_after', allMoney($objUser)-$nChargeMoney);
-        $this->builder()->set('money_change_type', MONEYCANCEL_CHARGE);     //충전취소일때
+        $this->builder()->set('money_change_type', MONEYCANCEL_CHARGE);     
         $this->builder()->set('money_update_time', 'NOW()', false);
         
         return $this->builder()->insert();
@@ -67,7 +67,7 @@ class MoneyHistory_Model extends Model
         $this->builder()->set('money_amount', (-1) * $objExchange->exchange_money);
         $this->builder()->set('money_before', $objExchange->exchange_money_before);
         $this->builder()->set('money_after', $objExchange->exchange_money_after);
-        $this->builder()->set('money_change_type', MONEYCHANGE_EXCHANGE);     //환전일때
+        $this->builder()->set('money_change_type', MONEYCHANGE_EXCHANGE);     
         $this->builder()->set('money_update_time', $objExchange->exchange_time_require);
         
         return $this->builder()->insert();
@@ -85,7 +85,7 @@ class MoneyHistory_Model extends Model
         $this->builder()->set('money_amount', $nExchangeMoney);
         $this->builder()->set('money_before', allMoney($objUser));
         $this->builder()->set('money_after', allMoney($objUser)+$nExchangeMoney);
-        $this->builder()->set('money_change_type', MONEYCANCEL_EXCHANGE);     //환전취소일때
+        $this->builder()->set('money_change_type', MONEYCANCEL_EXCHANGE);     
         $this->builder()->set('money_update_time', 'NOW()', false);
         
         return $this->builder()->insert();
@@ -144,7 +144,7 @@ class MoneyHistory_Model extends Model
         $this->builder()->set('money_amount', $nMoney);
         $this->builder()->set('money_before', allMoney($objUser));
         $this->builder()->set('money_after', allMoney($objUser)+$nMoney);
-        $this->builder()->set('money_change_type', $iType);     //정산 6,9,12
+        $this->builder()->set('money_change_type', $iType);     
         $this->builder()->set('money_bet_round', $objBetInfo->bet_round_no);
         $this->builder()->set('money_bet_mode', $objBetInfo->bet_mode);
         $this->builder()->set('money_bet_target', $objBetInfo->bet_target);        
@@ -248,6 +248,13 @@ class MoneyHistory_Model extends Model
         }
         if(intval($arrReqData['mode']) > 0){
             $strSql.=" AND money_change_type = ".$this->db->escape($arrReqData['mode']);
+        } else if(intval($arrReqData['mode']) == -10){
+            $modes = [MONEYCHANGE_CHARGE, MONEYCHANGE_EXCHANGE, POINTCHANGE_EXCHANGE, 
+                MONEYCHANGE_TRANS_DEC,MONEYCHANGE_TRANS_INC,MONEYCHANGE_EXCHANGE_INC,MONEYCHANGE_EXCHANGE_DEC,
+                MONEYCANCEL_CHARGE,MONEYCANCEL_EXCHANGE,MONEYCHANGE_INC,MONEYCHANGE_DEC,MONEYCHANGE_WITHDRAW,POINTHANGE_WITHDRAW,
+                MONEYCHANGE_GIVE,MONEYCHANGE_CONVERT];
+            $strModes = implode(", ", $modes);
+            $strSql.=" AND money_change_type IN (".$strModes." )";
         }
 
         $nStartRow = ($arrReqData['page']-1) * $arrReqData['count'] ;
@@ -288,6 +295,13 @@ class MoneyHistory_Model extends Model
         }
         if(intval($arrReqData['mode']) > 0){
             $strSql.=" AND money_change_type = ".$this->db->escape($arrReqData['mode']);
+        } else if(intval($arrReqData['mode']) == -10){
+            $modes = [MONEYCHANGE_CHARGE, MONEYCHANGE_EXCHANGE, POINTCHANGE_EXCHANGE, 
+                MONEYCHANGE_TRANS_DEC,MONEYCHANGE_TRANS_INC,MONEYCHANGE_EXCHANGE_INC,MONEYCHANGE_EXCHANGE_DEC,
+                MONEYCANCEL_CHARGE,MONEYCANCEL_EXCHANGE,MONEYCHANGE_INC,MONEYCHANGE_DEC,MONEYCHANGE_WITHDRAW,POINTHANGE_WITHDRAW,
+                MONEYCHANGE_GIVE,MONEYCHANGE_CONVERT];
+            $strModes = implode(", ", $modes);
+            $strSql.=" AND money_change_type IN (".$strModes." )";
         }
         
         $query = $this -> db -> query($strSql);

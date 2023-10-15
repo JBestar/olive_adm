@@ -279,7 +279,7 @@ defined('MONEYCHANGE_BET_BS')    || define('MONEYCHANGE_BET_BS', 16);
 defined('MONEYCHANGE_DENY_BS')   || define('MONEYCHANGE_DENY_BS', 17);
 defined('MONEYCHANGE_WIN_BS')    || define('MONEYCHANGE_WIN_BS', 18);
 
-defined('MONEYCHANGE_CHARGE_DEC')   || define('MONEYCHANGE_TRANS_DEC', 19);     //하부이송
+defined('MONEYCHANGE_TRANS_DEC')   || define('MONEYCHANGE_TRANS_DEC', 19);     //하부이송
 defined('MONEYCHANGE_CHARGE_INC')   || define('MONEYCHANGE_TRANS_INC', 20);     //상부이송
 defined('MONEYCHANGE_EXCHANGE_INC') || define('MONEYCHANGE_EXCHANGE_INC', 27);  //하부환수
 defined('MONEYCHANGE_EXCHANGE_DEC') || define('MONEYCHANGE_EXCHANGE_DEC', 28);  //상부환수

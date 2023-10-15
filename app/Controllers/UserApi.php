@@ -16,6 +16,7 @@ use App\Models\EbalBet_Model;
 use App\Models\EbalLog_Model;
 use App\Models\MoneyHistory_Model;
 use App\Models\SessLog_Model;
+use App\Models\SessTry_Model;
 use App\Models\Block_Model;
 use App\Models\MemConf_Model;
 
@@ -1370,6 +1371,60 @@ class UserApi extends BaseController
             if($objUser->mb_level  >= LEVEL_ADMIN) {
                 $modelSesslog = new SessLog_Model();
                 $objCount = $modelSesslog->searchCount($arrReqData, $objUser->mb_level);
+
+                $arrResult['data'] = $objCount;
+                $arrResult['status'] = "success";
+            } else {
+                $arrResult['status'] = "fail";
+            }
+		}
+		else{
+			$arrResult['status'] = "logout";
+		}
+		echo json_encode($arrResult);
+	}
+
+	public function trylist(){
+		$jsonData = $_REQUEST['json_'];
+		$arrReqData = json_decode($jsonData, true);
+		if(is_login())
+		{
+
+            $strUid = $this->session->user_id;
+            $objUser = $this->modelMember->getInfo($strUid);
+
+            if($objUser->mb_level  >= LEVEL_ADMIN) {
+                $modelSesstry = new SessTry_Model();
+
+                $arrData = $modelSesstry->search($arrReqData, $objUser->mb_level);
+                    
+                $arrResult['level'] = $objUser->mb_level;
+                $arrResult['data'] = $arrData;
+                $arrResult['status'] = "success";
+            } else{
+                $arrResult['status'] = "fail";
+            }
+
+		}
+		else{
+			$arrResult['status'] = "logout";
+		}
+		echo json_encode($arrResult);
+	}
+
+	public function trycnt(){
+		$jsonData = $_REQUEST['json_'];
+		$arrReqData = json_decode($jsonData, true);
+		if(is_login())
+		{
+            
+         
+            $strUid = $this->session->user_id;
+            $objUser = $this->modelMember->getInfo($strUid);
+
+            if($objUser->mb_level  >= LEVEL_ADMIN) {
+                $modelSesstry = new SessTry_Model();
+                $objCount = $modelSesstry->searchCount($arrReqData, $objUser->mb_level);
 
                 $arrResult['data'] = $objCount;
                 $arrResult['status'] = "success";

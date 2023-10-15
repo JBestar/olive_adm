@@ -19,6 +19,7 @@
 		<p><i class="glyphicon glyphicon-user"></i> 회원관리::실시간접속</p>
 		<a href="<?php echo siteFurl().'user/member_connect';?>" class="sub-navbar-a active" >실시간접속</a>
 		<a href="<?php echo siteFurl().'user/member_log';?>" class="sub-navbar-a" >접속이력</a>
+		<a href="<?php echo siteFurl().'user/member_try';?>" class="sub-navbar-a" >로그인이력</a>
 	</div>
 	<!--Site Setting-->
 	<div class="user-panel">	
