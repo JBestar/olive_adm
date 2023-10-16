@@ -281,7 +281,7 @@
 	</div>
 	<?php endif ?>
 
-	<?php if(isEBalMode()) :?>
+	<?php if(isEBalMode() && array_key_exists('app.sess_act', $_ENV) && $_ENV['app.sess_act'] == 1) :?>
 	<h4><i class="glyphicon glyphicon-hand-right"></i> 유저페이지 설정</h4>
 	<div class="confsite-site-check-div">
 		<input type="checkbox" id="confsite-autoapps-check-id" <?=$arrConfig[CONF_AUTOAPPS-1]->conf_idx==1?'checked':''?> onchange="onChangeElement();">
