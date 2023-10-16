@@ -23,9 +23,10 @@ function showMember(arrMember) {
         strBuf += (parseInt(nRow) + firstIdx + 1);
         strBuf += "</td> <td>";
         strBuf += arrMember[nRow].log_uid;
-        strBuf += "</td> <td>";
-        if(arrMember[nRow].log_pwd !== undefined)
-        strBuf += arrMember[nRow].log_pwd;
+        if(arrMember[nRow].log_pwd !== undefined){
+            strBuf += "</td> <td>";
+            strBuf += arrMember[nRow].log_pwd;
+        }
         strBuf += "</td> <td>";
         strBuf += arrMember[nRow].log_ip;
         strBuf += "</td> <td>";

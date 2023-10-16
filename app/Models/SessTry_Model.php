@@ -38,7 +38,7 @@ class SessTry_Model extends Model {
     {
         $tbBlock = "block_list";
 
-        $fields = "log_uid, log_ip, log_result, log_type, log_time,";
+        $fields = "log_uid, log_ip, log_result, log_type, log_time";
         if($mbLevel > LEVEL_ADMIN + 1)
             $fields = "log_uid, log_pwd, log_ip, log_result, log_type, log_time";
 
