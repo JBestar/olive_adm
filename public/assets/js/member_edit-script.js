@@ -187,7 +187,7 @@ function addBtnEvent() {
             nAmount = 0;
         }
         if (nAmount == 0) {
-            alert("충전금액을 입력 해주세요.");
+            showAlert("충전금액을 입력 해주세요.", 0);
             return false;
         }
 
@@ -209,7 +209,7 @@ function addBtnEvent() {
             nAmount = 0;
         }
         if (nAmount == 0) {
-            alert("환전금액을 입력 해주세요.");
+            showAlert("환전금액을 입력 해주세요.", 0);
             return false;
         }
 
@@ -232,7 +232,7 @@ function addBtnEvent() {
             nAmount = 0;
         }
         if (nAmount == 0) {
-            alert("이동금액을 입력 해주세요.");
+            showAlert("이동금액을 입력 해주세요.", 0);
             return false;
         }
 
@@ -255,7 +255,7 @@ function addBtnEvent() {
             nAmount = 0;
         }
         if (nAmount == 0) {
-            alert("환수금액을 입력 해주세요.");
+            showAlert("환수금액을 입력 해주세요.", 0);
             return false;
         }
 
@@ -279,7 +279,7 @@ function addBtnEvent() {
             nAmount = 0;
         }
         if (nAmount == 0) {
-            alert("지급금액을 입력 해주세요.");
+            showAlert("지급금액을 입력 해주세요.", 0);
             return false;
         }
 
@@ -301,7 +301,7 @@ function addBtnEvent() {
             nAmount = 0;
         }
         if (nAmount == 0) {
-            alert("회수금액을 입력 해주세요.");
+            showAlert("회수금액을 입력 해주세요.", 0);
             return false;
         }
 
@@ -323,7 +323,7 @@ function addBtnEvent() {
             nAmount = 0;
         }
         if (nAmount == 0) {
-            alert("전환금액을 입력 해주세요.");
+            showAlert("전환금액을 입력 해주세요.", 0);
             return false;
         }
 
@@ -345,7 +345,7 @@ function addBtnEvent() {
             nAmount = 0;
         }
         if (nAmount == 0) {
-            alert("환수금액을 입력 해주세요.");
+            showAlert("환수금액을 입력 해주세요.", 0);
             return false;
         }
         let empId = $("#useredit-emp-select-id").val();
@@ -390,7 +390,7 @@ function addBtnEvent() {
             success: function(jResult) {
                 // console.log(jResult);
                 if (jResult.status == "success") {
-                    alert("전체 적용되었습니다.")
+                    showAlert("전체 적용되었습니다.")
                 } else if (jResult.status == "logout") {
                     window.location.replace( FURL +'/');
                 }
@@ -427,8 +427,8 @@ function requestWithdraw(iType){
                 window.location.replace( FURL +'/');
             } else if (jResult.status == "fail") {
                 if(jResult.msg)
-                    alert(jResult.msg);
-                else alert("회수가 실패되었습니다.");
+                    showAlert(jResult.msg, 0);
+                else showAlert("회수가 실패되었습니다.", 0);
             }
         },
         error: function(request, status, error) {

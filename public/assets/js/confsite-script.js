@@ -169,7 +169,7 @@ function addBtnEvent() {
                 } else if (jResult.status == "logout") {
                     window.location.replace( FURL +'/');
                 } else if (jResult.status == "fail") {
-                    alert("저장이 실패되었습니다.");
+                    showAlert("저장이 실패되었습니다.", 0);
                 }
             },
             error: function(request, status, error) {
@@ -282,12 +282,12 @@ function requestCleanDb(objData) {
             $("#cleanDb-but").attr("disabled", false);
             // console.log(jResult);
             if (jResult.status == "success") {
-                alert("디비정리가 완료되었습니다.!");
+                showAlert("디비정리가 완료되었습니다.!");
                 location.reload();
             } else if (jResult.status == "fail") {
                 if (jResult.data == 2)
-                    alert("권한이 없습니다.");
-                else alert("거절되었습니다.");
+                    showAlert("권한이 없습니다.", 0);
+                else showAlert("거절되었습니다.", 0);
             } else if (jResult.status == "logout") {
                 location.reload();
             }

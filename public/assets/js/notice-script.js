@@ -40,7 +40,7 @@ function addBtnEvent() {
         requestUpdateNotice(jsonData);
       } else if (this.innerHTML == "일반") {
         if($("#notice-table-id .popup").length > 3){
-          alert("공개된 팝업공지는 최대 4개까지 설정가능합니다.");
+          showAlert("공개된 팝업공지는 최대 4개까지 설정가능합니다.", 3);
           return;
         }
 

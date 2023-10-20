@@ -147,17 +147,17 @@ function addBtnEvent() {
 
 
             if(objData.site_ev.length > 0 && objData.userid_ev.length> 0 && objData.site_ev === objData.site_ev2 && objData.userid_ev == objData.userid_ev2){
-                alert("보험계정1과 보험계정2를 다르게 입력해주세요");
+                showAlert("보험계정1과 보험계정2를 다르게 입력해주세요", 0);
                 return;
             }
 
             if(objData.site_ev.length > 0 && objData.userid_ev.length> 0 && objData.site_ev === objData.site_ev3 && objData.userid_ev == objData.userid_ev3){
-                alert("보험계정1과 보험계정3을 다르게 입력해주세요");
+                showAlert("보험계정1과 보험계정3을 다르게 입력해주세요", 0);
                 return;
             }
 
             if(objData.site_ev2.length > 0 && objData.userid_ev2.length> 0 && objData.site_ev2 === objData.site_ev3 && objData.userid_ev2 == objData.userid_ev3){
-                alert("보험계정2과 보험계정3을 다르게 입력해주세요");
+                showAlert("보험계정2과 보험계정3을 다르게 입력해주세요", 0);
                 return;
             }
         }
@@ -182,9 +182,9 @@ function addBtnEvent() {
                 } else if (jResult.status == "logout") {
                     window.location.replace( FURL +'/');
                 } else if (jResult.status == "fail") {
-                    alert("저장이 실패되었습니다.");
+                    showAlert("저장이 실패되었습니다.", 0);
                 } else if (jResult.status == "nopermit") {
-                    alert("권한이 없습니다.");
+                    showAlert("권한이 없습니다.", 0);
                 }
             },
             error: function(request, status, error) {
@@ -213,7 +213,7 @@ function requestConfBetSite(all=false) {
             } else if (jResult.status == "logout") {
                 window.location.replace( FURL +'/');
             } else if (jResult.status == "nopermit") {
-                alert("권한이 없습니다.");
+                showAlert("권한이 없습니다.", 0);
             }
         },
         error: function(request, status, error) {
@@ -236,7 +236,7 @@ function requestConfBetState() {
             } else if (jResult.status == "logout") {
                 window.location.replace( FURL +'/');
             } else if (jResult.status == "nopermit") {
-                alert("권한이 없습니다.");
+                showAlert("권한이 없습니다.", 0);
             }
         },
         error: function(request, status, error) {
@@ -267,9 +267,9 @@ function setEbalState(state){
             } else if (jResult.status == "logout") {
                 window.location.replace( FURL +'/');
             } else if (jResult.status == "fail") {
-                alert("조작이 실패되었습니다.");
+                showAlert("조작이 실패되었습니다.", 0);
             } else if (jResult.status == "nopermit") {
-                alert("권한이 없습니다.");
+                showAlert("권한이 없습니다.", 0);
             }
         },
         error: function(request, status, error) {

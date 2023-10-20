@@ -209,7 +209,7 @@ function saveSoundInfo() {
         success: function(jResult) {
             //console.log(jResult);            
             if (jResult.status == "success") {
-                alert("저장되었습니다.");
+                showAlert("저장되었습니다.");
                 showSoundInfo(jResult.data);
             } else if (jResult.status == "fail") {
 

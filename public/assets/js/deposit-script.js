@@ -32,7 +32,7 @@ function addEventListner() {
     $("#deposit-list-permit-but-id").click(function() {
         let items = getCheckedItems();
         if(items.length < 1){
-            alert("일괄 처리대상들을 선택해 주세요.");
+            showAlert("일괄 처리대상들을 선택해 주세요.", 3);
             return;
         }
 
@@ -45,7 +45,7 @@ function addEventListner() {
     $("#deposit-list-refuse-but-id").click(function() {
         let items = getCheckedItems();
         if(items.length < 1){
-            alert("일괄 처리대상들을 선택해 주세요.");
+            showAlert("일괄 처리대상들을 선택해 주세요.", 3);
             return;
         }
         if (confirm("선택된 대상들을 거절하시겠습니까?")) {
@@ -57,7 +57,7 @@ function addEventListner() {
     $("#deposit-list-wait-but-id").click(function() {
         let items = getCheckedItems();
         if(items.length < 1){
-            alert("일괄 처리대상들을 선택해 주세요.");
+            showAlert("일괄 처리대상들을 선택해 주세요.", 3);
             return;
         }
         if (confirm("선택된 대상들을 임시대기시키겠습니까?")) {
@@ -283,9 +283,9 @@ function requestProcDeposit(jsData) {
                 setTimeout(function() { requestDepositList(); }, 500);
             } else if (jResult.status == "fail") {
                 if(jResult.msg){
-                    alert(jResult.msg);
+                    showAlert(jResult.msg, 0);
                 }
-                else alert("충전처리가 실패되었습니다.");
+                else showAlert("충전처리가 실패되었습니다.", 0);
             } else if (jResult.status == "logout") {
                 window.location.replace( FURL +'/');
             }
@@ -316,14 +316,14 @@ function requestProcDeposits(jsData) {
             if (jResult.status == "success") {
                 requestEmployeeInfo();
                 if(jResult.msg){
-                    alert(jResult.msg);
+                    showAlert(jResult.msg);
                 }
                 setTimeout(function() { requestDepositList(); }, 500);
             } else if (jResult.status == "fail") {
                 if(jResult.msg){
-                    alert(jResult.msg);
+                    showAlert(jResult.msg, 0);
                 }
-                else alert("충전처리가 실패되었습니다.");
+                else showAlert("충전처리가 실패되었습니다.", 0);
             } else if (jResult.status == "logout") {
                 window.location.replace( FURL +'/');
             }

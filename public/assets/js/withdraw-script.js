@@ -32,7 +32,7 @@ function addEventListner() {
     $("#withdraw-list-permit-but-id").click(function() {
         let items = getCheckedItems();
         if(items.length < 1){
-            alert("일괄 처리대상들을 선택해 주세요.");
+            showAlert("일괄 처리대상들을 선택해 주세요.", 3);
             return;
         }
 
@@ -45,7 +45,7 @@ function addEventListner() {
     $("#withdraw-list-refuse-but-id").click(function() {
         let items = getCheckedItems();
         if(items.length < 1){
-            alert("일괄 처리대상들을 선택해 주세요.");
+            showAlert("일괄 처리대상들을 선택해 주세요.", 3);
             return;
         }
         if (confirm("선택된 대상들을 거절하시겠습니까?")) {
@@ -57,7 +57,7 @@ function addEventListner() {
     $("#withdraw-list-wait-but-id").click(function() {
         let items = getCheckedItems();
         if(items.length < 1){
-            alert("일괄 처리대상들을 선택해 주세요.");
+            showAlert("일괄 처리대상들을 선택해 주세요.", 3);
             return;
         }
         if (confirm("선택된 대상들을 임시대기시키겠습니까?")) {
@@ -293,7 +293,7 @@ function requestProcWithdraw(jsData) {
                 requestEmployeeInfo();
                 setTimeout(function() { requestWithdrawList(); }, 500);
             } else if (jResult.status == "fail") {
-                alert("환전처리가 실패되었습니다.");
+                showAlert("환전처리가 실패되었습니다.", 0);
             } else if (jResult.status == "logout") {
                 window.location.replace( FURL +'/');
             }
@@ -324,11 +324,11 @@ function requestProcWithdraws(jsData) {
             if (jResult.status == "success") {
                 requestEmployeeInfo();
                 if(jResult.msg){
-                    alert(jResult.msg);
+                    showAlert(jResult.msg);
                 }
                 setTimeout(function() { requestWithdrawList(); }, 500);
             } else if (jResult.status == "fail") {
-                alert("환전처리가 실패되었습니다.");
+                showAlert("환전처리가 실패되었습니다.", 0);
             } else if (jResult.status == "logout") {
                 window.location.replace( FURL +'/');
             }

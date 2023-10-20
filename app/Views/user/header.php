@@ -19,6 +19,10 @@
 	<script src="<?php echo site_furl('assets/js/jquery-1.12.4.min.js'); ?>"></script>
 	<script src="<?php echo site_furl('assets/js/jquery-ui-1.12.1.min.js'); ?>"></script>
 	<script src="<?php echo site_furl('assets/bootstrap/js/bootstrap.min.js'); ?>"></script>
+	<link rel="stylesheet" href="<?php echo site_furl('assets/js/sweet/sweetalert2.min.css'); ?>" />
+	<script type="text/javascript" src="<?php echo site_furl('assets/js/sweet/sweetalert2.min.js'); ?>"></script>
+	<script type="text/javascript" src="<?php echo site_furl('assets/js/toaster.js?v=1'); ?>"></script>
+
 	<script>
         const FURL = "<?=$_ENV['app.furl']?>" 
         var mLevelType = 0;
@@ -26,7 +30,6 @@
             mLevelType = <?=$_ENV['app.level_type']?>;
         <?php endif ?>
     </script>
-    <script src="<?php echo site_furl('assets/js/sweetalert2.all.min.js?v=1'); ?>"></script>
     <script src="<?php echo site_furl('assets/js/common.js?t=').time(); ?>"></script>
 
 </head>
@@ -37,6 +40,9 @@
 <?php endif ?>
 
 <style>
+	.swal2-popup.swal2-toast .swal2-title{
+		font-size:1.5em;
+	}
 	.useredit-panel{
 		min-height:660px;
 	}

@@ -421,7 +421,7 @@ function reqMemGive(){
         nAmount = 0;
     }
     if (nAmount == 0) {
-        alert("이동금액을 입력 해주세요.");
+        showAlert("이동금액을 입력 해주세요.", 3);
         return false;
     }
 
@@ -443,7 +443,7 @@ function reqMemWithdraw(){
         nAmount = 0;
     }
     if (nAmount == 0) {
-        alert("환수금액을 입력 해주세요.");
+        showAlert("환수금액을 입력 해주세요.", 3);
         return false;
     }
 

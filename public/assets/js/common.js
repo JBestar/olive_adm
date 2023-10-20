@@ -136,30 +136,6 @@ function setNavBarElement() {
     }
 }
 
-function showAlert(txt){
-    Swal.fire({
-        // position: 'top',
-        title: txt,
-        confirmButtonText: '닫기',
-    });
-}
-
-function showConfirm(txt, callFunc = null){
-    
-    Swal.fire({
-        title: txt,
-        showCancelButton: true,
-        confirmButtonText: '확인',
-        cancelButtonText: '취소',
-    }).then((result) => {
-        if (result.value == true) {
-            if(callFunc != null){
-                callFunc();
-            }
-        } 
-    })
-}
-
 
 function goResultPage(){
     if(mGameId == 1){
@@ -194,4 +170,16 @@ function getEvolSide(side) {
         default:break;
     }
     return strSide;
+}
+
+function showAlert(msg, type=1){
+    if(!toaster)
+        alert(msg);
+    else if(type == 0)
+        toaster.error(msg);
+    else if(type == 2)
+        toaster.info(msg);
+    else if(type == 3)
+        toaster.warning(msg);
+    else toaster.success(msg);
 }

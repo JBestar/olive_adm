@@ -180,7 +180,7 @@ function requestAddBlock(jsData) {
             } else if (jResult.status == "fail") {
 
             } else if (jResult.status == "nopermit") {
-                alert('변경권한이 없습니다.');
+                showAlert('변경권한이 없습니다.', 0);
                 location.replace( FURL +'/pages/nopermit');
             } else if (jResult.status == "logout") {
                 location.replace( FURL +'/');

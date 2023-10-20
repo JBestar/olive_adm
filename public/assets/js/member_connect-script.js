@@ -32,10 +32,7 @@ function showMember(arrMember, bFollow=false) {
         strBuf += "<td>";
         strBuf += (parseInt(nRow) + firstIdx + 1);
         strBuf += "</td> <td>";
-        if(bFollow){
-            strBuf += "<a onclick=' popupMemberFollow(" + arrMember[nRow].sess_mb_fid + ", "+arrMember[nRow].sess_mb_fid+ ")' class='link-member'>"+ arrMember[nRow].sess_mb_uid+ "</a>";
-        }
-        else strBuf += arrMember[nRow].sess_mb_uid;
+        strBuf += "<a onclick=' popupMemberEdit(" + arrMember[nRow].sess_mb_fid + ", "+arrMember[nRow].sess_mb_fid+ ")' class='link-member'>"+ arrMember[nRow].sess_mb_uid+ "</a>";
         strBuf += "</td> <td>";
         if(bFollow){
             strBuf += "<a onclick=' popupMemberFollow(" + arrMember[nRow].sess_mb_fid + ", "+arrMember[nRow].sess_mb_fid+ ")' class='link-member'>"+ arrMember[nRow].mb_nickname+ "</a>";
@@ -209,11 +206,11 @@ function requestLogoutMember(jsData) {
 
             if (jResult.status == "success") {
                 requestMember();
-                alert('로그아웃되었습니다.');
+                showAlert('로그아웃되었습니다.', 0);
             } else if (jResult.status == "fail") {
 
             } else if (jResult.status == "nopermit") {
-                alert('변경권한이 없습니다.');
+                showAlert('변경권한이 없습니다.', 0);
                 window.location.replace( FURL +'/pages/nopermit');
             } else if (jResult.status == "logout") {
                 window.location.replace( FURL +'/');

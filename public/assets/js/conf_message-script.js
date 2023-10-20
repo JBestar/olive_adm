@@ -79,11 +79,11 @@ function addBtnEvent() {
             "content": $("#macro-content").summernote('code'),
         };
         if(jsonData.title.length < 1){
-            alert("매크로 제목을 입력해주세요");
+            showAlert("매크로 제목을 입력해주세요", 3);
             return;
         }
         if(jsonData.content.length < 1){
-            alert("매크로 내용을 입력해주세요");
+            showAlert("매크로 내용을 입력해주세요", 3);
             return;
         }
     
@@ -122,11 +122,11 @@ function addBtnEvent() {
         };
         console.log(jsonData);
         if(jsonData.title.length < 1){
-            alert("매크로 제목을 입력해주세요");
+            showAlert("매크로 제목을 입력해주세요", 3);
             return;
         }
         if(jsonData.content.length < 1){
-            alert("매크로 내용을 입력해주세요");
+            showAlert("매크로 내용을 입력해주세요", 3);
             return;
         }
     

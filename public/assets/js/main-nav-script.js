@@ -30,7 +30,7 @@ function requestMemberInfo() {
                 setTimeout(function() { requestEmployeeInfo(); }, 1000);
 
             } else if (jResult.status == "fail") {
-                alert('로그인정보를 가져오는데 실패했습니다. \n 다시 가입해 주세요.');
+                showAlert('로그인정보를 가져오는데 실패했습니다. \n 다시 가입해 주세요.', 0);
             } else if (jResult.status == "logout") {
                 window.location.replace( FURL +"/");
             }

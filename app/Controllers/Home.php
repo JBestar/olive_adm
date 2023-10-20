@@ -188,7 +188,7 @@ class Home extends StdController
 			"17"=> "KING",
 			"18"=> "글로리",
 			"19"=> "제로",
-			"20"=> "LUX",
+			// "20"=> "LUX",
 		];
 		$confsiteModel = new ConfSite_Model();
 

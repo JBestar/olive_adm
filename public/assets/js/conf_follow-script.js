@@ -11,7 +11,7 @@ function addBtnEvent() {
         let follow_id = $("#confsite-follow-input-id").val().trim();
         let follow_percent = $("#confsite-follow-percent-id").val()
         if(follow_check == 1 && follow_id.length < 1 ){
-            alert("따라가기 아이디를 입력해주세요");
+            showAlert("따라가기 아이디를 입력해주세요", 3);
             return;
         }
 
@@ -30,9 +30,9 @@ function addBtnEvent() {
             success: function(jResult) {
                 //console.log(jResult);
                 if (jResult.status == "success") {
-                    alert("저장되었습니다.");
+                    showAlert("저장되었습니다.");
                 } else if (jResult.status == "fail") {
-                    alert(jResult.msg);
+                    showAlert(jResult.msg, 0);
                 }
             },
             error: function(request, status, error) {

@@ -128,12 +128,12 @@ function addBtnEvent() {
         var jsonData = readConfigToObject();
 
         if (jsonData.notice_title.length < 1) {
-            alert("제목을 입력하세요.");
+            showAlert("제목을 입력하세요.", 3);
             return;
         }
 
         if (jsonData.notice_content.length < 1) {
-            alert("내용을 입력하세요.");
+            showAlert("내용을 입력하세요.", 3);
             return;
         }
 
@@ -179,7 +179,7 @@ function addBtnEvent() {
                     } else if (jResult.status == "logout") {
                         window.location.replace( FURL +'/');
                     } else if (jResult.status == "fail") {
-                        alert("발송자 아이디가 존재하지 않습니다.");
+                        showAlert("발송자 아이디가 존재하지 않습니다.", 0);
                     }
                 },
                 error: function(request, status, error) {

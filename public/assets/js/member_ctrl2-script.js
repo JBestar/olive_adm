@@ -435,7 +435,7 @@ function reqMemCharge(){
         nAmount = 0;
     }
     if (nAmount == 0) {
-        alert("충전금액을 입력 해주세요.");
+        showAlert("충전금액을 입력 해주세요.", 3);
         return false;
     }
 
@@ -457,7 +457,7 @@ function reqMemDischarge(){
         nAmount = 0;
     }
     if (nAmount == 0) {
-        alert("환전금액을 입력 해주세요.");
+        showAlert("환전금액을 입력 해주세요.", 3);
         return false;
     }
 
@@ -721,7 +721,7 @@ function readConfigToObject() {
 function exportTableToExcel(filename = ''){
     
     if(!mArrMember || mArrMember.length < 1){
-        alert("자료가 없습니다.");
+        showAlert("자료가 없습니다.", 0);
         return;
     }
 

@@ -17,18 +17,17 @@ function requestPageInfo() {
 
 //Function to Show Betting History
 function ShowBetHistory(jsonBetData) {
-    var elemBetDataTb = document.getElementById("pbbet-table-id");
-    var strBuf = "";
-    var curPage = getActivePage();
-    var firstIdx = (curPage - 1) * CountPerPage;
-    var strWinMoney = "";
+    let elemBetDataTb = document.getElementById("pbbet-table-id");
+    let strBuf = "";
+    let curPage = getActivePage();
+    let firstIdx = (curPage - 1) * CountPerPage;
 
     for (nRow in jsonBetData) {
 
         strBuf += "<tr><td>";
         strBuf += (parseInt(nRow) + firstIdx + 1);
         strBuf += "</td><td>";
-        strBuf += jsonBetData[nRow].bet_mb_uid;
+        strBuf += "<a onclick='popupMemberUid(\"" + jsonBetData[nRow].bet_mb_uid + "\")' class='link-member'>"+ jsonBetData[nRow].bet_mb_uid + "</a>";
         strBuf += "</td><td>";
         strBuf += jsonBetData[nRow].bet_time;
         strBuf += "</td><td>";
@@ -49,15 +48,12 @@ function ShowBetHistory(jsonBetData) {
         strBuf += parseInt(jsonBetData[nRow].bet_win_money).toLocaleString() + "원";
         strBuf += "</td>";
         strResult = "<td>";
-        // strWinMoney = "";
         if (parseInt(jsonBetData[nRow].bet_win_money) > parseInt(jsonBetData[nRow].bet_money)) {
             strResult = "<td  class = 'pb-home-table-betstate-earn'>적중";
-            // strWinMoney = (parseInt(jsonBetData[nRow].bet_win_money) - parseInt(jsonBetData[nRow].bet_money)).toLocaleString() + "원";
         } else if (jsonBetData[nRow].bet_win_money == jsonBetData[nRow].bet_money) {
             strResult = "<td  class = 'pb-home-table-betstate-wait'>비김";
         } else {
             strResult = "<td  class = 'pb-home-table-betstate-loss'>미적중"; //
-            // strWinMoney = (parseInt(jsonBetData[nRow].bet_win_money) - parseInt(jsonBetData[nRow].bet_money)).toLocaleString() + "원";
         }
 
         strBuf += strResult;

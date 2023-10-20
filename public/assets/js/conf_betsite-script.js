@@ -46,9 +46,9 @@ function addBtnEvent() {
                 } else if (jResult.status == "logout") {
                     window.location.replace( FURL +'/');
                 } else if (jResult.status == "fail") {
-                    alert("저장이 실패되었습니다.");
+                    showAlert("저장이 실패되었습니다.", 0);
                 } else if (jResult.status == "nopermit") {
-                    alert("권한이 없습니다.");
+                    showAlert("권한이 없습니다.", 0);
                 }
             },
             error: function(request, status, error) {
@@ -91,7 +91,7 @@ function requestConfBetSite() {
             } else if (jResult.status == "logout") {
                 window.location.replace( FURL +'/');
             } else if (jResult.status == "nopermit") {
-                alert("권한이 없습니다.");
+                showAlert("권한이 없습니다.", 0);
             }
         },
         error: function(request, status, error) {

@@ -37,11 +37,11 @@ function requestWaitToPermit(elemBut, jsData) {
                 requestMember();
 
             } else if (jResult.status == "usererror") {
-                alert('회원정보가 정확하지 않습니다.\n 다시 확인해주세요');
+                showAlert('회원정보가 정확하지 않습니다.\n 다시 확인해주세요', 0);
             } else if (jResult.status == "fail") {
-                alert('회원승인이 실패되었습니다.');
+                showAlert('회원승인이 실패되었습니다.', 0);
             } else if (jResult.status == "nopermit") {
-                alert('변경권한이 없습니다.');
+                showAlert('변경권한이 없습니다.', 0);
                 window.location.replace( FURL +'/pages/nopermit');
             } else if (jResult.status == "logout") {
                 window.location.replace( FURL +'/');
@@ -74,7 +74,7 @@ function requestUpdateMember(jsData, reload=true) {
             } else if (jResult.status == "fail") {
 
             } else if (jResult.status == "nopermit") {
-                alert('변경권한이 없습니다.');
+                showAlert('변경권한이 없습니다.', 0);
                 location.replace( FURL +'/pages/nopermit');
             } else if (jResult.status == "logout") {
                 location.replace( FURL +'/');
@@ -108,7 +108,7 @@ function requestDeleteMember(jsData) {
             } else if (jResult.status == "fail") {
 
             } else if (jResult.status == "nopermit") {
-                alert('변경권한이 없습니다.');
+                showAlert('변경권한이 없습니다.', 0);
                 window.location.replace( FURL +'/pages/nopermit');
             } else if (jResult.status == "logout") {
                 window.location.replace( FURL +'/');
@@ -137,14 +137,14 @@ function requestDeleteRestore(elemBut, jsData) {
             $(elemBut).attr('disabled', false);
 
             if (jResult.status == "success") {
-                alert('복구되었습니다.');
+                showAlert('복구되었습니다.');
                 requestMember();
             } else if (jResult.status == "usererror") {
-                alert('추천인이 이미 삭제되었습니다. \n 먼저 추천인을 확인해주세요.');
+                showAlert('추천인이 이미 삭제되었습니다. \n 먼저 추천인을 확인해주세요.', 0);
             } else if (jResult.status == "fail") {
-                alert('복구가 실패되었습니다.');
+                showAlert('복구가 실패되었습니다.', 0);
             } else if (jResult.status == "nopermit") {
-                alert('변경권한이 없습니다.');
+                showAlert('변경권한이 없습니다.', 0);
             } else if (jResult.status == "logout") {
                 location.replace( FURL +'/');
             }
@@ -174,7 +174,7 @@ function requestAddBlock(jsData) {
             } else if (jResult.status == "fail") {
 
             } else if (jResult.status == "nopermit") {
-                alert('변경권한이 없습니다.');
+                showAlert('변경권한이 없습니다.', 0);
                 location.replace( FURL +'/pages/nopermit');
             } else if (jResult.status == "logout") {
                 location.replace( FURL +'/');
@@ -201,12 +201,11 @@ function requestLogoutMember(jsData) {
             // console.log(jResult);
 
             if (jResult.status == "success") {
-                alert('로그아웃되었습니다.');
-
+                showAlert('로그아웃되었습니다.', 0);
             } else if (jResult.status == "fail") {
 
             } else if (jResult.status == "nopermit") {
-                alert('변경권한이 없습니다.');
+                showAlert('변경권한이 없습니다.', 0);
                 window.location.replace( FURL +'/pages/nopermit');
             } else if (jResult.status == "logout") {
                 window.location.replace( FURL +'/');
@@ -278,12 +277,12 @@ function collectEgg(elem, mbFid) {
                     $("#mm_" + mbFid).css('color', 'red');
                 else $("#mm_" + mbFid).css('color', 'black');
                 $(elem).css('display', 'none');
-                alert("회수되었습니다.");
+                showAlert("회수되었습니다.");
             } else if (jResult.status == "fail") {
                 if(jResult.msg)
-                    alert(jResult.msg);
+                    showAlert(jResult.msg, 0);
                 else
-                    alert("게임서버응답이 실패되었습니다.");
+                    showAlert("게임서버응답이 실패되었습니다.", 0);
             } else if (jResult.status == "logout") {
                 window.location.replace( FURL +'/');
             }
@@ -318,8 +317,8 @@ function requestTrasnfer(jsonData, bReload = true){
                 window.location.replace( FURL +'/');
             } else if (jResult.status == "fail") {
                 if (jResult.msg) {
-                    alert(jResult.msg);
-                } else alert("조작이 실패되었습니다.")
+                    showAlert(jResult.msg, 0);
+                } else showAlert("조작이 실패되었습니다.", 0);
             }
         },
         error: function(request, status, error) {
@@ -334,39 +333,39 @@ function requestTrasnfer(jsonData, bReload = true){
 function reqMemSave(objMember, closeDlg = null){
 
     if (objMember.mb_uid.length < 1) {
-        alert("아이디는 필수정보입니다.");
+        showAlert("아이디는 필수정보입니다.", 3);
         return;
     }
 
     if (objMember.admin_level >= LEVEL_ADMIN) {
         if (objMember.mb_pwd.length < 1) {
-            alert("비밀번호는 필수정보입니다.");
+            showAlert("비밀번호는 필수정보입니다.", 3);
             return;
         }
 
         if (objMember.mb_nickname.length < 1) {
-            alert("닉네임은 필수정보입니다.");
+            showAlert("닉네임은 필수정보입니다.", 3);
             return;
         }
 
         if (objMember.mb_nickname.length < 2 || objMember.mb_nickname.length > 20) {
-            alert("닉네임길이는 2~20자리입니다.");
+            showAlert("닉네임길이는 2~20자리입니다.", 3);
             return;
         }
 
 
         if (objMember.mb_phone.length < 1) {
-            alert("핸드폰번호는 필수정보입니다.");
+            showAlert("핸드폰번호는 필수정보입니다.", 3);
             return;
         }
 
         if (objMember.mb_bank_pwd.length < 1) {
-            alert("출금비번은 필수정보입니다.");
+            showAlert("출금비번은 필수정보입니다.", 3);
             return;
         }
 
         if (objMember.mb_bank_name.length < 1 || objMember.mb_bank_own.length < 1 || objMember.mb_bank_num.length < 1) {
-            alert("계좌정보를 입력해주세요.");
+            showAlert("계좌정보를 입력해주세요.", 3);
             return;
         }
     }
@@ -390,40 +389,40 @@ function reqMemSave(objMember, closeDlg = null){
                     }
                     else 
                         window.location.reload();
-                        // alert("회원정보가 변경되었습니다.");
+                        // showAlert("회원정보가 변경되었습니다.");
                 } else if (jResult.status == "logout") {
-                    alert("로그아웃되었습니다. 다시 로그인해주세요");
+                    showAlert("로그아웃되었습니다. 다시 로그인해주세요", 0);
                     // window.location.replace( FURL +'/');
                     if(closeDlg != null)
                         window.location.reload();
                     else window.close();
                 } else if (jResult.status == "fail") {
                     if (jResult.error == 2)
-                        alert("중복된 아이디입니다.");
+                        showAlert("중복된 아이디입니다.", 0);
                     else if (jResult.error == 3)
-                        alert("등록된 추천인이 아닙니다.");
+                        showAlert("등록된 추천인이 아닙니다.", 0);
                     else if (jResult.error == 6)
-                        alert("추천인 오류입니다.");
+                        showAlert("추천인 오류입니다.", 0);
                     else if (jResult.error == 11)
-                        alert("따라가기 아이디가 존재하지 않습니다.");
+                        showAlert("따라가기 아이디가 존재하지 않습니다.", 0);
                     else if (jResult.error == 12)
-                        alert("중복된 닉네임입니다.");
-                    else alert("수정이 실패되었습니다.");
+                        showAlert("중복된 닉네임입니다.", 0);
+                    else showAlert("수정이 실패되었습니다.", 0);
                 } else if (jResult.status == "val_error") {
                     let errString = '';
                     for (property in jResult.error) {
                         errString += `${jResult.error[property]}\n`;
                     }
-                    alert(errString);
+                    showAlert(errString, 0);
                 } else if (jResult.status == "level_error") {
                     if(jResult.error > LEVEL_COMPANY){
-                        alert("추천인을 변경할수 없습니다.");
+                        showAlert("추천인을 변경할수 없습니다.", 0);
                     } else 
-                        alert("입력하신 회원은 추천인으로 지정하실수 없습니다.");
+                        showAlert("입력하신 회원은 추천인으로 지정하실수 없습니다.", 0);
                 } else if (jResult.status == "ratio_error") {
-                    alert(jResult.error);
+                    showAlert(jResult.error, 0);
                 } else if (jResult.status == "employee_error") {
-                    alert("추천인 아이디가 존재하지 않습니다.");
+                    showAlert("추천인 아이디가 존재하지 않습니다.", 0);
                 }
             },
             error: function(request, status, error) {
@@ -446,10 +445,10 @@ function reqMemSave(objMember, closeDlg = null){
                         requestMember();
                     }
                     else {
-                        alert("회원이 등록되었습니다.");
+                        showAlert("회원이 등록되었습니다.");
                     }
                 } else if (jResult.status == "logout") {
-                    alert("로그아웃되었습니다. 다시 로그인해주세요");
+                    showAlert("로그아웃되었습니다. 다시 로그인해주세요", 0);
                     if(closeDlg != null)
                         window.location.reload();
                     else window.close();
@@ -458,7 +457,7 @@ function reqMemSave(objMember, closeDlg = null){
                     for (property in jResult.error) {
                         errorString += `${jResult.error[property]}\n`;
                     }
-                    alert(errorString);
+                    showAlert(errorString, 0);
                 } else if (jResult.status == "fail") {
                     if (jResult.error == 2){
                         if(confirm("삭제된 회원중에 아이디가 이미 존재합니다. 그래도 계속하시겠습니까?")){
@@ -467,14 +466,14 @@ function reqMemSave(objMember, closeDlg = null){
                         }
                     }
                     else if (jResult.error == 12)
-                        alert("중복된 닉네임입니다.");
+                        showAlert("중복된 닉네임입니다.", 0);
                     else if (jResult.error == 3)
-                        alert("등록된 추천인이 아닙니다.");
-                    else alert("등록이 실패되었습니다.");
+                        showAlert("등록된 추천인이 아닙니다.", 0);
+                    else showAlert("등록이 실패되었습니다.", 0);
                 } else if (jResult.status == "ratio_error") {
-                    alert(jResult.error);
+                    showAlert(jResult.error, 0);
                 } else if (jResult.status == "employee_error") {
-                    alert("추천인 아이디가 존재하지 않습니다.");
+                    showAlert("추천인 아이디가 존재하지 않습니다.", 0);
                 }
             },
             error: function(request, status, error) {
@@ -500,9 +499,9 @@ function create(objMember, closeDlg){
                         closeDlg();
                         requestMember();
                     }
-                    else alert("회원이 등록되었습니다.");
+                    else showAlert("회원이 등록되었습니다.");
                 } else if (jResult.status == "logout") {
-                    alert("로그아웃되었습니다. 다시 로그인해주세요");
+                    showAlert("로그아웃되었습니다. 다시 로그인해주세요", 0);
                     if(closeDlg != null)
                         window.location.reload();
                     else window.close();
@@ -511,20 +510,20 @@ function create(objMember, closeDlg){
                     for (property in jResult.error) {
                         errorString += `${jResult.error[property]}\n`;
                     }
-                    alert(errorString);
+                    showAlert(errorString, 0);
                 } else if (jResult.status == "fail") {
                     if (jResult.error == 2){
-                        alert("중복된 아이디입니다.");
+                        showAlert("중복된 아이디입니다.", 0);
                     }
                     else if (jResult.error == 12)
-                        alert("중복된 닉네임입니다.");
+                        showAlert("중복된 닉네임입니다.", 0);
                     else if (jResult.error == 3)
-                        alert("등록된 추천인이 아닙니다.");
-                    else alert("등록이 실패되었습니다.");
+                        showAlert("등록된 추천인이 아닙니다.", 0);
+                    else showAlert("등록이 실패되었습니다.", 0);
                 } else if (jResult.status == "ratio_error") {
-                    alert(jResult.error);
+                    showAlert(jResult.error, 0);
                 } else if (jResult.status == "employee_error") {
-                    alert("추천인 아이디가 존재하지 않습니다.");
+                    showAlert("추천인 아이디가 존재하지 않습니다.", 0);
                 }
             },
             error: function(request, status, error) {
@@ -574,7 +573,7 @@ function reqSetBlank(objData, beforeCnt) {
             } else if (jResult.status == "fail") {
                 $("#blank_"+objData.mb_fid).val(beforeCnt);
             } else if (jResult.status == "nopermit") {
-                alert('변경권한이 없습니다.');
+                showAlert('변경권한이 없습니다.', 0);
                 location.replace( FURL +'/pages/nopermit');
             } else if (jResult.status == "logout") {
                 location.replace( FURL +'/');

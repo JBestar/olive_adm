@@ -61,12 +61,12 @@ function addBtnEvent() {
         var jsonData = readConfigToObject();
 
         if (jsonData.notice_title.length < 1) {
-            alert("제목을 입력하세요.");
+            showAlert("제목을 입력하세요.", 3);
             return;
         }
 
         if (jsonData.notice_content.length < 1) {
-            alert("내용을 입력하세요.");
+            showAlert("내용을 입력하세요.", 3);
             return;
         }
 
@@ -88,7 +88,7 @@ function addBtnEvent() {
                     } else if (jResult.status == "logout") {
                         window.location.replace( FURL +'/');
                     } else if (jResult.status == "fail") {
-                        alert("수정이 실패되었습니다.");
+                        showAlert("수정이 실패되었습니다.", 0);
                     }
                 },
                 error: function(request, status, error) {
@@ -111,7 +111,7 @@ function addBtnEvent() {
                     } else if (jResult.status == "logout") {
                         window.location.replace( FURL +'/');
                     } else if (jResult.status == "fail") {
-                        alert("저장이 실패되었습니다.");
+                        showAlert("저장이 실패되었습니다.", 0);
                     }
                 },
                 error: function(request, status, error) {

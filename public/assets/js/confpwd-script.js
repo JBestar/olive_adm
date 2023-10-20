@@ -28,12 +28,12 @@ function addBtnEvent() {
         var jsonData = readPasswordToObject();
 
         if (jsonData.password.length < 1) {
-            alert("현재 비밀번호를 입력해주세요.");
+            showAlert("현재 비밀번호를 입력해주세요.", 3);
             return;
         }
 
         if (jsonData.password_new.length > 0 && jsonData.password_new != jsonData.password_newok) {
-            alert("새 비밀번호를 정확히 입력해주세요.");
+            showAlert("새 비밀번호를 정확히 입력해주세요.", 3);
             return;
         }
 
@@ -50,9 +50,9 @@ function addBtnEvent() {
             success: function(jResult) {
                 //console.log(jResult);
                 if (jResult.status == "success") {
-                    alert("정보가 변경되었습니다.");
+                    showAlert("정보가 변경되었습니다.");
                 } else if (jResult.status == "fail") {
-                    alert(jResult.msg);
+                    showAlert(jResult.msg, 0);
                 }
             },
             error: function(request, status, error) {
@@ -88,7 +88,7 @@ function addBtnEvent() {
                     else 
                         $("#recovery_useregg").hide();
                 } else if (jResult.status == "fail") {
-                    alert("회수가 실패되었습니다.");
+                    showAlert("회수가 실패되었습니다.", 0);
                 }
             },
             error: function(request, status, error) {
@@ -106,7 +106,7 @@ function addBtnEvent() {
             nAmount = 0;
         }
         if (nAmount == 0) {
-            alert("지급금액을 입력 해주세요.");
+            showAlert("지급금액을 입력 해주세요.", 3);
             return false;
         }
 
@@ -127,7 +127,7 @@ function addBtnEvent() {
             nAmount = 0;
         }
         if (nAmount == 0) {
-            alert("회수금액을 입력 해주세요.");
+            showAlert("회수금액을 입력 해주세요.", 3);
             return false;
         }
 
