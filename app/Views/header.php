@@ -55,6 +55,9 @@
 		.swal2-popup.swal2-toast .swal2-title{
 			font-size:1.5em;
 		}
+		.swal2-popup.swal2-toast .swal2-close{
+			font-size:3.5em;
+		}
 		.user-table a.link-member, .bet-table a.link-member {
 			color: blue;
 			border: none;

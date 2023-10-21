@@ -43,6 +43,9 @@
 	.swal2-popup.swal2-toast .swal2-title{
 		font-size:1.5em;
 	}
+	.swal2-popup.swal2-toast .swal2-close{
+		font-size:3.5em;
+	}
 	.useredit-panel{
 		min-height:660px;
 	}
