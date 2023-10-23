@@ -97,7 +97,7 @@ function ShowBetHistory(jsonBetData) {
             
             strBuf += "</td>";
             strResult = "<td>";
-            if(state == 1) {
+            if(state > 0) {
                 if (parseInt(jsonBetData[nRow].point_amount) == 3) {
                     strResult = "<td  class = 'pb-home-table-betstate-earn'>적중";
                 } else if (parseInt(jsonBetData[nRow].point_amount) == 4) {
@@ -120,7 +120,7 @@ function ShowBetHistory(jsonBetData) {
             }
             strBuf += strResult;
             strBuf += "</td><td>";
-            if(state == 1) {
+            if(state > 0) {
                 strBuf += "<button data-fid='" + jsonBetData[nRow].bet_fid + "'>적중</button> ";
                 strBuf += "<button data-fid='" + jsonBetData[nRow].bet_fid + "'>미적중</button> ";
                 strBuf += "<button data-fid='" + jsonBetData[nRow].bet_fid + "'>타이</button> ";
@@ -138,7 +138,7 @@ function ShowBetHistory(jsonBetData) {
     }
     elemBetDataTb.innerHTML = strBuf;
 
-    if(state == 1)
+    if(state > 0)
         addBtnEvent();
 
 }
@@ -359,7 +359,7 @@ function requestTotalPage(bReqPage = true) {
 
 function requestBetProcess(jsData) {
     var jsonData = JSON.stringify(jsData);
-
+    console.log(jsonData);
     $.ajax({
         type: "POST",
         dataType: "json",

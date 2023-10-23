@@ -28,6 +28,7 @@ class EbalBet_Model extends Model
         'bet_balance', 
         'bet_win_balance',
         'point_amount', 
+        'employee_amount',
         'company_amount', 
         'org_id', 
     ];
@@ -47,7 +48,7 @@ class EbalBet_Model extends Model
 
         $strCondition = " WHERE ";
         $strCondition.= getBetTimeRange($arrReqData, $this->db);
-        $strCondition .= " AND bet_mb_level = 0 AND company_amount = 0 AND point_amount <> ".BET_STATE_TIE;
+        $strCondition .= " AND bet_mb_level = 0 AND (company_amount = 0 OR employee_amount = 1) AND point_amount <> ".BET_STATE_TIE;
         if(strlen($arrReqData['user']) > 0){
             $strCondition.=" AND bet_mb_fid = ".$this->db->escape($arrReqData['user']);
         }
@@ -139,10 +140,12 @@ class EbalBet_Model extends Model
         $strWhere=" WHERE ";
         // $strWhere .= " bet_fid >= ".$arrReqData['gm_range'][0]." AND bet_fid <= ".$arrReqData['gm_range'][1];
         $strWhere .= getBetTimeRange($arrReqData, $this->db);
-        if(array_key_exists("state", $arrReqData) && $arrReqData['state'] > 0){
-            $strWhere.=" AND company_amount <> 0 ";
+        if(array_key_exists("state", $arrReqData) && $arrReqData['state'] == 1){
+            $strWhere.=" AND company_amount > 0 AND company_amount < 8 AND employee_amount = 1 ";
+        } elseif(array_key_exists("state", $arrReqData) && $arrReqData['state'] == 2){
+            $strWhere.=" AND company_amount > 0 AND company_amount < 8 AND employee_amount = 0 ";
         } else {
-            $strWhere.=" AND company_amount = 0 ";
+            $strWhere.=" AND (company_amount = 0 OR employee_amount = 1) ";
         }
         if(strlen($arrReqData['user']) > 0){
             $strWhere.=" AND bet_mb_fid = ".$this->db->escape($arrReqData['user']);
@@ -241,11 +244,14 @@ class EbalBet_Model extends Model
         $strSql .= " WHERE ";
         // $strSql .= " bet_fid >= ".$arrReqData['gm_range'][0]." AND bet_fid <= ".$arrReqData['gm_range'][1];
         $strSql .= getBetTimeRange($arrReqData, $this->db);
-        if(array_key_exists("state", $arrReqData) && $arrReqData['state'] > 0){
-            $strSql.=" AND company_amount <> 0 ";
+        if(array_key_exists("state", $arrReqData) && $arrReqData['state'] == 1){
+            $strSql.=" AND company_amount > 0 AND company_amount < 8 AND employee_amount = 1 ";
+        } elseif(array_key_exists("state", $arrReqData) && $arrReqData['state'] == 2){
+            $strSql.=" AND company_amount > 0 AND company_amount < 8 AND employee_amount = 0 ";
         } else {
-            $strSql.=" AND company_amount = 0 ";
+            $strSql.=" AND (company_amount = 0 OR employee_amount = 1) ";
         }
+
 
         if(strlen($arrReqData['user']) > 0){
             $strSql.=" AND bet_mb_fid = ".$this->db->escape($arrReqData['user']);
@@ -282,7 +288,7 @@ class EbalBet_Model extends Model
             $strSql = " SELECT SUM(bet_money) AS bet_money_sum, SUM(bet_win_money) AS win_money_sum  FROM ".$this->table;
             // $strSql .= " WHERE bet_fid >= ".$arrReqInfo['gm_range'][0]; //." AND bet_fid <= ".$arrReqInfo['gm_range'][1]
             $strSql .= " WHERE bet_time >= '".$arrReqInfo['start']."' " ;//AND bet_time <= '".$arrReqInfo['end']."' ";
-            $strSql .= " AND bet_mb_level = 0 AND company_amount = 0 ";  //exclude tie and success bet 
+            $strSql .= " AND bet_mb_level = 0 AND ( company_amount = 0 OR employee_amount = 1 ) ";  //exclude tie and success bet 
             $strSql .= " AND point_amount <> ".BET_STATE_TIE ;  //member level < admin level;
     
             // writeLog($strSql);
@@ -311,8 +317,10 @@ class EbalBet_Model extends Model
     public function updateBet($objbet)
     {
 
+        $this->builder()->set('bet_result', $objbet->bet_result);
         $this->builder()->set('bet_win_money', $objbet->bet_win_money);
         $this->builder()->set('point_amount', $objbet->point_amount);
+        $this->builder()->set('employee_amount', $objbet->employee_amount);
         $this->builder()->set('acc_time', 'NOW()', false);
         
         $this->builder()->where('bet_fid', $objbet->bet_fid);

@@ -640,18 +640,29 @@ class PbApi extends BaseController {
 					if($objBet->point_amount == $state)
 						continue;
 
+					if($objBet->company_amount == 0)
+						continue;
+
 					$winMoney = 0;
 					if($state == BET_STATE_WIN){
-						if($objBet->bet_choice == "Banker")
+						if($objBet->bet_choice == BET_BANKER){
 							$winMoney = $objBet->bet_money * RATE_BANKER;
-						else if($objBet->bet_choice == "Tie")
+							$objBet->bet_result = $objBet->bet_choice; 
+						}
+						else if($objBet->bet_choice == BET_TIE){
 							$winMoney = $objBet->bet_money * RATE_TIE;
-						else
+							$objBet->bet_result = "";
+						}
+						else{
 							$winMoney = $objBet->bet_money * RATE_PLAYER;
+							$objBet->bet_result = $objBet->bet_choice; 
+						}
 					} else if($state == BET_STATE_TIE){
 						$winMoney = $objBet->bet_money;
+						$objBet->bet_result = BET_TIE;
 					} else if($state == BET_STATE_LOSS){
 						$winMoney = 0;
+						$objBet->bet_result = $objBet->bet_choice == BET_BANKER ? BET_PLAYER : BET_BANKER; 
 					} else continue;
 
 					$dtMoney = 0;
@@ -675,7 +686,8 @@ class PbApi extends BaseController {
 						
 						$objBet->bet_win_money = $winMoney;
 						$objBet->point_amount = $state;
-						
+						$objBet->employee_amount = STATE_ACTIVE;  //proceed state
+
 						$moneyhistoryModel->registerAccountCsBet($objBetUser, $objBet, $dtMoney, MONEYCHANGE_DENY_EBAL);
 						
 						if(!$csbetModel->updateBet($objBet))

@@ -22,7 +22,8 @@
 			</select>
             <select name="pbresult-number" class="pbresult-number-select" id="pbhistory-state-select-id" style="width:80px; margin-left:10px;">
 				<option value="0">정상</option>
-				<option value="1">미처리</option>
+				<option value="1">처리</option>
+				<option value="2">미처리</option>
 			</select>
             <select name="pbresult-number" class="pbresult-number-select" id="pbhistory-number-select-id" style="width:70px; margin-left:5px;">
 				<?php foreach($select_nums as $num=>$select):?>

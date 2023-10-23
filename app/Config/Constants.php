@@ -398,6 +398,12 @@ defined('RATE_PLAYER')       || define('RATE_PLAYER', 2.0);
 defined('RATE_BANKER')       || define('RATE_BANKER', 1.95);     
 defined('RATE_TIE')          || define('RATE_TIE', 7.0);     
 
+defined('BET_PLAYER')    || define('BET_PLAYER', "Player");    
+defined('BET_BANKER')    || define('BET_BANKER', "Banker");    
+defined('BET_TIE')       || define('BET_TIE', "Tie");    
+  
+
+
 defined('EBAL_LOGTYPE_PRESSMANUAL')    || define('EBAL_LOGTYPE_PRESSMANUAL', 1);
 defined('EBAL_LOGTYPE_PRESSAUTO')      || define('EBAL_LOGTYPE_PRESSAUTO', 2);
 
