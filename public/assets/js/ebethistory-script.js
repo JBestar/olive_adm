@@ -22,7 +22,7 @@ function ShowBetHistory(jsonBetData) {
 
     var strHead = "<th>ID</th><th>아이디</th><th>배팅시간</th><th>게임종류</th><th>게임방</th>";
     strHead += "<th>요청금</th><th>배팅금</th><th>배팅타입</th><th>배팅선택</th><th>경기결과</th><th>적중금</th>";
-    if(state == 1){
+    if(state > 0){
         strHead+= "<th>처리결과</th><th>처리</th>";
     } else {
         strHead+= "<th>배팅결과</th><th>포인트</th>";
