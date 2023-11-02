@@ -56,15 +56,14 @@ function ShowBetHistory(jsonBetData) {
             strResult = "<td  class = 'pb-home-table-betstate-loss'>미적중"; //
         }
         strBuf += strResult;
+        if(jsonBetData[nRow].bet_spec != undefined){
+            strBuf += "</td><td>";
+            strBuf += getBetSpec(jsonBetData[nRow].bet_spec);
+        }
         strBuf += "</td><td>";
         if (jsonBetData[nRow].rw_point != null)
             strBuf += jsonBetData[nRow].rw_point;
         else strBuf += "0";
-        if(jsonBetData[nRow].bet_spec != undefined){
-            strBuf += "</td><td>";
-            strBuf += getBetSpec(jsonBetData[nRow].bet_spec);
-
-        }
         strBuf += "</td></tr>";
 
     }
