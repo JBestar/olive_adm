@@ -62,7 +62,7 @@ function ShowBetHistory(jsonBetData) {
         }
         strBuf += "</td><td>";
         if (jsonBetData[nRow].rw_point != null)
-            strBuf += jsonBetData[nRow].rw_point;
+            strBuf += Math.floor(jsonBetData[nRow].rw_point).toLocaleString();
         else strBuf += "0";
         strBuf += "</td></tr>";
 
