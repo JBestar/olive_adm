@@ -1615,7 +1615,6 @@ class Api extends BaseController{
 		$arrGetData = json_decode($jsonData, true);
 
 		if(is_login()) {
-			// writeLog("csbetlist");
 			$tmNow = microtime(true) * 1000;
 
 			if(array_key_exists('auto', $arrGetData) && !$arrGetData['auto']){
@@ -1646,7 +1645,6 @@ class Api extends BaseController{
 				$objAdmin = $this->modelMember->getInfo(trim($arrGetData['emp']));
 			} 
 			$arrBetResults = $csbetModel->search($objAdmin, $arrGetData);
-			// writeLog("csbetlist end duration = ".(microtime(true) * 1000 - $tmNow));
 			
 			$objResult = new \StdClass;
 			$objResult->data = $arrBetResults;	
@@ -1670,7 +1668,6 @@ class Api extends BaseController{
 		$arrGetData = json_decode($jsonData, true);
 
 		if(is_login()) {
-			// writeLog("csbetlistcnt");
 			$tmNow = microtime(true) * 1000;
 			//model
 			if(array_key_exists('game', $arrGetData) && $arrGetData['game'] == GAME_AUTO_EVOL && isEBalMode()){
@@ -1698,7 +1695,6 @@ class Api extends BaseController{
 			}
 			$arrBetAccount = $csbetModel->getBetAccount($objAdmin, $arrGetData);
 			$objCount = $csbetModel->searchCount($objAdmin, $arrGetData);
-			// writeLog("csbetlistcnt end duration = ".(microtime(true) * 1000 - $tmNow));
 			
 			$arrResult['data'] = $objCount;
 			$arrResult['account'] = $arrBetAccount;

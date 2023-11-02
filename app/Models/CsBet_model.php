@@ -24,6 +24,7 @@ class CsBet_Model extends Model
         'point_amount', 
         'company_amount', 
         'org_id', 
+        'bet_spec', 
     ];
     protected $primaryKey = 'bet_fid';
     private $mMemberTable = 'member';
@@ -142,7 +143,7 @@ class CsBet_Model extends Model
         
         $strSql = "";
         $strSql .= "SELECT bet_fid, bet_idx, bet_mb_uid, bet_round_no, bet_time, bet_money, bet_win_money, bet_player_id, bet_game_id, bet_game_type, bet_table_code, ";
-        $strSql .= " bet_choice, bet_result, point_amount, company_amount, obj_id, ".$this->mGameTable.".name as game_name, rw_mb_uid, rw_point, ".$this->mPrdTable.".name as prd_name";
+        $strSql .= " bet_choice, bet_result, point_amount, company_amount, obj_id, bet_spec, ".$this->mGameTable.".name as game_name, rw_mb_uid, rw_point, ".$this->mPrdTable.".name as prd_name";
         $strSql .= " FROM ( ";
 
         $tbBetSearch = "bet_search";

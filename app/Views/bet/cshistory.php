@@ -24,6 +24,10 @@
 	<th>적중금</th>
 	<th>배팅결과</th>
 	<th>포인트</th>
+	<?php if($game_id == GAME_CASINO_EVOL) :?>
+		<th>상세</th>
+	<?php endif ?>
+
 <?= $this->endSection() ?>
 <?= $this->section('history_script') ?>
 <?php if(array_key_exists("app.produce", $_ENV)) :?>
