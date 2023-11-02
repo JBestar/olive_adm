@@ -58,7 +58,7 @@ function ShowBetHistory(jsonBetData) {
         strBuf += strResult;
         if(jsonBetData[nRow].bet_spec != undefined){
             strBuf += "</td><td>";
-            strBuf += getBetSpec(jsonBetData[nRow].bet_spec);
+            strBuf += getBetSpec(jsonBetData[nRow]);
         }
         strBuf += "</td><td>";
         if (jsonBetData[nRow].rw_point != null)
@@ -97,8 +97,9 @@ function getGameName(strGameType) {
 
 }
 
-function getBetSpec(strSpec){
+function getBetSpec(objBet){
     let html = "";
+    strSpec = objBet.bet_spec;
     if(strSpec.length < 1)
         return html;
     let bets = strSpec.split('#');
@@ -109,9 +110,17 @@ function getBetSpec(strSpec){
             continue;
         details = sbet.split(',');
         if(details.length >= 2){
-            html += details[0].replace('BAC_', '') ;
-            // html += "배팅: "+details[0].replace('BAC_', '') ;
-            // html += "=>"+parseInt(details[1]).toLocaleString();
+            if(objBet.prd_name == "드림게이밍"){
+                if(parseInt(objBet.bet_money) == parseInt(details[1])){
+                    html += details[0].replace('BAC_', '') ;
+                    break;
+                } else continue;
+            } else {
+                html += details[0].replace('BAC_', '') ;
+                if(bets.length > 2)
+                    html += ":"+parseInt(details[1]).toLocaleString();
+            }
+            
         }
         // if(details.length >= 3 && details[2].trim().length > 0){
         //     html += " 적중: "+parseInt(details[2]).toLocaleString();
