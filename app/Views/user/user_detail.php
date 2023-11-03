@@ -234,6 +234,19 @@
 						<?php if($press_en == 2 || $press_en == 4 || $press_en == 5 ) :?>
 							<label>이하</label>
 						<?php endif ?>
+						<?php if($press_en == 1 || $press_en == 2 || $press_en == 5 ) :?>
+							<select type="text" id="useredit-press-count-id">
+							<?php $counts = pressCounts(); if (is_null($objMember)) : ?>
+								<?php foreach($counts as $count):?>
+									<option value="<?=$count?>" <?=$count==1?'selected':''?>><?=$count==-1?'랜덤':$count.'회'?></option>
+								<?php endforeach?>
+							<?php else :?>
+								<?php foreach($counts as $count):?>
+									<option value="<?=$count?>" <?=$objMember->mb_press_count==$count?'selected':''?>><?=$count==-1?'랜덤':$count.'회'?></option>
+								<?php endforeach?>
+							<?php endif?>
+							</select>
+						<?php endif ?>
 						<button class="pbresult-list-view-but" id="useredit-press-but-id"  style="margin-left:5px; padding:5px 10px;">전체 적용</button>  
 					</td>
 				</tr>

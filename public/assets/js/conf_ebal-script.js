@@ -173,7 +173,6 @@ function addBtnEvent() {
             }
         }
 
-
         var jsonData = JSON.stringify(objData);
 
         if (!confirm("저장하시겠습니까?"))

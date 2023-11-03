@@ -119,6 +119,10 @@ function readConfigToObject() {
         if(pressAmount < 0) pressAmount = 0;
 
         objMember.mb_press_ev = pressEnable + ":" + pressAmount; 
+        if($("#useredit-press-count-id").length > 0){
+            let pressCount = $("#useredit-press-count-id").val();
+            objMember.mb_press_ev += ":"+ pressCount;
+        }
     }
 
     if($("#useredit-follow-check-id").length > 0){
@@ -378,7 +382,10 @@ function addBtnEvent() {
         if(pressAmount < 0) pressAmount = 0;
 
         let mb_press_ev = pressEnable + ":" + pressAmount;
-
+        if($("#useredit-press-count-id").length > 0){
+            let pressCount = $("#useredit-press-count-id").val();
+            mb_press_ev += ":"+ pressCount;
+        }
         var jsonData = {
             mb_press_ev:mb_press_ev,
         }

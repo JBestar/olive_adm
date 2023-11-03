@@ -51,10 +51,13 @@ class User extends StdController
 					}
 					$objMember->mb_press_active = false;
 					$objMember->mb_press_amount = 0;
+					$objMember->mb_press_count = 1;
 					$info = explode(":", $objMember->mb_press_ev);
 					if(count($info) >= 2){
 						$objMember->mb_press_active = intval($info[0]) == STATE_ACTIVE;
 						$objMember->mb_press_amount = intval($info[1]) ;
+						if(count($info) >= 3)
+							$objMember->mb_press_count = intval($info[2]) ;
 					}
 					$objMember->mb_follow_active = false;
 					$objMember->mb_follow_id = "";
