@@ -38,7 +38,7 @@
 			<div>
 				<p>최대배팅금액:</p> 
 				<input type = "number" class="conf-text-input"  id="confev-betmax-input-id" min="0" step="10000"> 원
-				<button class="confsite-cancel-button" style="margin-left:10px; padding:3px 10px; float:none;" id="confsite-betrange-reset-id">리셋</button>
+				<!-- <button class="confsite-cancel-button" style="margin-left:10px; padding:3px 10px; float:none;" id="confsite-betrange-reset-id">리셋</button> -->
 			</div>
 		</div>
 		<div class="confsite-game-text-div">
@@ -58,12 +58,12 @@
 				<input type = "number" class="conf-text-input" min="0" step="1" id="confev-maxuser-input-id"> 명 
 				<span id="confev-conuser-input-id"> </span>
 			</div>
-			<div>
+			<!-- <div>
 				<p>전체 누르기:</p> 
 				<button class="confsite-cancel-button" style="margin-left:0px; padding:3px 10px; float:none;" id="confsite-press-check-id">누르기체크</button>
 				<button class="confsite-cancel-button" style="margin-left:10px; padding:3px 10px; float:none;" id="confsite-press-reset-id">누르기해제</button>
 				
-			</div>
+			</div> -->
 		</div>
 
 		<!-- 보험계정 1 -->
