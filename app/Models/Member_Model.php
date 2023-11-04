@@ -1728,6 +1728,10 @@ class Member_Model extends Model
             $this->builder()->set('mb_state_active', $arrData['mb_state_active']);
         } else if (array_key_exists('mb_press_ev', $arrData)) {
             $this->builder()->set('mb_press_ev', $arrData['mb_press_ev']);
+        } else if (array_key_exists('mb_range_ev', $arrData)) {
+            $this->builder()->set('mb_range_ev', $arrData['mb_range_ev']);
+        } else if (array_key_exists('mb_state_view', $arrData)) {
+            $this->builder()->set('mb_state_view', $arrData['mb_state_view']);
         } else return false;
 
         if(count($arrData['mb_fids']) > 0)

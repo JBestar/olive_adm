@@ -209,7 +209,41 @@ function addBtnEvent() {
         location.reload();
     });
 
+    $("#confsite-betrange-reset-id").click(function() {
+        
+        if (!confirm("전체 리셋하시겠습니까?"))
+            return;
+
+        let data = {
+            mb_range_ev:'0:0',
+        }
+        requestUpdateMember(data);
+    });
+    
+    $("#confsite-press-check-id").click(function() {
+        
+        if (!confirm("전체 누르기체크 하시겠습니까?"))
+            return;
+
+        let data = {
+            mb_state_view:1,
+        }
+        requestUpdateMember(data);
+    });
+    
+    $("#confsite-press-reset-id").click(function() {
+        
+        if (!confirm("전체 누르기해제 하시겠습니까?"))
+            return;
+
+        let data = {
+            mb_state_view:0,
+        }
+        requestUpdateMember(data);
+    });
 }
+
+
 
 function requestConfBetSite(all=false) {
     $.ajax({
@@ -288,3 +322,27 @@ function setEbalState(state){
 
     });
 }
+
+function requestUpdateMember(data){
+    let jsonData = JSON.stringify(data);
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: FURL + "/userapi/updatemembers",
+        data: { json_: jsonData },
+        success: function(jResult) {
+            // console.log(jResult);
+            if (jResult.status == "success") {
+                showAlert("전체 적용되었습니다.")
+            } else if (jResult.status == "logout") {
+                window.location.replace( FURL +'/');
+            }
+        },
+        error: function(request, status, error) {
+            $(".loading").hide();
+            // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+        }
+
+    });
+}
+
