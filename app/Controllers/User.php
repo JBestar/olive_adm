@@ -83,6 +83,14 @@ class User extends StdController
 				else
 					$bTrans = true;
 
+				if($objAdmin->mb_level < LEVEL_ADMIN && array_key_exists('app.sess_act', $_ENV) && $_ENV['app.sess_act'] == 1){
+					$memConfModel = new MemConf_Model();
+					$memConf = $memConfModel->getByMember($objAdmin->mb_fid);
+					if(!is_null($memConf) ){
+						$_ENV['mem.return_deny'] = $_ENV['mem.return_deny'] || ($memConf->conf_num_1 != 1);
+					} else $_ENV['mem.return_deny'] = true;
+				}
+
 				if($_ENV['mem.return_deny'])				//환수 검사
 					$bReturn = false;
 				else if($_ENV['mem.return_lv1'] && !$bChild)
@@ -163,9 +171,11 @@ class User extends StdController
 						$memConf = $memConfModel->getByMember($objMember->mb_fid);
 						$arrAppInfo = [];
 						$arrChargeInfo = [];
+						$objMember->mb_transfer_subs = STATE_DISABLE;
 						if(!is_null($memConf) ){
 							$arrAppInfo = explode('#', $memConf->conf_str_1);
 							$arrChargeInfo = explode('#', $memConf->conf_str_5);
+							$objMember->mb_transfer_subs = $memConf->conf_num_1;
 						}
 
 						$confAutoapp = $confsiteModel->getConf(CONF_AUTOAPPS);
@@ -189,7 +199,6 @@ class User extends StdController
 						if(count($arrChargeInfo) < 3)
 							$arrChargeInfo = ['', '', ''];
 						$objMember->mb_charge_info = $arrChargeInfo;
-
 					}
 				}
 			} 

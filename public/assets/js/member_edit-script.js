@@ -146,6 +146,9 @@ function readConfigToObject() {
         objMember.mb_charge_info = $("#useredit-charge-bankname-id").val().trim()+"#"+
             $("#useredit-charge-bankaccount-id").val().trim()+"#"+$("#useredit-charge-bankserial-id").val().trim();
     }
+    if($("#useredit-transfer-subs-id").length > 0){
+        objMember.mb_transfer_subs = $("#useredit-transfer-subs-id").prop('checked') ? 1 : 0;
+    }
     return objMember;
 
 }

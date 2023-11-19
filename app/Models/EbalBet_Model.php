@@ -23,13 +23,14 @@ class EbalBet_Model extends Model
         'bet_game_type', 
         'bet_table_code', 
         'bet_table_name', 
+        'bet_type',          //0-press or 1-over
         'bet_choice', 
         'bet_result', 
         'bet_balance', 
         'bet_win_balance',
-        'point_amount', 
-        'employee_amount',
-        'company_amount', 
+        'point_amount',     //bet state - win loss tie
+        'employee_amount',  //manual proc
+        'company_amount',   //order proc state
         'org_id', 
     ];
     protected $primaryKey = 'bet_fid';
@@ -141,11 +142,11 @@ class EbalBet_Model extends Model
         // $strWhere .= " bet_fid >= ".$arrReqData['gm_range'][0]." AND bet_fid <= ".$arrReqData['gm_range'][1];
         $strWhere .= getBetTimeRange($arrReqData, $this->db);
         if(array_key_exists("state", $arrReqData) && $arrReqData['state'] == 1){
-            $strWhere.=" AND company_amount > 0 AND company_amount < 8 AND employee_amount = 1 ";
+            $strWhere.=" AND company_amount > 0 AND company_amount < 8 AND employee_amount = 1 "; //only manual proc
         } elseif(array_key_exists("state", $arrReqData) && $arrReqData['state'] == 2){
-            $strWhere.=" AND company_amount > 0 AND company_amount < 8 AND employee_amount = 0 ";
+            $strWhere.=" AND company_amount > 0 AND company_amount < 8 AND employee_amount = 0 "; //only no proc
         } else {
-            $strWhere.=" AND (company_amount = 0 OR employee_amount = 1) ";
+            $strWhere.=" AND (company_amount = 0 OR employee_amount = 1) ";     //success proc Or manual proc
         }
         if(strlen($arrReqData['user']) > 0){
             $strWhere.=" AND bet_mb_fid = ".$this->db->escape($arrReqData['user']);

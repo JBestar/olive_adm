@@ -190,11 +190,12 @@ class UserApi extends BaseController
                             }
                         }
 
-                        if(isEBalMode() && array_key_exists('mb_autoapps', $arrData) ){
+                        if(array_key_exists('mb_autoapps', $arrData) ){
                             $memConfModel = new MemConf_Model();
                             $memConf = $memConfModel->getByMember($objReqUser->mb_fid);
                             if(!is_null($memConf) ){
                                 $data =[
+                                    'conf_num_1' => $arrData['mb_transfer_subs'],
                                     'conf_str_1' => $arrData['mb_autoapps'],
                                     'conf_str_5' => $arrData['mb_charge_info'],
                                 ];
@@ -203,6 +204,7 @@ class UserApi extends BaseController
                                 $data =[
                                     'conf_mb_fid' => $objReqUser->mb_fid,
                                     'conf_mb_uid' => $objReqUser->mb_uid,
+                                    'conf_num_1' => $arrData['mb_transfer_subs'],
                                     'conf_str_1' => $arrData['mb_autoapps'],
                                     'conf_str_5' => $arrData['mb_charge_info'],
                                 ];
@@ -1890,6 +1892,14 @@ class UserApi extends BaseController
                     }
                     
                 } else if($arrData['type'] == 3){               //환수
+
+                    if(array_key_exists('app.sess_act', $_ENV) && $_ENV['app.sess_act'] == 1){
+                        $memConfModel = new MemConf_Model();
+                        $memConf = $memConfModel->getByMember($objEmp->mb_fid);
+                        if(!is_null($memConf) ){
+                            $_ENV['mem.return_deny'] = $_ENV['mem.return_deny'] || ($memConf->conf_num_1 != 1);
+                        } else $_ENV['mem.return_deny'] = true;
+                    }
 
                     if($_ENV['mem.return_deny']){
                         $objResult->msg = '거절되었습니다.';

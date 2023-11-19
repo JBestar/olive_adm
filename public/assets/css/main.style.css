@@ -1700,7 +1700,6 @@ Style - powerball
     width: 100%;
     height: 100%;
     opacity: .5;
-    z-index: 100;
     background-color: #676767;
     /*17181B*/
     -webkit-transition-duration: 0.5s;

@@ -88,7 +88,9 @@ class Sess_Model extends Model {
     }
 
     public function deleteLast(){
-        $tmLast = strtotime("-2 minutes", time());
+
+        $tmMin = 2;
+        $tmLast = strtotime("-".$tmMin." minutes", time());
 
         return $this->where('sess_update <', date("Y-m-d H:i:s", $tmLast))
                     ->delete();

@@ -291,7 +291,7 @@
 
 			<?php endif ?>
 
-			<?php if(isEBalMode() && !is_null($objMember) && array_key_exists('app.sess_act', $_ENV) && $_ENV['app.sess_act'] == 1) :?>
+			<?php if(!is_null($objMember) && array_key_exists('app.sess_act', $_ENV) && $_ENV['app.sess_act'] == 1) :?>
 				<tr>
 					<td>오토앱 승인</td>
 					<td colspan="3">
@@ -308,6 +308,15 @@
 						<input type="text" id="useredit-charge-bankaccount-id" placeholder="예금주" value="<?=$objMember->mb_charge_info[1]?>" style="width:100px;">
 						<input type="text" id="useredit-charge-bankserial-id" placeholder="계좌번호" value="<?=$objMember->mb_charge_info[2]?>" style="width:100px;">
 					</td>
+				</tr>
+				<tr>
+					<td>하부회원 머니환수 </td>
+					<td>
+						<input type="checkbox" id="useredit-transfer-subs-id"  style="zoom:100%; width:20px; height:20px; min-width:20px;" <?=$objMember->mb_transfer_subs==1?'checked':''?> >
+						<!-- <span style="margin-right:20px; position:relative; top:-5px;"></span> -->
+					</td>
+					<td>등록번호</td>
+					<td><?=$objMember->mb_fid?></td>
 				</tr>
 			<?php endif ?>
 			<tr>
