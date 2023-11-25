@@ -21,6 +21,9 @@ class Clean_Model extends Model {
         $strSql = " DELETE FROM bet_reward WHERE rw_time < '".$strDate."' ";
         $this -> db -> query($strSql);
         
+        $strSql = " DELETE FROM bet_reward_st WHERE rw_end < '".$strDate."' ";
+        $this -> db -> query($strSql);
+
         $strSql = " DELETE FROM bet_happyball WHERE bet_time < '".$strDate."' ";
         $this -> db -> query($strSql);
 
@@ -51,6 +54,9 @@ class Clean_Model extends Model {
         $strSql = " DELETE FROM bet_ebal WHERE bet_time < '".$strDate."' ";
         $this -> db -> query($strSql);
 
+        $strSql = " DELETE FROM bet_ebal_st WHERE bet_end < '".$strDate."' ";
+        $this -> db -> query($strSql);
+
         $strSql = " DELETE FROM bet_balance WHERE bet_time < '".$strDate."' ";
         $this -> db -> query($strSql);
 
@@ -74,6 +80,7 @@ class Clean_Model extends Model {
         $this->db->query("TRUNCATE bet_coin5ball");
         $this->db->query("TRUNCATE bet_coin3ball");
         $this->db->query("TRUNCATE bet_reward");
+        $this->db->query("TRUNCATE bet_reward_st");
         $this->db->query("TRUNCATE bet_follow");
         $this->db->query("TRUNCATE block_list");
         $this->db->query("TRUNCATE log_modify");
@@ -86,6 +93,7 @@ class Clean_Model extends Model {
         $this->db->query("TRUNCATE sess_log");
         $this->db->query("TRUNCATE sess_try");
         $this->db->query("TRUNCATE bet_ebal");
+        $this->db->query("TRUNCATE bet_ebal_st");
         $this->db->query("TRUNCATE bet_balance");
 
         $tmNow = time();
@@ -123,8 +131,10 @@ class Clean_Model extends Model {
         if(calcDate() < $date){
             writeLog("Truncate Partition");
             $this->db->query("TRUNCATE bet_ebal");
+            $this->db->query("TRUNCATE bet_ebal_st");
             $this->db->query("TRUNCATE bet_balance");
             $this->db->query("TRUNCATE bet_reward");
+            $this->db->query("TRUNCATE bet_reward_st");
             $this->db->query("TRUNCATE money_history");
             $this->db->query("TRUNCATE bet_casino");
             $this->db->query("TRUNCATE bet_slot");
@@ -155,6 +165,12 @@ class Clean_Model extends Model {
             $table = "bet_holdem";
             $this->dropPartitions($table, $partName);
 
+            $strSql = " DELETE FROM bet_reward_st WHERE rw_end < '".$date."' ";
+            $this -> db -> query($strSql);
+            
+            $strSql = " DELETE FROM bet_ebal_st WHERE bet_end < '".$date."' ";
+            $this -> db -> query($strSql);
+            
             writeLog("clean Partition END");
 
         }

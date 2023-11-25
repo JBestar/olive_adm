@@ -195,10 +195,8 @@
       $sCon = "";
       if (strlen($arrReqData['start']) <=10 && strlen($arrReqData['end']) <= 10) {
           $sCon = " bet_time >= ".$db->escape($arrReqData['start']." 00:00:00")." AND bet_time <= ".$db->escape($arrReqData['end']." 23:59:59");
-      } else if (strlen($arrReqData['start']) <=13 && strlen($arrReqData['end']) <= 13) {
-        $sCon = " bet_time >= ".$db->escape($arrReqData['start'].":00:00")." AND bet_time <= ".$db->escape($arrReqData['end'].":59:59");
       } else {
-          $sCon = " bet_time >= ".$db->escape($arrReqData['start'].":00")." AND bet_time <= ".$db->escape($arrReqData['end'].":59");
+          $sCon = " bet_time >= ".$db->escape($arrReqData['start'].":00")." AND bet_time < ".$db->escape($arrReqData['end'].":00");
       }
       return $sCon;
 
@@ -209,10 +207,8 @@
       $sCon = "";
       if (strlen($arrReqData['start']) <=10 && strlen($arrReqData['end']) <= 10) {
           $sCon = $key." >= ".$db->escape($arrReqData['start']." 00:00:00")." AND ".$key." <= ".$db->escape($arrReqData['end']." 23:59:59");
-      } else if (strlen($arrReqData['start']) <=13 && strlen($arrReqData['end']) <= 13) {
-        $sCon = $key." >= ".$db->escape($arrReqData['start'].":00:00")." AND ".$key." <= ".$db->escape($arrReqData['end'].":59:59");
-      }  else {
-          $sCon = $key." >= ".$db->escape($arrReqData['start'].":00")." AND ".$key." <= ".$db->escape($arrReqData['end'].":59");
+      } else {
+          $sCon = $key." >= ".$db->escape($arrReqData['start'].":00")." AND ".$key." < ".$db->escape($arrReqData['end'].":00");
       }
       return $sCon;
     }
@@ -221,10 +217,8 @@
       $sCon = "";
       if (strlen($arrReqData['start']) <=10 && strlen($arrReqData['end']) <= 10) {
           $sCon = $keyStart." >= ".$db->escape($arrReqData['start']." 00:00:00")." AND ".$keyEnd." <= ".$db->escape($arrReqData['end']." 23:59:59");
-      } else if (strlen($arrReqData['start']) <=13 && strlen($arrReqData['end']) <= 13) {
-        $sCon = $keyStart." >= ".$db->escape($arrReqData['start'].":00:00")." AND ".$keyEnd." <= ".$db->escape($arrReqData['end'].":59:59");
-      }  else {
-          $sCon = $keyStart." >= ".$db->escape($arrReqData['start'].":00")." AND ".$keyEnd." <= ".$db->escape($arrReqData['end'].":59");
+      } else {
+          $sCon = $keyStart." >= ".$db->escape($arrReqData['start'].":00")." AND ".$keyEnd." < ".$db->escape($arrReqData['end'].":00");
       }
       return $sCon;
     }

@@ -12,12 +12,14 @@
     <?php endif ?>
 	<!-- Bootstrap 3.3.7 -->
   	<link rel="stylesheet" href="<?php echo site_furl('assets/bootstrap/css/bootstrap.min.css');?>">
-	<link rel="stylesheet" href="<?php echo site_furl('assets/css/main.style.css?v=17');?>">
+	<link rel="stylesheet" href="<?php echo site_furl('assets/css/main.style.css?v=18');?>">
 
 	<!-- JQuery 1.12.1 -->
 	<link rel="stylesheet" href="<?php echo site_furl('assets/js/jquery-ui-1.12.1.min.css'); ?>">
+	<link rel="stylesheet" href="<?php echo site_furl('assets/js/jquery.datetimepicker.min.css'); ?>">
 	<script src="<?php echo site_furl('assets/js/jquery-1.12.4.min.js'); ?>"></script>
 	<script src="<?php echo site_furl('assets/js/jquery-ui-1.12.1.min.js'); ?>"></script>
+	<script src="<?php echo site_furl('assets/js/jquery.datetimepicker.full.min.js'); ?>"></script>
 	<script src="<?php echo site_furl('assets/bootstrap/js/bootstrap.min.js'); ?>"></script>
 	<link rel="stylesheet" href="<?php echo site_furl('assets/js/sweet/sweetalert2.min.css'); ?>" />
 	<script type="text/javascript" src="<?php echo site_furl('assets/js/sweet/sweetalert2.min.js'); ?>"></script>

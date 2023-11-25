@@ -7,9 +7,9 @@
 		<h4><i class="glyphicon glyphicon-hand-right"></i> 누르기 변동내역</h4>
 		<div class="pbresult-list-div" style="padding-left:20px;">
 			<label>기간</label>
-			<input type="datetime-local" id="pbhistory-datestart-input-id"  value="<?php echo date('Y-m-d')."T00:00"; ?>">
+			<input type="text" id="pbhistory-datestart-input-id" class="date-hour" value="<?php echo date('Y-m-d')." 00:00"; ?>">
 			<label> ~ </label>
-			<input type="datetime-local" id="pbhistory-dateend-input-id"  value="<?php echo date('Y-m-d')."T23:59"; ?>" style="margin-right:10px">
+			<input type="text" id="pbhistory-dateend-input-id" class="date-hour" value="<?php echo calcDate(1)." 00:00"; ?>" style="margin-right:10px">
 			<input type="text" placeholder="     아이디" class="pbresult-text-input" id="pbhistory-userid-input-id" >
 			<select name="pbresult-number" class="pbresult-number-select" id="pbhistory-type-select-id" style="width:70px; margin-left:-5px;">
 				<option value="0">전체</option>

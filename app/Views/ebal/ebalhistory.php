@@ -4,9 +4,9 @@
 	<div class="bet-panel">
 		<div class="pbresult-list-div">
 			<label>기간</label>
-			<input type="datetime-local" id="pbhistory-datestart-input-id"  value="<?php echo date('Y-m-d')."T00:00"; ?>">
+			<input type="text" id="pbhistory-datestart-input-id" class="date-hour" value="<?php echo date('Y-m-d')." 00:00"; ?>">
             <label> ~ </label>
-            <input type="datetime-local" id="pbhistory-dateend-input-id"  value="<?php echo date('Y-m-d')."T23:59"; ?>" style="margin-right:10px">
+            <input type="text" id="pbhistory-dateend-input-id" class="date-hour" value="<?php echo calcDate(1)." 23:00"; ?>" style="margin-right:10px">
             <input type="text" placeholder="     아이디" class="pbresult-text-input" id="pbhistory-userid-input-id" >
 			<input type="text" placeholder="            게임방" class="pbresult-text-input" id="pbhistory-room-input-id"  style="width:150px;">
 			<select class="pbresult-game-select" id="pbhistory-bet-select-id" style="width:100px;">

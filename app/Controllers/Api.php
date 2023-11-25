@@ -20,6 +20,7 @@ use App\Models\CasGame_Model;
 use App\Models\CasRoom_Model;
 use App\Models\SessTry_Model;
 use App\Models\EbalBet_Model;
+use App\Models\EbalBetSt_Model;
 use App\Models\Ebalance_Model;
 use App\Models\Eorder_Model;
 use App\Models\EbalLog_Model;
@@ -1660,8 +1661,6 @@ class Api extends BaseController{
 		} 		
 	}
 
-
-
 	//배팅리력결과 개수를 Ajax로 전송
 	public function csbetlistcnt(){ 
 		$jsonData = $_REQUEST['json_'];
@@ -1671,7 +1670,7 @@ class Api extends BaseController{
 			$tmNow = microtime(true) * 1000;
 			//model
 			if(array_key_exists('game', $arrGetData) && $arrGetData['game'] == GAME_AUTO_EVOL && isEBalMode()){
-				$csbetModel = new EbalBet_Model();
+				$csbetModel = new EbalBetSt_Model();
 				if(strlen($arrGetData['user']) > 0){
 					$objUser = $this->modelMember->getInfo(trim($arrGetData['user']));
 					if(!is_null($objUser))

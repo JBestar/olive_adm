@@ -234,14 +234,9 @@ class EbalBet_Model extends Model
             $strSql .= " ( SELECT ".$strTbColum." FROM ".$this->mMemberTable." WHERE mb_emp_fid = '".$objEmp->mb_fid."'";
             $strSql .= " UNION ALL SELECT ".$strTbRColum." FROM ".$this->mMemberTable." r ";
             $strSql .= " INNER JOIN tbmember ON r.mb_emp_fid = tbmember.mb_fid )";
-
-            $strSql .= "SELECT count(bet_fid) as count  FROM ".$this->table;
-
-        } else {
-            $strSql .= "SELECT count(bet_fid) as count  FROM ".$this->table;
-        }
+        } 
+        $strSql .= "SELECT count(bet_fid) as count  FROM ".$this->table;
         
-        $bWhere = true;
         $strSql .= " WHERE ";
         // $strSql .= " bet_fid >= ".$arrReqData['gm_range'][0]." AND bet_fid <= ".$arrReqData['gm_range'][1];
         $strSql .= getBetTimeRange($arrReqData, $this->db);

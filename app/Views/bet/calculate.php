@@ -59,9 +59,9 @@
 		
 		<div class="pbresult-list-div">
 			<label>기간</label>
-			<input type="datetime-local" id="calculate-datestart-input-id"  value="<?php echo date('Y-m-d')."T00:00"; ?>">
+			<input type="text" id="calculate-datestart-input-id" class="date-hour" value="<?php echo date('Y-m-d')." 00:00"; ?>" readonly>
             <label> ~ </label>
-            <input type="datetime-local" id="calculate-dateend-input-id"  value="<?php echo date('Y-m-d')."T23:59"; ?>">
+            <input type="text" id="calculate-dateend-input-id" class="date-hour" value="<?php echo calcDate(1)." 00:00"; ?>" readonly>
 			<button class="pbresult-list-view-but" id="calculate-list-view-but-id">검색</button>
 		</div>
 		<Table class="calculate-table" id="calculate-table-id">

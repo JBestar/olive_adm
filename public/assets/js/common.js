@@ -18,6 +18,17 @@ $(document).ready(function() {
             $(this).val(inputVal.replace(/[^a-z0-9~!@#$%^&*_:;,.=+-]/gi, ''));
         }
     });
+
+    if($('.date-hour').length > 0){
+        $('.date-hour').datetimepicker(
+            {
+                format:'Y-m-d H:i',
+                hours12:false,
+    
+            }
+        );
+    }
+    
 });
 
 

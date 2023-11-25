@@ -13,6 +13,7 @@ use App\Models\CsBet_Model;
 use App\Models\SlBet_Model;
 use App\Models\HlBet_Model;
 use App\Models\EbalBet_Model;
+use App\Models\EbalBetSt_Model;
 use App\Models\EbalLog_Model;
 use App\Models\MoneyHistory_Model;
 use App\Models\SessLog_Model;
@@ -714,7 +715,7 @@ class UserApi extends BaseController
 
                     $arrReqData['type'] = GAME_CASINO_EVOL;
                     if(isEBalMode()){
-                        $betModel = new EbalBet_Model();
+                        $betModel = new EbalBetSt_Model();
                         $arrSum = $betModel->getBetSumByDay($arrReqData);
                         $arrSumData[1][0] = $arrSum[0];
                         $arrSumData[1][1] = $arrSum[1];
