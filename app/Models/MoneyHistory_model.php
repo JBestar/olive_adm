@@ -270,6 +270,7 @@ class MoneyHistory_Model extends Model
 
     function searchCount($objEmp, $arrReqData)
     {
+        $tbMoneyStat = "money_history_st";
         $strTbColum = " mb_fid, mb_uid, mb_level, mb_emp_fid";
         $strTbRColum = " r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid ";
         $strSql = "";
@@ -279,34 +280,52 @@ class MoneyHistory_Model extends Model
             $strSql .= " UNION ALL SELECT ".$strTbRColum." FROM ".$this->mMemberTable." r ";
             $strSql .= " INNER JOIN tbmember ON r.mb_emp_fid = tbmember.mb_fid )";
         }
-        $strSql .= "SELECT count(money_fid) as count  FROM ".$this->table;
-        if($objEmp->mb_level < LEVEL_ADMIN){
-            $strSql .="  JOIN (SELECT  * FROM tbmember UNION SELECT ".$strTbColum." FROM ".$this->mMemberTable." where mb_fid='".$objEmp->mb_fid."'";           
-            $strSql .=" ) AS mb_table ";
-            $strSql .=" ON ".$this->table.".money_mb_fid = mb_table.mb_fid ";
-        } else {
-            $strSql .="  JOIN ".$this->mMemberTable;           
-            $strSql .=" ON ".$this->table.".money_mb_fid = ".$this->mMemberTable.".mb_fid AND ".$this->mMemberTable.".mb_level <=".$objEmp->mb_level;
-        }
-        
-        $strSql.=" WHERE money_update_time >= ".$this->db->escape($arrReqData['start']." 00:00:00")." AND money_update_time <= ".$this->db->escape($arrReqData['end']." 23:59:59") ;
-        if(strlen($arrReqData['user']) > 0){
-            $strSql.=" AND money_mb_fid = ".$this->db->escape($arrReqData['user']);
-        }
+
+        $strMode = "";
         if(intval($arrReqData['mode']) > 0){
-            $strSql.=" AND money_change_type = ".$this->db->escape($arrReqData['mode']);
+            $strMode.="money_cnt_".trim($arrReqData['mode']);
         } else if(intval($arrReqData['mode']) == -10){
             $modes = [MONEYCHANGE_CHARGE, MONEYCHANGE_EXCHANGE, POINTCHANGE_EXCHANGE, 
                 MONEYCHANGE_TRANS_DEC,MONEYCHANGE_TRANS_INC,MONEYCHANGE_EXCHANGE_INC,MONEYCHANGE_EXCHANGE_DEC,
-                MONEYCANCEL_CHARGE,MONEYCANCEL_EXCHANGE,MONEYCHANGE_INC,MONEYCHANGE_DEC,MONEYCHANGE_WITHDRAW,POINTHANGE_WITHDRAW,
+                MONEYCHANGE_INC,MONEYCHANGE_DEC,MONEYCHANGE_WITHDRAW,POINTHANGE_WITHDRAW,
                 MONEYCHANGE_GIVE,MONEYCHANGE_CONVERT];
-            $strModes = implode(", ", $modes);
-            $strSql.=" AND money_change_type IN (".$strModes." )";
+            for($i=0; $i<count($modes); $i++){
+                if($i > 0)
+                    $strMode.="+";
+                $strMode.="money_cnt_".$modes[$i];
+            }            
+        } else {
+            $modes = [MONEYCHANGE_CHARGE, MONEYCHANGE_EXCHANGE, POINTCHANGE_EXCHANGE, 
+            MONEYCHANGE_TRANS_DEC,MONEYCHANGE_TRANS_INC,MONEYCHANGE_EXCHANGE_INC,MONEYCHANGE_EXCHANGE_DEC,
+            MONEYCHANGE_INC,MONEYCHANGE_DEC,MONEYCHANGE_WITHDRAW,POINTHANGE_WITHDRAW,
+            MONEYCHANGE_GIVE,MONEYCHANGE_CONVERT, MONEYCHANGE_BET_PB, MONEYCHANGE_WIN_PB, MONEYCHANGE_BET_BB, MONEYCHANGE_WIN_BB,
+            MONEYCHANGE_BET_EO5, MONEYCHANGE_WIN_EO5, MONEYCHANGE_BET_EO3, MONEYCHANGE_WIN_EO3,
+            MONEYCHANGE_BET_CO5, MONEYCHANGE_WIN_CO5, MONEYCHANGE_BET_CO3, MONEYCHANGE_WIN_CO3, MONEYCHANGE_BET_EBAL, MONEYCHANGE_WIN_EBAL];
+            for($i=0; $i<count($modes); $i++){
+                if($i > 0)
+                    $strMode.="+";
+                $strMode.="money_cnt_".$modes[$i];
+            }     
+        }
+            
+        $strSql .= "SELECT SUM(".$strMode.") as count  FROM ".$tbMoneyStat;
+        if($objEmp->mb_level < LEVEL_ADMIN){
+            $strSql .="  JOIN (SELECT  * FROM tbmember UNION SELECT ".$strTbColum." FROM ".$this->mMemberTable." where mb_fid='".$objEmp->mb_fid."'";           
+            $strSql .=" ) AS mb_table ";
+            $strSql .=" ON ".$tbMoneyStat.".money_mb_fid = mb_table.mb_fid ";
+        } else {
+            $strSql .="  JOIN ".$this->mMemberTable;           
+            $strSql .=" ON ".$tbMoneyStat.".money_mb_fid = ".$this->mMemberTable.".mb_fid AND ".$this->mMemberTable.".mb_level <=".$objEmp->mb_level;
+        }
+        
+        $strSql.=" WHERE money_start >= ".$this->db->escape($arrReqData['start']." 00:00:00")." AND money_end <= ".$this->db->escape($arrReqData['end']." 23:59:59") ;
+        if(strlen($arrReqData['user']) > 0){
+            $strSql.=" AND money_mb_fid = ".$this->db->escape($arrReqData['user']);
         }
         
         $query = $this -> db -> query($strSql);
         $result = $query -> getRow();
-        // writeLog($strSql);
+        writeLog($strSql);
 
         return $result; 
 
