@@ -729,7 +729,7 @@ class Api extends BaseController{
 			$strUid = $this->session->user_id;
 			$chargeModel = new Charge_Model();
 			
-			$moneyhistoryModel = new MoneyHistory_Model();
+			// $moneyhistoryModel = new MoneyHistory_Model();
 			$objAdmin = $this->modelMember->getInfo($strUid);
 			$objCharge = $chargeModel->get($arrReqData['charge_fid']);
 
@@ -759,9 +759,9 @@ class Api extends BaseController{
 								
 							$dtMoney = $objCharge->charge_money;
 							$nCharge = $objCharge->charge_money;
-							if($this->modelMember->moneyProc($objUser, $dtMoney, 0, $nCharge, 0)){
+							if($this->modelMember->updateAssets($objUser, $dtMoney, 0, MONEYCHANGE_CHARGE)){
 								//moneyhistory Table
-								$moneyhistoryModel->registerCharge($objUser, $objCharge->charge_money);
+								// $moneyhistoryModel->registerCharge($objUser, $objCharge->charge_money);
 								//charge Table 
 								$objCharge->charge_action_state = 2;
 								$objCharge->charge_action_uid = $strUid;
@@ -848,9 +848,9 @@ class Api extends BaseController{
 										
 									$dtMoney = $objCharge->charge_money;
 									$nCharge = $objCharge->charge_money;
-									if($this->modelMember->moneyProc($objUser, $dtMoney, 0, $nCharge, 0)){
+									if($this->modelMember->updateAssets($objUser, $dtMoney, 0, MONEYCHANGE_CHARGE)){
 										//moneyhistory Table
-										$moneyhistoryModel->registerCharge($objUser, $objCharge->charge_money);
+										// $moneyhistoryModel->registerCharge($objUser, $objCharge->charge_money);
 										//charge Table 
 										$objCharge->charge_action_state = 2;
 										$objCharge->charge_action_uid = $strUid;
@@ -971,7 +971,7 @@ class Api extends BaseController{
 
 						if($objExchange->exchange_action_state == 1 || $objExchange->exchange_action_state == 3  || $objExchange->exchange_action_state == 4){ //대기이거나 거절된 상태에서만 진행
 							//moneyhistory Table
-							$moneyhistoryModel->registerExchange($objUser, $objExchange);
+							// $moneyhistoryModel->registerExchange($objUser, $objExchange);
 							//exchange Table 
 							$objExchange->exchange_action_state = 2;
 							$objExchange->exchange_action_uid = $strUid;
@@ -980,7 +980,7 @@ class Api extends BaseController{
 					} else if($arrReqData['process'] == 2){					//거절
 						if($objExchange->exchange_action_state == 1 || $objExchange->exchange_action_state == 4 ){		//대기상태에서만 진행
 							//거절되면 신청머니를 보상
-							if($this->modelMember->moneyProc($objUser, $objExchange->exchange_money)){
+							if($this->modelMember->updateAssets($objUser, $objExchange->exchange_money, 0, MONEYCANCEL_EXCHANGE)){
 								//exchange Table 
 								$objExchange->exchange_action_state = 3;
 								$objExchange->exchange_action_uid = $strUid;
@@ -1062,7 +1062,7 @@ class Api extends BaseController{
 							} else if($arrReqData['process'] == 2){					//거절
 								if($objExchange->exchange_action_state == 1 || $objExchange->exchange_action_state == 4 ){		//대기상태에서만 진행
 									//거절되면 신청머니를 보상
-									if($this->modelMember->moneyProc($objUser, $objExchange->exchange_money)){
+									if($this->modelMember->updateAssets($objUser, $objExchange->exchange_money, 0, MONEYCANCEL_EXCHANGE)){
 										//exchange Table 
 										$objExchange->exchange_action_state = 3;
 										$objExchange->exchange_action_uid = $strUid;

@@ -237,62 +237,65 @@ class Member_Model extends Model
         return $this->update($member->mb_fid, $data);
     }
 
-    public function moneyProc(&$objUser, $dtMoney, $dtPoint=0, $nCharge=0, $nExchange=0)
-    {
-        $dtMoney = floatval($dtMoney);
-        $dtPoint = floatval($dtPoint);
-        $nCharge = floatval($nCharge);
-        $nExchange = floatval($nExchange);
+    
+    public function updateAssets(&$objUser, $inMoney , $inPoint = 0, $iChange=-1, $spec=""){
 
-        $strSql1 = 'UPDATE '.$this->table.' SET ';
-        if ($dtMoney >= 0) {
-            $strSql1 .= 'mb_money = mb_money+'.$dtMoney;
-        } else {
-            $dtMoney = abs($dtMoney);
-            $strSql1 .= 'mb_money = mb_money-'.$dtMoney;
+        if(is_null($objUser))
+            return false;
+
+        $inMoney = floatval($inMoney);
+        $inPoint = floatval($inPoint);
+
+        if($inMoney == 0 && $inPoint == 0)
+            return true;
+        $strSql1 = 'SELECT mb_money FROM '.$this->table;
+        $strSql1 .= ' WHERE mb_fid='.$objUser->mb_fid;
+
+        $strSql2 = "UPDATE ".$this->table." SET ";
+        if($inMoney != 0){
+            $strSql2.= "mb_money = mb_money";
+            $strSql2.= $inMoney > 0 ? " + ":" ";
+            $strSql2.= $inMoney;   
+            $strSql2.= ", mb_change = ".$iChange;
+            $strSql2.= ", mb_spec = '".$spec."'";
         }
-        if ($dtPoint > 0) {
-            $strSql1 .= ', mb_point = mb_point+'.$dtPoint;
-        } elseif ($dtPoint < 0) {
-            $dtPoint = abs($dtPoint);
-            $strSql1 .= ', mb_point = mb_point-'.$dtPoint;
+        
+        if($inPoint != 0){
+            $strSql2.= $inMoney != 0 ? " , ":" ";
+
+            $strSql2.= "mb_point = mb_point";
+            $strSql2.= $inPoint > 0 ? " + ":" ";
+            $strSql2.= $inPoint;
         }
-        if ($nCharge > 0) {
-            $strSql1 .= ', mb_money_charge = mb_money_charge+'.$nCharge;
-        } elseif ($nCharge < 0) {
-            $nCharge = abs($nCharge);
-            $strSql1 .= ', mb_money_charge = mb_money_charge-'.$nCharge;
-        }
-        if ($nExchange > 0) {
-            $strSql1 .= ', mb_money_exchange = mb_money_exchange+'.$nExchange;
-        } elseif ($nExchange < 0) {
-            $nExchange = abs($nExchange);
-            $strSql1 .= ', mb_money_exchange = mb_money_exchange-'.$nExchange;
+
+        $strSql2.= " WHERE mb_fid=".$objUser->mb_fid;
+        if($inMoney < 0){
+            $strSql2.= " AND mb_money >= ".abs($inMoney);
         }
 
         $this->db->transBegin();
-        $strSql2 = 'SELECT mb_money FROM '.$this->table;
-        $strSql2 .= ' WHERE mb_fid='.$objUser->mb_fid;
-        $objResult = $this->db->query($strSql2)->getRow();
 
-        $strSql1 .= ' WHERE mb_fid='.$objUser->mb_fid;
-        $this->db->query($strSql1);
+        $objMember = $this->db->query($strSql1)->getRow();
+        $objUpdate = $this->db->query($strSql2);
+        $affectedRows = $objUpdate->connID->affected_rows;
 
         $bResult = false;
 
-        if (false === $this->db->transStatus()) {
+        if ($this->db->transStatus() === false) {
             $this->db->transRollback();
             $bResult = false;
         } else {
             $this->db->transCommit();
-            $objUser->mb_money = $objResult->mb_money;
-            $bResult = true;
+            if(!is_null($objMember))
+                $objUser->mb_money = $objMember->mb_money;
+            if($affectedRows > 0)
+                $bResult = true;
         }
 
         return $bResult;
     }
 
-    public function trasferMoney($objSender, $objReceiver, $amount){
+    public function trasferMoney($objSender, $objReceiver, $amount, $iChange1, $iChange2){
 
         $amount = floatval($amount);
         if($amount <= 0)
@@ -302,14 +305,22 @@ class Member_Model extends Model
 
         $strSql1 = 'UPDATE '.$this->table.' SET ';
         $strSql1 .= 'mb_money = mb_money-'.$amount;
+        $strSql1 .= ', mb_change = '.$iChange1;
+        $strSql1 .= ", mb_spec = '".$objReceiver->mb_uid."'";
         $strSql1 .= ' WHERE mb_fid='.$objSender->mb_fid;
         $this->db->query($strSql1);
 
+        writeLog($objSender->mb_fid."->".$objReceiver->mb_uid." ".$iChange1);
+
         $strSql2 = 'UPDATE '.$this->table.' SET ';
         $strSql2 .= 'mb_money = mb_money+'.$amount;
+        $strSql1 .= ', mb_change = '.$iChange2;
+        $strSql1 .= ", mb_spec = '".$objSender->mb_uid."'";
         $strSql2 .= ' WHERE mb_fid='.$objReceiver->mb_fid;
         $this->db->query($strSql2);
         
+        writeLog($objReceiver->mb_fid."->".$objSender->mb_uid." ".$iChange2);
+
         if ($this->db->transStatus() === false) {
             $this->db->transRollback();
             $bResult = false;
@@ -319,6 +330,7 @@ class Member_Model extends Model
         }
 
         return $bResult;
+        // return true;
     }
 
     public function updateState($objMember, $arrReqData)
@@ -327,18 +339,6 @@ class Member_Model extends Model
         if(array_key_exists('mb_state_view', $arrReqData))
             $this->builder()->set('mb_state_view', $arrReqData['mb_state_view']);
         else return false;
-
-        $this->builder()->where('mb_fid', $objMember->mb_fid);
-
-        return $this->builder()->update();
-    }
-
-    public function updateMoney($objMember)
-    {
-        $this->builder()->set('mb_money', $objMember->mb_money);
-        $this->builder()->set('mb_money_charge', $objMember->mb_money_charge);
-        $this->builder()->set('mb_money_exchange', $objMember->mb_money_exchange);
-        $this->builder()->set('mb_point', $objMember->mb_point);
 
         $this->builder()->where('mb_fid', $objMember->mb_fid);
 
@@ -750,7 +750,7 @@ class Member_Model extends Model
         $strSQL .= " UNION ALL ( SELECT SUM(".$rwPoint.") AS result_1, ";
         $strSQL .= " SUM(CASE WHEN rw_mb_fid = ".$objEmp->mb_fid." THEN ".$rwPoint." ELSE 0 END) AS result_2 FROM ".$this->rewardTb;
         // $strSQL .= " WHERE rw_fid >= ".$arrReqData['rw_range'][0]." AND rw_fid <= ".$arrReqData['rw_range'][1];
-        $strSQL .= " WHERE ".getTimeRange("rw_time", $arrReqData, $this->db);
+        $strSQL .= " WHERE ".getStatRange('rw_start', 'rw_end', $arrReqData, $this->db);
         $strSQL .= " AND rw_mb_fid IN (SELECT mb_fid from tbmember) ";
         if($arrReqData['type'] == GAME_SLOT_ALL){
             $gameId1 = GAME_SLOT_THEPLUS;

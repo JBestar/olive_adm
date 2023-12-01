@@ -1664,7 +1664,7 @@ class UserApi extends BaseController
         if (is_login()) {
             // model
             
-            $moneyhistoryModel = new MoneyHistory_Model();
+            // $moneyhistoryModel = new MoneyHistory_Model();
             $confsiteModel = new ConfSite_Model();
             $confsiteModel->readMemConf();
 
@@ -1689,7 +1689,12 @@ class UserApi extends BaseController
                     } 
 
                     if($iResult == 1){
-                        if($this->modelMember->moneyProc($objMember, $arrData['amount']))
+                        if($arrData['type'] == 0)
+                            $iChangeType = MONEYCHANGE_INC;
+                        else 
+                            $iChangeType = MONEYCHANGE_GIVE;
+
+                        if($this->modelMember->updateAssets($objMember, $arrData['amount'], 0, $iChangeType))
                         {
                             if($arrData['type'] == 0){
                                 $chargeModel = new Charge_Model();
@@ -1708,11 +1713,9 @@ class UserApi extends BaseController
                                     'charge_money_after' => allMoney($objMember) + $arrData['amount'],
                                 ];
                                 $chargeModel->register($data);
-                                $iChangeType = MONEYCHANGE_INC;
-                            } else 
-                                $iChangeType = MONEYCHANGE_GIVE;
+                            } 
                             
-                            $moneyhistoryModel->registerTransfer($objMember, $objEmp->mb_uid, $arrData['amount'], $iChangeType);
+                            // $moneyhistoryModel->registerTransfer($objMember, $objEmp->mb_uid, $arrData['amount'], $iChangeType);
                             $objResult->status = STATUS_SUCCESS;
                         }
                     } else if($iResult == 2) {
@@ -1734,7 +1737,11 @@ class UserApi extends BaseController
                         if(floatval($objMember->mb_money) < $arrData['amount']){
                             $arrData['amount'] = $objMember->mb_money;
                         }
-                        if($arrData['amount'] > 0 && $this->modelMember->moneyProc($objMember, 0-$arrData['amount']))
+                        if($arrData['type'] == 1)
+                            $iChangeType = MONEYCHANGE_DEC;
+                        else $iChangeType = MONEYCHANGE_WITHDRAW;
+
+                        if($arrData['amount'] > 0 && $this->modelMember->updateAssets($objMember, 0-$arrData['amount'], 0, $iChangeType))
                         {
                             if($arrData['type'] == 1){
                                 $exchangeModel = new Exchange_Model();
@@ -1756,11 +1763,9 @@ class UserApi extends BaseController
     
                                 ];
                                 $exchangeModel->register($data);
-    
-                                $iChangeType = MONEYCHANGE_DEC;
-                            } else $iChangeType = MONEYCHANGE_WITHDRAW;
+                            } 
                             
-                            $moneyhistoryModel->registerTransfer($objMember, $objEmp->mb_uid, 0-$arrData['amount'], $iChangeType);
+                            // $moneyhistoryModel->registerTransfer($objMember, $objEmp->mb_uid, 0-$arrData['amount'], $iChangeType);
                             $objResult->status = STATUS_SUCCESS;
                         }
                     } else if($iResult == 2) {
@@ -1787,9 +1792,9 @@ class UserApi extends BaseController
                         if(floatval($objMember->mb_money) < $arrData['amount']){
                             $arrData['amount'] = $objMember->mb_money;
                         }
-                        if($arrData['amount'] > 0 && $this->modelMember->moneyProc($objMember, 0-$arrData['amount'], $arrData['amount']))
+                        if($arrData['amount'] > 0 && $this->modelMember->updateAssets($objMember, 0-$arrData['amount'], $arrData['amount'], MONEYCHANGE_CONVERT, $objEmp->mb_uid))
                         {
-                            $moneyhistoryModel->registerPointToMoney($objMember, 0-$arrData['amount'], $objEmp->mb_uid, MONEYCHANGE_CONVERT);
+                            // $moneyhistoryModel->registerPointToMoney($objMember, 0-$arrData['amount'], $objEmp->mb_uid, MONEYCHANGE_CONVERT);
                             $objResult->status = STATUS_SUCCESS;
                         }
                     } else if($iResult == 2) {
@@ -1828,11 +1833,14 @@ class UserApi extends BaseController
                         if($arrData['amount'] > $objMember->mb_money){
                             $arrData['amount'] = $objMember->mb_money;
                         }
-                        if($arrData['amount'] > 0 && $this->modelMember->trasferMoney($objMember, $objEmp, $arrData['amount'])){
+                        if($arrData['amount'] > 0 && $this->modelMember->updateAssets($objMember, 0-$arrData['amount'], 0, MONEYCHANGE_EXCHANGE_DEC, $objEmp->mb_uid)){
 
-                            $moneyhistoryModel->registerTransfer($objEmp, $objMember->mb_uid, $arrData['amount'], MONEYCHANGE_EXCHANGE_INC);
-                            $moneyhistoryModel->registerTransfer($objMember, $objEmp->mb_uid, 0-$arrData['amount'], MONEYCHANGE_EXCHANGE_DEC);
-                            $objResult->status = STATUS_SUCCESS;
+                            // $this->modelMember->trasferMoney($objMember, $objEmp, $arrData['amount'], MONEYCHANGE_EXCHANGE_DEC, MONEYCHANGE_EXCHANGE_INC
+                            // $moneyhistoryModel->registerTransfer($objEmp, $objMember->mb_uid, $arrData['amount'], MONEYCHANGE_EXCHANGE_INC);
+                            // $moneyhistoryModel->registerTransfer($objMember, $objEmp->mb_uid, 0-$arrData['amount'], MONEYCHANGE_EXCHANGE_DEC);
+                            if($this->modelMember->updateAssets($objEmp, $arrData['amount'], 0, MONEYCHANGE_EXCHANGE_INC, $objMember->mb_uid))
+                                $objResult->status = STATUS_SUCCESS;
+                            else $this->modelMember->updateAssets($objMember, $arrData['amount'], 0, MONEYCHANGE_EXCHANGE_DEC, $objEmp->mb_uid);
                         } 
                     } else if($iResult == 2) {
                         $objResult->status = STATUS_FAIL;
@@ -1877,11 +1885,13 @@ class UserApi extends BaseController
                         if($iResult == 1){
                             if($arrData['amount'] > $objEmp->mb_money){
                                 $objResult->msg = '이동금액이 보유금액을 초과하셧습니다.';
-                            } else if($this->modelMember->trasferMoney($objEmp, $objMember, $arrData['amount'])){
-    
-                                $moneyhistoryModel->registerTransfer($objEmp, $objMember->mb_uid, 0-$arrData['amount'], MONEYCHANGE_TRANS_DEC);
-                                $moneyhistoryModel->registerTransfer($objMember, $objEmp->mb_uid, $arrData['amount'], MONEYCHANGE_TRANS_INC);
-                                $objResult->status = STATUS_SUCCESS;
+                            } else if($this->modelMember->updateAssets($objEmp, 0-$arrData['amount'], 0, MONEYCHANGE_TRANS_DEC, $objMember->mb_uid)){
+                                // $this->modelMember->trasferMoney($objEmp, $objMember, $arrData['amount'], MONEYCHANGE_TRANS_DEC, MONEYCHANGE_TRANS_INC);
+                                // $moneyhistoryModel->registerTransfer($objEmp, $objMember->mb_uid, 0-$arrData['amount'], MONEYCHANGE_TRANS_DEC);
+                                // $moneyhistoryModel->registerTransfer($objMember, $objEmp->mb_uid, $arrData['amount'], MONEYCHANGE_TRANS_INC);
+                                if($this->modelMember->updateAssets($objMember, $arrData['amount'], 0, MONEYCHANGE_TRANS_INC, $objEmp->mb_uid))
+                                    $objResult->status = STATUS_SUCCESS;
+                                else $this->modelMember->updateAssets($objEmp, $arrData['amount'], 0, MONEYCHANGE_TRANS_DEC, $objMember->mb_uid);
                             } 
                         } else if($iResult == 2) {
                             $objResult->status = STATUS_FAIL;
@@ -1921,11 +1931,13 @@ class UserApi extends BaseController
                             if($arrData['amount'] > $objMember->mb_money){
                                 $arrData['amount'] = $objMember->mb_money;
                             }
-                            if($arrData['amount'] > 0 && $this->modelMember->trasferMoney($objMember, $objEmp, $arrData['amount'])){
-
-                                $moneyhistoryModel->registerTransfer($objEmp, $objMember->mb_uid, $arrData['amount'], MONEYCHANGE_EXCHANGE_INC);
-                                $moneyhistoryModel->registerTransfer($objMember, $objEmp->mb_uid, 0-$arrData['amount'], MONEYCHANGE_EXCHANGE_DEC);
+                            if($arrData['amount'] > 0  && $this->modelMember->updateAssets($objMember, 0-$arrData['amount'], 0, MONEYCHANGE_EXCHANGE_DEC, $objEmp->mb_uid)){
+                                // $this->modelMember->trasferMoney($objMember, $objEmp, $arrData['amount'], MONEYCHANGE_EXCHANGE_DEC, MONEYCHANGE_EXCHANGE_INC)
+                                // $moneyhistoryModel->registerTransfer($objEmp, $objMember->mb_uid, $arrData['amount'], MONEYCHANGE_EXCHANGE_INC);
+                                // $moneyhistoryModel->registerTransfer($objMember, $objEmp->mb_uid, 0-$arrData['amount'], MONEYCHANGE_EXCHANGE_DEC);
+                                if($this->modelMember->updateAssets($objEmp, $arrData['amount'], 0, MONEYCHANGE_EXCHANGE_INC, $objMember->mb_uid))
                                 $objResult->status = STATUS_SUCCESS;
+                            else $this->modelMember->updateAssets($objMember, $arrData['amount'], 0, MONEYCHANGE_EXCHANGE_DEC, $objEmp->mb_uid);
                             } 
                         } else if($iResult == 2) {
                             $objResult->status = STATUS_FAIL;
@@ -1981,8 +1993,8 @@ class UserApi extends BaseController
                         $nAmount = 0-$objMember->mb_money;
                         if($nAmount == 0){
                             $objResult->status = STATUS_SUCCESS;
-                        } else if( $this->modelMember->moneyProc($objMember, $nAmount)){
-                            $moneyhistoryModel->registerWithdraw($objMember, $objEmp->mb_uid, $nAmount, MONEYCHANGE_WITHDRAW);
+                        } else if( $this->modelMember->updateAssets($objMember, $nAmount, 0, MONEYCHANGE_WITHDRAW, $objEmp->mb_uid)){
+                            // $moneyhistoryModel->registerWithdraw($objMember, $objEmp->mb_uid, $nAmount, MONEYCHANGE_WITHDRAW);
                             $objResult->status = STATUS_SUCCESS;
                         }
                     } else if($iResult == 2) {
@@ -1998,7 +2010,7 @@ class UserApi extends BaseController
                     if($nAmount == 0){
                         $objResult->status = STATUS_SUCCESS;
                     } 
-                    else if($this->modelMember->moneyProc($objMember, 0, $nAmount)){
+                    else if($this->modelMember->updateAssets($objMember, 0, $nAmount, POINTHANGE_WITHDRAW, $objEmp->mb_uid)){
                         $moneyhistoryModel->registerWithdraw($objMember, $objEmp->mb_uid, $nAmount, POINTHANGE_WITHDRAW);
                         $objResult->status = STATUS_SUCCESS;
                     }
@@ -2007,8 +2019,8 @@ class UserApi extends BaseController
                     if($nAmount < 1){
                         $objResult->status = STATUS_SUCCESS;
                     } 
-                    else if($this->modelMember->moneyProc($objMember, $nAmount, 0-$nAmount)){
-                        $moneyhistoryModel->registerPointToMoney($objMember, $nAmount, $objEmp->mb_uid, POINTCHANGE_EXCHANGE);
+                    else if($this->modelMember->updateAssets($objMember, $nAmount, 0-$nAmount, POINTCHANGE_EXCHANGE, $objEmp->mb_uid)){
+                        // $moneyhistoryModel->registerPointToMoney($objMember, $nAmount, $objEmp->mb_uid, POINTCHANGE_EXCHANGE);
                         $objResult->status = STATUS_SUCCESS;
                     }
                 } else {

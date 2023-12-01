@@ -429,7 +429,7 @@ class PbApi extends BaseController {
 			$strUid = $this->session->user_id;
 			$objUser = $this->modelMember->getInfo($strUid);
 			//model
-			$moneyhistoryModel = new MoneyHistory_Model();
+			// $moneyhistoryModel = new MoneyHistory_Model();
 			$iChangeType = 0;
 			if($arrReqData['game'] == GAME_POWER_BALL || $arrReqData['game'] == GAME_HAPPY_BALL){
 				$iChangeType = MONEYCHANGE_WIN_PB;
@@ -483,9 +483,9 @@ class PbApi extends BaseController {
 									$dtMoney = $objBet->bet_money - $objBet->bet_win_money;
 								}
 								$dtPoint = 0 - $objBet->point_amount;
-								$bResult = $this->modelMember->moneyProc($objBetUser, $dtMoney, $dtPoint, 0, 0);
-								if($bResult)
-									$moneyhistoryModel->registerAccountBet($objBetUser, $objBet, $dtMoney, $iChangeType);
+								$bResult = $this->modelMember->updateAssets($objBetUser, $dtMoney, $dtPoint, $iChangeType);
+								// if($bResult)
+								// 	$moneyhistoryModel->registerAccountBet($objBetUser, $objBet, $dtMoney, $iChangeType);
 
 							} 	
 						}
@@ -521,7 +521,7 @@ class PbApi extends BaseController {
 			$objUser = $this->modelMember->getInfo($strUid);
 			$iChangeType = 0;
 			//model
-			$moneyhistoryModel = new MoneyHistory_Model();
+			// $moneyhistoryModel = new MoneyHistory_Model();
 			if($arrReqData['game'] == GAME_POWER_BALL || $arrReqData['game'] == GAME_HAPPY_BALL){
 				$iChangeType = MONEYCHANGE_WIN_PB;
 
@@ -574,10 +574,10 @@ class PbApi extends BaseController {
 								$objBetUser = $this->modelMember->getInfo($objBet->bet_mb_uid);
 								if($objBet->bet_win_money > 0){		//적중
 									$dtMoney = $objBet->bet_win_money;
-									$bResult = $this->modelMember->moneyProc($objBetUser, $dtMoney, 0, 0, 0);
-									if($bResult){
-										$moneyhistoryModel->registerAccountBet($objBetUser, $objBet, $dtMoney, $iChangeType);
-									}
+									$bResult = $this->modelMember->updateAssets($objBetUser, $dtMoney, 0, $iChangeType);
+									// if($bResult){
+									// 	$moneyhistoryModel->registerAccountBet($objBetUser, $objBet, $dtMoney, $iChangeType);
+									// }
 								}
 							} 	
 						} else if($objBet->bet_state == 4){			//무효라면 
@@ -593,10 +593,10 @@ class PbApi extends BaseController {
 									$dtMoney = 0 - $objBet->bet_money;								
 								}
 								$dtPont = $objBet->point_amount;
-								$bResult = $this->modelMember->moneyProc($objBetUser, $dtMoney, $dtPont, 0, 0);
-								if($bResult){
-									$moneyhistoryModel->registerAccountBet($objBetUser, $objBet, $dtMoney, $iChangeType);
-								}
+								$bResult = $this->modelMember->updateAssets($objBetUser, $dtMoney, $dtPont, 0, $iChangeType);
+								// if($bResult){
+								// 	$moneyhistoryModel->registerAccountBet($objBetUser, $objBet, $dtMoney, $iChangeType);
+								// }
 							}
 						}
 						
@@ -623,7 +623,7 @@ class PbApi extends BaseController {
 		$arrReqData = json_decode($jsonData, true);
 		if(is_login()) {
 			$bResult = false;
-			$moneyhistoryModel = new MoneyHistory_Model();
+			// $moneyhistoryModel = new MoneyHistory_Model();
 			$csbetModel = new EbalBet_Model();
 
 			$strUid = $this->session->user_id;
@@ -682,13 +682,13 @@ class PbApi extends BaseController {
 					if(is_null($objBetUser))
 						continue;
 
-					if($this->modelMember->moneyProc($objBetUser, $dtMoney)){
+					if($this->modelMember->updateAssets($objBetUser, $dtMoney, 0, MONEYCHANGE_WIN_EBAL)){
 						
 						$objBet->bet_win_money = $winMoney;
 						$objBet->point_amount = $state;
 						$objBet->employee_amount = STATE_ACTIVE;  //proceed state
 
-						$moneyhistoryModel->registerAccountCsBet($objBetUser, $objBet, $dtMoney, MONEYCHANGE_DENY_EBAL);
+						// $moneyhistoryModel->registerAccountCsBet($objBetUser, $objBet, $dtMoney, MONEYCHANGE_DENY_EBAL);
 						
 						if(!$csbetModel->updateBet($objBet))
 							continue;

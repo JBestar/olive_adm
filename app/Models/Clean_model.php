@@ -87,6 +87,7 @@ class Clean_Model extends Model {
         $this->db->query("TRUNCATE member_charge");
         $this->db->query("TRUNCATE member_exchange");
         $this->db->query("TRUNCATE money_history");
+        $this->db->query("TRUNCATE money_history_st");
         $this->db->query("TRUNCATE money_transfer");
         $this->db->query("TRUNCATE sessions");
         $this->db->query("TRUNCATE sess");
@@ -136,6 +137,7 @@ class Clean_Model extends Model {
             $this->db->query("TRUNCATE bet_reward");
             $this->db->query("TRUNCATE bet_reward_st");
             $this->db->query("TRUNCATE money_history");
+            $this->db->query("TRUNCATE money_history_st");
             $this->db->query("TRUNCATE bet_casino");
             $this->db->query("TRUNCATE bet_slot");
             $this->db->query("TRUNCATE bet_holdem");
@@ -171,6 +173,9 @@ class Clean_Model extends Model {
             $strSql = " DELETE FROM bet_ebal_st WHERE bet_end < '".$date."' ";
             $this -> db -> query($strSql);
             
+            $strSql = " DELETE FROM money_history_st WHERE money_end < '".$date."' ";
+            $this -> db -> query($strSql);
+
             writeLog("clean Partition END");
 
         }

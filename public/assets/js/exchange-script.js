@@ -52,6 +52,8 @@ function showMoneyHistory(jsonBetData) {
             case 18: strBuf += "보글사다리 정산"; break;
             case 19: strBuf += "하부이동"; break;
             case 20: strBuf += "상부이동"; break;
+            case 21: strBuf += "충전취소"; break;
+            case 22: strBuf += "환전취소"; break;
             case 23: strBuf += "직충전"; break;
             case 24: strBuf += "머니회수"; break;
             case 25: strBuf += "포인트회수"; break;
@@ -80,9 +82,12 @@ function showMoneyHistory(jsonBetData) {
         strBuf += "</td><td>";
         if(jsonBetData[nRow].money_change_type == 43 || jsonBetData[nRow].money_change_type == 44 ||
             jsonBetData[nRow].money_change_type == 45 ){
-                strBuf += jsonBetData[nRow].money_bet_target ;
-                if(mObjUser && mObjUser.mb_level > LEVEL_ADMIN && jsonBetData[nRow].money_bet_round.length > 0)
-                    strBuf += "<br>" + jsonBetData[nRow].money_bet_round;
+            if(mObjUser && mObjUser.mb_level > LEVEL_ADMIN){
+                let info = jsonBetData[nRow].money_bet_target.split(':');
+                if(info.length > 0){
+                    strBuf += info[0] ;
+                }
+            }
         } else if (jsonBetData[nRow].money_change_type == 19 || jsonBetData[nRow].money_change_type == 20 ||
             jsonBetData[nRow].money_change_type == 27 || jsonBetData[nRow].money_change_type == 28) {
             if(mObjUser && mObjUser.mb_level > LEVEL_ADMIN){

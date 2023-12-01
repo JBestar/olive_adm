@@ -251,10 +251,22 @@ class MoneyHistory_Model extends Model
         } else if(intval($arrReqData['mode']) == -10){
             $modes = [MONEYCHANGE_CHARGE, MONEYCHANGE_EXCHANGE, POINTCHANGE_EXCHANGE, 
                 MONEYCHANGE_TRANS_DEC,MONEYCHANGE_TRANS_INC,MONEYCHANGE_EXCHANGE_INC,MONEYCHANGE_EXCHANGE_DEC,
-                MONEYCANCEL_CHARGE,MONEYCANCEL_EXCHANGE,MONEYCHANGE_INC,MONEYCHANGE_DEC,MONEYCHANGE_WITHDRAW,POINTHANGE_WITHDRAW,
+                MONEYCANCEL_EXCHANGE,MONEYCHANGE_INC,MONEYCHANGE_DEC,MONEYCHANGE_WITHDRAW,POINTHANGE_WITHDRAW,
                 MONEYCHANGE_GIVE,MONEYCHANGE_CONVERT];
             $strModes = implode(", ", $modes);
             $strSql.=" AND money_change_type IN (".$strModes." )";
+        } else {
+            if($objEmp->mb_level < LEVEL_ADMIN+2){
+                
+                $modes = [MONEYCHANGE_CHARGE, MONEYCHANGE_EXCHANGE, POINTCHANGE_EXCHANGE, 
+                MONEYCHANGE_TRANS_DEC,MONEYCHANGE_TRANS_INC,MONEYCHANGE_EXCHANGE_INC,MONEYCHANGE_EXCHANGE_DEC,
+                MONEYCANCEL_EXCHANGE,MONEYCHANGE_INC,MONEYCHANGE_DEC,MONEYCHANGE_WITHDRAW,POINTHANGE_WITHDRAW,
+                MONEYCHANGE_GIVE,MONEYCHANGE_CONVERT, MONEYCHANGE_BET_PB, MONEYCHANGE_WIN_PB, MONEYCHANGE_BET_BB, MONEYCHANGE_WIN_BB,
+                MONEYCHANGE_BET_EO5, MONEYCHANGE_WIN_EO5, MONEYCHANGE_BET_EO3, MONEYCHANGE_WIN_EO3,
+                MONEYCHANGE_BET_CO5, MONEYCHANGE_WIN_CO5, MONEYCHANGE_BET_CO3, MONEYCHANGE_WIN_CO3, MONEYCHANGE_BET_EBAL, MONEYCHANGE_WIN_EBAL];
+                $strModes = implode(", ", $modes);
+                $strSql.=" AND money_change_type IN (".$strModes." )";
+            }
         }
 
         $nStartRow = ($arrReqData['page']-1) * $arrReqData['count'] ;
@@ -286,8 +298,8 @@ class MoneyHistory_Model extends Model
             $strMode.="money_cnt_".trim($arrReqData['mode']);
         } else if(intval($arrReqData['mode']) == -10){
             $modes = [MONEYCHANGE_CHARGE, MONEYCHANGE_EXCHANGE, POINTCHANGE_EXCHANGE, 
-                MONEYCHANGE_TRANS_DEC,MONEYCHANGE_TRANS_INC,MONEYCHANGE_EXCHANGE_INC,MONEYCHANGE_EXCHANGE_DEC,
-                MONEYCHANGE_INC,MONEYCHANGE_DEC,MONEYCHANGE_WITHDRAW,POINTHANGE_WITHDRAW,
+                MONEYCHANGE_TRANS_DEC,MONEYCHANGE_TRANS_INC,MONEYCHANGE_EXCHANGE_INC,MONEYCHANGE_EXCHANGE_DEC, 
+                MONEYCANCEL_EXCHANGE,MONEYCHANGE_INC,MONEYCHANGE_DEC,MONEYCHANGE_WITHDRAW,POINTHANGE_WITHDRAW,
                 MONEYCHANGE_GIVE,MONEYCHANGE_CONVERT];
             for($i=0; $i<count($modes); $i++){
                 if($i > 0)
@@ -295,17 +307,21 @@ class MoneyHistory_Model extends Model
                 $strMode.="money_cnt_".$modes[$i];
             }            
         } else {
-            $modes = [MONEYCHANGE_CHARGE, MONEYCHANGE_EXCHANGE, POINTCHANGE_EXCHANGE, 
-            MONEYCHANGE_TRANS_DEC,MONEYCHANGE_TRANS_INC,MONEYCHANGE_EXCHANGE_INC,MONEYCHANGE_EXCHANGE_DEC,
-            MONEYCHANGE_INC,MONEYCHANGE_DEC,MONEYCHANGE_WITHDRAW,POINTHANGE_WITHDRAW,
-            MONEYCHANGE_GIVE,MONEYCHANGE_CONVERT, MONEYCHANGE_BET_PB, MONEYCHANGE_WIN_PB, MONEYCHANGE_BET_BB, MONEYCHANGE_WIN_BB,
-            MONEYCHANGE_BET_EO5, MONEYCHANGE_WIN_EO5, MONEYCHANGE_BET_EO3, MONEYCHANGE_WIN_EO3,
-            MONEYCHANGE_BET_CO5, MONEYCHANGE_WIN_CO5, MONEYCHANGE_BET_CO3, MONEYCHANGE_WIN_CO3, MONEYCHANGE_BET_EBAL, MONEYCHANGE_WIN_EBAL];
-            for($i=0; $i<count($modes); $i++){
-                if($i > 0)
-                    $strMode.="+";
-                $strMode.="money_cnt_".$modes[$i];
-            }     
+            if($objEmp->mb_level >= LEVEL_ADMIN+2)
+                $strMode.="money_cnt";
+            else {
+                $modes = [MONEYCHANGE_CHARGE, MONEYCHANGE_EXCHANGE, POINTCHANGE_EXCHANGE, 
+                MONEYCHANGE_TRANS_DEC,MONEYCHANGE_TRANS_INC,MONEYCHANGE_EXCHANGE_INC,MONEYCHANGE_EXCHANGE_DEC,
+                MONEYCANCEL_EXCHANGE,MONEYCHANGE_INC,MONEYCHANGE_DEC,MONEYCHANGE_WITHDRAW,POINTHANGE_WITHDRAW,
+                MONEYCHANGE_GIVE,MONEYCHANGE_CONVERT, MONEYCHANGE_BET_PB, MONEYCHANGE_WIN_PB, MONEYCHANGE_BET_BB, MONEYCHANGE_WIN_BB,
+                MONEYCHANGE_BET_EO5, MONEYCHANGE_WIN_EO5, MONEYCHANGE_BET_EO3, MONEYCHANGE_WIN_EO3,
+                MONEYCHANGE_BET_CO5, MONEYCHANGE_WIN_CO5, MONEYCHANGE_BET_CO3, MONEYCHANGE_WIN_CO3, MONEYCHANGE_BET_EBAL, MONEYCHANGE_WIN_EBAL];
+                for($i=0; $i<count($modes); $i++){
+                    if($i > 0)
+                        $strMode.="+";
+                    $strMode.="money_cnt_".$modes[$i];
+                }
+            }
         }
             
         $strSql .= "SELECT SUM(".$strMode.") as count  FROM ".$tbMoneyStat;

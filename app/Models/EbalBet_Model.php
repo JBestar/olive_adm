@@ -185,7 +185,7 @@ class EbalBet_Model extends Model
             //Join bet_reward
             $strSql .= '  LEFT JOIN '.$this->mRewardTable.' ON '.getTimeRange("rw_time", $arrReqData, $this->db);
             $strSql .= ' AND '.$this->mRewardTable.".rw_game = '".$gameId."' ";
-            $strSql .= ' AND '.$tbBetSearch.'.bet_fid = '.$this->mRewardTable.'.rw_bet_id ';
+            $strSql .= ' AND '.$tbBetSearch.'.bet_id = '.$this->mRewardTable.'.rw_bet_id ';
                 $strSql .= ' AND '.$this->mRewardTable.".rw_mb_fid = '".$objEmp->mb_fid."' ";
             
         } else{
@@ -196,7 +196,7 @@ class EbalBet_Model extends Model
             //Join bet_reward
             $strSql .= '  LEFT JOIN '.$this->mRewardTable.' ON '.getTimeRange("rw_time", $arrReqData, $this->db);
             $strSql .= ' AND '.$this->mRewardTable.".rw_game = '".$gameId."' ";
-                $strSql .= ' AND '.$tbBetSearch.'.bet_fid = '.$this->mRewardTable.'.rw_bet_id ';
+                $strSql .= ' AND '.$tbBetSearch.'.bet_id = '.$this->mRewardTable.'.rw_bet_id ';
                 $strSql .= ' AND '.$this->mRewardTable.".rw_mb_fid = ".$tbBetSearch.".bet_mb_fid ";
             
         }
