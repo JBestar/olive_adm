@@ -112,7 +112,7 @@ class Bet extends StdController {
 	public function pbhistory(){
 		$param = [
 			'game_name' => "PBG",
-			'game_id' => GAME_SPKN_BALL,
+			'game_id' => GAME_PBG_BALL,
 		];
 		$this->load_view_page('bet/pbhistory', 'bet_history', LEVEL_MIN, $param);
 	}

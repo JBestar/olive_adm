@@ -724,7 +724,7 @@ class Member_Model extends Model
 		 $strSQL.= $strCond." group by bet_game_type) AS bet_slot_g JOIN slot_prd on slot_prd.code = bet_slot_g.bet_game_type ";
          
         if(!$confs['pbg_deny'] || !$confs['bpg_deny'] || !$confs['eos5_deny'] || !$confs['eos3_deny'] || !$confs['rand5_deny'] || !$confs['rand3_deny']){
-            $strSQL.= " UNION ALL SELECT bet_money, bet_win_money, bet_count, '미니게임' AS bet_name, '".GAME_SPKN_BALL."' As bet_kind  From ";
+            $strSQL.= " UNION ALL SELECT bet_money, bet_win_money, bet_count, '미니게임' AS bet_name, '".GAME_PBG_BALL."' As bet_kind  From ";
             $strSQL.= " (SELECT SUM(bet_money) AS bet_money, SUM(bet_win_money) AS bet_win_money, COUNT(*) AS bet_count FROM bet_pball  ";
             $strSQL.= $strCond." ) AS bet_pb_g ";
         }
