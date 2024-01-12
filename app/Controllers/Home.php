@@ -205,6 +205,7 @@ class Home extends StdController
 			"22"=> "드래곤",
 			"23"=> "STAR",
 			"24"=> "편집샵",
+			"25"=> "라방",
 		];
 		$confsiteModel = new ConfSite_Model();
 
