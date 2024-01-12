@@ -1052,7 +1052,12 @@ class Api extends BaseController{
 			}
 
 			if($bPermit){
-				
+				if (array_key_exists("notice_content", $arrData))
+					$arrData['notice_content'] = removeHostUrl($arrData['notice_content']);
+	  
+				if (array_key_exists("notice_content_cn", $arrData))
+					$arrData['notice_content_cn'] = removeHostUrl($arrData['notice_content_cn']);
+					
 				$bResult = $noticeModel->updateNoticeByFid(array($arrData));
 				
 				if($bResult) $noticeModel->updateNoticeByEmpFid($arrData);
@@ -1088,7 +1093,6 @@ class Api extends BaseController{
 				if($objUser->mb_level >= LEVEL_ADMIN )
 					$bPermit = true;					
 			}
-			
 
 			if($bPermit){
 				$arrData['notice_mb_uid'] = $objUser->mb_uid;
@@ -1129,6 +1133,11 @@ class Api extends BaseController{
 
 			if($bPermit){
 				$bResult = false;
+				if (array_key_exists("notice_content", $arrData))
+					$arrData['notice_content'] = removeHostUrl($arrData['notice_content']);
+				if (array_key_exists("notice_content_cn", $arrData))
+					$arrData['notice_content_cn'] = removeHostUrl($arrData['notice_content_cn']);
+
 				if($arrData['notice_mb_uid'] === '*'){
 					$arrData['notice_read_count'] = 1;
 					$iInsFid = $noticeModel->addNotice($arrData);

@@ -285,21 +285,21 @@ class ConfSite_Model extends Model
 
         $updateData = array();
         $updateData['conf_id'] = CONF_NOTICE_BANK;
-        $updateData['conf_content'] = $arrData['depositenotice'];
+        $updateData['conf_content'] = removeHostUrl($arrData['depositenotice']);
         $updateData['conf_active'] = $arrData['depositenotice_ok'];
         $updateData['conf_idx'] = $arrData['depositenotice_color'];
         if(array_key_exists('depositenotice_cn', $arrData)){
-            $updateData['conf_content_cn'] = $arrData['depositenotice_cn'];
+            $updateData['conf_content_cn'] = removeHostUrl($arrData['depositenotice_cn']);
         }
         $arrBatch[] = $updateData;
 
         $updateData = array();
         $updateData['conf_id'] = CONF_NOTICE_URGENT;
-        $updateData['conf_content'] = $arrData['urgentnotice'];
+        $updateData['conf_content'] = removeHostUrl($arrData['urgentnotice']);
         $updateData['conf_active'] = $arrData['urgentnotice_ok'];
         $updateData['conf_idx'] = $arrData['urgentnotice_color'];
         if(array_key_exists('urgentnotice_cn', $arrData)){
-            $updateData['conf_content_cn'] = $arrData['urgentnotice_cn'];
+            $updateData['conf_content_cn'] = removeHostUrl($arrData['urgentnotice_cn']);
         }
         $arrBatch[] = $updateData;
     
@@ -329,9 +329,9 @@ class ConfSite_Model extends Model
         
         $updateData = array();
         $updateData['conf_id'] = CONF_CHARGEMACRO;
-        $updateData['conf_content'] = $arrData['bankmacro'];
+        $updateData['conf_content'] = removeHostUrl($arrData['bankmacro']);
         if(array_key_exists('bankmacro_cn', $arrData)){
-            $updateData['conf_content_cn'] = $arrData['bankmacro_cn'];
+            $updateData['conf_content_cn'] = removeHostUrl($arrData['bankmacro_cn']);
         }
         $arrBatch[] = $updateData;
         

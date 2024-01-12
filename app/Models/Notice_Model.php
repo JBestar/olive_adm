@@ -57,6 +57,9 @@ class Notice_Model extends Model {
         if (array_key_exists("notice_content", $arrData))
           $this->builder()->set('notice_content', $arrData['notice_content']);
 
+        if (array_key_exists("notice_content_cn", $arrData))
+          $this->builder()->set('notice_content_cn', $arrData['notice_content_cn']);
+
         if (array_key_exists("notice_state_delete", $arrData))
           $this->builder()->set('notice_state_delete', $arrData['notice_state_delete']);
 
@@ -83,7 +86,7 @@ class Notice_Model extends Model {
        
         $this->builder()->set('notice_type', $arrData['notice_type']);
         $this->builder()->set('notice_title', $arrData['notice_title']);
-        $this->builder()->set('notice_content', $arrData['notice_content']);
+        $this->builder()->set('notice_content', removeHostUrl($arrData['notice_content']));
         $this->builder()->set('notice_state_active', $arrData['notice_state_active']);
         $this->builder()->set('notice_mb_uid', $arrData['notice_mb_uid']);
         $this->builder()->set('notice_time_create', 'NOW()', false);
@@ -91,10 +94,8 @@ class Notice_Model extends Model {
             $this->builder()->set('notice_emp_fid', $arrData['notice_emp_fid']);
         if (array_key_exists("notice_read_count", $arrData))
             $this->builder()->set('notice_read_count', $arrData['notice_read_count']);
-        if (array_key_exists("notice_title_cn", $arrData))
-            $this->builder()->set('notice_title_cn', $arrData['notice_title_cn']);
         if (array_key_exists("notice_content_cn", $arrData))
-            $this->builder()->set('notice_content_cn', $arrData['notice_content_cn']);
+            $this->builder()->set('notice_content_cn', removeHostUrl($arrData['notice_content_cn']));
 
        $this->builder()->insert();
        return $this->db->insertID();
