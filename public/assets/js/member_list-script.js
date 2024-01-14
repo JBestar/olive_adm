@@ -44,6 +44,9 @@ function getMemberTr(objMember, bChild = false, bShow=false){
     if(objMember.mb_state_delete > 0){
         strBuf += "<br>(오프라인)";    
     }
+    if(objMember.mb_state_test > 0){
+        strBuf += "<br>(테스트)";    
+    }
     strBuf += "</td> <td>";
     strBuf += "Lv " + parseInt(objMember.mb_grade).toLocaleString();
     strBuf += "</td><td> <span id='mm_" + objMember.mb_fid + "'>";
@@ -58,7 +61,10 @@ function getMemberTr(objMember, bChild = false, bShow=false){
         strBuf += "<span style='word-break: keep-all;'>카지노:" + objMember.mb_game_cs_ratio + "</span><br>" ;
     if (!mConfs.hold_deny)
         strBuf += "<span style='word-break: keep-all;'>홀덤:" + objMember.mb_game_hl_ratio + "</span><br>" ;
-
+    if (!mConfs.pbg_deny || !mConfs.bpg_deny || !mConfs.eos5_deny || !mConfs.rand5_deny){
+        strBuf += "<span style='word-break: keep-all;'>미니단폴:" + objMember.mb_game_pb_ratio + "</span><br>" ;
+        strBuf += "<span style='word-break: keep-all;'>미니조합:" + objMember.mb_game_pb2_ratio + "</span><br>" ;
+    }
     strBuf += "</td> <td>";
     if (mConfs.emp_level >= LEVEL_ADMIN) {
         if (!mConfs.slot_deny) {

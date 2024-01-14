@@ -19,7 +19,7 @@ class Member_Model extends Model
         'mb_uid', 'mb_pwd', 'mb_level', 'mb_emp_fid', 'mb_emp_permit', 'mb_nickname', 'mb_email', 'mb_phone',
         'mb_bank_name', 'mb_bank_own', 'mb_bank_num', 'mb_bank_pwd', 'mb_time_join', 'mb_time_last', 'mb_time_bet', 'mb_time_call', 
         'mb_ip_join', 'mb_ip_last', 'mb_money', 'mb_point', 
-        'mb_grade', 'mb_color', 'mb_memo', 'mb_state_active', 'mb_state_bet', 'mb_state_delete', 'mb_state_alarm', 'mb_state_view',
+        'mb_grade', 'mb_color', 'mb_memo', 'mb_state_active', 'mb_state_bet', 'mb_state_delete', 'mb_state_alarm', 'mb_state_view', 'mb_state_test', 
         'mb_game_pb', 'mb_game_ps', 'mb_game_ks', 'mb_game_bb', 'mb_game_bs', 'mb_game_cs', 'mb_game_sl', 'mb_game_eo', 'mb_game_co', 'mb_game_hl',
         'mb_game_pb_ratio', 'mb_game_pb2_ratio', 'mb_game_cs_ratio', 'mb_game_sl_ratio', 'mb_game_hl_ratio', 
         'mb_game_pb_percent', 'mb_game_pb2_percent', 
@@ -39,7 +39,7 @@ class Member_Model extends Model
         'mb_email', 'mb_phone', 'mb_bank_name', 'mb_bank_own', 'mb_bank_num', 'mb_bank_pwd',
         'mb_time_bet', 'mb_ip_join', 'mb_ip_last', 'mb_time_join', 'mb_time_last', 'mb_time_call', 
         'mb_money', 'mb_point', 'mb_grade', 'mb_color',
-        'mb_state_active', 'mb_state_delete', 'mb_state_alarm', 'mb_state_view',
+        'mb_state_active', 'mb_state_delete', 'mb_state_alarm', 'mb_state_view', 'mb_state_test', 
         'mb_game_pb', 'mb_game_ps', 'mb_game_ks', 'mb_game_bb', 'mb_game_bs', 'mb_game_cs', 'mb_game_sl', 'mb_game_eo', 'mb_game_co', 'mb_game_hl', 
         'mb_game_pb_ratio', 'mb_game_pb2_ratio', 'mb_game_cs_ratio', 'mb_game_sl_ratio', 'mb_game_hl_ratio', 
         'mb_game_pb_percent', 'mb_game_pb2_percent', 'mb_blank_count',
@@ -53,7 +53,7 @@ class Member_Model extends Model
     ];
 
     private $fields = ['mb_fid', 'mb_uid', 'mb_level','mb_emp_fid','mb_nickname', 'mb_ip_last',
-        'mb_money', 'mb_point', 'mb_grade', 'mb_color', 'mb_state_active', 'mb_state_delete', 'mb_state_alarm', 'mb_state_view',
+        'mb_money', 'mb_point', 'mb_grade', 'mb_color', 'mb_state_active', 'mb_state_delete', 'mb_state_alarm', 'mb_state_view', 'mb_state_test', 
         'mb_game_pb', 'mb_game_ps', 'mb_game_ks', 'mb_game_bb', 'mb_game_bs', 'mb_game_cs', 'mb_game_sl', 'mb_game_eo', 'mb_game_co', 'mb_game_hl', 
         'mb_game_pb_ratio', 'mb_game_pb2_ratio', 'mb_game_cs_ratio', 'mb_game_sl_ratio', 'mb_game_hl_ratio', 
         'mb_blank_count', 'mb_live_money', 'mb_slot_money', 'mb_fslot_money', 'mb_kgon_money', 'mb_gslot_money', 'mb_hslot_money', 'mb_hold_money' ];
@@ -851,7 +851,7 @@ class Member_Model extends Model
             return $this->getMemberByLevel($nReqLevel, $bLowLev, $mbFid);
         } else {
             $fields = ['mb_fid', 'mb_uid', 'mb_level','mb_emp_fid', 'mb_emp_permit', 'mb_nickname', 'mb_phone', 'mb_money', 'mb_point', 
-                'mb_grade', 'mb_color', 'mb_memo', 'mb_state_active', 'mb_state_delete', 
+                'mb_grade', 'mb_color', 'mb_memo', 'mb_state_active', 'mb_state_delete', 'mb_state_test', 
                 'mb_game_pb_ratio', 'mb_game_pb2_ratio', 'mb_game_cs_ratio', 'mb_game_sl_ratio', 'mb_game_hl_ratio', 
                 'mb_game_pb_percent', 'mb_game_pb2_percent',  
                 'mb_range_ev', 'mb_press_ev', 'mb_pressat_ev', 'mb_follow_ev', 'mb_follow_en', 
@@ -998,7 +998,7 @@ class Member_Model extends Model
     {
         // 결과 -1: query error 0:오류 1:성공 3:추천인 오류 4:상위 배당율오류 5:하위 배당율오류 6:추천인 오류
         $objEmployee = null;
-        if (LEVEL_COMPANY == $arrRegData['mb_level']) {
+        if ($arrRegData['mb_level'] == LEVEL_COMPANY) {
             $arrRegData['mb_emp_fid'] = 0;
             // $objUser = $this->getByNickname(trim($arrData['mb_nickname']));
             // if (!is_null($objUser)) {
@@ -1014,6 +1014,9 @@ class Member_Model extends Model
             if ($arrRegData['mb_level'] < LEVEL_MIN){
                 return 3;
             }
+            
+            if($objEmployee->mb_state_test == STATE_ACTIVE)
+                $arrRegData['mb_state_test'] = $objEmployee->mb_state_test; //상위가 테스트유저이면 하위도 테스트
             
         } else {
             return 0;
@@ -1108,7 +1111,7 @@ class Member_Model extends Model
             }
         }
 
-        if($objMember->mb_emp_fid != $arrData['mb_emp_fid']){
+        if($objMember->mb_emp_fid != $arrData['mb_emp_fid']){  //추천인이 다른 경우
 
             if($objEmployee != null && $objEmployee->mb_fid == $objMember->mb_fid)
                     return 6;
@@ -1134,7 +1137,16 @@ class Member_Model extends Model
                     return 7;
                 }
             }
+        }
 
+        if(array_key_exists('mb_state_test', $arrData)){ //테스트 유저
+            if($objEmployee != null && $objEmployee->mb_state_test == STATE_ACTIVE){
+                $arrData['mb_state_test'] = STATE_ACTIVE;
+            }
+        
+            if($arrData['mb_state_test'] == STATE_ACTIVE){
+                $this->updateChildMember($objMember->mb_fid, $arrData);
+            }
         }
 
         $this->setZeroGameRatio($arrData);
@@ -1150,10 +1162,6 @@ class Member_Model extends Model
         $arrData['mb_bank_name'] = trim($arrData['mb_bank_name']);
         $arrData['mb_bank_own'] = trim($arrData['mb_bank_own']);
         $arrData['mb_bank_num'] = trim($arrData['mb_bank_num']);
-        // if(array_key_exists('mb_bank_own', $arrData))
-        //     unset($arrData['mb_bank_own']);
-        // if(array_key_exists('mb_bank_num', $arrData))
-        //     unset($arrData['mb_bank_num']);
         $arrData['mb_bank_pwd'] = trim($arrData['mb_bank_pwd']);
 
         if(array_key_exists('mb_money', $arrData))
@@ -1176,8 +1184,32 @@ class Member_Model extends Model
         // writeLog($strError);
         return -1;
     }
-
     
+    public function updateChildMember($empFid, $arrData)
+    {
+        $fields = ['mb_fid', 'mb_uid', 'mb_level', 'mb_emp_fid'];
+        $strTbColum = " ".implode(", ", $fields);
+        $strTbRColum = " r.".implode(", r.", $fields);
+
+        $strSQL = ' UPDATE '.$this->table." SET ";
+        if(array_key_exists('mb_state_test', $arrData))
+            $strSQL .= ' mb_state_test = '.$arrData['mb_state_test'];
+        else return true;
+
+        $strSQL .= ' WHERE mb_fid IN (';         
+            $strSQL .= ' WITH RECURSIVE tbmember ('.$strTbColum.') AS';
+            $strSQL .= ' ( SELECT '.$strTbColum.' FROM '.$this->table." WHERE mb_fid = '".$empFid."'";
+            $strSQL .= ' UNION ALL SELECT '.$strTbRColum.' FROM '.$this->table.' r ';
+            $strSQL .= ' INNER JOIN tbmember ON r.mb_emp_fid = tbmember.mb_fid )';
+            $strSQL .= ' SELECT mb_fid FROM tbmember ) ';
+        
+        // writeLog($strSQL);
+
+        $objUpdate = $this->db->query($strSQL);
+        $affectedRows = $objUpdate->connID->affected_rows;
+        return $affectedRows > 0;
+    }
+
     public function modifyLevel($fids, $diffLv)
     {
         // if($diffLv == 0)
@@ -1309,6 +1341,8 @@ class Member_Model extends Model
             $this->builder()->set('mb_range_ev', $arrData['mb_range_ev']);
         } else if (array_key_exists('mb_state_view', $arrData)) {
             $this->builder()->set('mb_state_view', $arrData['mb_state_view']);
+            if (array_key_exists('mb_state_test', $arrData))
+                $this->builder()->where('mb_state_test', $arrData['mb_state_test']);
         } else if (array_key_exists('mb_follow_en', $arrData)) {
             $this->builder()->set('mb_follow_en', $arrData['mb_follow_en']);
         } else return false;
@@ -1641,7 +1675,7 @@ class Member_Model extends Model
         $strTbColum.= ' mb_bank_name, mb_bank_own, mb_bank_num, mb_bank_pwd, mb_time_join, mb_time_last, ';
         $strTbColum.= ' ('.allMoneySql().') as mb_money, ';
         $strTbColum.= ' ('.allEggSql().') as mb_egg, ';
-        $strTbColum.= ' mb_point, mb_grade, mb_color, mb_memo, mb_state_active, mb_state_delete, ' ;
+        $strTbColum.= ' mb_point, mb_grade, mb_color, mb_memo, mb_state_active, mb_state_delete, mb_state_test, ' ;
         $strTbColum .= ' mb_game_pb, mb_game_ps, mb_game_ks, mb_game_bb, mb_game_bs, mb_game_cs, mb_game_sl, mb_game_eo, mb_game_co, mb_game_hl, ';
         $strTbColum .= ' mb_game_pb_ratio, mb_game_pb2_ratio, mb_game_cs_ratio, ';
         $strTbColum .= ' mb_game_sl_ratio, mb_game_hl_ratio, ';
@@ -1752,7 +1786,7 @@ class Member_Model extends Model
         $strTbColum.= ' mb_bank_name, mb_bank_own, mb_bank_num, mb_bank_pwd, mb_time_join, mb_time_last, ';
         $strTbColum.= ' ('.allMoneySql().') as mb_money, ';
         $strTbColum.= ' ('.allEggSql().') as mb_egg, ';
-        $strTbColum.= ' mb_point, mb_grade, mb_color, mb_memo, mb_state_active, mb_state_delete, ' ;
+        $strTbColum.= ' mb_point, mb_grade, mb_color, mb_memo, mb_state_active, mb_state_delete, mb_state_test, ' ;
         $strTbColum .= ' mb_game_pb, mb_game_ps, mb_game_ks, mb_game_bb, mb_game_bs, mb_game_cs, mb_game_sl, mb_game_eo, mb_game_co, mb_game_hl, ';
         $strTbColum .= ' mb_game_pb_ratio, mb_game_pb2_ratio, mb_game_cs_ratio, ';
         $strTbColum .= ' mb_game_sl_ratio, mb_game_hl_ratio, ';
@@ -1865,7 +1899,7 @@ class Member_Model extends Model
         return $this->db->query($strSQL)->getResult();
     }
 
-    public function autoStop($date){
+    public function setAutoStop($date){
 
         $strSQL = "UPDATE ".$this->table." SET mb_state_active = ".PERMIT_CANCEL." WHERE mb_uid IN ( ";
         $strSQL.= " SELECT mb_uid FROM member WHERE mb_state_active = ".PERMIT_OK." AND mb_level < ".LEVEL_ADMIN." AND ";

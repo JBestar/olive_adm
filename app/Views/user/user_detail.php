@@ -144,12 +144,29 @@
 					<input type="color" value="<?php echo $objMember->mb_color; ?>" id="useredit-color-input-id">
 					<?php } ?>
 				</td>
-				<td>등록번호 </td>
+				<?php if(!is_null($objMember)) :  ?>
+				<td>계정상태</td>
+				<td>
+					<label style="font-size:16px;">
+					<?php if ($objMember->mb_state_active == PERMIT_OK) :  ?>
+						<span class="badge btn-success">승인</span>
+					<?php elseif ($objMember->mb_state_active == PERMIT_CANCEL) :  ?>
+						<span class="badge btn-default">차단</span>
+					<?php elseif ($objMember->mb_state_active == PERMIT_REQ) :  ?>
+						<span class="badge btn-primary">신청</span>
+					<?php elseif ($objMember->mb_state_active == PERMIT_WAIT) :  ?>
+						<span class="badge btn-primary">대기</span>
+					<?php endif ?>
+					</label>
+				</td>
+				<?php endif ?>
+
+				<!-- <td>등록번호 </td>
 				<td>
 					<?php if (!is_null($objMember)) :  ?>
 						<?=$objMember->mb_fid?>
 					<?php endif ?>
-				</td>
+				</td> -->
 			</tr>
 			<tr>
 				<td>
@@ -390,23 +407,15 @@
 						<input type="checkbox" id="useredit-offline-check-id" style="zoom:100%; width:20px; height:20px;" >
 					<?php endif ?>
 				</td>
-				<?php if(!is_null($objMember)) :  ?>
-
-					<td>계정상태</td>
-					<td>
-						<label style="font-size:16px;">
-						<?php if ($objMember->mb_state_active == PERMIT_OK) :  ?>
-							<span class="badge btn-success">승인</span>
-						<?php elseif ($objMember->mb_state_active == PERMIT_CANCEL) :  ?>
-							<span class="badge btn-default">차단</span>
-						<?php elseif ($objMember->mb_state_active == PERMIT_REQ) :  ?>
-							<span class="badge btn-primary">신청</span>
-						<?php elseif ($objMember->mb_state_active == PERMIT_WAIT) :  ?>
-							<span class="badge btn-primary">대기</span>
-						<?php endif ?>
-						</label>
-					</td>
-				<?php endif ?>
+				<td>테스트 유저 </td>
+				<td>
+					<?php if(!is_null($objMember) && $objMember->mb_state_test == 1) :  ?>
+						<input type="checkbox" id="useredit-test-check-id" style="zoom:100%; width:20px; height:20px;" checked>
+					<?php else :  ?>
+						<input type="checkbox" id="useredit-test-check-id" style="zoom:100%; width:20px; height:20px;" >
+					<?php endif ?>
+				</td>
+				
 			</tr>
 
 			<?php if(!is_null($objMember)) :  ?>

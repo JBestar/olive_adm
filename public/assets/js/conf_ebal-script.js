@@ -228,6 +228,7 @@ function addBtnEvent() {
 
         let data = {
             mb_state_view:1,
+            mb_state_test:0,
         }
         requestUpdateMember(data);
     });
@@ -239,6 +240,7 @@ function addBtnEvent() {
 
         let data = {
             mb_state_view:0,
+            mb_state_test:0,
         }
         requestUpdateMember(data);
     });

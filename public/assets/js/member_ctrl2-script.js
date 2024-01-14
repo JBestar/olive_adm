@@ -35,6 +35,9 @@ function showMember(arrMember, confs) {
         if(arrMember[nRow].mb_state_delete > 0){
             strBuf += "<br>(오프라인)";    
         }
+        if(arrMember[nRow].mb_state_test > 0){
+            strBuf += "<br>(테스트)";    
+        }
         strBuf += "</td> <td>";
         strLevel = getMemberLevelString(arrMember[nRow].mb_level); 
         if (strLevel != null)

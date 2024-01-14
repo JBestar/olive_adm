@@ -33,6 +33,9 @@ function getMemberTr(objMember, bChild = false, bShow=false){
     if(objMember.mb_state_delete > 0){
         strBuf += "<br>(오프라인)";    
     }
+    if(objMember.mb_state_test > 0){
+        strBuf += "<br>(테스트)";    
+    }
     strBuf += "</td> <td>";
     strBuf += "Lv " + parseInt(objMember.mb_grade).toLocaleString() ;
     strBuf += "</td> <td>";

@@ -64,6 +64,10 @@ function readConfigToObject() {
         objMember.mb_state_delete = $("#useredit-offline-check-id").prop('checked') ? 1 : 0;
     } 
 
+    if ($("#useredit-test-check-id").length > 0){
+        objMember.mb_state_test = $("#useredit-test-check-id").prop('checked') ? 1 : 0;
+    } 
+
     if ($("#useredit-memo-text-id").length > 0){
         objMember.mb_memo = $("#useredit-memo-text-id").val();
     } 

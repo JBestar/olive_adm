@@ -535,7 +535,7 @@ class UserApi extends BaseController
                 $tmWeek = strtotime("-1 month", $tmNow);
                 $dtLast = date("Y-m-d", $tmWeek);
 
-                $affectedRows = $this->modelMember->autoStop($dtLast);
+                $affectedRows = $this->modelMember->setAutoStop($dtLast);
 
                 $arrResult['msg'] = $affectedRows."명이 자동차단되었습니다.";
                 $arrResult['status'] = STATUS_SUCCESS;
