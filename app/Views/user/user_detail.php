@@ -241,7 +241,8 @@
 				</td>
 				<td>
 					최소배팅금액<br> <br>
-					최대배팅금액
+					최대배팅금액<br> <br>
+					배팅한도금액
 				</td>
 				<td>
 					<?php if(is_null($objMember)) : ?>
@@ -254,6 +255,12 @@
 						<input type = "text" id="useredit-rangemax-input-id" value="0">
 					<?php else :?>
 						<input type = "text" id="useredit-rangemax-input-id" value="<?=number_format($objMember->mb_range_max)?>" >
+					<?php endif ?>
+					
+					<?php if(is_null($objMember)) :  ?>
+						<input type = "text" id="useredit-rangelimit-input-id" value="0">
+					<?php else :?>
+						<input type = "text" id="useredit-rangelimit-input-id" value="<?=number_format($objMember->mb_range_limit)?>" >
 					<?php endif ?>
 				</td>
 			</tr>
@@ -407,7 +414,7 @@
 						<input type="checkbox" id="useredit-offline-check-id" style="zoom:100%; width:20px; height:20px;" >
 					<?php endif ?>
 				</td>
-				<td>테스트 유저 </td>
+				<td style="color:#f00;">테스트 유저 </td>
 				<td>
 					<?php if(!is_null($objMember) && $objMember->mb_state_test == 1) :  ?>
 						<input type="checkbox" id="useredit-test-check-id" style="zoom:100%; width:20px; height:20px;" checked>

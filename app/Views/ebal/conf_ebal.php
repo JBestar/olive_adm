@@ -6,7 +6,11 @@
 			width:510px;			
 		}
 		.confsite-game-text-div p{
-			width:150px;			
+			width:150px;		
+			margin:0 0 5px;	
+		}
+		.confsite-game-text-div label{
+			margin-bottom:0px;
 		}
 		.confsite-game-text-div input[type="text"], .confsite-game-text-div input[type="number"]{
 			min-width:200px;			
@@ -74,16 +78,16 @@
 		<?php for($i = 1 ; $i <= $ebal_cnt ; $i ++):?>
 			<!-- 보험계정 1 -->
 			<div class="confsite-game-text-div">
-				<p style="font-size: 16px; font-weight: bold;">보험계정 <?=($i)?></p>
+				<p style="font-size: 15px; font-weight: bold; margin-bottom:1px; padding:0;">보험계정 <?=($i)?></p>
 			</div>
 			<div class="confsite-game-text-div">
 				<div>
-					<p>보험배팅승인:</p> 
-					<input type="checkbox" id="confev-bet-check-id<?=($i)?>" style="zoom:120%; margin-top:0px;"><label style="font-size:14px; font-weight:normal; padding-top:0px;"> 배팅승인</label>
+					<p style="padding:5px 5px 0 5px; margin:0;">보험배팅승인:</p> 
+					<input type="checkbox" id="confev-bet-check-id<?=($i)?>" style="zoom:120%; margin-top:0px;"><label style="font-size:14px; font-weight:normal; padding-top:0px; position:relative; top:-3px;"> 배팅승인</label>
 				</div>
 				<div>
-					<p>팅김방지 배팅:</p> 
-					<input type="checkbox" id="confev-conbet-check-id<?=($i)?>" style="zoom:120%; margin-top:5px;"><label style="font-size:14px; font-weight:normal; padding-top:0px;"> 배팅승인</label>
+					<p style="padding:5px 5px 0 5px; margin:0;">팅김방지 배팅:</p> 
+					<input type="checkbox" id="confev-conbet-check-id<?=($i)?>" style="zoom:120%; margin-top:5px;"><label style="font-size:14px; font-weight:normal; padding-top:0px; position:relative; top:-4px;"> 배팅승인</label>
 				</div>
 			</div>
 			<div class="confsite-game-text-div">

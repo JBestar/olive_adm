@@ -216,6 +216,7 @@ class UserApi extends BaseController
                                 $data =[
                                     'conf_num_1' => $arrData['mb_transfer_subs'],
                                     'conf_num_2' => $arrData['mb_recommender_deny'],
+                                    'conf_num_3' => $arrData['mb_range_limit'],
                                     'conf_str_1' => $arrData['mb_autoapps'],
                                     'conf_str_5' => $arrData['mb_charge_info'],
                                 ];
@@ -226,6 +227,7 @@ class UserApi extends BaseController
                                     'conf_mb_uid' => $objReqUser->mb_uid,
                                     'conf_num_1' => $arrData['mb_transfer_subs'],
                                     'conf_num_2' => $arrData['mb_recommender_deny'],
+                                    'conf_num_3' => $arrData['mb_range_limit'],
                                     'conf_str_1' => $arrData['mb_autoapps'],
                                     'conf_str_5' => $arrData['mb_charge_info'],
                                 ];

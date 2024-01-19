@@ -83,6 +83,13 @@ function readConfigToObject() {
         objMember.mb_range_ev = min + ":" + max; 
     } 
 
+    if ($("#useredit-rangelimit-input-id").length > 0){
+        let limit = parseInt($("#useredit-rangelimit-input-id").val().replace(/,/g, ""));
+
+        if(limit < 0) limit = 0;
+        objMember.mb_range_limit = limit; 
+    } 
+
     if($("#useredit-press-check-id").length > 0){
         let pressEnable = 0;
         let pressAmount = 0;
@@ -537,6 +544,12 @@ $(function() {
         });
     }
     
+    if($("#useredit-rangelimit-input-id").length > 0){
+        $("#useredit-rangelimit-input-id").on("propertychange change keyup paste input", function() {
+            calcAmount("#useredit-rangelimit-input-id");
+        });
+    }
+
     if($("#useredit-press-input-id").length > 0){
         $("#useredit-press-input-id").on("propertychange change keyup paste input", function() {
             calcAmount("#useredit-press-input-id");

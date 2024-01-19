@@ -19,6 +19,7 @@ class User extends StdController
 		}
 		$confsiteModel = new ConfSite_Model();
 		$confsiteModel->readMemConf();
+		$memConfModel = new MemConf_Model();
 
 		$empUid = '';
 		$bTrans = false;
@@ -44,6 +45,7 @@ class User extends StdController
 				if($_ENV['app.ebal'] > 0 && $objAdmin->mb_level >= LEVEL_ADMIN){
 					$objMember->mb_range_min = 0;
 					$objMember->mb_range_max = 0;
+					$objMember->mb_range_limit = 0;
 					$info = explode(":", $objMember->mb_range_ev);
 					if(count($info) >= 2){
 						$objMember->mb_range_min = intval($info[0]);
@@ -93,10 +95,9 @@ class User extends StdController
 					$bTrans = true;
 
 				if($objAdmin->mb_level < LEVEL_ADMIN && array_key_exists('app.sess_act', $_ENV) && $_ENV['app.sess_act'] == 1){
-					$memConfModel = new MemConf_Model();
-					$memConf = $memConfModel->getByMember($objAdmin->mb_fid);
-					if(!is_null($memConf) ){
-						$_ENV['mem.return_deny'] = $_ENV['mem.return_deny'] || ($memConf->conf_num_1 != 1);
+					$admConf = $memConfModel->getByMember($objAdmin->mb_fid);
+					if(!is_null($admConf) ){
+						$_ENV['mem.return_deny'] = $_ENV['mem.return_deny'] || ($admConf->conf_num_1 != STATE_ACTIVE); //$admConf->conf_num_1 == 1 => 하부회원 머니환수 가능
 					} else $_ENV['mem.return_deny'] = true;
 				}
 
@@ -173,17 +174,17 @@ class User extends StdController
 					}
 
 					if(isEBalMode() && array_key_exists('app.sess_act', $_ENV) && $_ENV['app.sess_act'] == 1){
-						$memConfModel = new MemConf_Model();
 						$memConf = $memConfModel->getByMember($objMember->mb_fid);
 						$arrAppInfo = [];
 						$arrChargeInfo = [];
 						$objMember->mb_transfer_subs = STATE_DISABLE;
 						$objMember->mb_recommender_deny = STATE_DISABLE;
 						if(!is_null($memConf) ){
-							$arrAppInfo = explode('#', $memConf->conf_str_1);
-							$arrChargeInfo = explode('#', $memConf->conf_str_5);
-							$objMember->mb_transfer_subs = $memConf->conf_num_1;
-							$objMember->mb_recommender_deny = $memConf->conf_num_2;
+							$arrAppInfo = explode('#', $memConf->conf_str_1); //오토앱 허용
+							$arrChargeInfo = explode('#', $memConf->conf_str_5); //입금통장
+							$objMember->mb_transfer_subs = $memConf->conf_num_1; //하부회원 머니환수
+							$objMember->mb_recommender_deny = $memConf->conf_num_2; //추천인 사용불가
+							$objMember->mb_range_limit = $memConf->conf_num_3;//베팅한도금액(하부포함)
 						}
 
 						$confAutoapp = $confsiteModel->getConf(CONF_AUTOAPPS);
