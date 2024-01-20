@@ -29,8 +29,6 @@ function showConfSite(arrData, all) {
                 $("#confev-betmax-input-id").val(data[9]);
                 $("#confev-conbet-input-id").val(data[11]);
                 $("#confev-maxuser-input-id").val(data[12]);
-                $('#confev-conuser-span-id').text('접속자수: '+data[14]+"명, ");
-                $('#confev-follower-span-id').text('따라가기: '+data[16]+"명");
                 
             } else if( i == 2){
                 $("#confev-betmode-select-id").val(data[5]);
@@ -38,6 +36,11 @@ function showConfSite(arrData, all) {
             
         }
         
+        if( i == 1){
+            $('#confev-conuser-span-id').text('접속자수: '+data[14]+"명, ");
+            $('#confev-follower-span-id').text('따라가기: '+data[16]+"명");
+        }
+
         $('#confev-balance-input-id'+i).val('');
         $('#confev-balance-label-id'+i).text('');
     
