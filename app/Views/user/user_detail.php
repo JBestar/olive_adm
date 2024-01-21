@@ -242,7 +242,7 @@
 				<td>
 					최소배팅금액<br> <br>
 					최대배팅금액<br> <br>
-					루적하부한도
+					하부포함한도
 				</td>
 				<td>
 					<?php if(is_null($objMember)) : ?>
