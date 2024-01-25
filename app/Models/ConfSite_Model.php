@@ -84,13 +84,16 @@ class ConfSite_Model extends Model
         $arrBatch = array();
         
         $confIds = [CONF_EVOLSITE_1, CONF_EVOLRUN_1, CONF_EVOLSITE_2, CONF_EVOLRUN_2, CONF_EVOLSITE_3, CONF_EVOLRUN_3,
-                CONF_EVOLSITE_4, CONF_EVOLRUN_4, CONF_EVOLSITE_5, CONF_EVOLRUN_5];  
+                CONF_EVOLSITE_4, CONF_EVOLRUN_4, CONF_EVOLSITE_5, CONF_EVOLRUN_5, CONF_EVOLSITE_6, CONF_EVOLRUN_6,
+                CONF_EVOLSITE_7, CONF_EVOLRUN_7];  
         $arrConf = $this->find($confIds);
         //0-site, 1-id, 2-pwd, 3-permit, 4-type, 5-end time, 6-팅김, 7-money
         //8-min, 9-max, 10-상태, 11-팅김간격, 12-max user, 13-is signal, 14-connector
         //15-multi room, 16-follower
         $data = array();
         array_push($data, ["", "", "", 0, 0, 0, 0, 0, 0, 0, "", 20, 50, 0, 0, 0, 0 ]);
+        array_push($data, ["", "", "", 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0 ]);
+        array_push($data, ["", "", "", 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0 ]);
         array_push($data, ["", "", "", 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0 ]);
         array_push($data, ["", "", "", 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0 ]);
         array_push($data, ["", "", "", 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0 ]);
@@ -105,6 +108,8 @@ class ConfSite_Model extends Model
                 case CONF_EVOLSITE_3:	
                 case CONF_EVOLSITE_4:	
                 case CONF_EVOLSITE_5:	
+                case CONF_EVOLSITE_6:	
+                case CONF_EVOLSITE_7:	
                     if($objConf->conf_id == CONF_EVOLSITE_1)
                         $idx = 0;
                     else if($objConf->conf_id == CONF_EVOLSITE_2)
@@ -113,8 +118,12 @@ class ConfSite_Model extends Model
                         $idx = 2;
                     else if($objConf->conf_id == CONF_EVOLSITE_4)
                         $idx = 3;
-                    else 
+                    else if($objConf->conf_id == CONF_EVOLSITE_5)
                         $idx = 4;
+                    else if($objConf->conf_id == CONF_EVOLSITE_6)
+                        $idx = 5;
+                    else if($objConf->conf_id == CONF_EVOLSITE_7)
+                        $idx = 6;
                         
                     $info = explode(';', $objConf->conf_content);
                     if(count($info) >= 3){
@@ -151,6 +160,8 @@ class ConfSite_Model extends Model
                 case CONF_EVOLRUN_3:
                 case CONF_EVOLRUN_4:
                 case CONF_EVOLRUN_5:
+                case CONF_EVOLRUN_6:
+                case CONF_EVOLRUN_7:
                     if($objConf->conf_id == CONF_EVOLRUN_1)
                         $idx = 0;
                     else if($objConf->conf_id == CONF_EVOLRUN_2)
@@ -159,8 +170,12 @@ class ConfSite_Model extends Model
                         $idx = 2;
                     else if($objConf->conf_id == CONF_EVOLRUN_4)
                         $idx = 3;
-                    else 
+                    else if($objConf->conf_id == CONF_EVOLRUN_5)
                         $idx = 4;	
+                    else if($objConf->conf_id == CONF_EVOLRUN_6)
+                        $idx = 5;	
+                    else if($objConf->conf_id == CONF_EVOLRUN_7)
+                        $idx = 6;	
                     $data[$idx][3] = $objConf->conf_active;
                     $data[$idx][10] = $objConf->conf_idx;
 					break;
@@ -211,9 +226,15 @@ class ConfSite_Model extends Model
                 } else if($i == 3){
                     $confEvolSite = CONF_EVOLSITE_4;
                     $confEvolRun = CONF_EVOLRUN_4;
-                } else {
+                } else if($i == 4){
                     $confEvolSite = CONF_EVOLSITE_5;
                     $confEvolRun = CONF_EVOLRUN_5;
+                } else if($i == 5){
+                    $confEvolSite = CONF_EVOLSITE_6;
+                    $confEvolRun = CONF_EVOLRUN_6;
+                } else if($i == 6){
+                    $confEvolSite = CONF_EVOLSITE_7;
+                    $confEvolRun = CONF_EVOLRUN_7;
                 }
             }
             $updateData['conf_id'] = $confEvolSite;

@@ -59,63 +59,6 @@ function showConfSite(arrData, all) {
         this.requestConfBetSite();
     }, 5000);
 
-
-    
-    /*
-    if($("#confev-betsite-input-id2").length > 0){
-        data = arrData[1];
-        if(all){
-            $("#confev-bet-check-id2").prop('checked', data[3] > 0 ? true : false);
-            $("#confev-betsite-input-id2").val(data[0]);
-            $("#confev-userid-input-id2").val(data[1]);
-            $("#confev-userpwd-input-id2").val(data[2]);
-            $("#confev-bettype-select-id2").val(data[4]);
-            $("#confev-conbet-check-id2").prop('checked', data[6] > 0 ? true : false);
-            $("#confev-signal-check-id2").prop('checked', data[13] > 0 ? true : false);
-            $("#confev-multiroom-check-id2").prop('checked', data[15] > 0 ? true : false);
-        }
-            
-        $('#confev-balance-input-id2').val('');
-        $('#confev-balance-label-id2').text('');
-    
-        if(parseInt(data[7]) >= 0){
-            $('#confev-balance-input-id2').val(data[7].toLocaleString());
-        }
-    
-        if(parseInt(data[7]) < -2){
-            $('#confev-balance-label-id2').text(`( 정지됨 )`);
-        } else if(data[10].length > 0)
-            $('#confev-balance-label-id2').text(`( ${data[10]} )`);
-    
-
-        //site3
-        data = arrData[2];
-        if(all){
-            $("#confev-bet-check-id3").prop('checked', data[3] > 0 ? true : false);
-            $("#confev-betsite-input-id3").val(data[0]);
-            $("#confev-userid-input-id3").val(data[1]);
-            $("#confev-userpwd-input-id3").val(data[2]);
-            $("#confev-bettype-select-id3").val(data[4]);
-            $("#confev-conbet-check-id3").prop('checked', data[6] > 0 ? true : false);
-            $("#confev-signal-check-id3").prop('checked', data[13] > 0 ? true : false);
-            $("#confev-multiroom-check-id3").prop('checked', data[15] > 0 ? true : false);
-        }
-        
-        $('#confev-balance-input-id3').val('');
-        $('#confev-balance-label-id3').text('');
-    
-        if(parseInt(data[7]) >= 0){
-            $('#confev-balance-input-id3').val(data[7].toLocaleString());
-        }
-    
-        if(parseInt(data[7]) < -2){
-            $('#confev-balance-label-id3').text(`( 정지됨 )`);
-        } else if(data[10].length > 0)
-            $('#confev-balance-label-id3').text(`( ${data[10]} )`);
-            
-    }
-    */
-
 }
 
 
@@ -124,8 +67,10 @@ function addBtnEvent() {
     $("#confsite-ok-btn-id").click(function() {
 
         let arrData = [];
-        for(i = 1; i <= 5; i++){
+        for(i = 1; i <= 7; i++){
             let objData = new Object();
+            if($("#confev-betsite-input-id"+i).length < 1)
+                continue;
 
             objData.site_ev = $("#confev-betsite-input-id"+i).val().trim();
             objData.userid_ev = $("#confev-userid-input-id"+i).val().trim();
