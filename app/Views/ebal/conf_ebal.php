@@ -113,15 +113,16 @@
 					<p>계정 비밀번호:</p> 
 					<input type = "text" class="conf-text-input"  id="confev-userpwd-input-id<?=($i)?>">
 				</div>
-				<div id="confev-captcha-div-id<?=($i)?>" style="display:none;">
+				
+			</div>
+			<div class="confsite-game-text-div" id="confev-captcha-div-id<?=($i)?>" style="display:none;">
+				<div>
 					<p>로그인 코드:</p> 
 					<img  id="confev-captcha-img-id<?=($i)?>" src="" style="width: 120px;">
 					<input type = "text" style="min-width:50px; width:75px;" class="conf-text-input"  id="confev-captcha-input-id<?=($i)?>">
 					<button class="confsite-cancel-button" style="margin-left:0px; padding:3px 10px; float:none;" onclick="saveCaptcha(<?=($i)?>)">저장</button>
 				</div>
-				
 			</div>
-			
 			<div class="confsite-game-text-div">
 				<div>
 					<p>보험알:</p> 
