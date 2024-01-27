@@ -469,15 +469,18 @@ class ConfSite_Model extends Model
 
     public function getEvpressConfig(){
 
-        $data = ["", "", 0];
+        $data = [0, 0, 0, 0];
 
         $objConfig = $this->where('conf_id', CONF_EVOLPRESS)->first();
         if(!is_null($objConfig)){
-            $data[2] = intval($objConfig->conf_active);
             $info = explode('#', $objConfig->conf_idx);
             if(count($info) >= 2){
                 $data[0] = $info[0];   
-                $data[1] = $info[1];   
+                $data[1] = $info[1];  
+                if(count($info) >= 4){
+                    $data[2] = $info[2];   
+                    $data[3] = $info[3];  
+                }
             }
         }
 
@@ -487,15 +490,14 @@ class ConfSite_Model extends Model
     public function saveEvpressConfig($arrData){
 
         if($arrData == null) return false;
-        if (!array_key_exists("enable", $arrData)) return false;
-        // if (!array_key_exists("time", $arrData)) return false;
-        if (!array_key_exists("money", $arrData)) return false;
+        if (!array_key_exists("auto_press", $arrData)) return false;
+        if (!array_key_exists("auto_percent", $arrData)) return false;
+        if (!array_key_exists("fail_press", $arrData)) return false;
+        if (!array_key_exists("fail_amount", $arrData)) return false;
         
         $arrBatch = array();
-        $arrData['time'] = 0;
         $updateData['conf_id'] = CONF_EVOLPRESS;
-        $updateData['conf_active'] = $arrData['enable'];
-        $updateData['conf_idx'] = $arrData['time']."#".$arrData['money'];
+        $updateData['conf_idx'] = $arrData['auto_press']."#".$arrData['auto_percent']."#".$arrData['fail_press']."#".$arrData['fail_amount'];
         $arrBatch[0] = $updateData;
         return $this->builder()->updateBatch($arrBatch, 'conf_id');
     }

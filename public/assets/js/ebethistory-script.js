@@ -73,17 +73,23 @@ function ShowBetHistory(jsonBetData) {
             strBuf += "</td>";
             if(type == 0){
                 strBuf += "<td  class = 'pb-home-table-betstate-wait'>누르기";
+                if(mObjUser && mObjUser.mb_level >= LEVEL_ADMIN && jsonBetData[nRow].bet_balance_no > 0 && jsonBetData[nRow].bet_auto_press > 0){
+                    strBuf += " ("+ jsonBetData[nRow].bet_balance_no + ")";
+                }
             } else if(type == 1){
                 strBuf += "<td  class = 'pb-home-table-betstate-loss'>넘기기";
-                if(mObjUser && mObjUser.mb_level >= LEVEL_ADMIN+2 && jsonBetData[nRow].bet_balance_no > 0){
+                if(mObjUser && mObjUser.mb_level >= LEVEL_ADMIN && jsonBetData[nRow].bet_balance_no > 0){
                     strBuf += " ("+ jsonBetData[nRow].bet_balance_no + ")";
                 }
             } else {
                 if(parseInt(jsonBetData[nRow].bet_type) == 0) {
                     strBuf += "<td  class = 'pb-home-table-betstate-wait'>누르기";
+                    if(mObjUser && mObjUser.mb_level >= LEVEL_ADMIN && jsonBetData[nRow].bet_balance_no > 0 && jsonBetData[nRow].bet_auto_press > 0){
+                        strBuf += " ("+ jsonBetData[nRow].bet_balance_no + ")";
+                    }
                 } else {
                     strBuf += "<td  class = 'pb-home-table-betstate-loss'>넘기기";
-                    if(mObjUser && mObjUser.mb_level >= LEVEL_ADMIN+2 && jsonBetData[nRow].bet_balance_no > 0){
+                    if(mObjUser && mObjUser.mb_level >= LEVEL_ADMIN && jsonBetData[nRow].bet_balance_no > 0){
                         strBuf += " ("+ jsonBetData[nRow].bet_balance_no + ")";
                     }
                 }

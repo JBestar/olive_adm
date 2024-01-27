@@ -9,10 +9,11 @@ $(document).ready(function() {
 });
 
 function showConf(data) {
-    if (data && data.length > 2) {
-        $("#confev-autopress-check-id").prop('checked', data[2] == 1 ? true : false);
-        // $("#confev-bettime-input-id").val(parseInt(data[0])); 
-        $("#confev-moneypercent-input-id").val(parseInt(data[1])); 
+    if (data && data.length >= 4) {
+        $("#confev-autopress-check-id").prop('checked', data[0] == 1 ? true : false);
+        $("#confev-autopercent-input-id").val(parseInt(data[1])); 
+        $("#confev-failpress-check-id").prop('checked', data[2] == 1 ? true : false);
+        $("#confev-failamount-input-id").val(parseInt(data[3])); 
     }
 }
 
@@ -52,9 +53,10 @@ function addBtnEvent() {
 
         var objData = new Object();
 
-        objData.enable = $("#confev-autopress-check-id").prop('checked') ? 1 : 0;
-        // objData.time = $("#confev-bettime-input-id").val();
-        objData.money = $("#confev-moneypercent-input-id").val();
+        objData.auto_press = $("#confev-autopress-check-id").prop('checked') ? 1 : 0;
+        objData.auto_percent = $("#confev-autopercent-input-id").val();
+        objData.fail_press = $("#confev-failpress-check-id").prop('checked') ? 1 : 0;
+        objData.fail_amount = $("#confev-failamount-input-id").val();
 
         var jsonData = JSON.stringify(objData);
 
