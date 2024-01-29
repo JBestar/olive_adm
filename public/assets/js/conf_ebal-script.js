@@ -20,6 +20,7 @@ function showConfSite(arrData, all) {
             $("#confev-userpwd-input-id"+i).val(data[2]);
             $("#confev-bettype-select-id"+i).val(data[4]);
             $("#confev-conbet-check-id"+i).prop('checked', data[6] > 0 ? true : false);
+            $("#confev-conallbet-check-id"+i).prop('checked', data[19] > 0 ? true : false);
             $("#confev-signal-check-id"+i).prop('checked', data[13] > 0 ? true : false);
             $("#confev-multiroom-check-id"+i).prop('checked', data[15] > 0 ? true : false);
         
@@ -93,7 +94,10 @@ function addBtnEvent() {
             if($("#confev-multiroom-check-id"+i).length > 0)
                 objData.multiroom = $("#confev-multiroom-check-id"+i).prop('checked') ? 1 : 0;
             else objData.multiroom = 0;
-
+            if($("#confev-conallbet-check-id"+i).length > 0)
+                objData.conall_ev = $("#confev-conallbet-check-id"+i).prop('checked') ? 1 : 0;
+            else objData.conall_ev = 0;
+            
             if(i == 1){
                 objData.bet_ev = $("#confev-betend-input-id").val();
                 objData.bet_min = $("#confev-betmin-input-id").val();
