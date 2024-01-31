@@ -119,7 +119,13 @@ function ShowBetHistory(jsonBetData) {
                 } else {
                     if(parseInt(jsonBetData[nRow].company_amount) == 8)
                         strResult = "<td  class = 'pb-home-table-betstate-wait'>취소"; //
-                    else strResult = "<td  class = 'pb-home-table-betstate-loss'>미처리"; //
+                    else {
+                        strResult = "<td  class = 'pb-home-table-betstate-loss'>미처리"; //
+                        if(mObjUser && mObjUser.mb_level >= LEVEL_ADMIN+2){
+                            strResult += " (상태:" + jsonBetData[nRow].company_amount;
+                            strResult += ")";
+                        }
+                    }
                 }
             } else{
                 if (parseInt(jsonBetData[nRow].bet_win_money) > parseInt(jsonBetData[nRow].bet_money)) {

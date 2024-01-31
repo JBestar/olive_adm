@@ -1155,6 +1155,8 @@ class UserApi extends BaseController
             }
 
             $confs= $this->getSiteConf($confsiteModel);
+            if($confs['evol_deny'])
+                $confs['evol_deny'] = !isEBalMode();
             $confs['emp_level'] = $objAdmin->mb_level; 
             $confs['tree'] = $bTree;
             $bDelete = true;
