@@ -342,15 +342,17 @@ class Api extends BaseController{
 	}
 
 	public function getEvolSite(){
+		$jsonData = $_REQUEST['json_'];
+		$arrData = json_decode($jsonData, true);		
+
 		if(is_login())
 		{
-			
 			$confsiteModel = new ConfSite_Model();
 			$strUid = $this->session->user_id;
 			$objAdmin = $this->modelMember->getInfo($strUid);
 			if($objAdmin->mb_level >= LEVEL_ADMIN){
 
-				$arrResult['data'] = $confsiteModel->getEvolSite();
+				$arrResult['data'] = $confsiteModel->getEvolSite($arrData['game']);
 				$arrReqData['type'] = SESS_TYPE_APP;
 				$arrReqData['mb_uid'] = "";
 				$arrReqData['page'] = 1;
@@ -402,6 +404,9 @@ class Api extends BaseController{
 	}
 
 	public function getEvolState(){
+		$jsonData = $_REQUEST['json_'];
+		$arrData = json_decode($jsonData, true);	
+
 		if(is_login())
 		{
 			
@@ -410,9 +415,11 @@ class Api extends BaseController{
 			$objAdmin = $this->modelMember->getInfo($strUid);
 			if($objAdmin->mb_level >= LEVEL_ADMIN){
 				$state = false;
-				if(array_key_exists('app.ebal', $_ENV) && $_ENV['app.ebal'] > 2 )
-					$objConfig = $confsiteModel->getConf(CONF_AUTOAPPS);
-				else $objConfig = $confsiteModel->getConf(CONF_EVOLRUN_1);
+				$confId = CONF_AUTOAPPS;
+				if($arrData['game'] == GAME_AUTO_PRAG)
+					$confId = CONF_PRAGRUN_ALL;
+
+				$objConfig = $confsiteModel->getConf($confId);
 				if(!is_null($objConfig)){
 					$state = $objConfig->conf_active;
 				}
@@ -430,6 +437,7 @@ class Api extends BaseController{
 	public function setEvolState(){
 		$jsonData = $_REQUEST['json_'];
 		$arrData = json_decode($jsonData, true);		
+
 		if(is_login())
 		{
             $this->sess_action();                
@@ -438,9 +446,9 @@ class Api extends BaseController{
 			$strUid = $this->session->user_id;
 			$objAdmin = $this->modelMember->getInfo($strUid);
 			if($objAdmin->mb_level >= LEVEL_ADMIN){
-				$confId = CONF_EVOLRUN_1;
-				if(array_key_exists('app.ebal', $_ENV) && $_ENV['app.ebal'] > 2 )
-					$confId = CONF_AUTOAPPS;
+				$confId = CONF_AUTOAPPS;
+				if($arrData['game'] == GAME_AUTO_PRAG)
+					$confId = CONF_PRAGRUN_ALL;
 
 				$confsiteModel->setConfActive($confId, $arrData['active_ev']);
 				$arrResult['status'] = "success";
@@ -464,15 +472,33 @@ class Api extends BaseController{
 			$strUid = $this->session->user_id;
 			$objAdmin = $this->modelMember->getInfo($strUid);
 			if($objAdmin->mb_level >= LEVEL_ADMIN){
-				$confId = CONF_EVOLRUN_1;
+				if($arrData['game'] == GAME_AUTO_PRAG)
+					$confId = CONF_PRAGRUN_1;
+				else $confId = CONF_EVOLRUN_1;
 				if($arrData['index'] == 2){
-					$confId = CONF_EVOLRUN_2;
+					if($arrData['game'] == GAME_AUTO_PRAG)
+						$confId = CONF_PRAGRUN_2;
+					else $confId = CONF_EVOLRUN_2;
 				} else if($arrData['index'] == 3){
-					$confId = CONF_EVOLRUN_3;
+					if($arrData['game'] == GAME_AUTO_PRAG)
+						$confId = CONF_PRAGRUN_3;
+					else $confId = CONF_EVOLRUN_3;
 				} else if($arrData['index'] == 4){
-					$confId = CONF_EVOLRUN_4;
+					if($arrData['game'] == GAME_AUTO_PRAG)
+						$confId = CONF_PRAGRUN_4;
+					else $confId = CONF_EVOLRUN_4;
 				} else if($arrData['index'] == 5){
-					$confId = CONF_EVOLRUN_5;
+					if($arrData['game'] == GAME_AUTO_PRAG)
+						$confId = CONF_PRAGRUN_5;
+					else $confId = CONF_EVOLRUN_5;
+				} else if($arrData['index'] == 6){
+					if($arrData['game'] == GAME_AUTO_PRAG)
+						$confId = CONF_PRAGRUN_6;
+					else $confId = CONF_EVOLRUN_6;
+				} else if($arrData['index'] == 7){
+					if($arrData['game'] == GAME_AUTO_PRAG)
+						$confId = CONF_PRAGRUN_7;
+					else $confId = CONF_EVOLRUN_7;
 				} 
 
 				$confsiteModel->setConfContentCn($confId, $arrData['code']);
@@ -1784,6 +1810,8 @@ class Api extends BaseController{
 	}
 	//배팅리력결과를 Ajax로 전송
 	public function eroomlist(){ 
+		$jsonData = $_REQUEST['json_'];
+		$arrData = json_decode($jsonData, true);
 
 		if(is_login()) {
 			//model
@@ -1796,7 +1824,7 @@ class Api extends BaseController{
 			$arrRoom = null;
 			if($objAdmin->mb_level >= LEVEL_ADMIN){
 				
-				$arrRoom = $casRoomModel->gets();	
+				$arrRoom = $casRoomModel->gets($arrData['game']);	
 			}
 
 			$objResult = new \StdClass;

@@ -11,7 +11,7 @@
 		<div class="pbresult-list-div">
 			
 			<label style="font-size:18px; font-weight:normal">
-				에볼루션 방설정
+				<?=$game_title?> 방설정
 			</label>
 		</div>
 		<Table class="user-table">

@@ -181,13 +181,26 @@ class Bet extends StdController {
 		$confsiteModel = new ConfSite_Model();
 
 		$param = [
+			'game_title' => "에볼밸런스",
 			'game_name' => "밸런스내역",
-			'game_id' => GAME_CASINO_EVOL,
+			'game_id' => GAME_AUTO_EVOL,
 			'evpress' => $confsiteModel->getEvpressState(),
 		];
 		$this->load_view_page('ebal/ebalhistory', 'conf_ebal', LEVEL_ADMIN, $param);
 	}
 	
+	public function pbalhistory(){
+		$confsiteModel = new ConfSite_Model();
+
+		$param = [
+			'game_title' => "프라그밸런스",
+			'game_name' => "밸런스내역",
+			'game_id' => GAME_AUTO_PRAG,
+			'evpress' => $confsiteModel->getEvpressState(),
+		];
+		$this->load_view_page('ebal/ebalhistory', 'conf_pbal', LEVEL_ADMIN, $param);
+	}
+
 	public function hlhistory(){
 		$param = [
 			'game_name' => "홀덤",
@@ -196,21 +209,24 @@ class Bet extends StdController {
 		$this->load_view_page('bet/hlhistory', 'bet_history', LEVEL_MIN, $param);
 	}
 
+	/*
 	public function eordroom(){
 		$confsiteModel = new ConfSite_Model();
 
 		$param = [
 			'game_name' => "실시간",
-			'game_id' => GAME_CASINO_EVOL,
+			'game_id' => GAME_AUTO_EVOL,
 			'evpress' => $confsiteModel->getEvpressState(),
 		];
 		$this->load_view_page('ebal/eordroom', 'conf_ebal', LEVEL_ADMIN, $param);
 	}
+	*/
 
 	public function ebethistory(){
 		$confsiteModel = new ConfSite_Model();
 
 		$param = [
+			'game_title' => "에볼밸런스",
 			'game_name' => "배팅내역",
 			'game_id' => GAME_AUTO_EVOL,
 			'evpress' => $confsiteModel->getEvpressState(),
@@ -218,6 +234,17 @@ class Bet extends StdController {
 		$this->load_view_page('ebal/ebethistory', 'conf_ebal', LEVEL_ADMIN, $param);
 	}
 
+	public function pbethistory(){
+		$confsiteModel = new ConfSite_Model();
+
+		$param = [
+			'game_title' => "프라그밸런스",
+			'game_name' => "배팅내역",
+			'game_id' => GAME_AUTO_PRAG,
+			'evpress' => $confsiteModel->getEvpressState(),
+		];
+		$this->load_view_page('ebal/ebethistory', 'conf_ebal', LEVEL_ADMIN, $param);
+	}
 
 	public function bbhistory(){
 		

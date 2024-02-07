@@ -7,14 +7,15 @@ class CasRoom_Model extends Model {
 
     protected $table      = 'casino_room';
     protected $primaryKey = 'fid';
-    protected $allowedFields = ['tid', 'name', 'nid', 'open', 'history', 'dealer', 'updated', 'stop']; 
-    protected $getFields = ['fid', 'tid', 'name', 'nid', 'open', 'history', 'dealer', 'updated', 'stop']; 
+    protected $allowedFields = ['tid', 'name', 'prd', 'nid', 'open', 'history', 'dealer', 'updated', 'stop']; 
+    protected $getFields = ['fid', 'tid', 'name', 'prd', 'nid', 'open', 'history', 'dealer', 'updated', 'stop']; 
 
     protected $returnType = 'object'; 
     
-    public function gets(){
+    public function gets($game){
         
         $where = "enable = '".STATE_ACTIVE."' ";
+        $where.= " AND prd = '".$game."' ";
         
         return $this->select($this->getFields)
                     ->where($where)

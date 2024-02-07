@@ -31,6 +31,9 @@
       <?php if(array_key_exists('app.ebal', $_ENV) && $_ENV['app.ebal'] > 0) :?>
         <a href="<?php echo siteFurl().'home/conf_ebal';?>" class="<?=$conf_ebal?>"><i class="glyphicon glyphicon-record"></i> 에볼밸런스</a>
       <?php endif ?>  
+      <?php if(array_key_exists('app.pbal', $_ENV) && $_ENV['app.pbal'] > 0) :?>
+        <a href="<?php echo siteFurl().'home/conf_pbal';?>" class="<?=$conf_pbal?>"><i class="glyphicon glyphicon-record"></i> 프라그밸런스</a>
+      <?php endif ?>  
     
     <?php } ?>
     <a href="<?php echo siteFurl().'home/conf_password';?>" class="<?=$conf_password?>"><i class="glyphicon glyphicon-lock"></i> 정보변경</a>

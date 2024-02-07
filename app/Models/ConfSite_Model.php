@@ -79,13 +79,18 @@ class ConfSite_Model extends Model
         return  $this->builder()->updateBatch($arrBatch, 'conf_id');
     }
 
-    public function getEvolSite(){
+    public function getEvolSite($game){
 
         $arrBatch = array();
-        
-        $confIds = [CONF_EVOLSITE_1, CONF_EVOLRUN_1, CONF_EVOLSITE_2, CONF_EVOLRUN_2, CONF_EVOLSITE_3, CONF_EVOLRUN_3,
+        if($game == GAME_AUTO_PRAG){
+            $confIds = [CONF_PRAGSITE_1, CONF_PRAGRUN_1, CONF_PRAGSITE_2, CONF_PRAGRUN_2, CONF_PRAGSITE_3, CONF_PRAGRUN_3,
+                CONF_PRAGSITE_4, CONF_PRAGRUN_4, CONF_PRAGSITE_5, CONF_PRAGRUN_5, CONF_PRAGSITE_6, CONF_PRAGRUN_6,
+                CONF_PRAGSITE_7, CONF_PRAGRUN_7];  
+        } else {
+            $confIds = [CONF_EVOLSITE_1, CONF_EVOLRUN_1, CONF_EVOLSITE_2, CONF_EVOLRUN_2, CONF_EVOLSITE_3, CONF_EVOLRUN_3,
                 CONF_EVOLSITE_4, CONF_EVOLRUN_4, CONF_EVOLSITE_5, CONF_EVOLRUN_5, CONF_EVOLSITE_6, CONF_EVOLRUN_6,
                 CONF_EVOLSITE_7, CONF_EVOLRUN_7];  
+        }
         $arrConf = $this->find($confIds);
         //0-site, 1-id, 2-pwd, 3-permit, 4-type, 5-end time, 6-팅김베팅, 7-money
         //8-min, 9-max, 10-상태, 11-팅김간격, 12-max user, 13-is signal, 14-connector
@@ -109,20 +114,27 @@ class ConfSite_Model extends Model
                 case CONF_EVOLSITE_4:	
                 case CONF_EVOLSITE_5:	
                 case CONF_EVOLSITE_6:	
-                case CONF_EVOLSITE_7:	
-                    if($objConf->conf_id == CONF_EVOLSITE_1)
+                case CONF_EVOLSITE_7:
+                case CONF_PRAGSITE_1:	
+                case CONF_PRAGSITE_2:	
+                case CONF_PRAGSITE_3:	
+                case CONF_PRAGSITE_4:	
+                case CONF_PRAGSITE_5:	
+                case CONF_PRAGSITE_6:	
+                case CONF_PRAGSITE_7:	
+                    if($objConf->conf_id == CONF_EVOLSITE_1 || $objConf->conf_id == CONF_PRAGSITE_1)
                         $idx = 0;
-                    else if($objConf->conf_id == CONF_EVOLSITE_2)
+                    else if($objConf->conf_id == CONF_EVOLSITE_2 || $objConf->conf_id == CONF_PRAGSITE_2)
                         $idx = 1;
-                    else if($objConf->conf_id == CONF_EVOLSITE_3)
+                    else if($objConf->conf_id == CONF_EVOLSITE_3 || $objConf->conf_id == CONF_PRAGSITE_3)
                         $idx = 2;
-                    else if($objConf->conf_id == CONF_EVOLSITE_4)
+                    else if($objConf->conf_id == CONF_EVOLSITE_4 || $objConf->conf_id == CONF_PRAGSITE_4)
                         $idx = 3;
-                    else if($objConf->conf_id == CONF_EVOLSITE_5)
+                    else if($objConf->conf_id == CONF_EVOLSITE_5 || $objConf->conf_id == CONF_PRAGSITE_5)
                         $idx = 4;
-                    else if($objConf->conf_id == CONF_EVOLSITE_6)
+                    else if($objConf->conf_id == CONF_EVOLSITE_6 || $objConf->conf_id == CONF_PRAGSITE_6)
                         $idx = 5;
-                    else if($objConf->conf_id == CONF_EVOLSITE_7)
+                    else if($objConf->conf_id == CONF_EVOLSITE_7 || $objConf->conf_id == CONF_PRAGSITE_7)
                         $idx = 6;
                         
                     $info = explode(';', $objConf->conf_content);
@@ -165,19 +177,26 @@ class ConfSite_Model extends Model
                 case CONF_EVOLRUN_5:
                 case CONF_EVOLRUN_6:
                 case CONF_EVOLRUN_7:
-                    if($objConf->conf_id == CONF_EVOLRUN_1)
+                case CONF_PRAGRUN_1:	
+                case CONF_PRAGRUN_2:	
+                case CONF_PRAGRUN_3:
+                case CONF_PRAGRUN_4:
+                case CONF_PRAGRUN_5:
+                case CONF_PRAGRUN_6:
+                case CONF_PRAGRUN_7:
+                    if($objConf->conf_id == CONF_EVOLRUN_1 || $objConf->conf_id == CONF_PRAGRUN_1)
                         $idx = 0;
-                    else if($objConf->conf_id == CONF_EVOLRUN_2)
+                    else if($objConf->conf_id == CONF_EVOLRUN_2 || $objConf->conf_id == CONF_PRAGRUN_2)
                         $idx = 1;
-                    else if($objConf->conf_id == CONF_EVOLRUN_3)
+                    else if($objConf->conf_id == CONF_EVOLRUN_3 || $objConf->conf_id == CONF_PRAGRUN_3)
                         $idx = 2;
-                    else if($objConf->conf_id == CONF_EVOLRUN_4)
+                    else if($objConf->conf_id == CONF_EVOLRUN_4 || $objConf->conf_id == CONF_PRAGRUN_4)
                         $idx = 3;
-                    else if($objConf->conf_id == CONF_EVOLRUN_5)
+                    else if($objConf->conf_id == CONF_EVOLRUN_5 || $objConf->conf_id == CONF_PRAGRUN_5)
                         $idx = 4;	
-                    else if($objConf->conf_id == CONF_EVOLRUN_6)
+                    else if($objConf->conf_id == CONF_EVOLRUN_6 || $objConf->conf_id == CONF_PRAGRUN_6)
                         $idx = 5;	
-                    else if($objConf->conf_id == CONF_EVOLRUN_7)
+                    else if($objConf->conf_id == CONF_EVOLRUN_7 || $objConf->conf_id == CONF_PRAGRUN_7)
                         $idx = 6;	
                     $data[$idx][3] = $objConf->conf_active;
                     $data[$idx][10] = $objConf->conf_idx;
@@ -210,35 +229,69 @@ class ConfSite_Model extends Model
                 $data['userpwd_ev']=" "; 
             $strContent .= $data['userpwd_ev'];
     
-            $confEvolSite = CONF_EVOLSITE_1;
-            $confEvolRun = CONF_EVOLRUN_1;
+            
             $updateData = array();
             $updateData['conf_content'] = $strContent;
             if($i == 0){
-                $confEvolSite = CONF_EVOLSITE_1;
-                $confEvolRun = CONF_EVOLRUN_1;
+                if($data['game'] == GAME_AUTO_PRAG){
+                    $confEvolSite = CONF_PRAGSITE_1;
+                    $confEvolRun = CONF_PRAGRUN_1;
+                } else {
+                    $confEvolSite = CONF_EVOLSITE_1;
+                    $confEvolRun = CONF_EVOLRUN_1;
+                }
                 $strContent = $data['type_ev']."#".$data['bet_ev']."#".$data['con_ev']."#".$data['bet_min']."#".$data['bet_max']."#".$data['con_min']."#".$data['user_max']."#".$data['is_signal']."#".$data['multiroom']."#".$data['conall_ev'];
             } else if ($i == 1){
-                $confEvolSite = CONF_EVOLSITE_2;
-                $confEvolRun = CONF_EVOLRUN_2;
+                if($data['game'] == GAME_AUTO_PRAG){
+                    $confEvolSite = CONF_PRAGSITE_2;
+                    $confEvolRun = CONF_PRAGRUN_2;
+                } else {
+                    $confEvolSite = CONF_EVOLSITE_2;
+                    $confEvolRun = CONF_EVOLRUN_2;
+                }
                 $strContent = $data['type_ev']."#".$data['betmode_ev']."#".$data['con_ev']."#0#0#0#0#".$data['is_signal']."#".$data['multiroom']."#".$data['conall_ev'];
             } else {
                 $strContent = $data['type_ev']."##".$data['con_ev']."#0#0#0#0#".$data['is_signal']."#".$data['multiroom']."#".$data['conall_ev'];
                 if($i == 2){
-                    $confEvolSite = CONF_EVOLSITE_3;
-                    $confEvolRun = CONF_EVOLRUN_3;
+                    if($data['game'] == GAME_AUTO_PRAG){
+                        $confEvolSite = CONF_PRAGSITE_3;
+                        $confEvolRun = CONF_PRAGRUN_3;
+                    } else {
+                        $confEvolSite = CONF_EVOLSITE_3;
+                        $confEvolRun = CONF_EVOLRUN_3;
+                    }
                 } else if($i == 3){
-                    $confEvolSite = CONF_EVOLSITE_4;
-                    $confEvolRun = CONF_EVOLRUN_4;
+                    if($data['game'] == GAME_AUTO_PRAG){
+                        $confEvolSite = CONF_PRAGSITE_4;
+                        $confEvolRun = CONF_PRAGRUN_4;
+                    } else {
+                        $confEvolSite = CONF_EVOLSITE_4;
+                        $confEvolRun = CONF_EVOLRUN_4;
+                    }
                 } else if($i == 4){
-                    $confEvolSite = CONF_EVOLSITE_5;
-                    $confEvolRun = CONF_EVOLRUN_5;
+                    if($data['game'] == GAME_AUTO_PRAG){
+                        $confEvolSite = CONF_PRAGSITE_5;
+                        $confEvolRun = CONF_PRAGRUN_5;
+                    } else {
+                        $confEvolSite = CONF_EVOLSITE_5;
+                        $confEvolRun = CONF_EVOLRUN_5;
+                    }
                 } else if($i == 5){
-                    $confEvolSite = CONF_EVOLSITE_6;
-                    $confEvolRun = CONF_EVOLRUN_6;
+                    if($data['game'] == GAME_AUTO_PRAG){
+                        $confEvolSite = CONF_PRAGSITE_6;
+                        $confEvolRun = CONF_PRAGRUN_6;
+                    } else {
+                        $confEvolSite = CONF_EVOLSITE_6;
+                        $confEvolRun = CONF_EVOLRUN_6;
+                    }
                 } else if($i == 6){
-                    $confEvolSite = CONF_EVOLSITE_7;
-                    $confEvolRun = CONF_EVOLRUN_7;
+                    if($data['game'] == GAME_AUTO_PRAG){
+                        $confEvolSite = CONF_PRAGSITE_7;
+                        $confEvolRun = CONF_PRAGRUN_7;
+                    } else {
+                        $confEvolSite = CONF_EVOLSITE_7;
+                        $confEvolRun = CONF_EVOLRUN_7;
+                    }
                 }
             }
             $updateData['conf_id'] = $confEvolSite;

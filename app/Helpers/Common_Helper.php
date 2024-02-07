@@ -30,6 +30,7 @@
                'conf_password' => '',
                'conf_follow' => '',
                'conf_ebal' => '',
+               'conf_pbal' => '',
                'userdropdownbtn' => " main-dropdown-active-btn",
                'userdropdown' => "style=\"display:block\"", 
                'user_member' => '',

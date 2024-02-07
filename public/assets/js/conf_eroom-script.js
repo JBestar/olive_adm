@@ -73,12 +73,14 @@ function ShowRooms(arrRoom){
 }
 
 function requestRooms() {
-
+    var jsonData = { "game": mGameId };
+    jsonData = JSON.stringify(jsonData);
     // $(".loading").show();
     $.ajax({
         url: FURL + '/api/eroomlist',
         type: 'post',
         dataType: "json",
+        data: { json_: jsonData },
         success: function(jResult) {
             // $(".loading").hide();
             // console.log(jResult);

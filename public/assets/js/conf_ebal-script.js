@@ -84,6 +84,7 @@ function addBtnEvent() {
             if($("#confev-betsite-input-id"+i).length < 1)
                 continue;
 
+            objData.game = mGameId;
             objData.site_ev = $("#confev-betsite-input-id"+i).val().trim();
             objData.userid_ev = $("#confev-userid-input-id"+i).val().trim();
             objData.userpwd_ev = $("#confev-userpwd-input-id"+i).val().trim();
@@ -111,11 +112,6 @@ function addBtnEvent() {
             arrData.push(objData);
         } 
         
-        //     if(objData.site_ev.length > 0 && objData.userid_ev.length> 0 && objData.site_ev === objData.site_ev2 && objData.userid_ev == objData.userid_ev2){
-        //         showAlert("보험계정1과 보험계정2를 다르게 입력해주세요", 0);
-        //         return;
-        //     }
-
         var jsonData = JSON.stringify(arrData);
 
         if (!confirm("저장하시겠습니까?"))
@@ -191,9 +187,13 @@ function addBtnEvent() {
 
 
 function requestConfBetSite(all=false) {
+    var jsonData = { "game": mGameId };
+    jsonData = JSON.stringify(jsonData);
+
     $.ajax({
         type: "POST",
         dataType: "json",
+        data: { json_: jsonData },
         url: FURL + "/api/getEvolSite",
         success: function(jResult) {
             // console.log(jResult);
@@ -214,9 +214,13 @@ function requestConfBetSite(all=false) {
 
 
 function requestConfBetState() {
+    var jsonData = { "game": mGameId };
+    jsonData = JSON.stringify(jsonData);
+
     $.ajax({
         type: "POST",
         dataType: "json",
+        data: { json_: jsonData },
         url: FURL + "/api/getEvolState",
         success: function(jResult) {
             // console.log(jResult);
@@ -241,7 +245,8 @@ function setEbalState(state){
     var objData = new Object();
 
     objData.active_ev = state;
-    
+    objData.game = mGameId;
+
     var jsonData = JSON.stringify(objData);
 
     $.ajax({
@@ -295,7 +300,7 @@ function saveCaptcha(i){
 
     let code = $('#confev-captcha-input-id'+i).val();
 
-    objData = {index:i, code:code}
+    objData = {index:i, code:code, game:mGameId}
     let jsonData = JSON.stringify(objData);
 
     $.ajax({

@@ -210,8 +210,9 @@ class Home extends StdController
 		$confsiteModel = new ConfSite_Model();
 
 		$param = [
+			'game_title' => "에볼밸런스",
 			'game_name' => "밸런스설정",
-			'game_id' => GAME_CASINO_EVOL,
+			'game_id' => GAME_AUTO_EVOL,
 			'gamd_types' => $arrType,
 			'ebal_cnt' => $_ENV['app.ebal'],
 			'evpress' => $confsiteModel->getEvpressState(),
@@ -223,8 +224,9 @@ class Home extends StdController
 		$confsiteModel = new ConfSite_Model();
 
 		$param = [
+			'game_title' => "에볼밸런스",
 			'game_name' => "방설정",
-			'game_id' => GAME_CASINO_EVOL,
+			'game_id' => GAME_AUTO_EVOL,
 			'evpress' => $confsiteModel->getEvpressState(),
 		];
 		$this->load_view_page('ebal/conf_eroom', 'conf_ebal', LEVEL_ADMIN, $param);	
@@ -233,8 +235,9 @@ class Home extends StdController
 	public function conf_epress(){
 		$confsiteModel = new ConfSite_Model();
 		$param = [
+			'game_title' => "에볼밸런스",
 			'game_name' => "누르기설정",
-			'game_id' => GAME_CASINO_EVOL,
+			'game_id' => GAME_AUTO_EVOL,
 			'evpress' => $confsiteModel->getEvpressState(),
 		];
 		if(!$param['evpress'])
@@ -247,8 +250,9 @@ class Home extends StdController
 	public function conf_epresslog(){
 		$confsiteModel = new ConfSite_Model();
 		$param = [
+			'game_title' => "에볼밸런스",
 			'game_name' => "누르기내역",
-			'game_id' => GAME_CASINO_EVOL,
+			'game_id' => GAME_AUTO_EVOL,
 			'evpress' => $confsiteModel->getEvpressState(),
 		];
 		if(!$param['evpress'])
@@ -258,6 +262,68 @@ class Home extends StdController
 			$this->load_view_page('ebal/conf_epresslog', 'conf_ebal', LEVEL_ADMIN, $param);	
 		}
 	}
+
+	public function conf_pbal(){
+		$arrType = [
+			"10"=> "PRAG365",
+			"12"=> "VEDA",
+		];
+		$confsiteModel = new ConfSite_Model();
+
+		$param = [
+			'game_title' => "프라그밸런스",
+			'game_name' => "밸런스설정",
+			'game_id' => GAME_AUTO_PRAG,
+			'gamd_types' => $arrType,
+			'ebal_cnt' => $_ENV['app.pbal'],
+			'evpress' => $confsiteModel->getEvpressState(),
+		];
+		$this->load_view_page('ebal/conf_ebal', 'conf_pbal', LEVEL_ADMIN, $param);	
+	}
+
+	public function conf_proom(){
+		$confsiteModel = new ConfSite_Model();
+
+		$param = [
+			'game_title' => "프라그밸런스",
+			'game_name' => "방설정",
+			'game_id' => GAME_AUTO_PRAG,
+			'evpress' => $confsiteModel->getEvpressState(),
+		];
+		$this->load_view_page('ebal/conf_eroom', 'conf_pbal', LEVEL_ADMIN, $param);	
+	}
+
+	public function conf_ppress(){
+		$confsiteModel = new ConfSite_Model();
+		$param = [
+			'game_title' => "프라그밸런스",
+			'game_name' => "누르기설정",
+			'game_id' => GAME_AUTO_PRAG,
+			'evpress' => $confsiteModel->getEvpressState(),
+		];
+		if(!$param['evpress'])
+			$this->response->redirect($_ENV['app.furl'].'/home/conf_ebal');
+		else {
+			
+			$this->load_view_page('ebal/conf_epress', 'conf_ebal', LEVEL_ADMIN, $param);	
+		}
+	}
+	public function conf_ppresslog(){
+		$confsiteModel = new ConfSite_Model();
+		$param = [
+			'game_title' => "프라그밸런스",
+			'game_name' => "누르기내역",
+			'game_id' => GAME_AUTO_PRAG,
+			'evpress' => $confsiteModel->getEvpressState(),
+		];
+		if(!$param['evpress'])
+			$this->response->redirect($_ENV['app.furl'].'/home/conf_ebal');
+		else {
+			
+			$this->load_view_page('ebal/conf_epresslog', 'conf_ebal', LEVEL_ADMIN, $param);	
+		}
+	}
+
 
 	public function conf_casino(){
 		$gameId = GAME_CASINO_KGON;
