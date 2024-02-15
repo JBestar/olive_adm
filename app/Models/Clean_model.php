@@ -98,6 +98,9 @@ class Clean_Model extends Model {
             $this->db->query("TRUNCATE bet_ebal");
             $this->db->query("TRUNCATE bet_ebal_st");
             $this->db->query("TRUNCATE bet_balance");
+            $this->db->query("TRUNCATE bet_prbal");
+            $this->db->query("TRUNCATE bet_prbal_st");
+            $this->db->query("TRUNCATE bet_balance_pr");
             $this->db->query("TRUNCATE bet_reward");
             $this->db->query("TRUNCATE bet_reward_st");
             $this->db->query("TRUNCATE bet_reward_mn");
@@ -170,9 +173,15 @@ class Clean_Model extends Model {
             $strSql = " DELETE FROM bet_reward_mn_st WHERE rw_end < '".$date."' ";
             $this -> db -> query($strSql);
 
+            $strSql = " DELETE FROM bet_reward_pr_st WHERE rw_end < '".$date."' ";
+            $this -> db -> query($strSql);
+
             $strSql = " DELETE FROM bet_ebal_st WHERE bet_end < '".$date."' ";
             $this -> db -> query($strSql);
             
+            $strSql = " DELETE FROM bet_prbal_st WHERE bet_end < '".$date."' ";
+            $this -> db -> query($strSql);
+
             $strSql = " DELETE FROM money_history_st WHERE money_end < '".$date."' ";
             $this -> db -> query($strSql);
 
