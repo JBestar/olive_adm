@@ -4,7 +4,11 @@
 
 	<div class="confsite-site-panel">
 		<h4><i class="glyphicon glyphicon-hand-right"></i> 누르기 설정</h4>
-
+		<div class="pbresult-list-div" style="padding-left:20px;" <?=$mb_level < LEVEL_ADMIN+2?'hidden':''?>>
+			<input type="checkbox" id="confev-forcepress-check-id" style="zoom:130%; margin-top:0px;">
+			<label style="font-size:14px; padding-left:3px; position:relative; top:-3px;"> 강제누르기</label>
+		</div>
+		
 		<div class="pbresult-list-div" style="padding-left:20px;">
 			<input type="checkbox" id="confev-autopress-check-id" style="zoom:130%; margin-top:0px;">
 			<label style="font-size:14px; padding-left:3px; position:relative; top:-3px;"> 자동누르기</label>

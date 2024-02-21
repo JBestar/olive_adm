@@ -9,11 +9,12 @@ $(document).ready(function() {
 });
 
 function showConf(data) {
-    if (data && data.length >= 4) {
+    if (data && data.length >= 5) {
         $("#confev-autopress-check-id").prop('checked', data[0] == 1 ? true : false);
         $("#confev-autopercent-input-id").val(parseInt(data[1])); 
         $("#confev-failpress-check-id").prop('checked', data[2] == 1 ? true : false);
         $("#confev-failamount-input-id").val(parseInt(data[3])); 
+        $("#confev-forcepress-check-id").prop('checked', data[4] == 1 ? true : false);
     }
 }
 
@@ -57,6 +58,7 @@ function addBtnEvent() {
         objData.auto_percent = $("#confev-autopercent-input-id").val();
         objData.fail_press = $("#confev-failpress-check-id").prop('checked') ? 1 : 0;
         objData.fail_amount = $("#confev-failamount-input-id").val();
+        objData.force_press = $("#confev-forcepress-check-id").prop('checked') ? 1 : 0;
 
         var jsonData = JSON.stringify(objData);
 
