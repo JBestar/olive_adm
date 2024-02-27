@@ -74,16 +74,16 @@ function ShowBetHistory(jsonBetData) {
             if(type == 1){
                 if(jsonBetData[nRow].bet_balance > 0){
                     strBuf += parseInt(jsonBetData[nRow].bet_balance).toLocaleString() + " ";
-                    if(jsonBetData[nRow].bet_balance_rate > 0 && jsonBetData[nRow].bet_balance_rate < 1)
-                        strBuf += "(" + (parseFloat(jsonBetData[nRow].bet_balance_rate)*100) + "%)" ;
                 }
+                if(jsonBetData[nRow].bet_balance_rate > 0 && jsonBetData[nRow].bet_balance_rate < 1)
+                        strBuf += "(" + (parseFloat(jsonBetData[nRow].bet_balance_rate)*100) + "%)" ;
             } else {
                 if(parseInt(jsonBetData[nRow].bet_type) == 1) {  //if over bet
                     if(jsonBetData[nRow].bet_balance > 0){
                         strBuf += parseInt(jsonBetData[nRow].bet_balance).toLocaleString() + " "; 
-                        if(jsonBetData[nRow].bet_balance_rate > 0 && jsonBetData[nRow].bet_balance_rate < 1)
-                        strBuf += "(" + (parseFloat(jsonBetData[nRow].bet_balance_rate)*100) + "%)" ;
                     }
+                    if(jsonBetData[nRow].bet_balance_rate > 0 && jsonBetData[nRow].bet_balance_rate < 1)
+                        strBuf += "(" + (parseFloat(jsonBetData[nRow].bet_balance_rate)*100) + "%)" ;
                 }
             }
             strBuf += "</td>";

@@ -83,7 +83,12 @@
 			<div class="confsite-game-text-div">
 				<div>
 					<p style="padding:5px 5px 0 5px; margin:0;">보험배팅승인:</p> 
-					<input type="checkbox" id="confev-bet-check-id<?=($i)?>" style="zoom:120%; margin-top:0px;"><label style="font-size:14px; font-weight:normal; padding-top:0px; position:relative; top:-3px;"> 배팅승인</label>
+					<input type="checkbox" id="confev-bet-check-id<?=($i)?>" style="zoom:120%; margin-top:0px;">
+					<label style="font-size:14px; font-weight:normal; padding-top:0px; position:relative; top:-3px;"> 배팅승인</label>
+					<input type="checkbox" id="confev-signal-check-id<?=($i)?>" style="zoom:120%; margin-top:5px; margin-left:22px;">
+					<label style="font-size:14px; font-weight:normal; padding-top:0px;"> 신호값용</label>
+					<input type="checkbox" id="confev-multiroom-check-id<?=($i)?>" style="zoom:120%; margin-top:5px; margin-left:10px;" <?=$mb_level<LEVEL_ADMIN+3?'hidden':''?>>
+					<label style="font-size:14px; font-weight:normal; padding-top:0px;" <?=$mb_level < LEVEL_ADMIN+3?'hidden':''?>> 멀티방</label>
 				</div>
 				<div>
 					<p style="padding:5px 5px 0 5px; margin:0;">팅김방지 배팅:</p> 
@@ -91,7 +96,6 @@
 					<label style="font-size:14px; font-weight:normal; padding-top:0px; position:relative; top:-4px;"> 배팅승인</label>
 					<input type="checkbox" id="confev-conallbet-check-id<?=($i)?>" style="zoom:120%; margin-top:5px; margin-left:30px;" <?=$mb_level<LEVEL_ADMIN+2?'hidden':''?>>
 					<label style="font-size:14px; font-weight:normal; padding-top:0px; position:relative; top:-4px;" <?=$mb_level < LEVEL_ADMIN+2?'hidden':''?>> 전체방</label>
-					
 				</div>
 			</div>
 			<div class="confsite-game-text-div">
@@ -134,11 +138,8 @@
 					<label style="font-size:14px; font-weight:normal; padding-top:0px; min-width:100px;"  id="confev-balance-label-id<?=($i)?>"></label>
 				</div>
 				<div>
-					<p>계정타입:</p> 
-					<input type="checkbox" id="confev-signal-check-id<?=($i)?>" style="zoom:120%; margin-top:5px;">
-					<label style="font-size:14px; font-weight:normal; padding-top:0px;"> 신호값용</label>
-					<input type="checkbox" id="confev-multiroom-check-id<?=($i)?>" style="zoom:120%; margin-top:5px; margin-left:30px;" <?=$mb_level<LEVEL_ADMIN+2?'hidden':''?>>
-					<label style="font-size:14px; font-weight:normal; padding-top:0px;" <?=$mb_level < LEVEL_ADMIN+2?'hidden':''?>> 멀티방</label>
+					<p>배팅한도:</p> 
+					<input type = "number" class="conf-text-input"  id="confev-balmax-input-id<?=($i)?>" min="0" step="1000">
 				</div>
 			</div>
 		<?php endfor?>
