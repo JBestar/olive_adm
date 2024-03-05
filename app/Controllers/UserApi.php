@@ -8,7 +8,6 @@ use App\Models\ConfSite_Model;
 use App\Models\Exchange_Model;
 use App\Models\Notice_Model;
 use App\Models\PbBet_Model;
-use App\Models\PsBet_Model;
 use App\Models\CsBet_Model;
 use App\Models\SlBet_Model;
 use App\Models\HlBet_Model;
@@ -1709,7 +1708,7 @@ class UserApi extends BaseController
                         else 
                             $iChangeType = MONEYCHANGE_GIVE;
 
-                        if($this->modelMember->updateAssets($objMember, $arrData['amount'], 0, $iChangeType))
+                        if($this->modelMember->updateAssets($objMember, $arrData['amount'], 0, $iChangeType, $objEmp->mb_uid))
                         {
                             if($arrData['type'] == 0){
                                 $chargeModel = new Charge_Model();
@@ -1756,7 +1755,7 @@ class UserApi extends BaseController
                             $iChangeType = MONEYCHANGE_DEC;
                         else $iChangeType = MONEYCHANGE_WITHDRAW;
 
-                        if($arrData['amount'] > 0 && $this->modelMember->updateAssets($objMember, 0-$arrData['amount'], 0, $iChangeType))
+                        if($arrData['amount'] > 0 && $this->modelMember->updateAssets($objMember, 0-$arrData['amount'], 0, $iChangeType, $objEmp->mb_uid))
                         {
                             if($arrData['type'] == 1){
                                 $exchangeModel = new Exchange_Model();

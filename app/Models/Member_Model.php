@@ -1420,21 +1420,21 @@ class Member_Model extends Model
         $strSQL .=" WHERE notice_state_delete = '".STATE_DISABLE."' AND notice_type = '".NOTICE_CUSTOMER."' AND notice_read_count = '0' ";
         //관리자 보유금
         $strSQL .= " UNION ALL SELECT SUM(".allMoneySql().") AS result_1, SUM(mb_point) AS result_2 FROM ".$this->table;
-        $strSQL .= " WHERE mb_level < ".LEVEL_ADMIN." AND mb_state_active != '".PERMIT_DELETE."' ";
+        $strSQL .= " WHERE mb_level < ".LEVEL_ADMIN." AND mb_state_active <> ".PERMIT_DELETE." AND mb_state_test = ".STATE_DISABLE;
         //충전금액
         $strSQL .=" UNION ALL SELECT SUM(charge_money) AS result_1,  0 AS result_2 FROM ".$this->chargeTb;
         $strSQL.=" WHERE (charge_action_state = '".STATE_VERIFY."' OR charge_action_state = '".STATE_HOT."') ";
             $strSQL.=" AND charge_time_require >= ".$this->db->escape($arrReqData['start']." 00:00:00")." AND charge_time_require <= ".$this->db->escape($arrReqData['end']." 23:59:59") ; 
-            $strSQL .= " AND charge_mb_uid NOT IN (SELECT mb_uid FROM ".$this->table." WHERE mb_level >= ".LEVEL_ADMIN.") ";
+            $strSQL .= " AND charge_mb_uid NOT IN (SELECT mb_uid FROM ".$this->table." WHERE mb_level >= ".LEVEL_ADMIN." OR mb_state_test = ".STATE_ACTIVE." ) ";
         //환전금액
         $strSQL .=" UNION ALL SELECT SUM(exchange_money) AS result_1,  0 AS result_2 FROM ".$this->exchangeTb;
         $strSQL.=" WHERE (exchange_action_state = '".STATE_VERIFY."' OR exchange_action_state = '".STATE_HOT."') ";
         $strSQL.=" AND exchange_time_require >= ".$this->db->escape($arrReqData['start']." 00:00:00")." AND exchange_time_require <= ".$this->db->escape($arrReqData['end']." 23:59:59") ; 
-        $strSQL .= " AND exchange_mb_uid NOT IN (SELECT mb_uid FROM ".$this->table." WHERE mb_level >= ".LEVEL_ADMIN.") ";
+        $strSQL .= " AND exchange_mb_uid NOT IN (SELECT mb_uid FROM ".$this->table." WHERE mb_level >= ".LEVEL_ADMIN." OR mb_state_test = ".STATE_ACTIVE.") ";
         //지급 회수
         $strSQL .= " UNION ALL SELECT SUM( money_give) AS result_1, ";
         $strSQL .= " SUM( money_withdraw) AS result_2 FROM ".$this->historyTb;
-        $strSQL .= " WHERE money_mb_fid NOT IN (SELECT mb_fid FROM ".$this->table." WHERE mb_level >= ".LEVEL_ADMIN.") ";
+        $strSQL .= " WHERE money_mb_fid NOT IN (SELECT mb_fid FROM ".$this->table." WHERE mb_level >= ".LEVEL_ADMIN." OR mb_state_test = ".STATE_ACTIVE.") ";
         $strSQL.=" AND money_start >= ".$this->db->escape($arrReqData['start']." 00:00:00")." AND money_end <= ".$this->db->escape($arrReqData['end']." 23:59:59") ; 
 
         if($_ENV['CI_ENVIRONMENT'] == ENV_DEVELOPMENT)

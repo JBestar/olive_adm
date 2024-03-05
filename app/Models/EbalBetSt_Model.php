@@ -197,7 +197,8 @@ class EbalBetSt_Model extends Model
 
         $strSql = " SELECT SUM(bet_money) AS bet_money_sum, SUM(bet_win_money) AS win_money_sum  FROM ".$this->table;
         $strSql .= " WHERE bet_start >= '".$arrReqInfo['start']."' " ;//AND bet_time <= '".$arrReqInfo['end']."' ";
-            
+        $strSql .= " AND bet_mb_fid NOT IN (SELECT mb_fid FROM ".$this->mMemberTable." WHERE mb_level >= ".LEVEL_ADMIN." OR mb_state_test = ".STATE_ACTIVE." ) ";
+
         // writeLog($strSql);
         $objResult = $this -> db -> query($strSql)->getRow();
         // writeLog("BetSumByDay End");

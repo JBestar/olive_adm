@@ -264,7 +264,7 @@ class CsBet_Model extends Model
                 $strSql .= " AND bet_game_id != 0 ";
     
             // writeLog($strSql);
-            // $strSql .= " AND bet_mb_uid NOT IN (SELECT mb_uid FROM ".$this->mMemberTable." WHERE mb_level >= ".LEVEL_ADMIN.") ";
+            $strSql .= " AND bet_mb_uid NOT IN (SELECT mb_uid FROM ".$this->mMemberTable." WHERE mb_level >= ".LEVEL_ADMIN." OR mb_state_test = ".STATE_ACTIVE.") ";
             $objResult = $this -> db -> query($strSql)->getRow();
             // writeLog("BetSumByDay End");
         } else {

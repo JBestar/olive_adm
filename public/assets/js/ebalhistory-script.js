@@ -82,10 +82,12 @@ function ShowBetHistory(jsonBetData) {
         if(parseInt(jsonBetData[nRow].bet_fail) == 0){
             if (parseInt(jsonBetData[nRow].bet_type) == 0){
                 if(jsonBetData[nRow].bet_result == "Player")
-                    strResult = (bankerAmount-playerAmount - betAmount + winAmount).toLocaleString();
+                    strResult = "0";
+                    // strResult = (bankerAmount-playerAmount - betAmount + winAmount).toLocaleString();
                     // strResult = (bankerAmount-Math.floor(playerAmount/1000)*1000 - betAmount + winAmount).toLocaleString();
                 else if(jsonBetData[nRow].bet_result == "Banker")
-                    strResult = (playerAmount-bankerAmount*0.95 - betAmount + winAmount).toLocaleString();
+                    strResult = (bankerAmount*0.05).toLocaleString();
+                    // strResult = (playerAmount-bankerAmount*0.95 - betAmount + winAmount).toLocaleString();
                     // strResult = (playerAmount-Math.floor(bankerAmount/1000)*950 - betAmount + winAmount).toLocaleString();
                 else strResult = 0;
             } else if(parseInt(jsonBetData[nRow].bet_type) == 1) {
