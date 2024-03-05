@@ -26,7 +26,7 @@
 	<!--Site Setting-->
 	<div class="user-panel">	
 		<div>
-			<?php if(array_key_exists('app.ebal', $_ENV) && $_ENV['app.ebal'] > 0 ) :?>
+			<?php if(isEBalMode()) :?>
 				<label>접속</label>
 				<select name="pbresult-number" class="pbresult-number-select" id="userpanel-type-select-id" style="margin-left:0px">
 					<option value="-1">전체</option>

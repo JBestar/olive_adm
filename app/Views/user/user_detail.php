@@ -226,11 +226,35 @@
 				</td>
 			</tr>
 
-			<?php if(array_key_exists('app.ebal', $_ENV) && $_ENV['app.ebal'] > 0 ) :?>
+			<?php if(isEBalMode()) :?>
+			<tr>
+				<td>에볼배팅금액
+				</td>
+				<td colspan="3">
+					최소
+					<?php if(is_null($objMember)) : ?>
+						<input type = "text" id="useredit-rangemin-input-id" style="min-width:100px; width:115px;" value="0">
+					<?php else :?>
+						<input type = "text" id="useredit-rangemin-input-id" style="min-width:100px; width:115px;" value="<?=number_format($objMember->mb_range_min)?>" >
+					<?php endif ?>
+					&nbsp;&nbsp;최대
+					<?php if(is_null($objMember)) :  ?>
+						<input type = "text" id="useredit-rangemax-input-id" style="min-width:100px; width:115px;" value="0">
+					<?php else :?>
+						<input type = "text" id="useredit-rangemax-input-id" style="min-width:100px; width:115px;" value="<?=number_format($objMember->mb_range_max)?>" >
+					<?php endif ?>
+					&nbsp;&nbsp;하부포함한도
+					<?php if(is_null($objMember)) :  ?>
+						<input type = "text" id="useredit-rangelimit-input-id" style="min-width:100px; width:115px;" value="0">
+					<?php else :?>
+						<input type = "text" id="useredit-rangelimit-input-id" style="min-width:100px; width:115px;" value="<?=number_format($objMember->mb_range_limit)?>" >
+					<?php endif ?>
+				</td>
+			</tr>
 
 			<tr>
 				<td rowspan="<?=$press_en > 0?2:1?>">
-					<p style="width:133px">에볼 누르기</p> 
+					에볼 누르기 
 				</td>
 				<td>
 					<?php if(!is_null($objMember) && $objMember->mb_state_view == 1) :  ?>
@@ -239,30 +263,19 @@
 						<input type="checkbox" id="useredit-balance-check-id" style="zoom:100%; margin-top:4px; margin-right:0; width:20px;height:20px;" >
 					<?php endif ?>
 				</td>
+				<?php if(!is_null($objMember)) :  ?>
 				<td>
-					최소배팅금액<br> <br>
-					최대배팅금액<br> <br>
-					하부포함한도
+				넘기기금액(%)
 				</td>
 				<td>
-					<?php if(is_null($objMember)) : ?>
-						<input type = "text" id="useredit-rangemin-input-id" value="0">
-					<?php else :?>
-						<input type = "text" id="useredit-rangemin-input-id" value="<?=number_format($objMember->mb_range_min)?>" >
-					<?php endif ?>
+					<select type="text" id="useredit-overbet-percent-id" style="width:150px;">
+						<?php $rates = overBetRates(); foreach($rates as $rate):?>
+							<option value="<?=$rate?>" <?=$objMember->mb_overbet_percent==$rate?'selected':''?>><?=$rate?> % </option>
+						<?php endforeach?>
+					</select>
+				</td>
+				<?php endif ?>
 
-					<?php if(is_null($objMember)) :  ?>
-						<input type = "text" id="useredit-rangemax-input-id" value="0">
-					<?php else :?>
-						<input type = "text" id="useredit-rangemax-input-id" value="<?=number_format($objMember->mb_range_max)?>" >
-					<?php endif ?>
-					
-					<?php if(is_null($objMember)) :  ?>
-						<input type = "text" id="useredit-rangelimit-input-id" value="0">
-					<?php else :?>
-						<input type = "text" id="useredit-rangelimit-input-id" value="<?=number_format($objMember->mb_range_limit)?>" >
-					<?php endif ?>
-				</td>
 			</tr>
 			<?php if($press_en > 0 ) :?>
 				<tr>
@@ -318,7 +331,7 @@
 				</td>
 			</tr>
 
-			<?php if($follow_en > 0 ) :?>
+				<?php if($follow_en > 0 ) :?>
 				<tr>
 					<td>
 					에볼 따라가기 활성
@@ -373,7 +386,7 @@
 				</tr>
 
 				<?php endif ?>
-
+			<!-- isEBalMode() EndIf -->
 			<?php endif ?>
 
 			<?php if(!is_null($objMember) && array_key_exists('app.sess_act', $_ENV) && $_ENV['app.sess_act'] == 1) :?>

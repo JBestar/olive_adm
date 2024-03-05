@@ -100,7 +100,7 @@ class UserApi extends BaseController
                 if ( $iResult == 1 ) {
                     $objReqUser = $this->modelMember->getInfo(trim($arrData['mb_uid']));
 
-                    if(!is_null($objReqUser) && array_key_exists('app.ebal', $_ENV) && $_ENV['app.ebal'] > 0 && array_key_exists('mb_state_view', $arrData) ){
+                    if(!is_null($objReqUser) && isEBalMode() && array_key_exists('mb_state_view', $arrData) ){
                         $ebalLogModel = new EbalLog_Model();
 
                         $data =[
@@ -192,7 +192,7 @@ class UserApi extends BaseController
 
                     if($iResult==1){
 
-                        if(array_key_exists('app.ebal', $_ENV) && $_ENV['app.ebal'] > 0 && array_key_exists('mb_state_view', $arrData) ){
+                        if(isEBalMode() && array_key_exists('mb_state_view', $arrData) ){
 
                             if($objReqUser->mb_state_view != $arrData['mb_state_view']){
                                 $ebalLogModel = new EbalLog_Model();
@@ -217,6 +217,7 @@ class UserApi extends BaseController
                                     'conf_num_1' => $arrData['mb_transfer_subs'],
                                     'conf_num_2' => $arrData['mb_recommender_deny'],
                                     'conf_num_3' => $arrData['mb_range_limit'],
+                                    'conf_num_4' => $arrData['mb_overbet_percent'],
                                     'conf_str_1' => $arrData['mb_autoapps'],
                                     'conf_str_5' => $arrData['mb_charge_info'],
                                 ];
@@ -228,6 +229,7 @@ class UserApi extends BaseController
                                     'conf_num_1' => $arrData['mb_transfer_subs'],
                                     'conf_num_2' => $arrData['mb_recommender_deny'],
                                     'conf_num_3' => $arrData['mb_range_limit'],
+                                    'conf_num_4' => $arrData['mb_overbet_percent'],
                                     'conf_str_1' => $arrData['mb_autoapps'],
                                     'conf_str_5' => $arrData['mb_charge_info'],
                                 ];

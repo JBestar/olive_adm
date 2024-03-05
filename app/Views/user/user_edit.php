@@ -191,7 +191,7 @@
         
 			<div class="useredit-percent-div">
 				
-				<?php if(array_key_exists('app.ebal', $_ENV) && $_ENV['app.ebal'] > 0 ) :?>
+				<?php if(isEBalMode()) :?>
 
 					<?php if(!is_null($objMember) && $objMember->mb_state_view == 1) :  ?>
 						<input type="checkbox" id="useredit-balance-check-id" style="zoom:140%; margin-top:4px; margin-right:0; width:20px;" checked>

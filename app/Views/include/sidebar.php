@@ -28,7 +28,7 @@
       <a href="<?php echo siteFurl().'home/conf_hold';?>" class="<?=$conf_game?>"><i class="glyphicon glyphicon-play-circle"></i>  게임설정</a>
     <?php endif ?>  
 
-      <?php if(array_key_exists('app.ebal', $_ENV) && $_ENV['app.ebal'] > 0) :?>
+      <?php if(isEBalMode()) :?>
         <a href="<?php echo siteFurl().'home/conf_ebal';?>" class="<?=$conf_ebal?>"><i class="glyphicon glyphicon-record"></i> 에볼밸런스</a>
       <?php endif ?>  
       <?php if(array_key_exists('app.pbal', $_ENV) && $_ENV['app.pbal'] > 0) :?>
@@ -144,7 +144,7 @@
 
     <?php if(!$hold_deny) :?>
     <a href="<?php echo siteFurl().'bet/hlhistory';?>" class="<?=$bet_history?>"><i class="glyphicon glyphicon-book"></i>  배팅내역</a>
-    <?php elseif(array_key_exists('app.ebal', $_ENV) && $_ENV['app.ebal'] > 3) :?>
+    <?php elseif(isEBalMode()) :?>
     <a href="<?php echo siteFurl().'bet/evhistory';?>" class="<?=$bet_history?>"><i class="glyphicon glyphicon-book"></i>  배팅내역</a>
     <?php elseif(!$evol_deny || !$cas_deny) :?>
     <a href="<?php echo siteFurl().'bet/cshistory';?>" class="<?=$bet_history?>"><i class="glyphicon glyphicon-book"></i>  배팅내역</a>

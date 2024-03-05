@@ -123,10 +123,12 @@ function readConfigToObject() {
     }
     if($("#useredit-followen-check-id").length > 0){
         let followEnable = $("#useredit-followen-check-id").prop('checked') ? 1 : 0;
-        
         objMember.mb_follow_en = followEnable; 
     }
-
+    if($("#useredit-overbet-percent-id").length > 0){
+        let overbetPercent = $("#useredit-overbet-percent-id").val();
+        objMember.mb_overbet_percent = overbetPercent; 
+    }
     let elApps = $("input[name=useredit-auto-apps]");
     if(elApps.length > 0){
         let data = '';

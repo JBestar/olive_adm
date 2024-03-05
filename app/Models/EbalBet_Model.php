@@ -173,7 +173,7 @@ class EbalBet_Model extends Model
         $strSql = "";
         $strSql .= "SELECT bet_fid, bet_idx, bet_mb_uid, bet_round_no, bet_time, bet_money, bet_win_money, bet_player_id, bet_game_id, bet_game_type, bet_table_code, ";
         $strSql .= " bet_type, bet_choice, bet_result, bet_balance, bet_win_balance, point_amount, company_amount, obj_id, bet_follow, bet_balance_no, bet_auto_press, ";
-        $strSql .= " bet_table_name as game_name, rw_mb_uid, rw_point, '에볼루션' as prd_name";
+        $strSql .= " bet_balance_rate, bet_table_name as game_name, rw_mb_uid, rw_point, '에볼루션' as prd_name";
         $strSql .= " FROM ( ";
 
         $tbBetSearch = "bet_search";

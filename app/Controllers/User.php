@@ -42,7 +42,7 @@ class User extends StdController
 			
 			if ($objMember != null){
 				$objMember->mb_point = floor($objMember->mb_point);
-				if($_ENV['app.ebal'] > 0 && $objAdmin->mb_level >= LEVEL_ADMIN){
+				if(isEBalMode() && $objAdmin->mb_level >= LEVEL_ADMIN){
 					$objMember->mb_range_min = 0;
 					$objMember->mb_range_max = 0;
 					$objMember->mb_range_limit = 0;
@@ -80,7 +80,7 @@ class User extends StdController
 						if(count($info) >= 3)
 							$objMember->mb_follow_percent = intval($info[2]);
 					}
-	
+					$objMember->mb_overbet_percent = 100;
 				}
 				
 				$objEmpMember = $this->modelMember->find($objMember->mb_emp_fid);
@@ -185,6 +185,8 @@ class User extends StdController
 							$objMember->mb_transfer_subs = $memConf->conf_num_1; //하부회원 머니환수
 							$objMember->mb_recommender_deny = $memConf->conf_num_2; //추천인 사용불가
 							$objMember->mb_range_limit = $memConf->conf_num_3;//베팅한도금액(하부포함)
+							if($memConf->conf_num_4 > 0)
+								$objMember->mb_overbet_percent = $memConf->conf_num_4;//넘기기금액(%)
 						}
 
 						$confAutoapp = $confsiteModel->getConf(CONF_AUTOAPPS);

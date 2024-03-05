@@ -34,7 +34,7 @@ function ShowBetHistory(jsonBetData) {
         strBuf += "<tr><td>";
         strBuf += (parseInt(nRow) + firstIdx + 1);
         strBuf += "</td><td>";
-        if(mObjUser && mObjUser.mb_level >= LEVEL_ADMIN && jsonBetData[nRow].bet_mode > 0){
+        if(jsonBetData[nRow].bet_mode > 0){
             strBuf += jsonBetData[nRow].bet_mode + ". ";
         }
         strBuf += jsonBetData[nRow].bet_site_name + "<br>" + jsonBetData[nRow].bet_site_uid ;
@@ -82,15 +82,19 @@ function ShowBetHistory(jsonBetData) {
         if(parseInt(jsonBetData[nRow].bet_fail) == 0){
             if (parseInt(jsonBetData[nRow].bet_type) == 0){
                 if(jsonBetData[nRow].bet_result == "Player")
-                    strResult = (bankerAmount-Math.floor(playerAmount/1000)*1000 - betAmount + winAmount).toLocaleString();
+                    strResult = (bankerAmount-playerAmount - betAmount + winAmount).toLocaleString();
+                    // strResult = (bankerAmount-Math.floor(playerAmount/1000)*1000 - betAmount + winAmount).toLocaleString();
                 else if(jsonBetData[nRow].bet_result == "Banker")
-                    strResult = (playerAmount-Math.floor(bankerAmount/1000)*950 - betAmount + winAmount).toLocaleString();
+                    strResult = (playerAmount-bankerAmount*0.95 - betAmount + winAmount).toLocaleString();
+                    // strResult = (playerAmount-Math.floor(bankerAmount/1000)*950 - betAmount + winAmount).toLocaleString();
                 else strResult = 0;
             } else if(parseInt(jsonBetData[nRow].bet_type) == 1) {
                 if(jsonBetData[nRow].bet_result == "Player")
-                    strResult = (bankerAmount%1000 ).toLocaleString();
+                    strResult = 0;
+                    // strResult = (bankerAmount%1000 ).toLocaleString();
                 else if(jsonBetData[nRow].bet_result == "Banker")
-                    strResult = (playerAmount%1000 + Math.floor(playerAmount/1000) * 50 ).toLocaleString();
+                    strResult = (Math.floor(playerAmount/1000) * 50 ).toLocaleString();
+                    // strResult = (playerAmount%1000 + Math.floor(playerAmount/1000) * 50 ).toLocaleString();
                 else strResult = 0;
             }
     

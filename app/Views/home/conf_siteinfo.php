@@ -5,7 +5,7 @@
 	<?php if($mb_level > LEVEL_MASTER) :  ?>
         <button class="sub-navbar-but" style="display: block;" id="cleanDb-but" onclick="cleanDb(1);">디비초기화</button>
 	<?php endif ?>
-	<?php if($mb_level >= LEVEL_ADMIN && array_key_exists('app.ebal', $_ENV) && $_ENV['app.ebal'] > 0) :  ?>
+	<?php if($mb_level >= LEVEL_ADMIN && isEBalMode()) :  ?>
 		<div style="float:right;">
 			<input type="date" id="conf-dbclean-input-id" style="margin-right:5px; padding:2px;" value="<?php echo calcDate(-7);?>">
 			<button class="sub-navbar-but" style="display: block; margin-right:10px;" id="deleteDb-but" onclick="cleanDb(2);">이전 내역정리</button>

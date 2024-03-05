@@ -94,15 +94,15 @@ class ConfSite_Model extends Model
         $arrConf = $this->find($confIds);
         //0-site, 1-id, 2-pwd, 3-permit, 4-type, 5-end time, 6-팅김베팅, 7-money
         //8-min, 9-max, 10-상태, 11-팅김간격, 12-max user, 13-is signal, 14-connector
-        //15-multi room, 16-follower, 17-captcha, 18-code, 19-전체방팅김베팅
+        //15-multi room, 16-follower, 17-captcha, 18-code, 19-전체방팅김베팅, 20-보험배팅한도
         $data = array();
-        array_push($data, ["", "", "", 0, 0, 0, 0, 0, 0, 0, "", 20, 50, 0, 0, 0, 0, "", "", 0 ]);
-        array_push($data, ["", "", "", 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0, "", "", 0 ]);
-        array_push($data, ["", "", "", 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0, "", "", 0 ]);
-        array_push($data, ["", "", "", 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0, "", "", 0 ]);
-        array_push($data, ["", "", "", 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0, "", "", 0 ]);
-        array_push($data, ["", "", "", 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0, "", "", 0 ]);
-        array_push($data, ["", "", "", 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0, "", "", 0 ]);
+        array_push($data, ["", "", "", 0, 0, 0, 0, 0, 0, 0, "", 20, 50, 0, 0, 0, 0, "", "", 0, 0 ]);
+        array_push($data, ["", "", "", 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0, "", "", 0, 0 ]);
+        array_push($data, ["", "", "", 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0, "", "", 0, 0 ]);
+        array_push($data, ["", "", "", 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0, "", "", 0, 0 ]);
+        array_push($data, ["", "", "", 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0, "", "", 0, 0 ]);
+        array_push($data, ["", "", "", 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0, "", "", 0, 0 ]);
+        array_push($data, ["", "", "", 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0, "", "", 0, 0 ]);
         
         $idx = 0;
         foreach($arrConf as $objConf){
@@ -160,11 +160,12 @@ class ConfSite_Model extends Model
                                 $data[$idx][11] = intval($info[5]);
                                 $data[$idx][12] = intval($info[6]);
                             } 
-                            if(count($info) >= 9){
+                            if(count($info) >= 10){
                                 $data[$idx][13] = intval($info[7]);
                                 $data[$idx][15] = intval($info[8]);
-                                if(count($info) >= 10)
-                                    $data[$idx][19] = intval($info[9]);
+                                $data[$idx][19] = intval($info[9]);
+                                if(count($info) >= 11)
+                                    $data[$idx][20] = intval($info[10]);
                             }
                         }
                     }
@@ -240,7 +241,7 @@ class ConfSite_Model extends Model
                     $confEvolSite = CONF_EVOLSITE_1;
                     $confEvolRun = CONF_EVOLRUN_1;
                 }
-                $strContent = $data['type_ev']."#".$data['bet_ev']."#".$data['con_ev']."#".$data['bet_min']."#".$data['bet_max']."#".$data['con_min']."#".$data['user_max']."#".$data['is_signal']."#".$data['multiroom']."#".$data['conall_ev'];
+                $strContent = $data['type_ev']."#".$data['bet_ev']."#".$data['con_ev']."#".$data['bet_min']."#".$data['bet_max']."#".$data['con_min']."#".$data['user_max']."#".$data['is_signal']."#".$data['multiroom']."#".$data['conall_ev']."#".$data['bal_max'];
             } else if ($i == 1){
                 if($data['game'] == GAME_AUTO_PRAG){
                     $confEvolSite = CONF_PRAGSITE_2;
@@ -249,9 +250,9 @@ class ConfSite_Model extends Model
                     $confEvolSite = CONF_EVOLSITE_2;
                     $confEvolRun = CONF_EVOLRUN_2;
                 }
-                $strContent = $data['type_ev']."#".$data['betmode_ev']."#".$data['con_ev']."#0#0#0#0#".$data['is_signal']."#".$data['multiroom']."#".$data['conall_ev'];
+                $strContent = $data['type_ev']."#".$data['betmode_ev']."#".$data['con_ev']."#0#0#0#0#".$data['is_signal']."#".$data['multiroom']."#".$data['conall_ev']."#".$data['bal_max'];
             } else {
-                $strContent = $data['type_ev']."##".$data['con_ev']."#0#0#0#0#".$data['is_signal']."#".$data['multiroom']."#".$data['conall_ev'];
+                $strContent = $data['type_ev']."##".$data['con_ev']."#0#0#0#0#".$data['is_signal']."#".$data['multiroom']."#".$data['conall_ev']."#".$data['bal_max'];
                 if($i == 2){
                     if($data['game'] == GAME_AUTO_PRAG){
                         $confEvolSite = CONF_PRAGSITE_3;
