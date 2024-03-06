@@ -167,12 +167,12 @@ function addBtnEvent() {
     });
 
     
-    $("#useredit-withdraw-money-id").click(function() {
-        if (!confirm("보유금액을 회수하시겠습니까?"))
-            return;
+    // $("#useredit-withdraw-money-id").click(function() {
+    //     if (!confirm("보유금액을 회수하시겠습니까?"))
+    //         return;
 
-        requestWithdraw(0);
-    });
+    //     requestWithdraw(0);
+    // });
 
     $("#useredit-withdraw-point-id").click(function() {
         if (!confirm("보유포인트를 회수하시겠습니까?"))
