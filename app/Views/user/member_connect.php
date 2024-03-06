@@ -31,7 +31,7 @@
 				<select name="pbresult-number" class="pbresult-number-select" id="userpanel-type-select-id" style="margin-left:0px">
 					<option value="-1">전체</option>
 					<option value="0">사이트</option>
-					<option value="1">앱</option>
+					<option value="3">앱</option>
 				</select>
 			<?php endif ?>
 

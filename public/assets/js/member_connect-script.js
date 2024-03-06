@@ -28,7 +28,7 @@ function showMember(arrMember, bFollow=false) {
 
     for (var nRow in arrMember) {
         strBuf += "<tr>";
-
+        arrMember[nRow].sess_type = parseInt(arrMember[nRow].sess_type);
         strBuf += "<td>";
         strBuf += (parseInt(nRow) + firstIdx + 1);
         strBuf += "</td> <td>";
@@ -36,7 +36,7 @@ function showMember(arrMember, bFollow=false) {
         strBuf += "</td> <td>";
         if(bFollow){
             strBuf += "<a onclick=' popupMemberFollow(" + arrMember[nRow].sess_mb_fid + ", "+arrMember[nRow].sess_mb_fid+ ")' class='link-member'>"+ arrMember[nRow].mb_nickname;
-            if(arrMember[nRow].sess_type == 1)
+            if(arrMember[nRow].sess_type == 1 || arrMember[nRow].sess_type == 2)
                 strBuf += " ( "+ arrMember[nRow].sess_follows +" )";    
             strBuf += "</a>";
         }

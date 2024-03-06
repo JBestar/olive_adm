@@ -107,8 +107,10 @@ class Sess_Model extends Model {
         if(strlen($arrReqData['mb_uid']) > 0){
             $strSql.=" AND sess_mb_uid = ".$this->db->escape($arrReqData['mb_uid']);
         }
-        if(intval($arrReqData['type']) >= 0){
+        if(intval($arrReqData['type']) > 0 && intval($arrReqData['type']) <= 2){
             $strSql.=" AND sess_type = ".$this->db->escape($arrReqData['type']);
+        } else if(intval($arrReqData['type']) == 3){
+            $strSql.=" AND sess_type <> ".SESS_TYPE_SITE;
         }
         $nStartRow = ($arrReqData['page']-1) * $arrReqData['count'] ;
 
@@ -130,8 +132,10 @@ class Sess_Model extends Model {
         if(strlen($arrReqData['mb_uid']) > 0){
             $strSql.=" AND sess_mb_uid = ".$this->db->escape($arrReqData['mb_uid']);
         }
-        if(intval($arrReqData['type']) >= 0){
+        if(intval($arrReqData['type']) > 0 && intval($arrReqData['type']) <= 2){
             $strSql.=" AND sess_type = ".$this->db->escape($arrReqData['type']);
+        } else if(intval($arrReqData['type']) == 3){
+            $strSql.=" AND sess_type <> ".SESS_TYPE_SITE;
         }
         $query = $this -> db -> query($strSql);
         $result = $query -> getRow();
