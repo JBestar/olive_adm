@@ -267,6 +267,7 @@ class Home extends StdController
 		$arrType = [
 			"10"=> "PRAG365",
 			"12"=> "VEDA",
+			"23"=> "STAR",
 			"24"=> "편집샵",
 		];
 		$confsiteModel = new ConfSite_Model();
