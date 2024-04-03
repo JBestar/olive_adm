@@ -9,7 +9,7 @@
         <p><i class="glyphicon glyphicon-cog"></i> 본사설정</p>
         <a href="<?php echo siteFurl().'home/conf_site';?>" class="sub-navbar-a">본사설정</a>
         <?php if(!$pbg_deny || !$bpg_deny || !$eos5_deny || !$eos3_deny) :?>
-            <a href="<?php echo siteFurl().'home/conf_betsite';?>" class="sub-navbar-a">보험설정</a>
+            <!-- <a href="<?php echo siteFurl().'home/conf_betsite';?>" class="sub-navbar-a">보험설정</a> -->
         <?php endif ?>   
         <a href="<?php echo siteFurl().'home/conf_maintain';?>" class="sub-navbar-a">점검설정</a>
 		<a href="<?php echo siteFurl().'home/conf_sound';?>" class="sub-navbar-a" >알람설정</a>

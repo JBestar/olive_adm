@@ -17,7 +17,7 @@
 		}
 	</style>
     <div class="confsite-site-panel">
-    <h4><i class="glyphicon glyphicon-hand-right"></i> 에볼루션 보험계정</h4>
+    <h4><i class="glyphicon glyphicon-hand-right"></i> <?=$game_title?> 보험계정</h4>
 	
 	<?php if(isEBalMode()) :?>
 

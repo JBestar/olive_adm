@@ -198,7 +198,7 @@
 					<?php else :  ?>
 						<input type="checkbox" id="useredit-balance-check-id" style="zoom:140%; margin-top:4px; margin-right:0; width:20px;" >
 					<?php endif ?>
-					<p style="width:133px">에볼 누르기</p> 
+					<p style="width:133px">바카라 누르기</p> 
 
 					<label> 최소배팅금액</label>
 					<?php if(is_null($objMember)) : ?>
@@ -245,7 +245,7 @@
 							<?php else :  ?>
 								<input type="checkbox" id="useredit-follow-check-id" style="zoom:140%; margin-top:4px; margin-right:0; width:20px;" >
 							<?php endif ?>
-							<p style="width:133px">에볼 따라가기</p> 
+							<p style="width:133px">바카라 따라가기</p> 
 							<label style="text-align:right; width:89px;"> 아이디</label>
 							<?php if(is_null($objMember)) : ?>
 							<input type = "text" id="useredit-follow-input-id" value="">

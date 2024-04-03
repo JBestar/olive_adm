@@ -228,7 +228,7 @@
 
 			<?php if(isEBalMode()) :?>
 			<tr>
-				<td>에볼배팅금액
+				<td>바카라 배팅금액
 				</td>
 				<td colspan="3">
 					최소
@@ -254,7 +254,7 @@
 
 			<tr>
 				<td rowspan="<?=$press_en > 0?2:1?>">
-					에볼 누르기 
+				바카라 누르기 
 				</td>
 				<td>
 					<?php if(!is_null($objMember) && $objMember->mb_state_view == 1) :  ?>
@@ -313,7 +313,7 @@
 				</tr>
 			<?php endif ?>
 			<tr>
-				<td>에볼 자동누르기</td>
+				<td>바카라 자동누르기</td>
 					<td><?php if(!is_null($objMember) && $objMember->mb_pressat_active == 1) :  ?>
 						<input type="checkbox" id="useredit-pressat-check-id" style="zoom:100%; margin-top:4px; margin-right:0; width:20px;height:20px;" checked>
 					<?php else :  ?>
@@ -334,7 +334,7 @@
 				<?php if($follow_en > 0 ) :?>
 				<tr>
 					<td>
-					에볼 따라가기 활성
+					바카라 따라가기 활성
 					</td>
 					<td>
 						<?php if(!is_null($objMember) && $objMember->mb_follow_en == 1) :  ?>
@@ -358,7 +358,7 @@
 
 				<tr>
 					<td>
-					에볼 따라가기 승인
+					바카라 따라가기 승인
 					</td>
 					<td>
 						<?php if(!is_null($objMember) && $objMember->mb_follow_active == 1) :  ?>

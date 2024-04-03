@@ -167,6 +167,12 @@ class Bet extends StdController {
 
 		$confsiteModel = new ConfSite_Model();
 		$confs = $this->getSiteConf($confsiteModel);
+
+		$prd = new \StdClass;
+		$prd->vendor_id = 0;
+		$prd->name = "에볼루션";
+		array_push($arrPrd, $prd);
+
 		$arrPrd +=  $modelCasprd->gets(GAME_CASINO_EVOL);
 
 		$param = [
@@ -183,7 +189,10 @@ class Bet extends StdController {
 
 		$confsiteModel = new ConfSite_Model();
 		$confs = $this->getSiteConf($confsiteModel);
-		$arrPrd +=  $modelCasprd->gets(GAME_CASINO_EVOL);
+		$prd = new \StdClass;
+		$prd->vendor_id = 0;
+		$prd->name = "프라그마틱";
+		array_push($arrPrd, $prd);
 
 		$param = [
 			'prds' => $arrPrd,
