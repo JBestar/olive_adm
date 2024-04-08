@@ -134,7 +134,7 @@ function ShowBetHistory(jsonBetData) {
                 } else  if (parseInt(jsonBetData[nRow].point_amount) == 2){
                     strResult = "<td  class = 'pb-home-table-betstate-loss'>미적중"; //
                 } else {
-                    if(parseInt(jsonBetData[nRow].company_amount) == 8)
+                    if(parseInt(jsonBetData[nRow].company_amount) == 20)
                         strResult = "<td  class = 'pb-home-table-betstate-wait'>취소"; //
                     else {
                         strResult = "<td  class = 'pb-home-table-betstate-loss'>미처리"; //
