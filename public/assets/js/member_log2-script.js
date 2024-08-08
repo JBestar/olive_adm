@@ -27,11 +27,14 @@ function showMember(arrMember) {
         strBuf += "</td> <td>";
         strBuf += arrMember[nRow].mb_fid;
         strBuf += "</td> <td>";
-        if(parseInt(arrMember[nRow].log_type) == 1)
-            strBuf += "에볼앱";
-        else if(parseInt(arrMember[nRow].log_type) == 2)
-            strBuf += "프라그앱";
-        else 
+        if(parseInt(arrMember[nRow].log_type) != 0){
+            if(parseInt(arrMember[nRow].log_type) == 1)
+                strBuf += "에볼앱";
+            else if(parseInt(arrMember[nRow].log_type) == 2)
+                strBuf += "프라그앱";
+            if(arrMember[nRow].log_spec.length > 0)
+                strBuf += " ( "+arrMember[nRow].log_spec+" )"; 
+        } else
             strBuf += arrMember[nRow].log_ip;
         strBuf += "</td> <td>";
         strBuf += arrMember[nRow].log_time;
