@@ -400,14 +400,11 @@
       $arrBatch = array();
 
       $arrCas = array();
-      array_push($arrCas, getKeyObj("top_games5", "1,000~1,000,000") );
-      array_push($arrCas, getKeyObj("top_games3", "1,000~3,000,000") );
       array_push($arrCas, getKeyObj("top_games", "1,000~5,000,000") );
       array_push($arrCas, getKeyObj("top_games2", "1,000~10,000,000") );
-      array_push($arrCas, getKeyObj("top_games4", "1,000~20,000,000") );
-      array_push($arrCas, getKeyObj("top_games6", "1,000~30,000,000") );
-      array_push($arrCas, getKeyObj("top_games7", "1,000~50,000,000") );
-      array_push($arrCas, getKeyObj("top_games8", "1,000~100,000,000") );
+      array_push($arrCas, getKeyObj("top_games3", "1,000~30,000,000") );
+      array_push($arrCas, getKeyObj("top_games4", "1,000~50,000,000") );
+      array_push($arrCas, getKeyObj("top_games5", "1,000~100,000,000") );
       $arrBatch['evolution_casino'] = $arrCas;
 
       $arrCas = array();

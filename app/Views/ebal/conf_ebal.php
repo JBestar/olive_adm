@@ -91,7 +91,7 @@
 						<!-- <input type="checkbox" id="confev-multiroom-check-id<?=($i)?>" style="zoom:120%; margin-top:5px; margin-left:10px;" <?=$mb_level<LEVEL_ADMIN+2?'hidden':''?>>
 						<label style="font-size:14px; font-weight:normal; padding-top:0px;" <?=$mb_level < LEVEL_ADMIN+2?'hidden':''?>> 멀티방</label> -->
 
-						<select name="pbresult-number" class="" id="confev-multiroom-check-id<?=($i)?>" style="padding:2px; width: 70px; margin-left:0px;">
+						<select name="pbresult-number" class="" id="confev-multiroom-check-id<?=($i)?>" <?=$mb_level < LEVEL_ADMIN+2?'hidden':''?> style="padding:2px; width: 70px; margin-left:0px;">
 							<option value="0" >개별방</option>
 							<option value="1" >멀티방</option>
 							<option value="2" >혼합방</option>
