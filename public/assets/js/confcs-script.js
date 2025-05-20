@@ -47,7 +47,7 @@ function requestConfGame() {
         error: function(request, status, error) {
             $("#refresh_egg").removeClass("refresh");
             $("#refresh_useregg").removeClass("refresh");
-            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
         }
 
     });
@@ -164,6 +164,8 @@ function addBtnEvent() {
             openWindow.location.href = "http://agent.gsplay-777.com/agent";
         } else if(gameId == 3){
             openWindow.location.href = "https://v1.kgonapi.com";
+        } else if(gameId == 20){
+            openWindow.location.href = "https://backoffice.rave-games.com/";
         }
         
     });

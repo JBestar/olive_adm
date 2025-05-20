@@ -741,6 +741,10 @@ class UserApi extends BaseController
                             $gameId = GAME_SLOT_STAR;
                             $confId = CONF_API_STAR;
                             $arrSumData[2][3] = $eggs->mb_hslot_money;
+                        } else if($_ENV['app.slot'] == APP_SLOT_RAVE){
+                            $gameId = GAME_SLOT_RAVE;
+                            $confId = CONF_API_RAVE;
+                            $arrSumData[2][3] = $eggs->mb_rave_money;
                         }
 
                         $objConfPb = $confgameModel->getByIndex($gameId);
@@ -784,6 +788,9 @@ class UserApi extends BaseController
                     $confId = CONF_API_KGON;
                     if($_ENV['app.casino'] == APP_CASINO_STAR)
                         $confId = CONF_API_STAR;
+                    else if($_ENV['app.casino'] == APP_CASINO_RAVE)
+                        $confId = CONF_API_RAVE;
+                    
                     $agConf = $confsiteModel->getConf($confId);
                     if($agConf != null)
                         $arrSumData[4][2] = $agConf->conf_active;
@@ -2352,7 +2359,26 @@ class UserApi extends BaseController
                         writeLog("<HOLDEM> Agent Egg = ".$arrResult['balance']);
                         $balance = $arrResult['balance'];
                     }
-                } 
+                } else if($gameId == GAME_CASINO_RAVE || $gameId == GAME_SLOT_RAVE){
+                    foreach($arrMember as $objMember){
+                        if($objMember->mb_rave_id > 0 && $objMember->mb_rave_money > 0 ){
+                            writeLog("<RAVE> Recovery Uid=".$objMember->mb_uid." Balance=".$objMember->mb_rave_money);
+                            if(diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet) < $_ENV['mem.delay_play']){
+                                $iResult = 2;
+                            } else $iResult = $this->kgtoMb($objMember);
+                            if($iResult == 0)
+                                break;
+                            else usleep(500000);
+                        } 
+                    }
+                    
+                    $arrResult = $this->libApiKgon->getAgentInfo();
+                    if($arrResult['status'] == 1){
+                        $confsiteModel->setConfActive(CONF_API_KGON, $arrResult['balance']);
+                        writeLog("<KGON> AGENT Egg = ".$arrResult['balance']);
+                        $balance = $arrResult['balance'];
+                    }
+                }
 
                 $result->status = STATUS_SUCCESS;
 			    $result->egg = $balance;

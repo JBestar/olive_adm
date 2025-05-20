@@ -110,13 +110,19 @@ function getBetSpec(objBet){
             continue;
         details = sbet.split(',');
         if(details.length >= 2){
+            if(details[0].startsWith("BAC_")){
+                details[0] = details[0].replace('BAC_', '') ;
+            } else if(details[0].startsWith("DT_")){
+                details[0] = details[0].replace('DT_', '') ;
+            }
+
             if(objBet.prd_name == "드림게이밍"){
                 if(parseInt(objBet.bet_money) == parseInt(details[1])){
-                    html += details[0].replace('BAC_', '') ;
+                    html += details[0];
                     break;
                 } else continue;
             } else {
-                html += details[0].replace('BAC_', '') ;
+                html += details[0];
                 if(bets.length > 2)
                     html += ":"+parseInt(details[1]).toLocaleString();
             }

@@ -53,7 +53,7 @@ class CasPrd_Model extends Model {
         $strSql = " SELECT * FROM ".$this->table;
         $strSql.= " WHERE is_enable = '1' AND cat = ".$arrReqData['cat'];
         if(strlen($arrReqData['name']) > 0){
-            $strSql.= " AND (key LIKE '%".$arrReqData['name']."%' OR name LIKE '%".$arrReqData['name']."%' ) ";
+            $strSql.= " AND (`key` LIKE '%".$arrReqData['name']."%' OR `name` LIKE '%".$arrReqData['name']."%' ) ";
         }
 
         $nStartRow = ($arrReqData['page']-1) * $arrReqData['count'] ;
@@ -71,7 +71,7 @@ class CasPrd_Model extends Model {
         $strSql = "SELECT count(*) as count FROM ".$this->table;
         $strSql.= " WHERE is_enable = '1' AND cat = ".$arrReqData['cat'];
         if(strlen($arrReqData['name']) > 0){
-            $strSql.= " AND (key LIKE '%".$arrReqData['name']."%' OR name LIKE '%".$arrReqData['name']."%' ) ";
+            $strSql.= " AND (`key` LIKE '%".$arrReqData['name']."%' OR `name` LIKE '%".$arrReqData['name']."%' ) ";
         }
 
         $query = $this -> db -> query($strSql);

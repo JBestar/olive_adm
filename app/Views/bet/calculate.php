@@ -95,7 +95,7 @@
 	<script src="<?php echo site_furl('/assets/js/calculate-script.js?t='.time());?>"></script>
 <?php else : ?>
     <script src="<?php echo site_furl('/assets/js/page.js?v=1');?>"></script>
-	<script src="<?php echo site_furl('/assets/js/calculate-script.js?v=1');?>"></script>
+	<script src="<?php echo site_furl('/assets/js/calculate-script.js?v=2');?>"></script>
 <?php endif ?>
 
 <?= $this->renderSection("calculate-script")?>

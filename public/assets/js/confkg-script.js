@@ -20,7 +20,7 @@ function addEventListner() {
     });
 }
 
-function showGame(list, ranges) {
+function showGame(list, gameId) {
     var html = "";
 
     if (list) {
@@ -33,7 +33,7 @@ function showGame(list, ranges) {
             html += "</td><td>";
             html += game.name;
             html += "</td><td>";
-            if(ranges !== undefined ){
+            if(mGameRanges !== undefined ){
                 html += getRangeHtml(game.fid, game.key, game.lobby);
                 html += "</td><td>";
             }
@@ -189,7 +189,7 @@ function requestTotalPage() {
         dataType: 'json',
         type: 'post',
         success: function(jResult) {
-            console.log(jResult);
+            // console.log(jResult);
             if (jResult.status == "success") {
                 TotalCount = jResult.data.count;
                 mGameRanges = jResult.ranges;

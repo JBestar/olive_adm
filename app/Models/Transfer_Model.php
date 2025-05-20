@@ -35,8 +35,8 @@ class Transfer_Model extends Model {
 
     function search($objEmp, $arrReqData)
     {
-        $strTbColum = " mb_fid, mb_uid, mb_level, mb_emp_fid, mb_nickname, mb_money, mb_live_money, mb_slot_money, mb_fslot_money, mb_kgon_money, mb_gslot_money, mb_hslot_money, mb_hold_money ";
-        $strTbRColum = " r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid , r.mb_nickname, r.mb_money, r.mb_live_money, r.mb_slot_money, r.mb_fslot_money, r.mb_kgon_money, r.mb_gslot_money, r.mb_hslot_money, r.mb_hold_money ";
+        $strTbColum = " mb_fid, mb_uid, mb_level, mb_emp_fid, mb_nickname, mb_money, mb_live_money, mb_slot_money, mb_fslot_money, mb_kgon_money, mb_gslot_money, mb_hslot_money, mb_hold_money, mb_rave_money ";
+        $strTbRColum = " r.mb_fid, r.mb_uid, r.mb_level, r.mb_emp_fid , r.mb_nickname, r.mb_money, r.mb_live_money, r.mb_slot_money, r.mb_fslot_money, r.mb_kgon_money, r.mb_gslot_money, r.mb_hslot_money, r.mb_hold_money, r.mb_rave_money ";
 
         $strSql = "";
         if($objEmp->mb_level < LEVEL_ADMIN){

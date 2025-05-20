@@ -170,7 +170,18 @@ class Api extends BaseController{
 					$errMsg = "접속불가";
 				}
 				$agConf = $confsiteModel->getConf(CONF_API_HOLD);
-			} 
+			} else if($gameId == GAME_CASINO_RAVE || $gameId == GAME_SLOT_RAVE){
+				$arrResult = $this->libApiRave->getAgentInfo();
+				if($arrResult['status'] == 1){
+					$confsiteModel->setConfActive(CONF_API_RAVE, $arrResult['balance']);
+					writeLog("<RAVE> AGENT Egg = ".$arrResult['balance']);
+				} else {
+					if(array_key_exists('message', $arrResult)){
+						$errMsg = $arrResult['message'];
+					} else $errMsg = "접속불가";
+				}
+				$agConf = $confsiteModel->getConf(CONF_API_RAVE);
+			}
 			
 			$agInfo = null;
 			if(!is_null($agConf)){

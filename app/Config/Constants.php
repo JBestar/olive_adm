@@ -80,6 +80,7 @@ defined('APP_TYPE_3')        || define('APP_TYPE_3', 3);      //Slot
 defined('APP_SLOT_THEPLUS')  || define('APP_SLOT_THEPLUS', 1); 
 defined('APP_SLOT_KGON')     || define('APP_SLOT_KGON', 2); 
 defined('APP_SLOT_STAR')     || define('APP_SLOT_STAR', 3); 
+defined('APP_SLOT_RAVE')     || define('APP_SLOT_RAVE', 4); 
 
 //Natural 
 defined('APP_FSLOT_GSPLAY')  || define('APP_FSLOT_GSPLAY', 1); 
@@ -88,6 +89,7 @@ defined('APP_FSLOT_GOLD')    || define('APP_FSLOT_GOLD', 2);
 //Casino
 defined('APP_CASINO_KGON')      || define('APP_CASINO_KGON', 2); 
 defined('APP_CASINO_STAR')     || define('APP_CASINO_STAR', 3); 
+defined('APP_CASINO_RAVE')     || define('APP_CASINO_RAVE', 4); 
 
 defined('EXIT_SUCCESS')        || define('EXIT_SUCCESS', 0);        // no errors
 defined('EXIT_ERROR')          || define('EXIT_ERROR', 1);          // generic error
@@ -132,6 +134,7 @@ defined('CONF_API_THEPLUS')    || define('CONF_API_THEPLUS', 22);
 defined('CONF_API_GSPLAY')     || define('CONF_API_GSPLAY', 23);
 defined('CONF_API_STAR')       || define('CONF_API_STAR', 30);
 defined('CONF_API_HOLD')        || define('CONF_API_HOLD', 68);
+defined('CONF_API_RAVE')       || define('CONF_API_RAVE', 89);
 
 defined('CONF_CHARGE_MANUAL')  || define('CONF_CHARGE_MANUAL', 24);
 defined('CONF_DISCHA_MANUAL')  || define('CONF_DISCHA_MANUAL', 25);
@@ -178,9 +181,10 @@ defined('CONF_EVOLRUN_2')       || define('CONF_EVOLRUN_2', 64);         //에�
 defined('CONF_EVOLSITE_3')      || define('CONF_EVOLSITE_3', 65);         //에볼루션 밸런스 계정3
 defined('CONF_EVOLRUN_3')       || define('CONF_EVOLRUN_3', 66);         //에볼루션 밸런스 상태3
 defined('CONF_EVOLPRESS')       || define('CONF_EVOLPRESS', 67);         //에볼루션 누르기 상태
+//68 69-HOLD
 defined('CONF_EVOLFOLLOW')      || define('CONF_EVOLFOLLOW', 70);         //에볼루션 따라가기 상태
-defined('CONF_EVP_DENY')       || define('CONF_EVP_DENY', 74); //Evo Powerball
-defined('CONF_SPK_DENY')       || define('CONF_SPK_DENY', 75); //Speed Keno
+defined('CONF_EVP_DENY')        || define('CONF_EVP_DENY', 74); //Evo Powerball
+defined('CONF_SPK_DENY')        || define('CONF_SPK_DENY', 75); //Speed Keno
 defined('CONF_EVOLSITE_4')      || define('CONF_EVOLSITE_4', 76);         //에볼루션 밸런스 계정4
 defined('CONF_EVOLRUN_4')       || define('CONF_EVOLRUN_4', 77);         //에볼루션 밸런스 상태4
 defined('CONF_EVOLSITE_5')      || define('CONF_EVOLSITE_5', 78);         //에볼루션 밸런스 계정5
@@ -190,6 +194,7 @@ defined('CONF_EVOLRUN_6')       || define('CONF_EVOLRUN_6', 83);         //에�
 defined('CONF_EVOLSITE_7')      || define('CONF_EVOLSITE_7', 84);         //에볼루션 밸런스 계정7
 defined('CONF_EVOLRUN_7')       || define('CONF_EVOLRUN_7', 85);         //에볼루션 밸런스 상태7
 defined('CONF_SOUND_5')         || define('CONF_SOUND_5', 88);           //에볼루션 알람
+//89-RAVE
 defined('CONF_PRAGRUN_ALL')     || define('CONF_PRAGRUN_ALL', 90);        //프라그 밸런스 상태
 defined('CONF_PRAGSITE_1')      || define('CONF_PRAGSITE_1', 91);         //프라그 밸런스 계정1
 defined('CONF_PRAGRUN_1')       || define('CONF_PRAGRUN_1', 92);          //프라그 밸런스 상태1
@@ -279,6 +284,8 @@ defined('GAME_SLOT_KGON')      || define('GAME_SLOT_KGON', 15);  //KGON slot
 defined('GAME_SLOT_STAR')      || define('GAME_SLOT_STAR', 16);  //STAR slot
 defined('GAME_CASINO_STAR')    || define('GAME_CASINO_STAR', 17);  //STAR casino
 defined('GAME_HOLD_CMS')       || define('GAME_HOLD_CMS', 18);  //Cms Holdem
+defined('GAME_SLOT_RAVE')       || define('GAME_SLOT_RAVE', 19);  //RAVE slot
+defined('GAME_CASINO_RAVE')    || define('GAME_CASINO_RAVE', 20);  //RAVE casino
 defined('GAME_AUTO_EVOL')      || define('GAME_AUTO_EVOL', 101);
 defined('GAME_AUTO_PRAG')      || define('GAME_AUTO_PRAG', 102);
 
@@ -359,7 +366,8 @@ defined('TRANS_SITE_STAR')      || define('TRANS_SITE_STAR', 11);
 defined('TRANS_STAR_SITE')      || define('TRANS_STAR_SITE', 12); 
 defined('TRANS_SITE_HOLD')      || define('TRANS_SITE_HOLD', 13); 
 defined('TRANS_HOLD_SITE')      || define('TRANS_HOLD_SITE', 14); 
-
+defined('TRANS_SITE_RAVE')      || define('TRANS_SITE_RAVE', 15); 
+defined('TRANS_RAVE_SITE')      || define('TRANS_RAVE_SITE', 16); 
 
 defined('NOTICE_MSG')            || define('NOTICE_MSG', 0);
 defined('NOTICE_BOARD')          || define('NOTICE_BOARD', 1);   
@@ -394,6 +402,12 @@ defined('SLOTCODE_SESSION_NO')      || define('SLOTCODE_SESSION_NO', 97);     //
 defined('SLOTCODE_USER_NONE')       || define('SLOTCODE_USER_NONE', 98);     //찾을 수 없는 회원 ID 
 defined('SLOTCODE_PARAMETER_NO')    || define('SLOTCODE_PARAMETER_NO', 99);    //API 호출을 위한 매개변수 부족 
 defined('SLOTCODE_API_FAIL')        || define('SLOTCODE_API_FAIL', 100);    //API 요청 실패 - 시스템 관리자 문의 
+
+defined('HTTP_CODE_200')        || define('HTTP_CODE_200', 200);    
+defined('HTTP_CODE_400')        || define('HTTP_CODE_400', 400);    
+defined('HTTP_CODE_403')        || define('HTTP_CODE_403', 403);    
+defined('HTTP_CODE_404')        || define('HTTP_CODE_404', 404);    
+defined('HTTP_CODE_409')        || define('HTTP_CODE_409', 409);    
 
 
 defined('MOD_MB_PWD')           || define('MOD_MB_PWD', 1);     

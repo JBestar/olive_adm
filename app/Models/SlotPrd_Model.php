@@ -50,6 +50,8 @@ class SlotPrd_Model extends Model {
 			$gameId = GAME_SLOT_KGON;
 		else if($_ENV['app.slot'] == APP_SLOT_STAR)
 			$gameId = GAME_SLOT_STAR;
+        else if($_ENV['app.slot'] == APP_SLOT_RAVE)
+			$gameId = GAME_SLOT_RAVE;
 
         $strSql = " SELECT * FROM ".$this->table;
         $strSql.= " WHERE maintain = '0' AND cat = ".$gameId;
@@ -73,6 +75,8 @@ class SlotPrd_Model extends Model {
 			$gameId = GAME_SLOT_KGON;
 		else if($_ENV['app.slot'] == APP_SLOT_STAR)
 			$gameId = GAME_SLOT_STAR;
+        else if($_ENV['app.slot'] == APP_SLOT_RAVE)
+			$gameId = GAME_SLOT_RAVE;
 
         $strSql = "SELECT count(*) as count FROM ".$this->table;
         $strSql.= " WHERE maintain = '0' AND cat = ".$gameId;

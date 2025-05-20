@@ -28,6 +28,7 @@ use App\Libraries\ApiFslot_Lib;
 use App\Libraries\ApiGslot_Lib;
 use App\Libraries\ApiHslot_Lib;
 use App\Libraries\ApiHold_Lib;
+use App\Libraries\ApiRave_Lib;
 
 class BaseController extends Controller
 {
@@ -52,6 +53,7 @@ class BaseController extends Controller
 	protected $libApiGslot;
 	protected $libApiHslot;
 	protected $libApiHold;
+	protected $libApiRave;
 
 	/**
 	 * Constructor.
@@ -81,6 +83,7 @@ class BaseController extends Controller
         $this->libApiGslot = new ApiGslot_Lib();
         $this->libApiHslot = new ApiHslot_Lib();
         $this->libApiHold = new ApiHold_Lib();
+        $this->libApiRave = new ApiRave_Lib();
 	}
 
 	protected function getSiteConf($confsiteModel){
@@ -153,12 +156,15 @@ class BaseController extends Controller
 		}
 		$bHcasino = false;
 		$bKcasino = false;
+		$bRcasino = false;
 		if(!$confs["cas_deny"] ){
 			if($_ENV['app.casino'] == APP_CASINO_STAR){
 				$this->hslEgg($objMember);
 				$bHcasino = true;
-			}
-			else {
+			} else if($_ENV['app.casino'] == APP_CASINO_RAVE){
+				$this->raveEgg($objMember);
+				$bRcasino = true;
+			} else {
 				$this->kgonEgg($objMember);
 				$bKcasino = true;
 			}
@@ -171,6 +177,8 @@ class BaseController extends Controller
 				$this->kgonEgg($objMember);
 			else if($_ENV['app.slot'] == APP_SLOT_STAR && !$bHcasino)
 				$this->hslEgg($objMember);
+			else if($_ENV['app.slot'] == APP_SLOT_RAVE && !$bRcasino)
+				$this->raveEgg($objMember);
 		}
 		if($_ENV['app.type'] == APP_TYPE_1 || $_ENV['app.type'] == APP_TYPE_2){
 			usleep(100000);
@@ -189,7 +197,7 @@ class BaseController extends Controller
 		$iResult = 0;
 
 		$logHead = "<EvEgg>";
-		//Request Slot Money
+		//Request Money
 		if($objMember->mb_live_id > 0){
 			
 			$arrResult = $this->libApiCas->getUserInfo($objMember->mb_live_uid);
@@ -211,9 +219,8 @@ class BaseController extends Controller
 		$iResult = 0;
 
 		$logHead = "<KgonEgg>";
-		//Request Slot Money
+		//Request Money
 		if($objMember->mb_kgon_id > 0){
-			
 			$arrResult = $this->libApiKgon->getUserInfo($objMember->mb_kgon_uid);
 			writeLog($logHead." ".$objMember->mb_uid."-UserInfo Status=".$arrResult['status']);
 			if($arrResult['status'] == 1)
@@ -233,9 +240,8 @@ class BaseController extends Controller
 		$iResult = 0;
 
 		$logHead = "<SlEgg> ";
-		//Request Slot Money
+		//Request Money
 		if($objMember->mb_slot_uid !== ""){
-			
 			$arrResult = $this->libApiSlot->getUserInfo($objMember->mb_slot_uid);
 			writeLog($logHead.$objMember->mb_uid."-UserInfo resultCode=".$arrResult['resultCode']);
 			if($arrResult['status'] == 1)
@@ -282,9 +288,8 @@ class BaseController extends Controller
 		$iResult = 0;
 
 		$logHead = "<GslEgg> ";
-		//Request Slot Money
+		//Request Money
 		if($objMember->mb_gslot_uid !== ""){
-			
 			$arrResult = $this->libApiGslot->getUserInfo($objMember->mb_gslot_uid);
 			writeLog($logHead.$objMember->mb_uid."-UserInfo status=".$arrResult['status']);
 			if($arrResult['status'] == 1)
@@ -303,9 +308,8 @@ class BaseController extends Controller
 	protected function hslEgg(&$objMember){
 		$iResult = 0;
 		$logHead = "<HslEgg> ";
-		//Request Slot Money
+		//Request Money
 		if($objMember->mb_hslot_token !== ""){
-			
 			$arrResult = $this->libApiHslot->getUserInfo($objMember->mb_hslot_token);
 			writeLog($logHead.$objMember->mb_uid."-UserInfo status=".$arrResult['status']);
 			if($arrResult['status'] == 1)
@@ -343,6 +347,28 @@ class BaseController extends Controller
 		return $iResult;
 	}
 
+	protected function raveEgg(&$objMember){
+		$iResult = 0;
+
+		$logHead = "<RaveEgg>";
+		//슬롯 머니조회
+		if($objMember->mb_rave_id > 0){
+			//슬롯머니 요청
+			$arrResult = $this->libApiRave->getUserInfo($objMember->mb_rave_uid);
+			writeLog($logHead." ".$objMember->mb_uid."-UserInfo Status=".$arrResult['status']);
+			if($arrResult['status'] == 1)
+			{
+				writeLog($logHead." ".$objMember->mb_uid."-UserInfo Balance=".$arrResult['balance']." Money=".$objMember->mb_money);
+				$objMember->mb_rave_money = floor($arrResult['balance']);
+				$this->modelMember->updateRaveMoney($objMember);   
+				$iResult = 1;
+			}
+		} else {
+            $iResult = 1;
+        }
+		return $iResult;
+	}
+	
 	protected function alltoGame(&$objMember, $iGame = 0){
 		$logHead = "<AlltoGame> ";
 		$iResult = 0;
@@ -395,11 +421,18 @@ class BaseController extends Controller
 				$this->gsltoMb($objMember) == 1 && $this->hsltoMb($objMember) == 1) {
 					$iResult = $this->mbtoHol($objMember);
 			}
+		} else if($iGame == GAME_CASINO_RAVE || $iGame == GAME_SLOT_RAVE){
+			if($this->evtoMb($objMember) == 1 && $this->sltoMb($objMember) == 1 &&
+				$this->fsltoMb($objMember) == 1 && $this->kgtoMb($objMember) == 1 && 
+				$this->gsltoMb($objMember) == 1 && $this->hsltoMb($objMember) == 1 && 
+				$this->holtoMb($objMember) == 1) {
+					$iResult = $this->mbtoRv($objMember);
+			}
 		} else {
 			if($this->evtoMb($objMember) == 1 && $this->sltoMb($objMember) == 1 &&
 				$this->fsltoMb($objMember) == 1 && $this->kgtoMb($objMember) == 1 &&
 				$this->gsltoMb($objMember) == 1 && $this->hsltoMb($objMember) == 1 && 
-				$this->holtoMb($objMember) == 1 ) {
+				$this->holtoMb($objMember) == 1 && $this->rvtoMb($objMember) == 1) {
 					$iResult = 1;
 			}
 		}
@@ -534,7 +567,7 @@ class BaseController extends Controller
 					usleep(500000);
 					$amount = $arrResult['balance'];
 					$arrResp =  $this->libApiSlot->subBalance($objMember->mb_slot_uid, $amount);
-					writeLog($logHead." ".$objMember->mb_uid."-Withdraw resultCode=".$arrResult['resultCode']);
+					writeLog($logHead." ".$objMember->mb_uid."-Withdraw resultCode=".$arrResp['resultCode']);
 				} else {
                     $objMember->mb_slot_money = $arrResult['balance'];
 					$this->modelMember->updateSlotMoney($objMember);
@@ -646,7 +679,7 @@ class BaseController extends Controller
 
 				if($arrResp['status'] == 1)
 				{
-					writeLog($logHead.$objMember->mb_uid."-Withdraw balance=".$arrResp['balance']);
+					writeLog($logHead.$objMember->mb_uid."-Withdraw RemainBalance=".$arrResp['balance']);
                     $objMember->mb_gslot_money = $arrResp['balance'];
 					$this->modelMember->updateGslotMoney($objMember);
 						
@@ -746,6 +779,54 @@ class BaseController extends Controller
 		} else {
             $iResult = 1;
         }
+		return $iResult;
+	}
+
+	protected function rvtoMb(&$objMember){
+		$iResult = 0;
+		$logHead = "<RvtoMb> ";
+		//RAVE => Site
+		if($objMember->mb_rave_id > 0){
+			$arrResult = $this->libApiRave->getUserInfo($objMember->mb_rave_uid);
+			writeLog($logHead." ".$objMember->mb_uid."-UserInfo Status=".$arrResult['status']);
+			if($arrResult['status'] == 1)
+			{
+				writeLog($logHead.$objMember->mb_uid."-UserInfo Balance=".$arrResult['balance']." Money=".$objMember->mb_money);
+				$amount = floor($arrResult['balance']);
+				if($amount > 0){
+					usleep(500000);
+					//Withdraw
+					$arrResp = $this->libApiRave->subBalance($objMember->mb_rave_uid, $amount, true);
+				} else {
+					$objMember->mb_rave_money = $amount;
+					$this->modelMember->updateRaveMoney($objMember); 
+					$iResult = 1;   //success
+                    return $iResult;
+				}
+			
+				if($arrResp['status'] == 1)
+				{
+					$amount = floor($arrResp['amount']);
+					writeLog($logHead.$objMember->mb_uid."-Withdraw RemainBalance=".$arrResp['balance']);
+					$objMember->mb_rave_money = $arrResp['balance'];
+					$this->modelMember->updateRaveMoney($objMember);   
+						
+					if( $this->modelMember->updateAssets($objMember, $amount)){
+						$this->modelTransfer->register(TRANS_RAVE_SITE, $objMember, $objMember->mb_rave_money+$amount, 0-$amount);
+						$objMember->mb_money += $amount;   
+						writeLog($logHead.$objMember->mb_uid."-Withdraw Money=".$objMember->mb_money);
+						$iResult = 1;
+					}
+				} 
+			} else {
+				// if($objMember->mb_rave_money == 0){
+					$iResult = 1;
+				// }
+			}
+		} else {
+            $iResult = 1;
+        }
+
 		return $iResult;
 	}
 
@@ -945,6 +1026,35 @@ class BaseController extends Controller
 		} else {
             $iResult = 1;
         }
+		return $iResult;
+	}
+
+	protected function mbtoRv(&$objMember){
+		$iResult = 0;
+		$logHead = "<MbtoRv> ";
+
+		//Site => KGON
+		if($objMember->mb_rave_id > 0 && floor($objMember->mb_money) > 0){
+			//
+			$arrResult = $this->libApiRave->addBalance($objMember->mb_rave_uid, $objMember->mb_money);
+			writeLog($logHead.$objMember->mb_uid."-Deposit Status=".$arrResult['status']);
+				
+			if($arrResult['status'] == 1)
+			{
+				writeLog($logHead.$objMember->mb_uid."-Deposit Balance=".$arrResult['balance']);
+				if($this->modelMember->updateAssets($objMember, 0-$arrResult['amount'])){
+					$objMember->mb_rave_money = $arrResult['balance'];
+					$amount = $arrResult['amount'];
+					$this->modelTransfer->register(TRANS_SITE_RAVE, $objMember, $objMember->mb_rave_money-$amount, $amount);
+					$this->modelMember->updateRaveMoney($objMember);   
+					$objMember->mb_money -= $arrResult['amount'];   
+					$iResult = 1;
+				}
+			} 
+		} else {
+            $iResult = 1;
+        }
+
 		return $iResult;
 	}
 }

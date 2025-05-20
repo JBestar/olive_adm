@@ -42,6 +42,8 @@ class SlBet_Model extends Model
                 $gameId1 = GAME_SLOT_KGON;
             else if($_ENV['app.slot'] == APP_SLOT_STAR)
                 $gameId1 = GAME_SLOT_STAR;
+            else if($_ENV['app.slot'] == APP_SLOT_RAVE)
+                $gameId1 = GAME_SLOT_RAVE;
 
             $gameId2 = GAME_SLOT_GSPLAY;
             if($_ENV['app.fslot'] == APP_FSLOT_GOLD)
@@ -136,6 +138,8 @@ class SlBet_Model extends Model
                 $gameId1 = GAME_SLOT_KGON;
             else if($_ENV['app.slot'] == APP_SLOT_STAR)
                 $gameId1 = GAME_SLOT_STAR;
+            else if($_ENV['app.slot'] == APP_SLOT_RAVE)
+                $gameId1 = GAME_SLOT_RAVE;
 
             $gameId2 = GAME_SLOT_GSPLAY;
             if($_ENV['app.fslot'] == APP_FSLOT_GOLD)
@@ -260,6 +264,8 @@ class SlBet_Model extends Model
                 $gameId1 = GAME_SLOT_KGON;
             else if($_ENV['app.slot'] == APP_SLOT_STAR)
                 $gameId1 = GAME_SLOT_STAR;
+            else if($_ENV['app.slot'] == APP_SLOT_RAVE)
+                $gameId1 = GAME_SLOT_RAVE;
 
             $gameId2 = GAME_SLOT_GSPLAY;
             if($_ENV['app.fslot'] == APP_FSLOT_GOLD)

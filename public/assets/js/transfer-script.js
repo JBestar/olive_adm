@@ -25,10 +25,12 @@ function showMoneyHistory(arrData) {
         switch (parseInt(arrData[nRow].trans_type)) {
             case 1:
             case 3:
+            case 15:
                 strBuf += "<span style='color:#00ff00;'>사이트 => 카지노</span>";
                 break;
             case 2:
             case 4:
+            case 16:
                 strBuf += "<span style='color:#00aa00;'>카지노 => 사이트</span>";
                 break;
             case 5:
