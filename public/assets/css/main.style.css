@@ -120,7 +120,7 @@ button[disabled], html input[disabled], select[disabled] {
     padding: 10px 10px 10px 20px;
     text-decoration: none;
     font-size: 15px;
-    color: var(--bar-font-color);
+    color: var(--menu-font-color);
     display: block;
     border: none;
     background: none;
@@ -139,7 +139,7 @@ button[disabled], html input[disabled], select[disabled] {
     padding: 10px 10px 10px 20px;
     text-decoration: none;
     font-size: 15px;
-    color: #0017b9;
+    color: var(--dropdown-font-color);
     display: block;
     border: none;
     background: none;
@@ -160,6 +160,10 @@ button[disabled], html input[disabled], select[disabled] {
 .main-sidebar a:hover,
 .main-dropdown-btn:hover {
     padding-left: 30px;
+}
+
+.main-sidebar a:hover{
+    color:var(--menu-font-color);
 }
 
 .main-sidebar a i,

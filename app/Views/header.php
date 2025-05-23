@@ -32,6 +32,19 @@
 				--menu-bg-color: #dee1e6;
 			<?php endif ?>
 			
+			<?php if(array_key_exists('css.dropdown-font-color', $_ENV)) :?> 
+				--dropdown-font-color: <?=$_ENV['css.dropdown-font-color']?>;
+			<?php else: ?>
+				--dropdown-font-color: #0017b9;
+			<?php endif ?>
+			
+
+			<?php if(array_key_exists('css.menu-font-color', $_ENV)) :?> 
+				--menu-font-color: <?=$_ENV['css.menu-font-color']?>;
+			<?php else: ?>
+				--menu-font-color: black;
+			<?php endif ?>
+
 			--bar-font-color: black;
 			--span-font-color: #0090ff;
 			--main-button-color: #ffda3d;
@@ -43,7 +56,7 @@
 		}
 	</style>
 	<?php if($_ENV['CI_ENVIRONMENT'] == ENV_PRODUCTION) :?>
-		<link rel="stylesheet" href="<?php echo site_furl('assets/css/main.style.css?v=24');?>">
+		<link rel="stylesheet" href="<?php echo site_furl('assets/css/main.style.css?v=25');?>">
     <?php else : ?>
 		<link rel="stylesheet" href="<?php echo site_furl('assets/css/main.style.css?t='.time());?>">
     <?php endif ?>
