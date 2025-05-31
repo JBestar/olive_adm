@@ -156,17 +156,19 @@ function addBtnEvent() {
         
         let gameId = $(".confsite-game-panel").attr('id');
         var openWindow = window.open("about:blank");
-        if(gameId == 4){
+        if(gameId == GAME_CASINO_EVOL){
             openWindow.location.href = "https://www.hpplaycasion.com/";
-        } else if(gameId == 7){
+        } else if(gameId == GAME_SLOT_THEPLUS){
             openWindow.location.href = "http://system-theplus.com/login";
-        } else if(gameId == 8){
+        } else if(gameId == GAME_SLOT_GSPLAY){
             openWindow.location.href = "http://agent.gsplay-777.com/agent";
-        } else if(gameId == 3){
+        } else if(gameId == GAME_CASINO_KGON || gameId == GAME_SLOT_KGON){
             openWindow.location.href = "https://v1.kgonapi.com";
-        } else if(gameId == 20){
+        } else if(gameId == GAME_CASINO_RAVE || gameId == GAME_SLOT_RAVE){
             openWindow.location.href = "https://backoffice.rave-games.com/";
-        }
+        } else if(gameId == GAME_SLOT_GOLD){
+            openWindow.location.href = "https://goldslot-link.com/";
+        } 
         
     });
     

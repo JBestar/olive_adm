@@ -45,13 +45,7 @@ class SlotPrd_Model extends Model {
     }
 
     public function search($arrReqData){
-        $gameId = GAME_SLOT_THEPLUS;
-		if($_ENV['app.slot'] == APP_SLOT_KGON)
-			$gameId = GAME_SLOT_KGON;
-		else if($_ENV['app.slot'] == APP_SLOT_STAR)
-			$gameId = GAME_SLOT_STAR;
-        else if($_ENV['app.slot'] == APP_SLOT_RAVE)
-			$gameId = GAME_SLOT_RAVE;
+        $gameId = $arrReqData['game'];
 
         $strSql = " SELECT * FROM ".$this->table;
         $strSql.= " WHERE maintain = '0' AND cat = ".$gameId;
@@ -70,13 +64,7 @@ class SlotPrd_Model extends Model {
     }
 
     public function searchCount($arrReqData){
-        $gameId = GAME_SLOT_THEPLUS;
-		if($_ENV['app.slot'] == APP_SLOT_KGON)
-			$gameId = GAME_SLOT_KGON;
-		else if($_ENV['app.slot'] == APP_SLOT_STAR)
-			$gameId = GAME_SLOT_STAR;
-        else if($_ENV['app.slot'] == APP_SLOT_RAVE)
-			$gameId = GAME_SLOT_RAVE;
+        $gameId = $arrReqData['game'];
 
         $strSql = "SELECT count(*) as count FROM ".$this->table;
         $strSql.= " WHERE maintain = '0' AND cat = ".$gameId;

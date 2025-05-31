@@ -355,9 +355,14 @@ class Home extends StdController
 		$param = [
 			'game_name' => "네츄럴슬롯",
 			'game_id' => $gameId,
-			'game_prds' => $slprdModel->getByCode($gameId), 
 		];
-		$this->load_view_page('home/conf_fslot', 'conf_game', LEVEL_ADMIN, $param);	
+		if($_ENV['app.type'] == APP_TYPE_1){
+			$param['game_prds'] = $slprdModel->getByCode($gameId);
+			$this->load_view_page('home/conf_fslot', 'conf_game', LEVEL_ADMIN, $param);	
+		}
+		else if($_ENV['app.type'] == APP_TYPE_2)
+			$this->load_view_page('home/conf_slot', 'conf_game', LEVEL_ADMIN, $param);	
+
 	}
 
 	

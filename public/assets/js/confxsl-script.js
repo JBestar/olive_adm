@@ -76,7 +76,7 @@ function requestGame() {
         "count": CountPerPage,
         "page": nPage,
         "name": sGame,
-
+        "game": $(".confsite-game-panel").attr('id')
     };
 
     jsonData = JSON.stringify(jsonData);
@@ -114,6 +114,7 @@ function requestTotalPage() {
     var jsonData = {
         "count": CountPerPage,
         "name": sGame,
+        "game": $(".confsite-game-panel").attr('id')
     };
 
     jsonData = JSON.stringify(jsonData);

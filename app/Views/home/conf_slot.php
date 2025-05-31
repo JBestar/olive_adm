@@ -66,10 +66,10 @@
 			<button class="refresh_btn" title="조회" id="refresh_useregg" style="margin-left:5px; margin-top:5px;"></button>
 			<button class="recovery_btn" title="회수" id="recovery_useregg" style="margin-left:10px; margin-top:2px;"></button>
 		</div>
-		<!-- <div class="confsite-game-text-div">
+		<div class="confsite-game-text-div">
 			<p>에이젼트 페이지:</p>
 			<button class="confsite-cancel-button" id="confsite-agent-btn-id" style="margin-bottom:20px; width:200px;">바로 가기</button>
-		</div> -->
+		</div>
 		<div class = "confsite-button-group" style="margin-top:20px;">
 			<button class="confsite-cancel-button" id="confsite-cancel-btn-id">취소</button>
 			<button class="confsite-ok-button"  id="confsite-ok-btn-id">저장</button>

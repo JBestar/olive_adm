@@ -129,9 +129,7 @@ class Api extends BaseController{
 					$confsiteModel->setConfActive(CONF_API_GOLD, $arrResult['balance']);
 					writeLog("<GSLOT> AGENT Egg = ".$arrResult['balance']);
 				} else {
-					if($arrResult['msg'] == "INVALID_ACCESS_SECRETKEY"){
-						$errMsg = "잘못된 보안키";
-					} else if($arrResult['msg'] == "INVALID_AGENT" || $arrResult['msg'] == "BLOCKED_AGENT"){
+					if($arrResult['msg'] == "INVALID_AGENT" || $arrResult['msg'] == "BLOCKED_AGENT"){
 						$errMsg = "에이젼트 오류";
 					} else $errMsg = "접속불가";
 					writeLog("<GSLOT> AGENT Egg Msg = ".$arrResult['msg']);

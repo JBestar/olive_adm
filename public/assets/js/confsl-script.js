@@ -85,11 +85,11 @@ function showGame(list, appType) {
                 //     html += "<option "+(game.act==2?"selected":"")+" value='2'>OUR_NEW</option>";
                 // } else{
                     // if(parseInt(game.fslot_prd) != 215)
-                        html += "<option "+(game.act==1?"selected":"")+" value='1'>OUR</option>";
+                        html += "<option "+(game.act==1?"selected":"")+" value='1'>네츄럴</option>";
                     // else 
                     //     html += "<option "+(game.act==2?"selected":"")+" value='2'>OUR_NEW</option>";
                 // }
-                html += "<option "+(game.act==0?"selected":"")+" value='0'>KPLAY</option></select>";
+                html += "<option "+(game.act==0?"selected":"")+" value='0'>정품</option></select>";
             }
             
 

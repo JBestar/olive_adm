@@ -73,7 +73,7 @@
             mLevelType = <?=$_ENV['app.level_type']?>;
         <?php endif ?>
     </script>
-    <script src="<?php echo site_furl('assets/js/common.js?v=2');?>"></script>
+    <script src="<?php echo site_furl('assets/js/common.js?v=2.1');?>"></script>
 
 </head>
 <?php if($_ENV['CI_ENVIRONMENT'] == ENV_PRODUCTION) :?>
