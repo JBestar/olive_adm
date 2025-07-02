@@ -45,9 +45,9 @@ function showMoneyHistory(jsonBetData) {
             case 4: strBuf += "PBG 배팅"; break;
             case 5: strBuf += "PBG 배팅취소"; break;
             case 6: strBuf += "PBG 정산"; break;
-            case 7: strBuf += "에볼루션파워볼 배팅"; break;
-            case 8: strBuf += "에볼루션파워볼 배팅취소"; break;
-            case 9: strBuf += "에볼루션파워볼 정산"; break;
+            case 7: strBuf += "동행파워볼 배팅"; break;
+            case 8: strBuf += "동행파워볼 배팅취소"; break;
+            case 9: strBuf += "동행파워볼 정산"; break;
             case 10: strBuf += "스피드키노 배팅"; break;
             case 11: strBuf += "스피드키노 배팅취소"; break;
             case 12: strBuf += "스피드키노 정산"; break;
