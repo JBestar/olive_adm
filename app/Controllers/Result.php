@@ -76,6 +76,29 @@ class Result extends StdController {
 		return;	
 	}
 
+	public function dpresult()
+	{
+		$param = [
+			'game_name' => "동행볼",
+			'game_id' => GAME_DHP_BALL,
+		];
+		$this->load_view_page('result/bbresult', 'gameresult', LEVEL_ADMIN, $param);	
+	}
+
+	public function dpresult_edit($strRoundFid)
+	{
+		$param = [
+			'game_name' => "동행볼",
+			'game_id' => GAME_DHP_BALL,
+		];	
+
+		$this->result_edit_page(
+			$strRoundFid, 
+			'result/bbresult_edit', 
+			'gameresult', 
+			LEVEL_ADMIN,
+			$param);	
+	}
 
 	public function epresult()
 	{
@@ -100,7 +123,6 @@ class Result extends StdController {
 			LEVEL_ADMIN,
 			$param);	
 	}
-
 	
 	public function skresult()
 	{
@@ -154,7 +176,7 @@ class Result extends StdController {
 	public function bsresult()
 	{
 		$param = [
-			'game_name' => "보글사다리",
+			'game_name' => "보사달",
 			'game_id' => GAME_BOGLE_LADDER,
 		];	
 		$this->load_view_page('result/psresult', 'gameresult', LEVEL_ADMIN, $param);	
@@ -163,7 +185,7 @@ class Result extends StdController {
 	public function bsresult_edit($strRoundFid)
 	{
 		$param = [
-			'game_name' => "보글사다리",
+			'game_name' => "보사달",
 			'game_id' => GAME_BOGLE_LADDER,
 		];
 		
@@ -278,6 +300,15 @@ class Result extends StdController {
 		$this->result_change_page('result/pbbet_change', $strDate, $strRoundNo, $param);				
 	}
 
+	public function dpbetchange($strDate, $strRoundNo)
+	{
+		$param = [
+			'game_name' => "동행볼",
+			'game_id' => GAME_DHP_BALL,
+		];
+		$this->result_change_page('result/pbbet_change', $strDate, $strRoundNo, $param);		
+	}
+
 	public function epbetchange($strDate, $strRoundNo)
 	{
 		$param = [
@@ -308,7 +339,7 @@ class Result extends StdController {
 	public function bsbetchange($strDate, $strRoundNo)
 	{
 		$param = [
-			'game_name' => "보글사다리",
+			'game_name' => "보사달",
 			'game_id' => GAME_BOGLE_LADDER,
 		];	
 		$this->result_change_page('result/psbet_change', $strDate, $strRoundNo, $param);			

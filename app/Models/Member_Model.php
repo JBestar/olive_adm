@@ -337,7 +337,7 @@ class Member_Model extends Model
 
      public function gameRange(&$arrReqData, $bRw = true)
      {
-        if ($arrReqData['type'] == GAME_PBG_BALL || $arrReqData['type'] == GAME_EVOL_BALL ||
+        if ($arrReqData['type'] == GAME_PBG_BALL || $arrReqData['type'] == GAME_DHP_BALL ||
             $arrReqData['type'] == GAME_BOGLE_BALL || $arrReqData['type'] == GAME_BOGLE_LADDER ||
             $arrReqData['type'] == GAME_EOS5_BALL || $arrReqData['type'] == GAME_EOS3_BALL ||
             $arrReqData['type'] == GAME_COIN5_BALL || $arrReqData['type'] == GAME_COIN3_BALL || 
@@ -594,7 +594,7 @@ class Member_Model extends Model
         //배팅금액
         $rewardTb = $this->rewardTb;
         $strSQL .= ' UNION ALL ( SELECT SUM(bet_money) AS result_1, SUM(bet_win_money) AS result_2 FROM ';
-        if ($arrReqData['type'] == GAME_PBG_BALL || $arrReqData['type'] == GAME_EVOL_BALL || $arrReqData['type'] == GAME_BOGLE_BALL ||
+        if ($arrReqData['type'] == GAME_PBG_BALL || $arrReqData['type'] == GAME_DHP_BALL || $arrReqData['type'] == GAME_BOGLE_BALL ||
             $arrReqData['type'] == GAME_BOGLE_LADDER || $arrReqData['type'] == GAME_EOS5_BALL || $arrReqData['type'] == GAME_EOS3_BALL ||
             $arrReqData['type'] == GAME_COIN5_BALL || $arrReqData['type'] == GAME_COIN3_BALL || $arrReqData['type'] == GAME_SPKN_BALL) {
             $strSQL .= ' bet_pball ';
@@ -629,7 +629,7 @@ class Member_Model extends Model
             $strSQL .= " AND bet_money <> bet_win_money ";  //sum without Tie
         } else if($arrReqData['type'] == GAME_HOLD_CMS){
             $strSQL .= " AND bet_state = 0 ";
-        } else if ($arrReqData['type'] == GAME_PBG_BALL || $arrReqData['type'] == GAME_EVOL_BALL || $arrReqData['type'] == GAME_BOGLE_BALL ||
+        } else if ($arrReqData['type'] == GAME_PBG_BALL || $arrReqData['type'] == GAME_DHP_BALL || $arrReqData['type'] == GAME_BOGLE_BALL ||
             $arrReqData['type'] == GAME_BOGLE_LADDER || $arrReqData['type'] == GAME_EOS5_BALL || $arrReqData['type'] == GAME_EOS3_BALL ||
             $arrReqData['type'] == GAME_COIN5_BALL || $arrReqData['type'] == GAME_COIN3_BALL || $arrReqData['type'] == GAME_SPKN_BALL) {
             $strSQL .= " AND bet_game = ".$arrReqData['type'];

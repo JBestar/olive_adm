@@ -61,7 +61,7 @@
 		}
 	</style>
 
-	<link rel="stylesheet" href="<?php echo site_furl('assets/css/main.style.css?v=27');?>">
+	<link rel="stylesheet" href="<?php echo site_furl('assets/css/main.style.css?v=28');?>">
 
 	<!-- JQuery 1.12.1 -->
 	<link rel="stylesheet" href="<?php echo site_furl('assets/js/jquery-ui-1.12.1.min.css'); ?>">
@@ -79,7 +79,7 @@
             mLevelType = <?=$_ENV['app.level_type']?>;
         <?php endif ?>
     </script>
-    <script src="<?php echo site_furl('assets/js/common.js?v=2.1');?>"></script>
+    <script src="<?php echo site_furl('assets/js/common.js?v=3');?>"></script>
 
 </head>
 <?php if($_ENV['CI_ENVIRONMENT'] == ENV_PRODUCTION) :?>

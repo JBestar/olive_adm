@@ -48,10 +48,10 @@
 					<option value="5">PBG배팅취소</option>				
 					<option value="6">PBG정산</option>
 				<?php endif ?>   
-				<?php if(!$evp_deny) :?>
-					<option value="7">에볼파워배팅</option>				
-					<option value="8">에볼파워배팅취소</option>				
-					<option value="9">에볼파워정산</option>
+				<?php if(!$dhp_deny) :?>
+					<option value="7">동행볼배팅</option>				
+					<option value="8">동행볼배팅취소</option>				
+					<option value="9">동행볼정산</option>
 				<?php endif ?>   
 				<?php if(!$spk_deny) :?>
 					<option value="10">스피드키노배팅</option>				
@@ -136,7 +136,7 @@
 
 <?php if($_ENV['CI_ENVIRONMENT'] == ENV_PRODUCTION) :?>
     <script src="<?php echo site_furl('/assets/js/page.js?v=1');?>"></script>
-    <script src="<?php echo site_furl('/assets/js/exchange-script.js?v=1');?>"></script>
+    <script src="<?php echo site_furl('/assets/js/exchange-script.js?v=2');?>"></script>
 <?php else : ?>
     <script src="<?php echo site_furl('/assets/js/page.js?t='.time());?>"></script>
     <script src="<?php echo site_furl('/assets/js/exchange-script.js?t='.time());?>"></script>

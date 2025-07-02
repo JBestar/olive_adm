@@ -166,30 +166,35 @@ class PbApi extends BaseController {
 
 				$arrRoundInfo = getPbRoundInfo();
 				$arrBetSum = $betModel->getBetSumByMode($arrRoundInfo, $objConf);
-			} else if($arrReqData['game'] == GAME_EVOL_BALL){
+			} else if($arrReqData['game'] == GAME_DHP_BALL){
 
-				$modelRound = new PbRound_Model();
-				$reqData['game'] = $arrReqData['game'];
-				$reqData['page'] = 1;
-				$reqData['count'] = 1;
-				$arrRound = $modelRound->searchList($reqData);
-				if(count($arrRound)>0){
-					$objRound = $arrRound[0]; 
-					$arrRoundInfo['round_no'] = $objRound->round_num;
-					$arrRoundInfo['round_date'] = $objRound->round_date;
-					$arrRoundInfo['round_current'] = date("Y-m-d H:i:s", time());
-					$arrRoundInfo['round_start'] = $objRound->round_time;
-
-					$tmRoundStart = strtotime($objRound->round_time);
-					$tmRoundEnd = strtotime("+".floor($objRound->round_period)." seconds", $tmRoundStart);
-					$arrRoundInfo['round_bet_end'] = date("Y-m-d H:i:s", $tmRoundEnd);
-
-					// $tmRoundEnd = strtotime("+".floor($objRound->round_period+20)." seconds", $tmRoundStart);
-					$arrRoundInfo['round_end'] = date("Y-m-d H:i:s", $tmRoundEnd);
-				}
-				
+				$arrRoundInfo = getPbRoundInfo(true);
 				$arrBetSum = $betModel->getBetSumByMode($arrRoundInfo, $objConf);
-			} else if($arrReqData['game'] == GAME_BOGLE_BALL){
+			} 
+			// else if($arrReqData['game'] == GAME_EVOL_BALL){
+
+			// 	$modelRound = new PbRound_Model();
+			// 	$reqData['game'] = $arrReqData['game'];
+			// 	$reqData['page'] = 1;
+			// 	$reqData['count'] = 1;
+			// 	$arrRound = $modelRound->searchList($reqData);
+			// 	if(count($arrRound)>0){
+			// 		$objRound = $arrRound[0]; 
+			// 		$arrRoundInfo['round_no'] = $objRound->round_num;
+			// 		$arrRoundInfo['round_date'] = $objRound->round_date;
+			// 		$arrRoundInfo['round_current'] = date("Y-m-d H:i:s", time());
+			// 		$arrRoundInfo['round_start'] = $objRound->round_time;
+
+			// 		$tmRoundStart = strtotime($objRound->round_time);
+			// 		$tmRoundEnd = strtotime("+".floor($objRound->round_period)." seconds", $tmRoundStart);
+			// 		$arrRoundInfo['round_bet_end'] = date("Y-m-d H:i:s", $tmRoundEnd);
+
+			// 		$arrRoundInfo['round_end'] = date("Y-m-d H:i:s", $tmRoundEnd);
+			// 	}
+				
+			// 	$arrBetSum = $betModel->getBetSumByMode($arrRoundInfo, $objConf);
+			// } 
+			else if($arrReqData['game'] == GAME_BOGLE_BALL){
 
 				$betModel = new PbBet_Model();
 				$arrRoundInfo = getBRoundInfo(ROUND_2MIN);
@@ -317,11 +322,11 @@ class PbApi extends BaseController {
 			$betModel = new PbBet_Model();
 			if($arrReqData['game'] == GAME_PBG_BALL ){
 				$iChangeType = MONEYCHANGE_WIN_PB;
-			} else if($arrReqData['game'] == GAME_EVOL_BALL){
-				$iChangeType = MONEYCHANGE_WIN_EB;
+			} else if($arrReqData['game'] == GAME_DHP_BALL){
+				$iChangeType = MONEYCHANGE_WIN_DH;
 			} else if($arrReqData['game'] == GAME_SPKN_BALL){
 				$iChangeType = MONEYCHANGE_WIN_SK;
-			}  else if($arrReqData['game'] == GAME_BOGLE_BALL){
+			} else if($arrReqData['game'] == GAME_BOGLE_BALL){
 				$iChangeType = MONEYCHANGE_WIN_BB;
 			} else if($arrReqData['game'] == GAME_BOGLE_LADDER){
 				$iChangeType = MONEYCHANGE_WIN_BS;
@@ -395,8 +400,8 @@ class PbApi extends BaseController {
 
 			if($arrReqData['game'] == GAME_PBG_BALL ){
 				$iChangeType = MONEYCHANGE_WIN_PB;
-			} else if($arrReqData['game'] == GAME_EVOL_BALL){
-				$iChangeType = MONEYCHANGE_WIN_EB;
+			} else if($arrReqData['game'] == GAME_DHP_BALL){
+				$iChangeType = MONEYCHANGE_WIN_DH;
 			} else if($arrReqData['game'] == GAME_SPKN_BALL){
 				$iChangeType = MONEYCHANGE_WIN_SK;
 			}  else if($arrReqData['game'] == GAME_BOGLE_BALL){

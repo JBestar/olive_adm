@@ -73,12 +73,12 @@ class PbBet_Model extends Model
             $strSql = ' SELECT SUM(bet_money_sum) AS bet_money_allsum FROM ( ';
             $strSql .= " SELECT bet_mb_uid, bet_mode, bet_target, bet_ratio, SUM(bet_money) AS bet_money_sum FROM ".$this->table;
             $strSql .= " JOIN ".$this->mMemberTable." ON ".$this->mMemberTable.".mb_uid = ".$this->table.".bet_mb_uid ";
-            $strSql .= " WHERE bet_round_no='".$arrRoundInfo['round_no']."' AND bet_state = '1' ";
+            $strSql .= " WHERE bet_game=".$objConf->game_index." AND bet_round_no='".$arrRoundInfo['round_no']."' AND bet_state = '1' ";
             $strSql .= " AND bet_time > '".$arrRoundInfo['round_start']."' AND bet_time < '".$arrRoundInfo['round_end']."' ";
             $strSql .= " AND bet_mode='".$iMode."' AND bet_target='P' GROUP BY bet_mb_uid ";
             $strSql .= " ) tb_sum ";            
             $objResult = $this -> db -> query($strSql)->getRow();
-            
+            writeLog($strSql);
             //유저별 배팅결과 합
             $nSum = 0;
             if(!is_null($objResult->bet_money_allsum)) {
@@ -91,7 +91,7 @@ class PbBet_Model extends Model
             $strSql = " SELECT SUM(bet_money_sum) AS bet_money_allsum FROM ( ";
             $strSql .= " SELECT bet_mb_uid, bet_mode, bet_target, bet_ratio, SUM(bet_money) AS bet_money_sum FROM ".$this->table;
             $strSql .= " JOIN ".$this->mMemberTable." ON ".$this->mMemberTable.".mb_uid = ".$this->table.".bet_mb_uid ";
-            $strSql .= " WHERE bet_round_no='".$arrRoundInfo['round_no']."' AND bet_state = '1' ";
+            $strSql .= " WHERE bet_game=".$objConf->game_index." AND bet_round_no='".$arrRoundInfo['round_no']."' AND bet_state = '1' ";
             $strSql .= " AND bet_time > '".$arrRoundInfo['round_start']."' AND bet_time < '".$arrRoundInfo['round_end']."' ";
             $strSql .= " AND bet_mode='".$iMode."' AND bet_target='B' GROUP BY bet_mb_uid ";
             $strSql .= " ) tb_sum ";
@@ -114,7 +114,7 @@ class PbBet_Model extends Model
             $strSql = " SELECT SUM(bet_money_sum) AS bet_money_allsum FROM ( ";
             $strSql .= " SELECT bet_mb_uid, bet_mode, bet_target, bet_ratio, SUM(bet_money) AS bet_money_sum FROM ".$this->table;
             $strSql .= " JOIN ".$this->mMemberTable." ON ".$this->mMemberTable.".mb_uid = ".$this->table.".bet_mb_uid ";
-            $strSql .= " WHERE bet_round_no='".$arrRoundInfo['round_no']."' AND bet_state = '1' ";
+            $strSql .= " WHERE bet_game=".$objConf->game_index." AND bet_round_no='".$arrRoundInfo['round_no']."' AND bet_state = '1' ";
             $strSql .= " AND bet_time > '".$arrRoundInfo['round_start']."' AND bet_time < '".$arrRoundInfo['round_end']."' ";
             $strSql .= " AND bet_mode='".$iMode."' GROUP BY bet_mb_uid ";
             $strSql .= " ) tb_sum ";

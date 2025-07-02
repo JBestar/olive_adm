@@ -162,7 +162,7 @@ function goResultPage(){
     if(mGameId == 1){
         window.location.replace( FURL +'/result/pbresult');
     } else if(mGameId == 2){
-        window.location.replace( FURL +'/result/psresult');
+        window.location.replace( FURL +'/result/dpresult');
     } else if(mGameId == 5){
         window.location.replace( FURL +'/result/bbresult');
     } else if(mGameId == 6){

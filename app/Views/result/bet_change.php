@@ -6,15 +6,15 @@
 		<?php if(!$pbg_deny) :?>
 			<a href="<?php echo siteFurl().'result/pbbetchange/0/0';?>" class="sub-navbar-a" >PBG</a>
 		<?php endif ?>   
-		<?php if(!$evp_deny) :?>
-			<a href="<?php echo site_furl('result/epbetchange/0/0');?>" class="sub-navbar-a" >에볼파워볼</a>
+		<?php if(!$dhp_deny) :?>
+			<a href="<?php echo site_furl('result/dpbetchange/0/0');?>" class="sub-navbar-a" >동행볼</a>
 		<?php endif ?>  
 		<?php if(!$spk_deny) :?>
 			<a href="<?php echo site_furl('result/skbetchange/0/0');?>" class="sub-navbar-a" >스피드키노</a>
 		<?php endif ?>   
 		<?php if(!$bpg_deny) :?>
 			<a href="<?php echo siteFurl().'result/bbbetchange/0/0';?>" class="sub-navbar-a" >보글볼</a>
-			<a href="<?php echo siteFurl().'result/bsbetchange/0/0';?>" class="sub-navbar-a" >보글사다리</a>
+			<a href="<?php echo siteFurl().'result/bsbetchange/0/0';?>" class="sub-navbar-a" >보사달</a>
 		<?php endif ?>   
 		<?php if(!$eos5_deny) :?>
 			<a href="<?php echo siteFurl().'result/e5betchange/0/0';?>" class="sub-navbar-a" >EOS5분</a>

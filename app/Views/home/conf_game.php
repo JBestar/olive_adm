@@ -23,15 +23,15 @@
 		<?php if(!$pbg_deny) :?>
 			<a href="<?php echo siteFurl().'home/conf_powerball';?>" class="sub-navbar-a" >PBG파워볼</a>
 		<?php endif ?>  
-		<?php if(!$evp_deny) :?>
-			<a href="<?php echo site_furl('home/conf_evolball');?>" class="sub-navbar-a" >에볼파워볼</a>
+		<?php if(!$dhp_deny) :?>
+			<a href="<?php echo site_furl('home/conf_dhpball');?>" class="sub-navbar-a" >동행볼</a>
 		<?php endif ?>  
 		<?php if(!$spk_deny) :?>
 			<a href="<?php echo site_furl('home/conf_speedkeno');?>" class="sub-navbar-a" >스피드키노</a>
 		<?php endif ?>    
     	<?php if(!$bpg_deny) :?>
 			<a href="<?php echo siteFurl().'home/conf_bogleball';?>" class="sub-navbar-a" >보글볼</a>
-			<a href="<?php echo siteFurl().'home/conf_bogleladder';?>" class="sub-navbar-a " >보글사다리</a>
+			<a href="<?php echo siteFurl().'home/conf_bogleladder';?>" class="sub-navbar-a " >보사달</a>
 		<?php endif ?>   
 		<?php if(!$eos5_deny) :?>
 			<a href="<?php echo site_furl('home/conf_eos5ball');?>" class="sub-navbar-a" >EOS5분</a>

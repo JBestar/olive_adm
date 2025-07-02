@@ -204,7 +204,7 @@ function addButtonElementListener(buttonElement) {
                 jsonData = { "mb_fid": this.name, "mb_game_pb": 1 };
             }
             requestUpdateMember(jsonData);
-        } else if (this.innerHTML == "에볼파") {
+        } else if (this.innerHTML == "동행") {
             if (this.className.search("button-active") >= 0) {
                 jsonData = { "mb_fid": this.name, "mb_game_ps": 0 };
             } else {
@@ -240,7 +240,7 @@ function addButtonElementListener(buttonElement) {
                 jsonData = { "mb_fid": this.name, "mb_game_bs": 1 };
             }
             requestUpdateMember(jsonData);
-        } else if (this.innerHTML.search("코인파") >= 0) {
+        } else if (this.innerHTML.search("코인") >= 0) {
             if (this.className.search("button-active") >= 0) {
                 jsonData = { "mb_fid": this.name, "mb_game_co": 0 };
             } else {

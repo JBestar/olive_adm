@@ -32,6 +32,15 @@ class Bet extends StdController {
 		$this->load_view_page('bet/pbrealtime', 'bet_realtime', LEVEL_ADMIN, $param);
 	}
 
+	public function dprealtime(){
+		
+		$param = [
+			'game_name' => "동행볼",
+			'game_id' => GAME_DHP_BALL,
+		];
+		$this->load_view_page('bet/pbrealtime', 'bet_realtime', LEVEL_ADMIN, $param);
+	}
+
 	public function eprealtime(){
 		
 		$param = [
@@ -63,7 +72,7 @@ class Bet extends StdController {
 	public function bsrealtime(){
 		
 		$param = [
-			'game_name' => "보글사다리",
+			'game_name' => "보사달",
 			'game_id' => GAME_BOGLE_LADDER,
 		];
 		$this->load_view_page('bet/psrealtime', 'bet_realtime', LEVEL_ADMIN, $param);
@@ -113,6 +122,14 @@ class Bet extends StdController {
 		$param = [
 			'game_name' => "PBG",
 			'game_id' => GAME_PBG_BALL,
+		];
+		$this->load_view_page('bet/pbhistory', 'bet_history', LEVEL_MIN, $param);
+	}
+
+	public function dphistory(){
+		$param = [
+			'game_name' => "동행볼",
+			'game_id' => GAME_DHP_BALL,
 		];
 		$this->load_view_page('bet/pbhistory', 'bet_history', LEVEL_MIN, $param);
 	}
@@ -284,7 +301,7 @@ class Bet extends StdController {
 
 	public function bshistory(){
 		$param = [
-			'game_name' => "보글사다리",
+			'game_name' => "보사달",
 			'game_id' => GAME_BOGLE_LADDER,
 		];
 		$this->load_view_page('bet/pshistory', 'bet_history', LEVEL_MIN, $param);
@@ -412,6 +429,13 @@ class Bet extends StdController {
 		$this->load_view_page('bet/calculate_game', 'bet_calculate', LEVEL_MIN, $param);
 	}
 
+	public function dpcalculate(){
+		$param = [
+			'game_name' => "동행볼",
+			'game_id' => GAME_DHP_BALL,
+		];
+		$this->load_view_page('bet/calculate_game', 'bet_calculate', LEVEL_MIN, $param);
+	}
 
 	public function epcalculate(){
 		$param = [
@@ -424,7 +448,7 @@ class Bet extends StdController {
 	public function skcalculate(){
 		$param = [
 			'game_name' => "스피드키노",
-			'game_id' => GAME_EVOL_BALL,
+			'game_id' => GAME_SPKN_BALL,
 		];
 		$this->load_view_page('bet/calculate_game', 'bet_calculate', LEVEL_MIN, $param);
 	}
@@ -511,7 +535,7 @@ class Bet extends StdController {
 
 	public function bscalculate(){
 		$param = [
-			'game_name' => "보글사다리",
+			'game_name' => "보사달",
 			'game_id' => GAME_BOGLE_LADDER,
 		];
 		$this->load_view_page('bet/calculate_game', 'bet_calculate', LEVEL_MIN, $param);

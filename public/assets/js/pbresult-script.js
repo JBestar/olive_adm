@@ -58,8 +58,8 @@ function ShowGameResult(arrResult) {
             strBuf += "<a href='"+FURL+"/result/pbresult_edit/" + arrResult[nRow].round_fid + "' >수정</a>";
             strBuf += "<a href='"+FURL+"/result/pbbetchange/" + arrResult[nRow].round_date + "/" + arrResult[nRow].round_num + "' >적특</a>";
         } else if(mGameId == 2){
-            strBuf += "<a href='"+FURL+"/result/epresult_edit/" + arrResult[nRow].round_fid + "' >수정</a>";
-            strBuf += "<a href='"+FURL+"/result/epbetchange/" + arrResult[nRow].round_date + "/" + arrResult[nRow].round_num + "' >적특</a>";
+            strBuf += "<a href='"+FURL+"/result/dpresult_edit/" + arrResult[nRow].round_fid + "' >수정</a>";
+            strBuf += "<a href='"+FURL+"/result/dpbetchange/" + arrResult[nRow].round_date + "/" + arrResult[nRow].round_num + "' >적특</a>";
         } else if(mGameId == 5){
             strBuf += "<a href='"+FURL+"/result/bbresult_edit/" + arrResult[nRow].round_fid + "' >수정</a>";
             strBuf += "<a href='"+FURL+"/result/bbbetchange/" + arrResult[nRow].round_date + "/" + arrResult[nRow].round_num + "' >적특</a>";

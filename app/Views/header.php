@@ -61,7 +61,7 @@
 		}
 	</style>
 	<?php if($_ENV['CI_ENVIRONMENT'] == ENV_PRODUCTION) :?>
-		<link rel="stylesheet" href="<?php echo site_furl('assets/css/main.style.css?v=27');?>">
+		<link rel="stylesheet" href="<?php echo site_furl('assets/css/main.style.css?v=28');?>">
     <?php else : ?>
 		<link rel="stylesheet" href="<?php echo site_furl('assets/css/main.style.css?t='.time());?>">
     <?php endif ?>
@@ -84,7 +84,7 @@
         <?php endif ?>
     </script>
 
-    <script src="<?php echo site_furl('assets/js/common.js?v=2.1');?>"></script>
+    <script src="<?php echo site_furl('assets/js/common.js?v=3');?>"></script>
 	<script src="<?php echo site_furl('assets/js/worker.js?v=1');?>"></script>
 
 	<?php if($_ENV['CI_ENVIRONMENT'] == ENV_PRODUCTION) :?>

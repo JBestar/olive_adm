@@ -83,6 +83,14 @@ class Home extends StdController
 		$this->load_view_page('home/conf_powerball', 'conf_game', LEVEL_ADMIN, $param);		
 	}
 
+	public function conf_dhpball(){
+		$param = [
+			'game_name' => "동행볼",
+			'game_id' => GAME_DHP_BALL
+		];
+		$this->load_view_page('home/conf_powerball', 'conf_game', LEVEL_ADMIN, $param);
+	}
+
 	public function conf_evolball(){
 		$param = [
 			'game_name' => "에볼파워볼",
@@ -113,7 +121,7 @@ class Home extends StdController
 	
 	public function conf_bogleladder(){
 		$param = [
-			'game_name' => "보글사다리",
+			'game_name' => "보사달",
 			'game_id' => GAME_BOGLE_LADDER
 		];
 		$this->load_view_page('home/conf_powerladder', 'conf_game', LEVEL_ADMIN, $param);	

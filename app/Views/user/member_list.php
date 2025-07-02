@@ -130,7 +130,7 @@
     <script src="<?php echo site_furl('/assets/js/page.js?v=1');?>"></script>
     <script src="<?php echo site_furl('/assets/js/member_common-script.js?v=1');?>"></script>
     <script src="<?php echo site_furl('/assets/js/member_util-script.js?v=1');?>"></script>
-    <script src="<?php echo site_furl('/assets/js/member_list-script.js?v=1');?>"></script>
+    <script src="<?php echo site_furl('/assets/js/member_list-script.js?v=2');?>"></script>
 <?php endif ?>
 
 <div class="row" style="font-size:12px;">

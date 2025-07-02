@@ -99,9 +99,9 @@
 
 
     //회차번호로부터 회차시작시간과 마감시간, 배팅초과시간 계산하는 함수-파워볼, 파워사다리
-    function getPbRoundInfo(){
+    function getPbRoundInfo($bAdvance = false){
 
-      $tmNow = time()+TM_OFFSET;
+      $tmNow = time()+($bAdvance ? ADVANCE_SEC:0);
       
       $nHour = date("G",$tmNow);
       $nMin = date("i",$tmNow);
@@ -131,7 +131,8 @@
       //회차 마감시간설정
       $strRoundEnd = $strDate." ".$nHour.":".$nMinute.":"."0";
       $tmRoundEnd = strtotime($strRoundEnd);
-      // $tmRoundEnd = strtotime("-".TM_OFFSET." seconds", $tmRoundEnd);
+      if($bAdvance)
+        $tmRoundEnd -= ADVANCE_SEC;
       $arrRoundInfo['round_end'] = date("Y-m-d H:i:s", $tmRoundEnd);
       
       //회차 시작시간설정

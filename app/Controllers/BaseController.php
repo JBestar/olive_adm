@@ -90,7 +90,7 @@ class BaseController extends Controller
 		
 		$confs = ['site_name'=>"", "gameper_full"=>false, "bpg_deny"=>false, "evol_deny"=>false, "slot_deny"=>false, 
 			"cas_deny"=>false, "eos5_deny"=>false, "eos3_deny"=>false, "coin5_deny"=>false, "coin3_deny"=>false, 
-			"pbg_deny"=>false, "hold_deny"=>false, "follow_en"=>false, "evp_deny"=>false, "spk_deny"=>false];
+			"pbg_deny"=>false, "hold_deny"=>false, "follow_en"=>false, "evp_deny"=>true, "dhp_deny"=>false, "spk_deny"=>false];
 		$arrConf = $confsiteModel->getSiteConf();  
 		
 		foreach($arrConf as $objConf){
@@ -117,7 +117,7 @@ class BaseController extends Controller
 					break;
 				case CONF_PBG_DENY:	$confs['pbg_deny'] = $objConf->conf_active == STATE_ACTIVE?true:false;
 					break;
-				case CONF_EVP_DENY:	$confs['evp_deny'] = $objConf->conf_active == STATE_ACTIVE?true:false;
+				case CONF_DHP_DENY:	$confs['dhp_deny'] = $objConf->conf_active == STATE_ACTIVE?true:false;
 					break;
 				case CONF_SPK_DENY:	$confs['spk_deny'] = $objConf->conf_active == STATE_ACTIVE?true:false;
 					break;
@@ -142,8 +142,8 @@ class BaseController extends Controller
 		if(array_key_exists('app.sess_act', $_ENV) && $_ENV['app.sess_act'] == 1){
 			$sess_id = $this->session->session_id;
 			$this->modelSess->updateAction($sess_id);
-			if($_ENV['CI_ENVIRONMENT'] == ENV_DEVELOPMENT)
-				writeLog("[sess_action] sess_id=".$sess_id);
+			// if($_ENV['CI_ENVIRONMENT'] == ENV_DEVELOPMENT)
+			// 	writeLog("[sess_action] sess_id=".$sess_id);
 		}
 	}
 	
