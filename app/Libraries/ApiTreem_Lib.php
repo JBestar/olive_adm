@@ -314,11 +314,16 @@ class ApiTreem_Lib  {
                 // "amount": -1000,
                 // "transaction_id": 1,
                 // "cached": false
+
+                // "username": "e01",
+                // "balance": 0,
+                // "amount": 0,
+                // "message": "유저의 잔액이 0원입니다.",
+                // "cached": false
                 $arrResult = json_decode($curlResult['body'], true);
-                if(array_key_exists('balance', $arrResult) && array_key_exists('amount', $arrResult)) {
+                if($arrResult['amount'] != 0) {
                     $arrResult['status'] = 1;
                 } else {
-
                     writeLog($logHead."Error response=".$curlResult['body']);
                     $arrResult['status'] = 0;
                 }

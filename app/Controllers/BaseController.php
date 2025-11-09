@@ -869,42 +869,29 @@ class BaseController extends Controller
 		$logHead = "<TrtoMb> ";
 		//Treem => Site
 		if(strlen($objMember->mb_treem_uid) > 0){
-			$arrResult = $this->libApiTreem->getUserInfo($objMember->mb_treem_uid);
-			writeLog($logHead." ".$objMember->mb_uid."-UserInfo Status=".$arrResult['status']);
-			if($arrResult['status'] == 1)
+			$amount = 0;
+			//Withdraw
+			$arrResp = $this->libApiTreem->subBalance($objMember->mb_treem_uid, $amount, true);
+		
+			if($arrResp['status'] == 1)
 			{
-				writeLog($logHead.$objMember->mb_uid."-UserInfo Balance=".$arrResult['balance']." Money=".$objMember->mb_money);
-				$amount = floor($arrResult['balance']);
-				if($amount > 0){
-					usleep(500000);
-					//Withdraw
-					$arrResp = $this->libApiTreem->subBalance($objMember->mb_treem_uid, $amount, true);
-				} else {
-					$objMember->mb_treem_money = $amount;
-					$this->modelMember->updateTreemMoney($objMember); 
-					$iResult = 1;   //success
-                    return $iResult;
-				}
-			
-				if($arrResp['status'] == 1)
-				{
-					$amount = floor($arrResp['amount']);
-					writeLog($logHead.$objMember->mb_uid."-Withdraw RemainBalance=".$arrResp['balance']);
-					$objMember->mb_treem_money = $arrResp['balance'];
-					$this->modelMember->updateTreemMoney($objMember);   
-						
-					if( $this->modelMember->updateAssets($objMember, $amount)){
-						$this->modelTransfer->register(TRANS_TREEM_SITE, $objMember, $objMember->mb_treem_money+$amount, 0-$amount);
-						$objMember->mb_money += $amount;   
-						writeLog($logHead.$objMember->mb_uid."-Withdraw Money=".$objMember->mb_money);
-						$iResult = 1;
-					}
-				} 
-			} else {
-				// if($objMember->mb_treem_money == 0){
+				$amount = floor(abs($arrResp['amount']));
+				writeLog($logHead.$objMember->mb_uid."-Withdraw RemainBalance=".$arrResp['balance']);
+				$objMember->mb_treem_money = $arrResp['balance'];
+				$this->modelMember->updateTreemMoney($objMember);   
+					
+				if( $this->modelMember->updateAssets($objMember, $amount)){
+					$this->modelTransfer->register(TRANS_TREEM_SITE, $objMember, $objMember->mb_treem_money+$amount, 0-$amount);
+					$objMember->mb_money += $amount;   
+					writeLog($logHead.$objMember->mb_uid."-Withdraw Money=".$objMember->mb_money);
 					$iResult = 1;
-				// }
+				}
+			} else if(array_key_exists('balance', $arrResp)) {
+				$objMember->mb_treem_money = $arrResp['balance'];
+				$this->modelMember->updateTreemMoney($objMember);   
+				$iResult = 1;
 			}
+		
 		} else {
             $iResult = 1;
         }
