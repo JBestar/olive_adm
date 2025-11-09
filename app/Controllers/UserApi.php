@@ -745,6 +745,10 @@ class UserApi extends BaseController
                             $gameId = GAME_SLOT_RAVE;
                             $confId = CONF_API_RAVE;
                             $arrSumData[2][3] = $eggs->mb_rave_money;
+                        } else if($_ENV['app.slot'] == APP_SLOT_TREEM){
+                            $gameId = GAME_SLOT_TREEM;
+                            $confId = CONF_API_TREEM;
+                            $arrSumData[2][3] = $eggs->mb_treem_money;
                         }
 
                         $objConfPb = $confgameModel->getByIndex($gameId);
@@ -790,6 +794,8 @@ class UserApi extends BaseController
                         $confId = CONF_API_STAR;
                     else if($_ENV['app.casino'] == APP_CASINO_RAVE)
                         $confId = CONF_API_RAVE;
+                    else if($_ENV['app.casino'] == APP_CASINO_TREEM)
+                        $confId = CONF_API_TREEM;
                     
                     $agConf = $confsiteModel->getConf($confId);
                     if($agConf != null)
@@ -2376,6 +2382,25 @@ class UserApi extends BaseController
                     if($arrResult['status'] == 1){
                         $confsiteModel->setConfActive(CONF_API_RAVE, $arrResult['balance']);
                         writeLog("<RAVE> AGENT Egg = ".$arrResult['balance']);
+                        $balance = $arrResult['balance'];
+                    }
+                } else if($gameId == GAME_CASINO_TREEM || $gameId == GAME_SLOT_TREEM){
+                    foreach($arrMember as $objMember){
+                        if(strlen($objMember->mb_treem_uid) > 0 && $objMember->mb_treem_money > 0 ){
+                            writeLog("<TREEM> Recovery Uid=".$objMember->mb_uid." Balance=".$objMember->mb_treem_money);
+                            if(diffDt(date('Y-m-d H:i:s'), $objMember->mb_time_bet) < $_ENV['mem.delay_play']){
+                                $iResult = 2;
+                            } else $iResult = $this->trtoMb($objMember);
+                            if($iResult == 0)
+                                break;
+                            else usleep(500000);
+                        } 
+                    }
+                    
+                    $arrResult = $this->libApiRave->getAgentInfo();
+                    if($arrResult['status'] == 1){
+                        $confsiteModel->setConfActive(CONF_API_TREEM, $arrResult['balance']);
+                        writeLog("<TREEM> AGENT Egg = ".$arrResult['balance']);
                         $balance = $arrResult['balance'];
                     }
                 }

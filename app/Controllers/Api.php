@@ -179,6 +179,17 @@ class Api extends BaseController{
 					} else $errMsg = "접속불가";
 				}
 				$agConf = $confsiteModel->getConf(CONF_API_RAVE);
+			} else if($gameId == GAME_CASINO_TREEM || $gameId == GAME_SLOT_TREEM){
+				$arrResult = $this->libApiTreem->getAgentInfo();
+				if($arrResult['status'] == 1){
+					$confsiteModel->setConfActive(CONF_API_TREEM, $arrResult['balance']);
+					writeLog("<TREEM> AGENT Egg = ".$arrResult['balance']);
+				} else {
+					if(array_key_exists('message', $arrResult)){
+						$errMsg = $arrResult['message'];
+					} else $errMsg = "접속불가";
+				}
+				$agConf = $confsiteModel->getConf(CONF_API_TREEM);
 			}
 			
 			$agInfo = null;

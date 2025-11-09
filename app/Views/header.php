@@ -84,7 +84,7 @@
         <?php endif ?>
     </script>
 
-    <script src="<?php echo site_furl('assets/js/common.js?v=3');?>"></script>
+    <script src="<?php echo site_furl('assets/js/common.js?v=4');?>"></script>
 	<script src="<?php echo site_furl('assets/js/worker.js?v=1');?>"></script>
 
 	<?php if($_ENV['CI_ENVIRONMENT'] == ENV_PRODUCTION) :?>

@@ -101,7 +101,7 @@
     <script src="<?php echo site_furl('/assets/js/confcs-script.js?t='.time());?>"></script>
     <script src="<?php echo site_furl('/assets/js/confsl-script.js?t='.time());?>"></script>
 <?php else : ?>
-    <script src="<?php echo site_furl('/assets/js/confcs-script.js?v=1');?>"></script>
+    <script src="<?php echo site_furl('/assets/js/confcs-script.js?v=3');?>"></script>
     <script src="<?php echo site_furl('/assets/js/confsl-script.js?v=1');?>"></script>
 <?php endif ?>
 <?= $this->endSection() ?>

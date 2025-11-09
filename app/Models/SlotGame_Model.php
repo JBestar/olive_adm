@@ -77,6 +77,8 @@ class SlotGame_Model extends Model {
                 $gameId1 = GAME_SLOT_STAR;
             else if($_ENV['app.slot'] == APP_SLOT_RAVE)
                 $gameId1 = GAME_SLOT_RAVE;
+            else if($_ENV['app.slot'] == APP_SLOT_TREEM)
+                $gameId1 = GAME_SLOT_TREEM;
 
             $strSql = " SELECT fslot_game.*, xslot_game.fid AS xslot_fid, xslot_game.name_ko AS xslot_name_ko, xslot_game.name AS xslot_name, xslot_game.img AS xslot_img ";
             $strSql.= " FROM ( SELECT * FROM ".$this->table." WHERE  prd_code = ".$arrReqData['prd']." AND OPEN = 1 AND cat = ".$gameId2.") AS fslot_game";
@@ -156,6 +158,8 @@ class SlotGame_Model extends Model {
                 $gameId1 = GAME_SLOT_STAR;
             else if($_ENV['app.slot'] == APP_SLOT_RAVE)
                 $gameId1 = GAME_SLOT_RAVE;
+            else if($_ENV['app.slot'] == APP_SLOT_TREEM)
+                $gameId1 = GAME_SLOT_TREEM;
 
             $strSql = " SELECT fslot_game.fid ";
             $strSql.= " FROM ( SELECT * FROM ".$this->table." WHERE  prd_code = ".$arrReqData['prd']." AND OPEN = 1 AND cat = ".$gameId2.") AS fslot_game";

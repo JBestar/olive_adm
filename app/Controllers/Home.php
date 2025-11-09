@@ -329,6 +329,8 @@ class Home extends StdController
 			$gameId = GAME_CASINO_STAR;
 		else if($_ENV['app.casino'] == APP_CASINO_RAVE)
 			$gameId = GAME_CASINO_RAVE;
+		else if($_ENV['app.casino'] == APP_CASINO_TREEM)
+			$gameId = GAME_CASINO_TREEM;
 
 		$param = [
 			'game_name' => "정품카지노",
@@ -345,6 +347,8 @@ class Home extends StdController
 			$gameId = GAME_SLOT_STAR;
 		else if($_ENV['app.slot'] == APP_SLOT_RAVE)
 			$gameId = GAME_SLOT_RAVE;
+		else if($_ENV['app.slot'] == APP_SLOT_TREEM)
+			$gameId = GAME_SLOT_TREEM;
 
 		$param = [
 			'game_name' => "정품슬롯",

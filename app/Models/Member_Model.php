@@ -33,6 +33,7 @@ class Member_Model extends Model
         'mb_hslot_token', 'mb_hslot_money',
         'mb_hold_uid', 'mb_hold_money',
         'mb_rave_id', 'mb_rave_uid', 'mb_rave_money',
+        'mb_treem_uid', 'mb_treem_money',
     ];
 
     protected $primaryKey = 'mb_fid';
@@ -53,13 +54,15 @@ class Member_Model extends Model
         'mb_hslot_token', 'mb_hslot_money',
         'mb_hold_uid', 'mb_hold_money',
         'mb_rave_id', 'mb_rave_uid', 'mb_rave_money',
+        'mb_treem_uid', 'mb_treem_money',
     ];
 
     private $fields = ['mb_fid', 'mb_uid', 'mb_level','mb_emp_fid','mb_nickname', 'mb_ip_last',
         'mb_money', 'mb_point', 'mb_grade', 'mb_color', 'mb_state_active', 'mb_state_delete', 'mb_state_alarm', 'mb_state_view', 'mb_state_test', 
         'mb_game_pb', 'mb_game_ps', 'mb_game_ks', 'mb_game_bb', 'mb_game_bs', 'mb_game_cs', 'mb_game_sl', 'mb_game_eo', 'mb_game_co', 'mb_game_hl', 
         'mb_game_pb_ratio', 'mb_game_pb2_ratio', 'mb_game_cs_ratio', 'mb_game_sl_ratio', 'mb_game_hl_ratio', 
-        'mb_blank_count', 'mb_live_money', 'mb_slot_money', 'mb_fslot_money', 'mb_kgon_money', 'mb_gslot_money', 'mb_hslot_money', 'mb_hold_money', 'mb_rave_money' ];
+        'mb_blank_count', 'mb_live_money', 'mb_slot_money', 'mb_fslot_money', 'mb_kgon_money', 'mb_gslot_money', 'mb_hslot_money', 'mb_hold_money', 
+        'mb_rave_money', 'mb_treem_money' ];
 
     
     protected $validationRules = [
@@ -357,7 +360,7 @@ class Member_Model extends Model
                 $arrReqData['rw_range'] = $this->getRwRangeId($arrReqData, "bet_reward");
         }  elseif ($arrReqData['type'] == GAME_SLOT_THEPLUS || $arrReqData['type'] == GAME_SLOT_GSPLAY || 
             $arrReqData['type'] == GAME_SLOT_GOLD || $arrReqData['type'] == GAME_SLOT_KGON || $arrReqData['type'] == GAME_SLOT_STAR ||
-            $arrReqData['type'] == GAME_SLOT_RAVE || $arrReqData['type'] == GAME_SLOT_ALL ) {
+            $arrReqData['type'] == GAME_SLOT_RAVE || $arrReqData['type'] == GAME_SLOT_TREEM || $arrReqData['type'] == GAME_SLOT_ALL ) {
             $arrReqData['gm_range'] = $this->getBetRangeId($arrReqData, "bet_slot");
             if($bRw)
                 $arrReqData['rw_range'] = $this->getRwRangeId($arrReqData, "bet_reward");
@@ -459,7 +462,8 @@ class Member_Model extends Model
     private function calcCommonSql($objEmp, $arrReqData){
 
         $getFields = ['mb_fid', 'mb_uid', 'mb_level', 'mb_emp_fid', 'mb_state_active', 'mb_money', 'mb_point', 
-            'mb_live_money', 'mb_slot_money', 'mb_fslot_money', 'mb_kgon_money', 'mb_gslot_money', 'mb_hslot_money', 'mb_hold_money', 'mb_rave_money'];
+            'mb_live_money', 'mb_slot_money', 'mb_fslot_money', 'mb_kgon_money', 'mb_gslot_money', 'mb_hslot_money', 
+            'mb_hold_money', 'mb_rave_money', 'mb_treem_money'];
         $strTbColum = " ".implode(", ", $getFields);
         $strTbRColum = " r.".implode(", r.", $getFields);
   
@@ -608,7 +612,8 @@ class Member_Model extends Model
         } elseif ($arrReqData['type'] == GAME_CASINO_EVOL ) {
             $strSQL .= "bet_casino";
         } elseif ($arrReqData['type'] == GAME_SLOT_THEPLUS || $arrReqData['type'] == GAME_SLOT_GSPLAY || $arrReqData['type'] == GAME_SLOT_GOLD 
-            || $arrReqData['type'] == GAME_SLOT_KGON || $arrReqData['type'] == GAME_SLOT_STAR || $arrReqData['type'] == GAME_SLOT_RAVE || $arrReqData['type'] == GAME_SLOT_ALL ) {
+            || $arrReqData['type'] == GAME_SLOT_KGON || $arrReqData['type'] == GAME_SLOT_STAR || $arrReqData['type'] == GAME_SLOT_RAVE
+            || $arrReqData['type'] == GAME_SLOT_TREEM || $arrReqData['type'] == GAME_SLOT_ALL ) {
             $strSQL .= ' bet_slot ';
         } else if ($arrReqData['type'] == GAME_HOLD_CMS ) {
             $strSQL .= ' bet_holdem ';
@@ -620,7 +625,8 @@ class Member_Model extends Model
         } else $strSQL .= " WHERE ".getBetTimeRange($arrReqData, $this->db);
         // else $strSQL .= " WHERE bet_fid >= ".$arrReqData['gm_range'][0]." AND bet_fid <= ".$arrReqData['gm_range'][1];
         if ($arrReqData['type'] == GAME_SLOT_THEPLUS || $arrReqData['type'] == GAME_SLOT_GSPLAY || $arrReqData['type'] == GAME_SLOT_GOLD || 
-            $arrReqData['type'] == GAME_SLOT_KGON || $arrReqData['type'] == GAME_SLOT_STAR  || $arrReqData['type'] == GAME_SLOT_RAVE){
+            $arrReqData['type'] == GAME_SLOT_KGON || $arrReqData['type'] == GAME_SLOT_STAR  || $arrReqData['type'] == GAME_SLOT_RAVE ||
+            $arrReqData['type'] == GAME_SLOT_TREEM){
             $strSQL .= " AND bet_game_id = '".$arrReqData['type']."' ";
         } else if ($arrReqData['type'] == GAME_AUTO_EVOL || $arrReqData['type'] == GAME_AUTO_PRAG ) {
             
@@ -658,6 +664,8 @@ class Member_Model extends Model
                 $gameId1 = GAME_SLOT_STAR;
             else if($_ENV['app.slot'] == APP_SLOT_RAVE)
                 $gameId1 = GAME_SLOT_RAVE;
+            else if($_ENV['app.slot'] == APP_SLOT_TREEM)
+                $gameId1 = GAME_SLOT_TREEM;
 
             $gameId2 = GAME_SLOT_GSPLAY;
             if($_ENV['app.fslot'] == APP_FSLOT_GOLD)
@@ -877,6 +885,13 @@ class Member_Model extends Model
     public function updateRaveMoney($member){
         $data = [
             'mb_rave_money' => $member->mb_rave_money,
+        ];
+        return $this->update($member->mb_fid, $data);
+    }
+
+    public function updateTreemMoney($member){
+        $data = [
+            'mb_treem_money' => $member->mb_treem_money,
         ];
         return $this->update($member->mb_fid, $data);
     }
@@ -1497,6 +1512,9 @@ class Member_Model extends Model
         } else if($iGame == GAME_CASINO_RAVE || $iGame == GAME_SLOT_RAVE){
             $strSQL = 'SELECT SUM(mb_rave_money) AS mb_game_money FROM '.$this->table;
             $strSQL .= ' WHERE mb_rave_id > 0 ';
+        } else if($iGame == GAME_CASINO_TREEM || $iGame == GAME_SLOT_TREEM){
+            $strSQL = 'SELECT SUM(mb_treem_money) AS mb_game_money FROM '.$this->table;
+            $strSQL .= ' WHERE LENGTH(mb_treem_uid) > 0 ';
         } else if($iGame == 0) {
             $strSQL = 'SELECT SUM(CASE WHEN mb_live_id > 0 THEN mb_live_money ELSE 0 END ) AS mb_live_money, ';
             $strSQL.= 'SUM(CASE WHEN mb_kgon_id > 0 THEN mb_kgon_money ELSE 0 END ) AS mb_kgon_money, ';
@@ -1505,7 +1523,8 @@ class Member_Model extends Model
             $strSQL.= 'SUM(CASE WHEN LENGTH(mb_gslot_uid) > 0 THEN mb_gslot_money ELSE 0 END ) AS mb_gslot_money, ';
             $strSQL.= 'SUM(CASE WHEN LENGTH(mb_hslot_token) > 0 THEN mb_hslot_money ELSE 0 END ) AS mb_hslot_money, ';
             $strSQL.= 'SUM(CASE WHEN LENGTH(mb_hold_uid) > 0 THEN mb_hold_money ELSE 0 END ) AS mb_hold_money, ';
-            $strSQL.= 'SUM(CASE WHEN mb_rave_id > 0 THEN mb_rave_money ELSE 0 END ) AS mb_rave_money ';
+            $strSQL.= 'SUM(CASE WHEN mb_rave_id > 0 THEN mb_rave_money ELSE 0 END ) AS mb_rave_money, ';
+            $strSQL.= 'SUM(CASE WHEN LENGTH(mb_treem_uid) > 0 THEN mb_treem_money ELSE 0 END ) AS mb_treem_money ';
             $strSQL.= ' FROM '.$this->table;
 
             return $this->db->query($strSQL)->getRow();

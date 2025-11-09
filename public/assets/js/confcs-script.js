@@ -166,6 +166,8 @@ function addBtnEvent() {
             openWindow.location.href = "https://v1.kgonapi.com";
         } else if(gameId == GAME_CASINO_RAVE || gameId == GAME_SLOT_RAVE){
             openWindow.location.href = "https://backoffice.rave-games.com/";
+        } else if(gameId == GAME_CASINO_TREEM || gameId == GAME_SLOT_TREEM){
+            openWindow.location.href = "https://backoffice.honorlink.org/";
         } else if(gameId == GAME_SLOT_GOLD){
             openWindow.location.href = "https://goldslot-link.com/";
         } 

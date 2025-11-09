@@ -273,18 +273,19 @@
         return $nMoney;
 
       $nMoney = floatval($member->mb_money) + $member->mb_live_money + $member->mb_slot_money + $member->mb_fslot_money
-         + $member->mb_kgon_money + $member->mb_gslot_money + $member->mb_hslot_money + $member->mb_hold_money + $member->mb_rave_money;
+         + $member->mb_kgon_money + $member->mb_gslot_money + $member->mb_hslot_money + $member->mb_hold_money 
+         + $member->mb_rave_money + $member->mb_treem_money;
       return floor($nMoney); // round($nMoney, NUM_POINT_CNT);
     }
     function allMoneySql($table=""){
       if(strlen($table) > 0)
         $table .= '.';
-      return $table."mb_money+".$table."mb_live_money+".$table."mb_slot_money+".$table."mb_fslot_money+".$table."mb_kgon_money+".$table."mb_gslot_money+".$table."mb_hslot_money+".$table."mb_hold_money+".$table."mb_rave_money";
+      return $table."mb_money+".$table."mb_live_money+".$table."mb_slot_money+".$table."mb_fslot_money+".$table."mb_kgon_money+".$table."mb_gslot_money+".$table."mb_hslot_money+".$table."mb_hold_money+".$table."mb_rave_money+".$table."mb_treem_money";
     }
     function allEggSql($table=""){
       if(strlen($table) > 0)
         $table .= '.';
-      return $table."mb_live_money+".$table."mb_slot_money+".$table."mb_fslot_money+".$table."mb_kgon_money+".$table."mb_gslot_money+".$table."mb_hslot_money+".$table."mb_hold_money+".$table."mb_rave_money";
+      return $table."mb_live_money+".$table."mb_slot_money+".$table."mb_fslot_money+".$table."mb_kgon_money+".$table."mb_gslot_money+".$table."mb_hslot_money+".$table."mb_hold_money+".$table."mb_rave_money+".$table."mb_treem_money";
     }
     function allEgg($member){
       $nMoney = 0;
@@ -292,7 +293,8 @@
         return $nMoney;
 
       $nMoney = $member->mb_live_money + $member->mb_slot_money + $member->mb_fslot_money 
-        + $member->mb_kgon_money + $member->mb_gslot_money + $member->mb_hslot_money + $member->mb_hold_money + $member->mb_rave_money;
+        + $member->mb_kgon_money + $member->mb_gslot_money + $member->mb_hslot_money + $member->mb_hold_money
+        + $member->mb_rave_money + $member->mb_treem_money;
       return $nMoney;
     }
 
