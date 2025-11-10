@@ -26,12 +26,14 @@ function showMoneyHistory(arrData) {
             case 1:
             case 3:
             case 15:
-                strBuf += "<span style='color:#00ff00;'>사이트 => 카지노</span>";
+            case 17:
+                strBuf += "<span style='color:#0065f7;'>사이트 => 카지노</span>";
                 break;
             case 2:
             case 4:
             case 16:
-                strBuf += "<span style='color:#00aa00;'>카지노 => 사이트</span>";
+            case 18:
+                strBuf += "<span style='color:#f99500;'>카지노 => 사이트</span>";
                 break;
             case 5:
             case 7:
@@ -50,6 +52,9 @@ function showMoneyHistory(arrData) {
                 break;
             case 14:
                 strBuf += "<span style='color:#aa0000;'>홀덤 => 사이트</span>";
+                break;
+            case 19:
+                strBuf += "<span style='color:#aa0000;'>정산회수</span>";
                 break;
             default:
                 strBuf += parseInt(arrData[nRow].trans_type);

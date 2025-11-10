@@ -31,6 +31,7 @@
 					<option value="5">사이트 => 홀덤</option>
 					<option value="6">홀덤 => 사이트</option>
 				<?php endif ?>
+					<option value="7">정산회수</option>
 			</select>
 
 			<select name="pbresult-number" class="pbresult-number-select" id="transfer-number-select-id">

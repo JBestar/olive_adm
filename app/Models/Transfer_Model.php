@@ -60,9 +60,9 @@ class Transfer_Model extends Model {
         }
         if(intval($arrReqData['mode']) > 0){
             if(intval($arrReqData['mode']) == 1){
-                $strSql.=" AND trans_type IN (".TRANS_SITE_EVOL.", ".TRANS_SITE_KGON.")";
+                $strSql.=" AND trans_type IN (".TRANS_SITE_EVOL.", ".TRANS_SITE_KGON.", ".TRANS_SITE_RAVE.", ".TRANS_SITE_TREEM.")";
             } else if(intval($arrReqData['mode']) == 2){
-                $strSql.=" AND trans_type IN (".TRANS_EVOL_SITE.", ".TRANS_KGON_SITE.")";
+                $strSql.=" AND trans_type IN (".TRANS_EVOL_SITE.", ".TRANS_KGON_SITE.", ".TRANS_RAVE_SITE.", ".TRANS_TREEM_SITE.")";
             } else if(intval($arrReqData['mode']) == 3){
                 $strSql.=" AND trans_type IN (".TRANS_SITE_PLUS.", ".TRANS_SITE_GSPL.", ".TRANS_SITE_GOLD.", ".TRANS_SITE_STAR.")";
             } else if(intval($arrReqData['mode']) == 4){
@@ -71,6 +71,8 @@ class Transfer_Model extends Model {
                 $strSql.=" AND trans_type IN (".TRANS_SITE_HOLD.")";
             } else if(intval($arrReqData['mode']) == 6){
                 $strSql.=" AND trans_type IN (".TRANS_HOLD_SITE.")";
+            } else if(intval($arrReqData['mode']) == 7){
+                $strSql.=" AND trans_type IN (".RECOVER_EGG.")";
             }
 
         }
@@ -108,7 +110,21 @@ class Transfer_Model extends Model {
             $strSql.=" AND trans_mb_fid = ".$this->db->escape($arrReqData['user']);
         }
         if(intval($arrReqData['mode']) > 0){
-            $strSql.=" AND trans_type = ".$this->db->escape($arrReqData['mode']);
+            if(intval($arrReqData['mode']) == 1){
+                $strSql.=" AND trans_type IN (".TRANS_SITE_EVOL.", ".TRANS_SITE_KGON.", ".TRANS_SITE_RAVE.", ".TRANS_SITE_TREEM.")";
+            } else if(intval($arrReqData['mode']) == 2){
+                $strSql.=" AND trans_type IN (".TRANS_EVOL_SITE.", ".TRANS_KGON_SITE.", ".TRANS_RAVE_SITE.", ".TRANS_TREEM_SITE.")";
+            } else if(intval($arrReqData['mode']) == 3){
+                $strSql.=" AND trans_type IN (".TRANS_SITE_PLUS.", ".TRANS_SITE_GSPL.", ".TRANS_SITE_GOLD.", ".TRANS_SITE_STAR.")";
+            } else if(intval($arrReqData['mode']) == 4){
+                $strSql.=" AND trans_type IN (".TRANS_PLUS_SITE.", ".TRANS_GOLD_SITE.", ".TRANS_STAR_SITE.", ".TRANS_SITE_STAR.")";
+            } else if(intval($arrReqData['mode']) == 5){
+                $strSql.=" AND trans_type IN (".TRANS_SITE_HOLD.")";
+            } else if(intval($arrReqData['mode']) == 6){
+                $strSql.=" AND trans_type IN (".TRANS_HOLD_SITE.")";
+            } else if(intval($arrReqData['mode']) == 7){
+                $strSql.=" AND trans_type IN (".RECOVER_EGG.")";
+            }
         }
         
         $query = $this -> db -> query($strSql);
