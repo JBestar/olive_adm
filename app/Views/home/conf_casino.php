@@ -74,10 +74,10 @@
 			<input type="checkbox" id="conf-account-check-id" style="zoom:120%; margin-top:4px;" onchange="onChangeElement();">
 			<label style="font-size:13px; font-weight:normal; top:-3px; position:relative;"> 정산 시 머니회수(역정산)</label>
 
-			<input type="checkbox" name="account-setting" id="conf-accwin-check-id" style="zoom:120%; margin-top:0px;"  onchange="onChangeElement();">
+			<input type="checkbox" name="account-setting" id="conf-accwin-check-id" style="zoom:120%; margin-top:0px; margin-left:10px;"  onchange="onChangeElement();">
 			<label style="font-size:13px; font-weight:normal; top:-3px; position:relative;"> 적중 시 머니회수</label>
 
-			<input type="checkbox" name="account-setting" id="conf-accpl-check-id" style="zoom:120%; margin-top:0px;">
+			<input type="checkbox" name="account-setting" id="conf-accpl-check-id" style="zoom:120%; margin-top:0px; margin-left:10px;">
 			<label style="font-size:13px; font-weight:normal; top:-3px; position:relative;"> 플레이어적중 시 머니회수</label>
 
 		</div>
