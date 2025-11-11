@@ -31,8 +31,12 @@ function showConfGame(objConfig, objAgent) {
 function onChangeElement(){
 
     if($("#conf-account-check-id").length > 0){
-        checked = $("#conf-account-check-id").prop('checked');
-        $("input[name=account-setting]").prop('disabled', !checked);
+        acc_checked = $("#conf-account-check-id").prop('checked');
+        accwin_checked = $("#conf-accwin-check-id").prop('checked');
+ 
+        $("#conf-accwin-check-id").prop('disabled', !acc_checked);
+        $("#conf-accpl-check-id").prop('disabled', !(acc_checked && accwin_checked));
+
     }
     
 }

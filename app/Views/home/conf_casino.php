@@ -72,19 +72,15 @@
 		<div class="confsite-game-text-div">
 			<p>정산설정:</p> 
 			<input type="checkbox" id="conf-account-check-id" style="zoom:120%; margin-top:4px;" onchange="onChangeElement();">
-			<label style="font-size:13px; font-weight:normal; top:-3px; position:relative;"> 정산 시 머니회수</label>
-		</div>
-		<div class="confsite-game-text-div" style="margin-left:20px;">
-			<p></p> 
-			<input type="checkbox" name="account-setting" id="conf-accwin-check-id" style="zoom:120%; margin-top:0px;">
+			<label style="font-size:13px; font-weight:normal; top:-3px; position:relative;"> 정산 시 머니회수(역정산)</label>
+
+			<input type="checkbox" name="account-setting" id="conf-accwin-check-id" style="zoom:120%; margin-top:0px;"  onchange="onChangeElement();">
 			<label style="font-size:13px; font-weight:normal; top:-3px; position:relative;"> 적중 시 머니회수</label>
-		</div>
-		<div class="confsite-game-text-div" style="margin-left:20px;">
-			<p></p> 
+
 			<input type="checkbox" name="account-setting" id="conf-accpl-check-id" style="zoom:120%; margin-top:0px;">
 			<label style="font-size:13px; font-weight:normal; top:-3px; position:relative;"> 플레이어적중 시 머니회수</label>
-		</div>
 
+		</div>
 
 		<div class="confsite-game-text-div">
 			<p>에이젼트 페이지:</p>
@@ -103,7 +99,7 @@
     <script src="<?php echo site_furl('/assets/js/confcs-script.js?t='.time());?>"></script>
     <script src="<?php echo site_furl('/assets/js/confkg-script.js?t='.time());?>"></script>
 <?php else : ?>
-    <script src="<?php echo site_furl('/assets/js/confcs-script.js?v=4');?>"></script>
+    <script src="<?php echo site_furl('/assets/js/confcs-script.js?v=5');?>"></script>
     <script src="<?php echo site_furl('/assets/js/confkg-script.js?v=1');?>"></script>
 <?php endif ?>
 <?= $this->endSection() ?>
