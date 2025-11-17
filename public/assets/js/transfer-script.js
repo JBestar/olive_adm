@@ -23,37 +23,39 @@ function showMoneyHistory(arrData) {
         strBuf += "</td><td>";
         
         switch (parseInt(arrData[nRow].trans_type)) {
-            case 1:
-            case 3:
-            case 15:
-            case 17:
+            case TRANS_SITE_EVOL:
+            case TRANS_SITE_KGON:
+            case TRANS_SITE_RAVE:
+            case TRANS_SITE_TREEM:
+            case TRANS_SITE_SIGMA:
                 strBuf += "<span style='color:#0065f7;'>사이트 => 카지노</span>";
                 break;
-            case 2:
-            case 4:
-            case 16:
-            case 18:
+            case TRANS_EVOL_SITE:
+            case TRANS_KGON_SITE:
+            case TRANS_RAVE_SITE:
+            case TRANS_TREEM_SITE:
+            case TRANS_SIGMA_SITE:
                 strBuf += "<span style='color:#f99500;'>카지노 => 사이트</span>";
                 break;
-            case 5:
-            case 7:
-            case 9:
-            case 11:
+            case TRANS_SITE_PLUS:
+            case TRANS_SITE_GSPL:
+            case TRANS_SITE_GOLD:
+            case TRANS_SITE_STAR:
                 strBuf += "<span style='color:#0000ff;'>사이트 => 슬롯</span>";
                 break;
-            case 6:
-            case 8:
-            case 10:
-            case 12:
+            case TRANS_PLUS_SITE:
+            case TRANS_GSPL_SITE:
+            case TRANS_GOLD_SITE:
+            case TRANS_STAR_SITE:
                 strBuf += "<span style='color:#0000aa;'>슬롯 => 사이트</span>";
                 break;
-            case 13:
+            case TRANS_SITE_HOLD:
                 strBuf += "<span style='color:#ff0000;'>사이트 => 홀덤</span>";
                 break;
-            case 14:
+            case TRANS_HOLD_SITE:
                 strBuf += "<span style='color:#aa0000;'>홀덤 => 사이트</span>";
                 break;
-            case 19:
+            case RECOVER_EGG:
                 strBuf += "<span style='color:#aa0000;'>정산회수</span>";
                 break;
             default:

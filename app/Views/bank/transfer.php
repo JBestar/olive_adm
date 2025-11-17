@@ -80,10 +80,33 @@
 	
 <!--main_navbar.php-main-container-->
 </div>
+<script>
+	const TRANS_SITE_EVOL = <?=TRANS_SITE_EVOL?>; // 1
+	const TRANS_EVOL_SITE = <?=TRANS_EVOL_SITE?>; // 2
+	const TRANS_SITE_KGON = <?=TRANS_SITE_KGON?>; // 3
+	const TRANS_KGON_SITE = <?=TRANS_KGON_SITE?>; // 4
+	const TRANS_SITE_PLUS = <?=TRANS_SITE_PLUS?>; // 5
+	const TRANS_PLUS_SITE = <?=TRANS_PLUS_SITE?>; // 6
+	const TRANS_SITE_GSPL = <?=TRANS_SITE_GSPL?>; // 7
+	const TRANS_GSPL_SITE = <?=TRANS_GSPL_SITE?>; // 8
+	const TRANS_SITE_GOLD = <?=TRANS_SITE_GOLD?>; // 9
+	const TRANS_GOLD_SITE = <?=TRANS_GOLD_SITE?>; // 10
+	const TRANS_SITE_STAR = <?=TRANS_SITE_STAR?>; // 11
+	const TRANS_STAR_SITE = <?=TRANS_STAR_SITE?>; // 12
+	const TRANS_SITE_HOLD = <?=TRANS_SITE_HOLD?>; // 13
+	const TRANS_HOLD_SITE = <?=TRANS_HOLD_SITE?>; // 14
+	const TRANS_SITE_RAVE = <?=TRANS_SITE_RAVE?>; // 15
+	const TRANS_RAVE_SITE = <?=TRANS_RAVE_SITE?>; // 16
+	const TRANS_SITE_TREEM = <?=TRANS_SITE_TREEM?>; // 17
+	const TRANS_TREEM_SITE = <?=TRANS_TREEM_SITE?>; // 18
+	const RECOVER_EGG = <?=RECOVER_EGG?>; // 19
+	const TRANS_SITE_SIGMA = <?=TRANS_SITE_SIGMA?>; // 20
+	const TRANS_SIGMA_SITE = <?=TRANS_SIGMA_SITE?>; // 21
 
+</script>
 <?php if($_ENV['CI_ENVIRONMENT'] == ENV_PRODUCTION) :?>
     <script src="<?php echo site_furl('/assets/js/page.js?v=1');?>"></script>
-    <script src="<?php echo site_furl('/assets/js/transfer-script.js?v=2');?>"></script>
+    <script src="<?php echo site_furl('/assets/js/transfer-script.js?v=3');?>"></script>
 <?php else : ?>
     <script src="<?php echo site_furl('/assets/js/page.js?t='.time());?>"></script>
     <script src="<?php echo site_furl('/assets/js/transfer-script.js?t='.time());?>"></script>

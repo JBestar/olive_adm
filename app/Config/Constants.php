@@ -295,7 +295,7 @@ defined('GAME_CASINO_RAVE')    || define('GAME_CASINO_RAVE', 20);  //RAVE casino
 defined('GAME_SLOT_TREEM')     || define('GAME_SLOT_TREEM', 21);  //TREEM slot
 defined('GAME_CASINO_TREEM')   || define('GAME_CASINO_TREEM', 22);  //TREEM casino
 defined('GAME_SLOT_SIGMA')     || define('GAME_SLOT_SIGMA', 23);  //SIGMA slot
-defined('GAME_CASINO_SIGMA')   || define('GAME_CASINO_SIGMA', 24);  //TREEM casino
+defined('GAME_CASINO_SIGMA')   || define('GAME_CASINO_SIGMA', 24);  //SIGMA casino
 defined('GAME_EVOL_BALL')      || define('GAME_EVOL_BALL', 25);
 defined('GAME_AUTO_EVOL')      || define('GAME_AUTO_EVOL', 101);
 defined('GAME_AUTO_PRAG')      || define('GAME_AUTO_PRAG', 102);

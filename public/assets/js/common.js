@@ -31,21 +31,6 @@ $(document).ready(function() {
     
 });
 
-const GAME_CASINO_KGON = 3;
-const GAME_CASINO_EVOL = 4;
-const GAME_SLOT_THEPLUS = 7;
-const GAME_SLOT_GSPLAY = 8;
-const GAME_SLOT_GOLD = 13;
-const GAME_SLOT_KGON = 15;
-const GAME_SLOT_STAR = 16;
-const GAME_CASINO_STAR = 17
-const GAME_SLOT_RAVE = 19;
-const GAME_CASINO_RAVE = 20;
-const GAME_SLOT_TREEM = 21;
-const GAME_CASINO_TREEM = 22;
-const GAME_SLOT_SIGMA = 23;
-const GAME_CASINO_SIGMA = 24;
-
 const LEVEL_ADMIN = 100;
 const LEVEL_COMPANY = 99;
 const LEVEL_AGENCY = 98;

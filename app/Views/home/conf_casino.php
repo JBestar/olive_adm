@@ -69,6 +69,8 @@
 			<button class="recovery_btn" title="회수" id="recovery_useregg" style="margin-left:10px; margin-top:2px;"></button>
 		</div>
 
+	<?php if(array_key_exists('app.acc_cut', $_ENV) && $_ENV['app.acc_cut'] == 1) :  ?>
+
 		<div class="confsite-game-text-div">
 			<p>정산설정:</p> 
 			<input type="checkbox" id="conf-account-check-id" style="zoom:120%; margin-top:4px;" onchange="onChangeElement();">
@@ -81,6 +83,7 @@
 			<label style="font-size:13px; font-weight:normal; top:-3px; position:relative;"> 플레이어적중 시 컷</label>
 
 		</div>
+	<?php endif ?>
 
 		<div class="confsite-game-text-div">
 			<p>에이젼트 페이지:</p>

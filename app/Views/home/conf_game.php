@@ -54,6 +54,23 @@
 <!--main_navbar.php-->
 </div>
 
+<script>
+	const GAME_CASINO_KGON = <?=GAME_CASINO_KGON?>;
+	const GAME_CASINO_EVOL = <?=GAME_CASINO_EVOL?>;
+	const GAME_SLOT_THEPLUS = <?=GAME_SLOT_THEPLUS?>;
+	const GAME_SLOT_GSPLAY = <?=GAME_SLOT_GSPLAY?>;
+	const GAME_SLOT_GOLD = <?=GAME_SLOT_GOLD?>;
+	const GAME_SLOT_KGON = <?=GAME_SLOT_KGON?>;
+	const GAME_SLOT_STAR = <?=GAME_SLOT_STAR?>;
+	const GAME_CASINO_STAR = <?=GAME_CASINO_STAR?>;
+	const GAME_SLOT_RAVE = <?=GAME_SLOT_RAVE?>;
+	const GAME_CASINO_RAVE = <?=GAME_CASINO_RAVE?>;
+	const GAME_SLOT_TREEM = <?=GAME_SLOT_TREEM?>;
+	const GAME_CASINO_TREEM = <?=GAME_CASINO_TREEM?>;
+	const GAME_SLOT_SIGMA = <?=GAME_SLOT_SIGMA?>;
+	const GAME_CASINO_SIGMA = <?=GAME_CASINO_SIGMA?>;
+</script>
+
 <?php if($_ENV['CI_ENVIRONMENT'] == ENV_DEVELOPMENT) :?>
     <script src="<?php echo site_furl('/assets/js/page.js?t='.time());?>"></script>
 <?php else : ?>
