@@ -316,22 +316,22 @@ function showEmpBetInfo(arrBetInfo) {
     $("#main-navbar-slbet-id").text(parseInt(arrBetInfo[2][0]).toLocaleString() + " 원");
     $("#main-navbar-slbetearn-id").text(parseInt(arrBetInfo[2][1]).toLocaleString() + " 원");
     $("#main-navbar-slegg-id").text(parseInt(arrBetInfo[2][2]).toLocaleString() + " 원");
-    // $("#main-navbar-sluser-id").text(parseInt(arrBetInfo[2][3]).toLocaleString() + " 원");
+    $("#main-navbar-sluser-id").text(parseInt(arrBetInfo[2][3]).toLocaleString() + " 원");
     
     $("#main-navbar-fslbet-id").text(parseInt(arrBetInfo[3][0]).toLocaleString() + " 원");
     $("#main-navbar-fslbetearn-id").text(parseInt(arrBetInfo[3][1]).toLocaleString() + " 원");
     $("#main-navbar-fslegg-id").text(parseInt(arrBetInfo[3][2]).toLocaleString() + " 원");
-    // $("#main-navbar-fsluser-id").text(parseInt(arrBetInfo[3][3]).toLocaleString() + " 원");
+    $("#main-navbar-fsluser-id").text(parseInt(arrBetInfo[3][3]).toLocaleString() + " 원");
 
     $("#main-navbar-kgbet-id").text(parseInt(arrBetInfo[4][0]).toLocaleString() + " 원");
     $("#main-navbar-kgbetearn-id").text(parseInt(arrBetInfo[4][1]).toLocaleString() + " 원");
     $("#main-navbar-kgegg-id").text(parseInt(arrBetInfo[4][2]).toLocaleString() + " 원");
-    // $("#main-navbar-kguser-id").text(parseInt(arrBetInfo[4][3]).toLocaleString() + " 원");
+    $("#main-navbar-kguser-id").text(parseInt(arrBetInfo[4][3]).toLocaleString() + " 원");
 
     $("#main-navbar-hlbet-id").text(parseInt(arrBetInfo[5][0]).toLocaleString() + " 원");
     $("#main-navbar-hlbetearn-id").text(parseInt(arrBetInfo[5][1]).toLocaleString() + " 원");
     $("#main-navbar-hlegg-id").text(parseInt(arrBetInfo[5][2]).toLocaleString() + " 원");
-    // $("#main-navbar-hluser-id").text(parseInt(arrBetInfo[5][3]).toLocaleString() + " 원");
+    $("#main-navbar-hluser-id").text(parseInt(arrBetInfo[5][3]).toLocaleString() + " 원");
 
     $("#main-navbar-prbet-id").text(parseInt(arrBetInfo[6][0]).toLocaleString() + " 원");
     $("#main-navbar-prbetearn-id").text(parseInt(arrBetInfo[6][1]).toLocaleString() + " 원");

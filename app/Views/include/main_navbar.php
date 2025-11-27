@@ -164,5 +164,5 @@
 	<?php if($_ENV['CI_ENVIRONMENT'] == ENV_DEVELOPMENT) :?>
 		<script src="<?php echo site_furl('/assets/js/main-nav-script.js?t='.time());?>"></script>
 	<?php else : ?>
-		<script src="<?php echo site_furl('/assets/js/main-nav-script.js?v=1');?>"></script>
+		<script src="<?php echo site_furl('/assets/js/main-nav-script.js?v=2');?>"></script>
 	<?php endif ?>

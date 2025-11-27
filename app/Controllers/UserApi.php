@@ -794,19 +794,27 @@ class UserApi extends BaseController
                     $arrSumData[4][1] = $arrSum[1];
 
                     $confId = CONF_API_KGON;
-                    if($_ENV['app.casino'] == APP_CASINO_STAR)
+                    $arrSumData[4][3] = $eggs->mb_kgon_money;
+                    if($_ENV['app.casino'] == APP_CASINO_STAR){
                         $confId = CONF_API_STAR;
-                    else if($_ENV['app.casino'] == APP_CASINO_RAVE)
+                        $arrSumData[4][3] = $eggs->mb_hslot_money;
+                    }
+                    else if($_ENV['app.casino'] == APP_CASINO_RAVE){
                         $confId = CONF_API_RAVE;
-                    else if($_ENV['app.casino'] == APP_CASINO_TREEM)
+                        $arrSumData[4][3] = $eggs->mb_rave_money;
+                    }
+                    else if($_ENV['app.casino'] == APP_CASINO_TREEM){
                         $confId = CONF_API_TREEM;
-                    else if($_ENV['app.casino'] == APP_CASINO_SIGMA)
+                        $arrSumData[4][3] = $eggs->mb_treem_money;
+                    }
+                    else if($_ENV['app.casino'] == APP_CASINO_SIGMA){
                         $confId = CONF_API_SIGMA;
+                        $arrSumData[4][3] = $eggs->mb_sigma_money;
+                    }
                     
                     $agConf = $confsiteModel->getConf($confId);
                     if($agConf != null)
                         $arrSumData[4][2] = $agConf->conf_active;
-                    $arrSumData[4][3] = $eggs->mb_kgon_money;
 
                 }
                 if(!$siteConfs['hold_deny']){
