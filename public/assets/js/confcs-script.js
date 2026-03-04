@@ -7,6 +7,7 @@ $(document).ready(function() {
 
 function showConfGame(objConfig, objAgent) {
 
+//    console.log($("#confpb-agent-token-id").length);
     if (objConfig.game_bet_permit == 1)
         $("#confpb-bet-check-id").prop('checked', true);
     else $("#confpb-bet-check-id").prop('checked', false);
@@ -19,7 +20,9 @@ function showConfGame(objConfig, objAgent) {
     }
 
     if (objAgent != null) {
+//        console.log(objAgent);
         $("#confpb-agent-code-id").val(objAgent.code);
+        $("#confpb-agent-token-id").val(objAgent.token);
         $("#confpb-agent-egg-id").val(parseInt(objAgent.egg).toLocaleString());
         
         if(objAgent.useregg != null)
@@ -37,8 +40,7 @@ function onChangeElement(){
         $("#conf-accwin-check-id").prop('disabled', !acc_checked);
         $("#conf-accpl-check-id").prop('disabled', !(acc_checked && accwin_checked));
 
-    }
-    
+    }    
 }
 
 function requestConfGame() {
@@ -109,7 +111,6 @@ function requestRecoveryEgg() {
 }
 
 function readConfigToObject() {
-
     var jsonData = new Object();
     jsonData.game_index = $(".confsite-game-panel").attr('id');;
     jsonData.game_bet_permit = $("#confpb-bet-check-id").prop('checked') ? 1 : 0;
@@ -118,7 +119,6 @@ function readConfigToObject() {
         jsonData.game_percent_2 = $("#conf-accwin-check-id").prop('checked') ? 1 : 0;
         jsonData.game_percent_3 = $("#conf-accpl-check-id").prop('checked') ? 1 : 0;
     }
-
     return jsonData;
 
 }
@@ -132,11 +132,39 @@ function addBtnEvent() {
 
         var jsonData = readConfigToObject();
         jsonData = JSON.stringify(jsonData);
-
+//        console.log(jsonData);
         $.ajax({
             type: "POST",
             dataType: "json",
             url: FURL + "/api/saveconfgame",
+            data: { json_: jsonData },
+            success: function(jResult) {
+                if (jResult.status == "success") {
+                    showAlert("성공적으로 저장되었습니다.");
+                    // location.reload();
+                } else if (jResult.status == "logout") {
+                    window.location.replace( FURL +'/');
+                } else if (jResult.status == "fail") {
+                    showAlert("저장이 실패되었습니다.", 0);
+                } else if (jResult.status == "nopermit") {
+                    showAlert("권한이 없습니다.", 0);
+                }
+            },
+            error: function(request, status, error) {
+                //console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+
+        });
+        jsonData = new Object();
+        jsonData.game_id = $(".confsite-game-panel").attr('id');
+        jsonData.agent_id = $("#confpb-agent-code-id").val();
+        jsonData.agent_token = $("#confpb-agent-token-id").val();
+        jsonData = JSON.stringify(jsonData);
+        // console.log(jsonData);
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: FURL + "/api/saveAgent",
             data: { json_: jsonData },
             success: function(jResult) {
                 if (jResult.status == "success") {
@@ -150,7 +178,7 @@ function addBtnEvent() {
                 }
             },
             error: function(request, status, error) {
-                //console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
             }
 
         });

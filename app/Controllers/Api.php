@@ -73,9 +73,11 @@ class Api extends BaseController{
 		$arrData = json_decode($jsonData, true);
 		
 		$objResult = new \StdClass;
-
+		$logHead = "API conf_game()";
+		//writeLog($logHead." started.");
 		if(is_login())
 		{
+			writeLog($logHead." logined.");
 			$gameId = intval($arrData['game_index']);
 			//model
 			$confgameModel = new ConfGame_Model();
@@ -86,6 +88,7 @@ class Api extends BaseController{
 			$agConf = null;
 			$agUserEgg = -1;
 			if($gameId == GAME_CASINO_EVOL){
+				//writeLog($logHead." gameId = GAME_CASINO_EVOL");
 				$arrResult = $this->libApiCas->getAgentInfo();
 				if($arrResult['status'] == 1){
 					$confsiteModel->setConfActive(CONF_API_HPPLAY, $arrResult['balance']);
@@ -99,6 +102,7 @@ class Api extends BaseController{
 				}
 				$agConf = $confsiteModel->getConf(CONF_API_HPPLAY);
 			} else if($gameId == GAME_SLOT_THEPLUS){
+	//			writeLog($logHead." gameId = GAME_SLOT_THEPLUS");
 				$arrResult = $this->libApiSlot->getAgentInfo();
 				if($arrResult['status'] == 1){
 					$confsiteModel->setConfActive(CONF_API_THEPLUS, $arrResult['balance']);
@@ -112,6 +116,7 @@ class Api extends BaseController{
 				}
 				$agConf = $confsiteModel->getConf(CONF_API_THEPLUS);
 			} else if($gameId == GAME_SLOT_GSPLAY){
+	//			writeLog($logHead." gameId = GAME_SLOT_GSPLAY");
 				$arrResult = $this->libApiFslot->getAgentInfo();
 				if($arrResult['status'] == 1){
 					$confsiteModel->setConfActive(CONF_API_GSPLAY, $arrResult['balance']);
@@ -125,6 +130,7 @@ class Api extends BaseController{
 				}
 				$agConf = $confsiteModel->getConf(CONF_API_GSPLAY);
 			} else if($gameId == GAME_SLOT_GOLD){
+	//			writeLog($logHead." gameId = GAME_SLOT_GOLD");
 				$arrResult = $this->libApiGslot->getUserInfo();
 				if($arrResult['status'] == 1){
 					$confsiteModel->setConfActive(CONF_API_GOLD, $arrResult['balance']);
@@ -134,10 +140,10 @@ class Api extends BaseController{
 						$errMsg = "에이젼트 오류";
 					} else $errMsg = "접속불가";
 					writeLog("<GSLOT> AGENT Egg Msg = ".$arrResult['msg']);
-
 				}
 				$agConf = $confsiteModel->getConf(CONF_API_GOLD);
 			} else if($gameId == GAME_CASINO_KGON || $gameId == GAME_SLOT_KGON){
+	//			writeLog($logHead." gameId = GAME_CASINO_KGON or GAME_SLOT_KGON");
 				$arrResult = $this->libApiKgon->getAgentInfo();
 				if($arrResult['status'] == 1){
 					$confsiteModel->setConfActive(CONF_API_KGON, $arrResult['balance']);
@@ -149,6 +155,7 @@ class Api extends BaseController{
 				}
 				$agConf = $confsiteModel->getConf(CONF_API_KGON);
 			} else if($gameId == GAME_CASINO_STAR || $gameId == GAME_SLOT_STAR){
+	//			writeLog($logHead." gameId = GAME_CASINO_STAR or GAME_SLOT_STAR");
 				$arrResult = $this->libApiHslot->getAgentInfo();
 				if($arrResult['status'] == 1){
 					$confsiteModel->setConfActive(CONF_API_STAR, $arrResult['balance']);
@@ -161,6 +168,7 @@ class Api extends BaseController{
 				}
 				$agConf = $confsiteModel->getConf(CONF_API_STAR);
 			} else if($gameId == GAME_HOLD_CMS){
+	//			writeLog($logHead." gameId = GAME_HOLD_CMS");
 				$arrResult = $this->libApiHold->getUserInfo();
 				if($arrResult['status'] == 1){
 					$confsiteModel->setConfActive(CONF_API_HOLD, $arrResult['balance']);
@@ -170,6 +178,7 @@ class Api extends BaseController{
 				}
 				$agConf = $confsiteModel->getConf(CONF_API_HOLD);
 			} else if($gameId == GAME_CASINO_RAVE || $gameId == GAME_SLOT_RAVE){
+	//			writeLog($logHead." gameId = GAME_CASINO_RAVE or GAME_SLOT_RAVE");
 				$arrResult = $this->libApiRave->getAgentInfo();
 				if($arrResult['status'] == 1){
 					$confsiteModel->setConfActive(CONF_API_RAVE, $arrResult['balance']);
@@ -181,6 +190,7 @@ class Api extends BaseController{
 				}
 				$agConf = $confsiteModel->getConf(CONF_API_RAVE);
 			} else if($gameId == GAME_CASINO_TREEM || $gameId == GAME_SLOT_TREEM){
+	//			writeLog($logHead." gameId = GAME_CASINO_TREEM or GAME_CASINO_TREEM");
 				$arrResult = $this->libApiTreem->getAgentInfo();
 				if($arrResult['status'] == 1){
 					$confsiteModel->setConfActive(CONF_API_TREEM, $arrResult['balance']);
@@ -199,6 +209,7 @@ class Api extends BaseController{
 				$agConf = $confsiteModel->getConf(CONF_API_TREEM);
 				
 			} else if($gameId == GAME_CASINO_SIGMA || $gameId == GAME_SLOT_SIGMA){
+				writeLog($logHead." gameId = GAME_CASINO_SIGMA or GAME_SLOT_SIGMA");
 				$arrResult = $this->libApiSigma->getAgentInfo();
 				if($arrResult['status'] == 1){
 					$confsiteModel->setConfActive(CONF_API_SIGMA, $arrResult['balance']);
@@ -216,6 +227,7 @@ class Api extends BaseController{
 				$arrInfo = explode("#", $agConf->conf_content);
 				if(count($arrInfo) >= 3){ //0-host, 1-ag_code, 2-ag_token
 					$agInfo['code'] = $arrInfo[1];
+					$agInfo['token'] = $arrInfo[2];
 					$agInfo['egg'] = $agConf->conf_active;
 					if($agUserEgg >= 0)
 						$agInfo['useregg'] = $agUserEgg;	
@@ -232,6 +244,7 @@ class Api extends BaseController{
 		else {
 			$objResult->status = "fail";			
 		}
+	//	writeLog($logHead."objResult = ".json_encode($objResult));
 		echo json_encode($objResult);	
 	}
 
@@ -268,7 +281,36 @@ class Api extends BaseController{
 		}
 		echo json_encode($arrResult);	
 	}
+	public function saveAgent(){
+		$jsonData = $_REQUEST['json_'];
+		$arrData = json_decode($jsonData, true);
 
+		if(is_login())
+		{
+            $this->sess_action();                
+			$bPermit = false;
+			
+			$strUid = $this->session->user_id;
+			$objUser = $this->modelMember->getInfo($strUid);
+			
+			if(!is_null($objUser))
+			{				
+				if($objUser->mb_level >= LEVEL_ADMIN )
+					$bPermit = true;					
+			}
+			if($bPermit){
+				//model
+				$confsiteModel = new ConfSite_Model();
+				$confsiteModel->saveAgent($arrData);
+			
+				$arrResult['status'] = "success";
+			} else $arrResult['status'] = "nopermit";
+		}
+		else {
+			$arrResult['status'] = "logout";			
+		}
+		echo json_encode($arrResult);	
+	}
 	
 	//점검설정
 	public function saveconfmaintain(){
@@ -308,7 +350,9 @@ class Api extends BaseController{
 	public function saveconfgame(){
 		$jsonData = $_REQUEST['json_'];
 		$arrData = json_decode($jsonData, true);		
-
+		$logHead = "API saveconfgame()";
+		writeLog($logHead." started.");
+		//writeLog($logHead." request data =  ".$jsonData);
 		if(is_login())
 		{
             $this->sess_action();                
@@ -328,10 +372,10 @@ class Api extends BaseController{
                 $query = "";
 				if($confgameModel->saveData($arrData, $query)){
                     $this->modelModify->add($this->session->user_id, MOD_GM_CONF, $query, $this->request->getIPAddress());
-
-				}
-			
-				$arrResult['status'] = "success";
+					$arrResult['status'] = "success";
+				}	
+				else		
+					$arrResult['status'] = "fail";
 			} else $arrResult['status'] = "nopermit";
 		}
 		else {

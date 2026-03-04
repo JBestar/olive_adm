@@ -495,7 +495,40 @@ class ConfSite_Model extends Model
         return  $this->builder()->updateBatch($arrBatch, 'conf_id');
 
     }
-
+    public function saveAgent($arrData){
+        $logHead = "<ConfSite_Model saveAgent()>";
+        writeLog($logHead." started.");
+        if($arrData == null) return false;
+        if (!array_key_exists("game_id", $arrData)) return false;
+        $gameId = intval($arrData['game_id']);
+        if($gameId == GAME_CASINO_EVOL){
+            $confId = CONF_API_HPPLAY;
+		} else if($gameId == GAME_SLOT_THEPLUS){
+            $confId = CONF_API_THEPLUS;
+		} else if($gameId == GAME_SLOT_GSPLAY){
+            $confId = CONF_API_GSPLAY;
+		} else if($gameId == GAME_SLOT_GOLD){
+            $confId = CONF_API_GOLD;
+		} else if($gameId == GAME_CASINO_KGON || $gameId == GAME_SLOT_KGON){
+            $confId = CONF_API_KGON;
+		} else if($gameId == GAME_CASINO_STAR || $gameId == GAME_SLOT_STAR){
+            $confId = CONF_API_STAR;
+		} else if($gameId == GAME_HOLD_CMS){
+            $confId = CONF_API_HOLD;
+		} else if($gameId == GAME_CASINO_RAVE || $gameId == GAME_SLOT_RAVE){
+            $confId = CONF_API_RAVE;
+		} else if($gameId == GAME_CASINO_TREEM || $gameId == GAME_SLOT_TREEM){
+            $confId = CONF_API_TREEM;	
+            $confContent = "https://api.honorlink.org/api#{$arrData['agent_id']}#{$arrData['agent_token']}";
+            $updateData = array();
+            $updateData['conf_content'] = $confContent;
+            $updateData['conf_update'] = date('Y-m-d H:i:s');
+            $this->builder()->where('conf_id', $confId)->update($updateData);		
+            writeLog($logHead."'conf_content' has changed with {$updateData['conf_content']}");
+		} else if($gameId == GAME_CASINO_SIGMA || $gameId == GAME_SLOT_SIGMA){
+            $confId = CONF_API_SIGMA;
+        }
+    }
 
     public function saveMaintainConfig($arrData){
 
@@ -512,7 +545,6 @@ class ConfSite_Model extends Model
         return $this->builder()->updateBatch($arrBatch, 'conf_id');
     }
 
-    
     public function getEvpressState(){
 
         $objConfig = $this->where('conf_id', CONF_EVOLPRESS)->first();
@@ -626,7 +658,13 @@ class ConfSite_Model extends Model
         
         return $this->builder()->update();
     }
-    
+    public function setConfContent($confId, $content){
+        
+        $this->builder()->set('conf_content', $content);
+        $this->builder()->where('conf_id', $confId);
+        
+        return $this->builder()->update();
+    }    
     public function IsMultiLogin(){
 
         $objConf = $this->find(CONF_MULTI_LOGIN);

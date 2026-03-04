@@ -553,10 +553,12 @@ class UserApi extends BaseController
     // 사용자정보
     public function assets()
     {
+        $logHead = "<UserApi assets()>";
+        writeLog($logHead." started.");
         if (is_login()) {
             $strUid = $this->session->user_id;
             // model
-            
+            writeLog($logHead." 1 ");
             $modelConfsite = new ConfSite_Model();
             $objUser = $this->modelMember->getInfoByUid($strUid);
             $sess_id = $this->session->session_id;
@@ -570,18 +572,25 @@ class UserApi extends BaseController
 				$bPermit = false;
                 writeLog("[assets] user = null (".$strUid.")");
             }
-            else if($objUser->mb_level < LEVEL_ADMIN && $modelConfsite->IsMaintain())
+            else if($objUser->mb_level < LEVEL_ADMIN && $modelConfsite->IsMaintain()){
 				$bPermit = false;
-            else if( !$this->modelMember->isPermitMember($objUser) )
+                writeLog($logHead." 2 ");
+            }
+            else if( !$this->modelMember->isPermitMember($objUser) ){
 				$bPermit = false;
+                writeLog($logHead." 3 ");
+            }
             else if( is_null($sess) ){
                 writeLog("[assets] session = null (".$sess_id.")");
-				$bPermit = false;
-            } else if(array_key_exists('app.sess_act', $_ENV) && $_ENV['app.sess_act'] == 1){
+				$bPermit = false;                
+            } 
+            else if(array_key_exists('app.sess_act', $_ENV) && $_ENV['app.sess_act'] == 1){
                 $objConf = $modelConfsite->find(CONF_DELAY_PLAY);
 				$delayOut = 0;
 				$arrInfo = explode('#', $objConf->conf_idx);
+                writeLog($logHead." 4 ");
 				if(count($arrInfo) >= 2){
+                    writeLog($logHead." 5 ");
 					if($objUser->mb_level < LEVEL_ADMIN)
 						$delayOut = intval($arrInfo[0]);
 					else
@@ -596,17 +605,21 @@ class UserApi extends BaseController
 			}
             
             if ($bPermit) {
-        		// writeLog("[assets] ".$strUid." (".$sess_id.")");
+        		writeLog("[assets] ".$strUid." (".$sess_id.")");
 				$this->modelSess->updateLast($sess_id);
                 if($objUser->mb_level < LEVEL_ADMIN){
                     $this->modelMember->calcTransfer($objUser);
                     $objUser->mb_money_all = allMoney($objUser);
                     $objUser->mb_point = floor($objUser->mb_point);
+                    writeLog($logHead." 5 ");
                 }
                 else{
 				    $objSess = $this->modelSess->getBySess($sess_id);
-                    if($objSess != null)
+                    writeLog($logHead." 6 ");
+                    if($objSess != null){
+                        writeLog($logHead." 7 ");
                         $objUser->mb_ip_login = $objSess->sess_ip;
+                    }
                 }
                 $objResult->data = $objUser;
                 $objResult->status = STATUS_SUCCESS;
@@ -618,6 +631,7 @@ class UserApi extends BaseController
 
             echo json_encode($objResult);
         } else {
+            writeLog($logHead." 8 ");
             $arrResult['status'] = STATUS_LOGOUT;
             echo json_encode($arrResult);
         }

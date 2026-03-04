@@ -50,12 +50,20 @@
 		<div class="confsite-game-text-div">
 			<p>유저 게임승인:</p> 
 			<input type="checkbox" id="confpb-bet-check-id" style="zoom:120%; margin-top:4px;">
-			<label style="font-size:13px; font-weight:normal; top:-3px; position:relative;"> 유저게임승인</label>
+			<label style="font-size:13px; font-weight:normal; padding-top:0px;"> 유저게임승인</label>
 		</div>
+
 		<div class="confsite-game-text-div">
 			<p>에이젼트 코드:</p> 
-			<input type = "text" class="conf-text-input" style="min-width:200px;"  id="confpb-agent-code-id" disabled>
+			<!-- disabled 제거 -->
+			<input type="text" class="conf-text-input" style="min-width:200px;" id="confpb-agent-code-id" placeholder="아이디를 입력해 주세요.">
 		</div>
+		<!-- 토큰 입력칸 추가 -->
+		<div class="confsite-game-text-div">
+			<p>토큰:</p> 
+			<input type="text" class="conf-text-input" style="min-width:400px;" id="confpb-agent-token-id" placeholder="토큰을 입력해 주세요.">
+		</div>
+
 		<div class="confsite-game-text-div">
 			<p>에이젼트 보유알:</p> 
 			<input type = "text" class="conf-text-input" style="min-width:200px;" id="confpb-agent-egg-id"  disabled>
